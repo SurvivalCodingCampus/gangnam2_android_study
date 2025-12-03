@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.BigButton
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.InputField
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.MediumButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallButton
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.Gangnam2kiAndroidStudyTheme
@@ -44,6 +45,9 @@ class MainActivity : ComponentActivity() {
                 MediumButton("Button")
                 Spacer(modifier = Modifier.height(16.dp))
                 SmallButton("Button")
+
+                Spacer(modifier = Modifier.height(32.dp))
+                InputField(label = "라벨")
             }
         }
     }
