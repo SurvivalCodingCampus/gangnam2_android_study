@@ -13,7 +13,7 @@ class TripleTabBarTest {
 
     @Test
     fun TripleTabBar_firstTabClick() {
-        var selectedIndex = 0
+        var selectedIndex = 1
 
         composeTestRule.setContent {
             TripleTabBar(
