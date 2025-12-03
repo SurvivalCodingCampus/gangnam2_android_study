@@ -1,8 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -20,8 +18,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun InputField(
-    modifier: Modifier = Modifier,
     label: String,
+    modifier: Modifier = Modifier,
     placeholder: @Composable (() -> Unit)? = {
         Text(
             text = "Placeholder",
@@ -49,11 +47,6 @@ fun InputField(
             OutlinedTextField(
                 modifier = Modifier
                     .size(width = 315.dp, height = 55.dp)
-//                    .border(
-//                        width = 1.5.dp,
-//                        color = AppColors.gray4,
-//                        shape = RoundedCornerShape(10.dp),
-//                    )
                     .background(color = AppColors.white),
                 value = value,
                 placeholder = placeholder,
