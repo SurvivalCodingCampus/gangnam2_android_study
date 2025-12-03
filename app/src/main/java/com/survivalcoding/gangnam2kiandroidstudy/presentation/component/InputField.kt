@@ -32,7 +32,6 @@ fun InputField(
     value: String = "",
     onValueChange: (String) -> Unit = {},
 ) {
-    var hasFocus by remember { mutableStateOf(false) }
     var borderColor by remember { mutableStateOf(AppColors.gray4) }
 
     Column(
@@ -52,8 +51,7 @@ fun InputField(
                 .size(width = 315.dp, height = 55.dp)
                 .border(width = 1.5.dp, color = borderColor, shape = RoundedCornerShape(10.dp))
                 .onFocusChanged { focusState ->
-                    hasFocus = focusState.isFocused
-                    borderColor = if (hasFocus) AppColors.primary80 else AppColors.gray4
+                    borderColor = if (focusState.isFocused) AppColors.primary80 else AppColors.gray4
                 },
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
@@ -75,34 +73,20 @@ fun InputField(
             onValueChange = onValueChange
         )
 
-        TextField(
+        Text(
+            text = label,
             modifier = Modifier
-                .size(width = 315.dp, height = 55.dp)
-                .border(width = 1.5.dp, color = AppColors.gray4, shape = RoundedCornerShape(10.dp)),
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                focusedContainerColor = AppColors.white,
-                unfocusedContainerColor = AppColors.white,
-                focusedTextColor = AppColors.black
-            ),
-            placeholder = {
-                Text(
-                    text = placeholder,
-                    modifier = Modifier
-                        .size(width = 66.dp, height = 17.dp),
-                    style = AppTextStyles.smallTextRegular2,
-                    color = AppColors.gray4
-                )
-            },
-            value = value,
-            onValueChange = onValueChange
+                .size(width = 38.dp, height = 21.dp),
+            style = AppTextStyles.smallTextRegular
         )
-
+        Spacer(Modifier.height(5.dp))
         TextField(
             modifier = Modifier
                 .size(width = 315.dp, height = 55.dp)
-                .border(width = 1.5.dp, color = AppColors.gray4, shape = RoundedCornerShape(10.dp)),
+                .border(width = 1.5.dp, color = AppColors.primary80, shape = RoundedCornerShape(10.dp))
+                .onFocusChanged { focusState ->
+                    borderColor = if (focusState.isFocused) AppColors.primary80 else AppColors.gray4
+                },
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
@@ -127,6 +111,12 @@ fun InputField(
 
 @Preview(showBackground = true)
 @Composable
-private fun InputFieldPreview() {
+private fun InputFieldPreview1() {
     InputField()
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun InputFieldPreview2() {
+    InputField(value = "InputValue")
 }
