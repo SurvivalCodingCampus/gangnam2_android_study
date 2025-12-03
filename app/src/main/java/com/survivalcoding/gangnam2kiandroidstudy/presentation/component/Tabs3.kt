@@ -73,7 +73,7 @@ fun Tabs3Preview() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Tabs3(
-            labels = listOf("Label1", "Label2","Label3"),
+            labels = listOf("Label1", "Label2", "Label3"),
             selectedIndex = 0,
         ) {
 

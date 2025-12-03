@@ -27,7 +27,7 @@ class TabsTest {
 
         composeTestRule.onNodeWithText("Label2").performClick()
 
-        assertEquals(expected,actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -36,7 +36,7 @@ class TabsTest {
         var actual = 0
         composeTestRule.setContent {
             Tabs3(
-                labels = listOf("Label1", "Label2","Label3"),
+                labels = listOf("Label1", "Label2", "Label3"),
                 selectedIndex = 0,
                 onValueChange = {
                     actual = 0
@@ -46,7 +46,7 @@ class TabsTest {
 
         composeTestRule.onNodeWithText("Label1").performClick()
 
-        assertEquals(expected,actual)
+        assertEquals(expected, actual)
     }
 
 }

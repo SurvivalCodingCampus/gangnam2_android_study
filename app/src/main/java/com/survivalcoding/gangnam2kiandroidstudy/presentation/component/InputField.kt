@@ -59,11 +59,9 @@ fun InputField(
             onValueChange = onValueChange,
             shape = RoundedCornerShape(10.dp),
 
-        )
+            )
 
     }
-
-
 
 }
 

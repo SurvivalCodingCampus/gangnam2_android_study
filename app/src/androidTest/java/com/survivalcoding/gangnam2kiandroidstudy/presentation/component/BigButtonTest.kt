@@ -28,7 +28,7 @@ class ButtonTest {
 
         composeTestRule.onNodeWithText("Button").performClick()
 
-        assertEquals(expected,counter)
+        assertEquals(expected, counter)
     }
 
     @Test
@@ -47,7 +47,7 @@ class ButtonTest {
 
         composeTestRule.onNodeWithText("Button").performClick()
 
-        assertEquals(expected,counter)
+        assertEquals(expected, counter)
     }
 
     @Test
@@ -66,7 +66,7 @@ class ButtonTest {
 
         composeTestRule.onNodeWithText("Button").performClick()
 
-        assertEquals(expected,counter)
+        assertEquals(expected, counter)
     }
 
 }
