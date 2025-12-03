@@ -3,23 +3,27 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
-class BigButtonTest {
+class MediumButtonTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
-    fun `BigButton이_클릭된다`() {
+    fun `mediumButton이_클릭된다`() {
         var isClicked = false
         composeTestRule.setContent {
-            BigButton({ isClicked = true }, "button")
+            MediumButton("Button") {
+                isClicked = true
+            }
         }
-        composeTestRule.onNodeWithText("button").performClick()
+        composeTestRule.onNodeWithText("Button")
+            .performClick()
 
-        assertEquals(true, isClicked)
+        assertTrue(isClicked)
+
     }
 
 }
