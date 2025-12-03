@@ -12,28 +12,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun BigButton(
+fun MediumButton(
     text: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.size(width = 315.dp, height = 60.dp),
+        modifier = modifier.size(width = 243.dp, height = 54.dp),
         shape = RoundedCornerShape(10.dp),
         colors = ButtonColors(
             containerColor = AppColors.primary100,
             contentColor = Color.White,
-            disabledContainerColor = Color(0xFFD9D9D9),
-            disabledContentColor = Color.White
+            disabledContainerColor = Color.LightGray,
+            disabledContentColor = Color.DarkGray
         )
     ) {
         Row(
@@ -47,12 +45,11 @@ fun BigButton(
             ) {
                 Text(
                     text = text,
-                    fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
                     style = AppTextStyles.normalTextRegular.copy(color = AppColors.white),
                 )
             }
-            Spacer(modifier = Modifier.width(11.dp))
+            Spacer(modifier = Modifier.width(9.dp))
             Icon(
                 painter = painterResource(R.drawable.arrow_right),
                 tint = AppColors.white,
@@ -60,10 +57,4 @@ fun BigButton(
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun BigButtonPreview() {
-    BigButton("Button")
 }
