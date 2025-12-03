@@ -1,10 +1,10 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -27,7 +27,10 @@ fun InputField(
     placeholder: String? = null,
 ) {
     Column(
-        modifier = modifier.size(315.dp, 81.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(81.dp),
+        verticalArrangement = Arrangement.spacedBy(5.dp),
     ) {
         Box(
             modifier = Modifier.height(21.dp),
@@ -37,9 +40,10 @@ fun InputField(
                 style = AppTextStyles.PoppinsSmallRegular.copy(color = AppColors.Black),
             )
         }
-        Spacer(modifier = Modifier.height(5.dp))
         OutlinedTextField(
-            modifier = Modifier.size(315.dp, 55.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(55.dp),
             colors = TextFieldDefaults.colors(
                 unfocusedContainerColor = AppColors.White,
                 unfocusedIndicatorColor = AppColors.Gray4,
@@ -49,6 +53,7 @@ fun InputField(
             shape = RoundedCornerShape(10.dp),
             value = value,
             onValueChange = onValueChange,
+            singleLine = true,
             placeholder = {
                 placeholder?.let {
                     Text(

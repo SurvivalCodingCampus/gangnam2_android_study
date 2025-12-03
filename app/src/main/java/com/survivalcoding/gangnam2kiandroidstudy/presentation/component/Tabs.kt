@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,7 +28,8 @@ fun Tabs(
 ) {
     Box(
         modifier = modifier
-            .size(375.dp, 58.dp)
+            .fillMaxWidth()
+            .height(58.dp)
             .padding(horizontal = if (labels.size < 3) 30.dp else 20.dp),
     ) {
         Row(
@@ -42,11 +43,11 @@ fun Tabs(
                         .weight(1f)
                         .height(33.dp)
                         .padding(horizontal = if (labels.size < 3) 15.dp else 7.dp)
+                        .clickable { onValueChange(index) }
                         .background(
                             color = if (index == selectedIndex) AppColors.Primary100 else AppColors.White,
                             shape = RoundedCornerShape(10.dp),
-                        )
-                        .clickable { onValueChange(index) },
+                        ),
                 ) {
                     Row(
                         modifier = Modifier.fillMaxSize(),

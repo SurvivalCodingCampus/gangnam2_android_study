@@ -2,10 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -26,27 +23,17 @@ fun SmallButton(
     Box(
         modifier = modifier
             .size(width = 174.dp, height = 37.dp)
+            .clickable { onClick() }
             .background(
                 color = AppColors.Primary100,
                 shape = RoundedCornerShape(10.dp),
-            )
-            .clickable { onClick() },
+            ),
+        contentAlignment = Alignment.Center,
     ) {
-        Row(
-            modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-        ) {
-            Box(
-                modifier = Modifier.size(width = 114.dp, height = 17.dp),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    text = text,
-                    style = AppTextStyles.PoppinsSmallerBold.copy(color = AppColors.White),
-                )
-            }
-        }
+        Text(
+            text = text,
+            style = AppTextStyles.PoppinsSmallerBold.copy(color = AppColors.White),
+        )
     }
 }
 

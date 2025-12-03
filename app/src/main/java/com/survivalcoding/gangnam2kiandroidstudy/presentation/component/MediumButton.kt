@@ -5,10 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -31,27 +28,21 @@ fun MediumButton(
     Box(
         modifier = modifier
             .size(width = 243.dp, height = 54.dp)
+            .clickable { onClick() }
             .background(
                 color = AppColors.Primary100,
                 shape = RoundedCornerShape(10.dp),
-            )
-            .clickable { onClick() },
+            ),
+        contentAlignment = Alignment.Center,
     ) {
         Row(
-            modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.spacedBy(9.dp),
         ) {
-            Box(
-                modifier = Modifier.size(width = 114.dp, height = 24.dp),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    text = text,
-                    style = AppTextStyles.PoppinsNormalBold.copy(color = AppColors.White),
-                )
-            }
-            Spacer(modifier = Modifier.width(9.dp))
+            Text(
+                text = text,
+                style = AppTextStyles.PoppinsNormalBold.copy(color = AppColors.White),
+            )
             Icon(
                 modifier = Modifier.size(20.dp),
                 painter = painterResource(R.drawable.outline_arrow_right),
