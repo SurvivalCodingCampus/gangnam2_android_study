@@ -33,7 +33,7 @@ fun Tab2(labels: List<String>, selectedIndex: Int, onValueChange: (Int) -> Unit)
                         if (selectedIndex == 0) AppColors.primary100 else AppColors.white,
                         shape = RoundedCornerShape(10.dp)
                     )
-                    .clickable { onValueChange(1) },
+                    .clickable { onValueChange(0) },
                 contentAlignment = Alignment.Center
             )
             {
