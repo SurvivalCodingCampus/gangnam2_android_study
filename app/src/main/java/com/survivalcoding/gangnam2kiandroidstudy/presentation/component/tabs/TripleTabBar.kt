@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component.tabs
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
@@ -25,6 +26,7 @@ fun TripleTabBar(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
+        // left
         TabItem(
             text = "Label",
             selected = selectedIndex == 0,
@@ -36,6 +38,7 @@ fun TripleTabBar(
 
         Spacer(Modifier.size(7.dp))
 
+        // center
         TabItem(
             text = "Label",
             selected = selectedIndex == 1,
@@ -47,6 +50,7 @@ fun TripleTabBar(
 
         Spacer(Modifier.size(7.dp))
 
+        // right
         TabItem(
             text = "Label",
             selected = selectedIndex == 2,
@@ -61,12 +65,30 @@ fun TripleTabBar(
 @Preview(showBackground = true)
 @Composable
 fun TripleTabBarPreview() {
-    var selectedTab by remember { mutableStateOf(0) }
+    var selectedTab1 by remember { mutableStateOf(0) }
+    var selectedTab2 by remember { mutableStateOf(1) }
+    var selectedTab3 by remember { mutableStateOf(2) }
 
-    TripleTabBar(
-        selectedIndex = selectedTab,
-        onTabSelected = {
-            selectedTab = it
-        }
-    )
+    Column {
+        TripleTabBar(
+            selectedIndex = selectedTab1,
+            onTabSelected = {
+                selectedTab1 = it
+            }
+        )
+
+        TripleTabBar(
+            selectedIndex = selectedTab2,
+            onTabSelected = {
+                selectedTab2 = it
+            }
+        )
+
+        TripleTabBar(
+            selectedIndex = selectedTab3,
+            onTabSelected = {
+                selectedTab3 = it
+            }
+        )
+    }
 }

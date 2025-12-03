@@ -69,6 +69,14 @@ class MainActivity : ComponentActivity() {
                     item { Spacer(modifier = Modifier.size(12.dp)) }
 
                     item {
+                        BigButton("Button") {
+                            println("BigButton 눌림!!!")
+                        }
+                    }
+
+                    item { Spacer(modifier = Modifier.size(12.dp)) }
+
+                    item {
                         BigButton("Disabled", enabled = false)
                     }
 
@@ -83,7 +91,23 @@ class MainActivity : ComponentActivity() {
                     item { Spacer(modifier = Modifier.size(12.dp)) }
 
                     item {
+                        MediumButton("Button") {
+                            println("MediumButton 눌림!!!")
+                        }
+                    }
+
+                    item { Spacer(modifier = Modifier.size(12.dp)) }
+
+                    item {
                         MediumButton("Disabled", enabled = false)
+                    }
+
+                    item { Spacer(modifier = Modifier.size(12.dp)) }
+
+                    item {
+                        SmallButton("Button") {
+                            println("SmallButton 눌림!!!")
+                        }
                     }
 
                     item { Spacer(modifier = Modifier.size(12.dp)) }

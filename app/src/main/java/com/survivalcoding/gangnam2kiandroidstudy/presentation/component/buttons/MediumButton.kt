@@ -7,6 +7,7 @@ import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -87,5 +88,9 @@ fun MediumButton(
 @Preview(showBackground = true)
 @Composable
 fun MediumButtonPreview() {
-    MediumButton("Button")
+    Column {
+        MediumButton("Button")
+        Spacer(Modifier.size(10.dp))
+        MediumButton("Disabled", enabled = false)
+    }
 }

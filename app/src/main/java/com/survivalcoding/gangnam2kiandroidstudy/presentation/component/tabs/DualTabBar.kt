@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component.tabs
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
@@ -48,11 +49,21 @@ fun DualTabBar(
 @Composable
 fun DualTabBarPreview() {
     var selectedTab by remember { mutableStateOf(0) }
+    var selectedTab2 by remember { mutableStateOf(1) }
 
-    DualTabBar(
-        selectedIndex = selectedTab,
-        onTabSelected = {
-            selectedTab = it
-        }
-    )
+    Column {
+        DualTabBar(
+            selectedIndex = selectedTab,
+            onTabSelected = {
+                selectedTab = it
+            }
+        )
+
+        DualTabBar(
+            selectedIndex = selectedTab2,
+            onTabSelected = {
+                selectedTab2 = it
+            }
+        )
+    }
 }

@@ -7,7 +7,9 @@ import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -76,5 +78,9 @@ fun SmallButton(
 @Preview(showBackground = true)
 @Composable
 fun SmallButtonPreview() {
-    SmallButton("Button")
+    Column {
+        SmallButton("Button")
+        Spacer(Modifier.size(10.dp))
+        SmallButton("Disabled", enabled = false)
+    }
 }

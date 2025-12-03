@@ -7,6 +7,7 @@ import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -86,5 +87,9 @@ fun BigButton(
 @Preview(showBackground = true)
 @Composable
 fun BigButtonPreview() {
-    BigButton("Button")
+    Column {
+        BigButton("Button")
+        Spacer(Modifier.size(10.dp))
+        BigButton("Disabled", enabled = false)
+    }
 }
