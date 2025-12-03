@@ -46,7 +46,7 @@ fun InputField(label: String, placeholder: String, value: String, onValueChange:
             ) {
                 TextField(
                     modifier = Modifier.fillMaxSize(), // TextField가 Box를 가득 채우도록 설정
-                    textStyle = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray4),
+                    textStyle = AppTextStyles.smallerTextRegular.copy(color = AppColors.black),
                     onValueChange = onValueChange,
                     value = value,
                     placeholder = { // placeholder 람다 추가
