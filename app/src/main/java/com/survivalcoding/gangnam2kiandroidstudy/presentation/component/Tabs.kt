@@ -34,10 +34,22 @@ fun Tabs(
     onTabSelected: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val boxWidth = when(labels.size) {
+        2 -> 150.dp
+        3 -> 107.dp
+        else -> 107.dp
+    }
+
+    val rowPadding = when(labels.size) {
+        2 -> 30.dp
+        3 -> 20.dp
+        else -> 20.dp
+    }
+
     Row(
         modifier = modifier.fillMaxWidth()
             .size(375.dp,58.dp)
-            .padding(horizontal = 20.dp),
+            .padding(horizontal = rowPadding),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically,
 
@@ -47,12 +59,6 @@ fun Tabs(
             // val isSelected = true
             val backgroundColor = if (isSelected) AppColors.primary100 else Color.Transparent
             val contentColor = if (isSelected) AppColors.white else AppColors.primary100
-
-            val boxWidth = when(labels.size) {
-                2 -> 150.dp
-                3 -> 107.dp
-                else -> 107.dp
-            }
 
             Box(
                 modifier = Modifier

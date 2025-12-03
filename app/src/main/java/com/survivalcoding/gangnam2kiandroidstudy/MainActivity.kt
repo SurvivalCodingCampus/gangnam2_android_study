@@ -85,17 +85,38 @@ class MainActivity : ComponentActivity() {
                         onTabSelected = { selectedIndex = it }
                     )
 
+                    Spacer(modifier = Modifier.height(10.dp))
+
                     Tabs(
                         labels = listOf("Label1", "Label2", "Label3").toImmutableList(),
                         selectedIndex = 1,
                         onTabSelected = { selectedIndex = it }
                     )
 
+                    Spacer(modifier = Modifier.height(10.dp))
+
                     Tabs(
                         labels = listOf("Label1", "Label2", "Label3").toImmutableList(),
                         selectedIndex = 2,
                         onTabSelected = { selectedIndex = it }
                     )
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Tabs(
+                        labels = listOf("Label1", "Label2").toImmutableList(),
+                        selectedIndex = 0,
+                        onTabSelected = { selectedIndex = it }
+                    )
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Tabs(
+                        labels = listOf("Label1", "Label2").toImmutableList(),
+                        selectedIndex = 1,
+                        onTabSelected = { selectedIndex = it }
+                    )
+
                 }
 
             }
