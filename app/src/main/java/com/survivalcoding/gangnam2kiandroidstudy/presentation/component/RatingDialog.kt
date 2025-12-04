@@ -78,7 +78,7 @@ fun RatingDialog(
 
                         Icon(
                             imageVector =  if (isFilled) Icons.Filled.Star else Icons.Outlined.StarBorder,
-                            contentDescription = "star",
+                            contentDescription = "star_$index",
                             tint = AppColors.rating,
                             modifier = Modifier
                                 .size(20.dp)
