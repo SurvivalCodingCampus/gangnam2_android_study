@@ -1,5 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +13,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,14 +31,21 @@ fun BigButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState() // 누르는 중인지 감지
+
     Button(
         onClick = onClick,
         modifier = modifier
             .size(width = 315.dp, height = 60.dp),
         shape = RoundedCornerShape(10.dp),
+        interactionSource = interactionSource,
+        enabled = !isPressed,
         colors = ButtonDefaults.buttonColors(
             containerColor = AppColors.primary100,
-            contentColor = AppColors.white
+            contentColor = AppColors.white,
+            disabledContainerColor = AppColors.gray4,
+            disabledContentColor = AppColors.white,
         )
     ) {
         Box(
