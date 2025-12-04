@@ -6,13 +6,17 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,9 +24,12 @@ import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.BigButton
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.IngredientItem
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.InputField
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.MediumButton
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RatingButton
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RatingDialog
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Tab
@@ -35,6 +42,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val showRatingDialog = remember { mutableStateOf(true) }
+
             // 12월 4일 연습문제
             Column(
                 modifier = Modifier.padding(30.dp)
@@ -62,8 +71,34 @@ class MainActivity : ComponentActivity() {
                 )
 
                 RecipeCard(recipe)
-            }
 
+                Spacer(Modifier.height(32.dp))
+
+                Row {
+                    RatingButton("5", false)
+                    Spacer(Modifier.width(16.dp))
+                    RatingButton("4", true)
+                }
+                Spacer(Modifier.height(16.dp))
+                Row {
+                    FilterButton("Text", false)
+                    Spacer(Modifier.width(16.dp))
+                    FilterButton("LongLongButton", true)
+                }
+
+                Spacer(Modifier.height(32.dp))
+
+                RatingDialog(
+                    title = "Rating",
+                    actionName = "Send",
+                    onChange = {
+                        print("$it 점을 매겼습니다!")
+                    },
+                    onDismiss = {
+                        showRatingDialog.value = false
+                    }
+                )
+            }
         }
     }
 }
