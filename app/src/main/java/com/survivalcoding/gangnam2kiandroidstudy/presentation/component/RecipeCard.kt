@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,9 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -34,10 +39,20 @@ fun RecipeCard(
 ) {
     Box(
         modifier = modifier
+            .fillMaxWidth()
             .size(width = 315.dp, height = 150.dp)
             .padding(all = 10.dp),
-
         ) {
+
+        AsyncImage(
+            model = recipe.image,
+            contentDescription = "레시피 이미지",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(10.dp))
+        )
+
 
         Row(
 
@@ -50,7 +65,7 @@ fun RecipeCard(
                 Text(
                     text = recipe.name,
                     style = AppTextStyles.smallTextBold,
-                    color = AppColors.black,
+                    color = AppColors.white,
                     maxLines = 2,
                     modifier = Modifier.size(200.dp, 42.dp),
                 )
@@ -64,7 +79,7 @@ fun RecipeCard(
 
 
             Column(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.fillMaxWidth(),
 
                 ) {
                 Row(
@@ -93,7 +108,7 @@ fun RecipeCard(
                 Spacer(modifier = Modifier.height(5.dp))
 
                 Row(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.fillMaxHeight(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
