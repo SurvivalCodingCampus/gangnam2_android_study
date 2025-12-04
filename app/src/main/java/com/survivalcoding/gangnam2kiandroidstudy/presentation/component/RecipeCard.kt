@@ -37,7 +37,7 @@ fun RecipeCard(
     imageLoader: @Composable (modifier: Modifier) -> Unit = {
         AsyncImage(
             model = recipe.imageUrl,
-            contentDescription = "image",
+            contentDescription = "recipe image",
             contentScale = ContentScale.Crop,
             modifier = it,
         )
@@ -97,12 +97,12 @@ fun RecipeCard(
                         ) {
                             Image(
                                 painter = painterResource(R.drawable.outline_timer),
-                                contentDescription = "image",
+                                contentDescription = "timer image",
                                 colorFilter = ColorFilter.tint(color = AppColors.Gray4),
                                 modifier = Modifier.size(17.dp),
                             )
                             Text(
-                                text = recipe.time,
+                                text = "${recipe.time} min",
                                 style = AppTextStyles.PoppinsSmallerRegular.copy(color = AppColors.Gray4),
                             )
                         }
@@ -116,7 +116,7 @@ fun RecipeCard(
                         ) {
                             Image(
                                 painter = painterResource(R.drawable.outline_bookmark),
-                                contentDescription = "image",
+                                contentDescription = "bookmark image",
                                 colorFilter = ColorFilter.tint(color = AppColors.Primary80),
                                 modifier = Modifier.size(16.dp),
                             )
@@ -135,7 +135,7 @@ fun RecipeCardPreview() {
         name = "spice roasted chicken with flavored rice",
         imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
         chef = "Chef John",
-        time = "20 min",
+        time = 20,
         rating = 4.0,
     )
     RecipeCard(
@@ -158,7 +158,7 @@ fun LongNameRecipeCardPreview() {
         name = "spice roasted chicken with flavored rice".repeat(3),
         imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
         chef = "Chef John",
-        time = "20 min",
+        time = 20,
         rating = 4.0,
     )
     RecipeCard(
