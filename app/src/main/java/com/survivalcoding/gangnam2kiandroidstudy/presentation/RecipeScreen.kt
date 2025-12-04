@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.IngredientItem
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeIngredient
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Items.IngredientItem
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Items.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.tabs.DualTabBar
 
 @Composable
@@ -54,6 +55,19 @@ fun RecipeScreen(modifier: Modifier = Modifier) {
                 rightTab = "Procedure",
                 selectedIndex = selectedDualTab,
                 onTabSelected = { selectedDualTab = it })
+        }
+
+        item {
+            RecipeCard(
+                name = "Traditional spare ribs baked",
+                imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
+                chef = "Chef John",
+                time = "20 min",
+                rating = 4.0,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp)
+            )
         }
 
 
