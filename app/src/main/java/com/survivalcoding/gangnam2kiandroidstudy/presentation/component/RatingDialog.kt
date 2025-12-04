@@ -17,7 +17,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.StarBorder
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,10 +26,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
@@ -40,35 +41,36 @@ fun RatingDialog(
     modifier: Modifier = Modifier
 ) {
     val rateCount = remember { mutableStateOf(0) }
-
     val isPossible = rateCount.value > 0
-
-    val buttonColor = if (isPossible) AppColors.rating else AppColors.gray4
-
-
-    AlertDialog(
-        containerColor = AppColors.white,
-        title = {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = title,
-                    style = AppTextStyles.smallerTextRegular,
-                )
-            }
-        },
-        modifier = Modifier.clip(RoundedCornerShape(8.dp)),
-        text = {
+    Dialog(
+        onDismissRequest = { }
+    ) {
+        Card(
+            modifier = modifier.width(170.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = AppColors.white
+            ),
+            shape = RoundedCornerShape(8.dp)
+        ) {
             Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Spacer(Modifier.height(10.dp))
+
+                Text(
+                    text = title,
+                    style = AppTextStyles.smallTextRegular
+                )
+
+                Spacer(Modifier.height(5.dp))
+
                 Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 15.dp),
-                    horizontalArrangement = Arrangement.Center
+                        .padding(horizontal = 15.dp)
                 ) {
                     repeat(5) { index ->
                         val starNumber = index + 1
@@ -84,49 +86,35 @@ fun RatingDialog(
                                     rateCount.value = starNumber
                                 }
                         )
-
-                        if (index < 4)
-                            Spacer(modifier = Modifier.width(10.dp))
                     }
                 }
-                Spacer(modifier = Modifier.height(5.dp))
+
+                Spacer(Modifier.height(5.dp))
+
                 Box(
                     modifier = Modifier
-                        .width(61.dp)
-                        .height(20.dp)
-                        .background(color = buttonColor, shape = RoundedCornerShape(6.dp))
-                        .clickable {
-                            if (isPossible) {
-                                onChange(rateCount.value)
-                            }
-                        },
-                    contentAlignment = Alignment.Center
+                        .background(
+                            color = if (isPossible) AppColors.rating else AppColors.gray4,
+                            shape = RoundedCornerShape(6.dp)
+                        )
+                        .clickable(enabled = isPossible) {
+                            onChange(rateCount.value)
+                        }
+                        .padding(vertical = 4.dp, horizontal = 20.dp)
                 ) {
                     Text(
                         text = actionName,
-                        style = AppTextStyles.smallerTextRegular.copy(
+                        style = AppTextStyles.smallTextRegular.copy(
                             fontSize = 8.sp,
                             color = AppColors.white
                         )
                     )
                 }
-            }
-        },
-        confirmButton = {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
 
+                Spacer(Modifier.height(10.dp))
             }
-        },
-        onDismissRequest = { },
-        dismissButton = {
-
         }
-
-
-    )
+    }
 }
 
 @Preview
@@ -138,7 +126,7 @@ private fun RatingDialogPrev() {
     ) {
         RatingDialog(
             title = "Rate recipe",
-            actionName = "Rate",
+            actionName = "Send",
             onChange = {
                 Log.d("TAG", "RatingDialogPrev: $it")
             }
