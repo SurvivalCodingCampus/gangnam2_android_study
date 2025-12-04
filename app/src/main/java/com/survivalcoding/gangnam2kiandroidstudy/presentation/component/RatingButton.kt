@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -40,7 +41,10 @@ fun RatingButton(
                 width = 1.dp,
                 color = if (isSelected) AppColors.primary100 else AppColors.primary80,
                 shape = RoundedCornerShape(10.dp)
-            ),
+            )
+            .clickable {
+                onClick()
+            },
         contentAlignment = Alignment.Center
     ) {
         Row(
