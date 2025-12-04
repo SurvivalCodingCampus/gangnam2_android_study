@@ -1,0 +1,71 @@
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
+import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
+
+
+@Composable
+fun InputField(
+    label : String,
+    text: String,
+    onValueChange: (String) -> Unit = {},
+) {
+    Column(
+        modifier = Modifier.size(315.dp, 81.dp)
+    ) {
+        Text(
+            text = label,
+            style = AppTextStyles.smallTextRegular,
+            color = AppColors.black,
+        )
+
+        Spacer(modifier = Modifier.height(5.dp))
+
+        OutlinedTextField(
+            modifier = Modifier.size(310.dp, 55.dp),
+            value = text,
+            onValueChange = onValueChange,
+            shape = RoundedCornerShape(10.dp),
+            placeholder = {
+                Text(
+                    text = "Placeholder",
+                    style = AppTextStyles.smallTextRegular2,
+                    color = AppColors.gray2,
+                )
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = AppColors.primary100,
+                unfocusedBorderColor = AppColors.gray4,
+                focusedTextColor = AppColors.black,
+            ),
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun InputFieldPreview() {
+    Column() {
+        InputField("Label", "")
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        InputField("Label", "")
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        InputField("Label", "placeholder")
+    }
+}
