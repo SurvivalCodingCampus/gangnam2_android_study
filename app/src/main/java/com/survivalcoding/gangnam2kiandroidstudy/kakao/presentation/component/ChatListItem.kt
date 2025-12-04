@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.kakao.presentation.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,24 +8,29 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.kakao.presentation.data.model.ChatItem
 
 @Composable
 fun ChatListItem(
     chatItem: ChatItem,
     modifier: Modifier = Modifier,
+    imageLoader: @Composable (modifier: Modifier) -> Unit = {
+        AsyncImage(
+            model = chatItem.imageUrl,
+            contentDescription = "profile image",
+            modifier = modifier.size(50.dp)
+        )
+    },
 ) {
     Row(
         modifier = Modifier.fillMaxWidth()
     ) {
-        AsyncImage(
-            model = chatItem.imageUrl,
-            contentDescription = "profile image",
-            modifier = Modifier.size(50.dp)
-        )
+        imageLoader(Modifier)
 
         Column(
             modifier = Modifier.weight(1f)
@@ -47,5 +53,14 @@ private fun ChatListItemPreview() {
         time = "10:00",
         isRead = true,
     )
-    ChatListItem(chatItem)
+    ChatListItem(
+        chatItem,
+        imageLoader = {
+            Image(
+                painter = painterResource(R.drawable.tesla),
+                contentDescription = "item",
+                modifier = Modifier.size(50.dp)
+            )
+        },
+    )
 }
