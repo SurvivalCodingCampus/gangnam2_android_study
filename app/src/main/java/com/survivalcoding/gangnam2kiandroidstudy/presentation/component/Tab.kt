@@ -26,6 +26,12 @@ fun Tab(
     modifier: Modifier = Modifier,
     onValueChange: (Int) -> Unit = {},
 ) {
+    require(labels.size == 2) {
+        "Tab 컴포넌트는 정확히 2개의 라벨만 지원합니다. (현재 size=${labels.size})"
+    }
+
+    val safeSelectedIndex = selectedIndex.coerceIn(0, 1)
+
     Box(
         modifier = modifier
             .size(width = 375.dp, height = 58.dp)
@@ -37,7 +43,7 @@ fun Tab(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            if (selectedIndex == 0) {
+            if (safeSelectedIndex == 0) {
                 tabs2Label(
                     text = labels[0],
                     isSelected = true,
