@@ -28,7 +28,7 @@ fun Rating(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .height(16.dp)
             .background(
                 color = AppColors.Secondary20,
