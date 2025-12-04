@@ -1,0 +1,70 @@
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
+import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
+
+@Composable
+fun RatingButton(modifier: Modifier = Modifier, text: String, isSelected: Boolean) {
+    Column(
+        modifier = modifier
+            .size(51.dp, 28.dp)
+            .border(
+                width = 1.dp,
+                color = if (isSelected) AppColors.primary100 else AppColors.primary80,
+                shape = RoundedCornerShape(10.dp)
+            )
+            .background(
+                color = if (isSelected) AppColors.primary100 else AppColors.white,
+                shape = RoundedCornerShape(10.dp)
+            )
+            .padding(horizontal = 10.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row {
+            Text(
+                text = text,
+                style = AppTextStyles.smallerTextBold,
+                color = if (isSelected) AppColors.white else AppColors.primary80
+            )
+            Spacer(Modifier.width(5.dp))
+            Icon(
+                painter = painterResource(R.drawable.star_1),
+                contentDescription = "star icon",
+                modifier = Modifier.size(18.dp),
+                tint = if (isSelected) AppColors.white else AppColors.primary80
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun RatingButtonPreview() {
+    RatingButton(text = "5", isSelected = false)
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun RatingButtonPreview2() {
+    RatingButton(text = "4", isSelected = true)
+}

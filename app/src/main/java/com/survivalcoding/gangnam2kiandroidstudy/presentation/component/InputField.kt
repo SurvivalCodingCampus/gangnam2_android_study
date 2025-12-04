@@ -65,7 +65,7 @@ fun InputField(
                     text = placeholder,
                     modifier = Modifier
                         .size(width = 66.dp, height = 17.dp),
-                    style = AppTextStyles.smallTextRegular2,
+                    style = AppTextStyles.smallerTextRegular,
                     color = AppColors.gray4
                 )
             },
@@ -99,7 +99,7 @@ fun InputField(
                     text = placeholder,
                     modifier = Modifier
                         .size(width = 66.dp, height = 17.dp),
-                    style = AppTextStyles.smallTextRegular2,
+                    style = AppTextStyles.smallerTextRegular,
                     color = AppColors.gray4
                 )
             },
