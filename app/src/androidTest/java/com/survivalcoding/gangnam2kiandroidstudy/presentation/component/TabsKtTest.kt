@@ -7,6 +7,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,10 +31,10 @@ class TabsKtTest {
 
         composeRule.onNodeWithText("두번째").performClick()
 
-        assert(selected == 1)
+        assertTrue(selected == 1)
 
         composeRule.onNodeWithText("세번째").performClick()
 
-        assert(selected == 2)
+        assertTrue(selected == 2)
     }
 }

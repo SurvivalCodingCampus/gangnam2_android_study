@@ -26,7 +26,7 @@ class MediumButtonKtTest {
             .onNodeWithText("Button")
             .performClick()
 
-        assert(clicked)
+        assertTrue(clicked)
     }
 
 }

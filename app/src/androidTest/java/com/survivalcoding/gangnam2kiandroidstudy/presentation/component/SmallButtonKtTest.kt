@@ -27,6 +27,6 @@ class SmallButtonKtTest {
             .onNodeWithText("Button")
             .performClick()
 
-        assert(clicked)
+        assertTrue(clicked)
     }
 }

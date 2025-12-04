@@ -37,6 +37,6 @@ class InputFieldKtTest {
             .onNodeWithText("Placeholder")
             .performTextInput(inputText)
 
-        assert(text == inputText)
+        assertTrue(text == inputText)
     }
 }
