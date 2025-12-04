@@ -15,6 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.survivalcoding.gangnam2kiandroidstudy.kakao.presentation.KakaoChatScreen
+import com.survivalcoding.gangnam2kiandroidstudy.kakao.presentation.component.ChatListItem
+import com.survivalcoding.gangnam2kiandroidstudy.kakao.presentation.data.model.ChatItem
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.BigButton
 
 class MainActivity : ComponentActivity() {
@@ -22,21 +25,31 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                BigButton(
-                    text = "My Button",
-                    onClick = {
-                        println("클릭!!!!!!")
-                    }
-                )
+            KakaoChatScreen()
 
-                Text("test")
-            }
+//            Column(
+//                modifier = Modifier
+//                    .fillMaxSize(),
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//                verticalArrangement = Arrangement.Center
+//            ) {
+//                val chatItem = ChatItem(
+//                    imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK0pEZas5_qRK1NAKMGO27eFR6lvJ1LyHKp6B-j9k_BBOP4I6dA2Z_LjqNWLUjnt8v9yx_-wYDdQnR5w3WjWApHFa2dzndaGjd9epxsw&s=10",
+//                    name = "김준수",
+//                    message = "안녕하세요",
+//                    time = "10:00",
+//                    isRead = true,
+//                )
+//                ChatListItem(chatItem)
+//                BigButton(
+//                    text = "My Button",
+//                    onClick = {
+//                        println("클릭!!!!!!")
+//                    }
+//                )
+//
+//                Text("test")
+//            }
 
         }
     }
