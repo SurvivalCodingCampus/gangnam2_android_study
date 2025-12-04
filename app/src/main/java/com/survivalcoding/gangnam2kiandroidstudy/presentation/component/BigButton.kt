@@ -2,6 +2,8 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -13,6 +15,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -28,16 +32,32 @@ fun BigButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
+    // 1. 상호작용 소스 (터치 이벤트 감지를 위해 필수)
+    val interactionSource = remember {
+        MutableInteractionSource()
+    }
+
+    // 2. 현재 Pressed 상태를 Flow로 수집
+    val isPressed by interactionSource.collectIsPressedAsState()
+
+    val backgroundColor = if (isPressed) {
+        AppColors.gray4     // Disalbe
+    } else {
+        AppColors.primary100    // Default
+    }
+
     Box(
         modifier = modifier
             .size(width = 315.dp, height = 60.dp)
             .background(
-                color = AppColors.primary100,
+                color = backgroundColor,
                 shape = RoundedCornerShape(10.dp)
             )
-            .clickable {
-                onClick()
-            }
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null, // 시각적 ripple 효과를 원치 않으면 null
+                onClick = { onClick() }
+            )
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
