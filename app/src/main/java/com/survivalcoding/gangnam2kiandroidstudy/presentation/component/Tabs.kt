@@ -27,7 +27,6 @@ fun Tabs(
     modifier: Modifier = Modifier,
     onValueChange: (Int) -> Unit,
 ) {
-    require(labels.isNotEmpty()) { "Tabs requires at least one label" }
     require(labels.size in 2..3) { "Tabs only supports 2 or 3 labels" }
     require(selectedIndex in labels.indices) { "selectedIndex must be within labels range" }
 
@@ -52,7 +51,11 @@ fun Tabs(
                     modifier = Modifier
                         .size(width = width, height = 33.dp)
                         .clip(shape)
-                        .clickable { onValueChange(index) }
+                        .clickable {
+                            if (!isSelected) {
+                                onValueChange(index)
+                            }
+                        }
                         .background(color = backgroundColor, shape = shape),
                     contentAlignment = Alignment.Center,
                 ) {
