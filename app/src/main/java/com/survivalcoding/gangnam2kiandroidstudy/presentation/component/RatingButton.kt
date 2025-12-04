@@ -34,7 +34,10 @@ fun RatingButton(
         modifier = Modifier
             .width(50.dp)
             .height(28.dp)
-            .background(if (isSelected) AppColors.primary100 else AppColors.white, RoundedCornerShape(10.dp))
+            .background(
+                if (isSelected) AppColors.primary100 else AppColors.white,
+                RoundedCornerShape(10.dp)
+            )
             .border(
                 width = if (!isSelected) 1.dp else 0.dp,
                 color = if (!isSelected) AppColors.primary80 else AppColors.white,
@@ -42,7 +45,9 @@ fun RatingButton(
             )
     ) {
         Row(
-            modifier = Modifier.fillMaxSize().padding(horizontal = 10.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(

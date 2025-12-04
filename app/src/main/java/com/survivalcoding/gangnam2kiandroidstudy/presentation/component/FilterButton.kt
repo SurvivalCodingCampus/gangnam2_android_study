@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,7 +31,10 @@ fun FilterButton(
         modifier = Modifier
             .width(43.dp)
             .height(27.dp)
-            .background(if (isSelected) AppColors.primary100 else AppColors.white, RoundedCornerShape(10.dp))
+            .background(
+                if (isSelected) AppColors.primary100 else AppColors.white,
+                RoundedCornerShape(10.dp)
+            )
             .border(
                 width = if (!isSelected) 1.dp else 0.dp,
                 color = if (!isSelected) AppColors.primary80 else AppColors.white,
@@ -38,13 +42,15 @@ fun FilterButton(
             )
     ) {
         Row(
-            modifier = Modifier.fillMaxSize().padding(horizontal = 10.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = text,
                 style = AppTextStyles.smallerTextRegular.copy(
-                    if (isSelected) AppColors.white else AppColors.primary80
+                    color = if (isSelected) AppColors.white else AppColors.primary80
                 )
             )
         }
@@ -61,7 +67,12 @@ private fun RatingButtonPreview() {
         verticalArrangement = Arrangement.Center
     ) {
         FilterButton("Text", true)
+        Spacer(modifier = Modifier.height(10.dp))
         FilterButton("Text", false)
+        Spacer(modifier = Modifier.height(10.dp))
+        RatingButton("5", true)
+        Spacer(modifier = Modifier.height(10.dp))
+        RatingButton("5", false)
     }
 
 }

@@ -1,8 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
-import android.util.Log.d
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,18 +38,23 @@ fun IngredientItem(
         AsyncImage(
             model = imageUrls,
             contentDescription = "이미지",
-            modifier = Modifier.padding(start = 15.dp, top =12.dp, bottom = 12.dp, end = 16.dp).size(52.dp).clip(RoundedCornerShape(12.dp)),
+            modifier = Modifier
+                .padding(start = 15.dp, top = 12.dp, bottom = 12.dp, end = 16.dp)
+                .size(52.dp)
+                .clip(RoundedCornerShape(12.dp)),
             contentScale = ContentScale.Crop
         )
         Text(
             text = name,
             style = AppTextStyles.normalTextBold,
-            modifier = Modifier.weight(1f).padding(top =29.dp, bottom = 23.dp ),
+            modifier = Modifier
+                .weight(1f)
+                .padding(top = 29.dp, bottom = 23.dp),
         )
         Text(
             text = weight,
             style = AppTextStyles.smallTextRegular.copy(color = AppColors.gray3),
-            modifier = Modifier.padding(top = 28.dp, bottom = 27.dp, end = 15.dp,)
+            modifier = Modifier.padding(top = 28.dp, bottom = 27.dp, end = 15.dp)
         )
     }
 }

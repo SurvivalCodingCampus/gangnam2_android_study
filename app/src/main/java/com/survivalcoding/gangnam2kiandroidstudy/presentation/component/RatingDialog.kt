@@ -1,6 +1,5 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
-import android.R.attr.contentDescription
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,7 +16,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -77,7 +75,7 @@ fun RatingDialog(
                         val isFilled = rateCount.value >= starNumber
 
                         Icon(
-                            imageVector =  if (isFilled) Icons.Filled.Star else Icons.Outlined.StarBorder,
+                            imageVector = if (isFilled) Icons.Filled.Star else Icons.Outlined.StarBorder,
                             contentDescription = "star_$index",
                             tint = AppColors.rating,
                             modifier = Modifier
