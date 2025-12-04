@@ -49,7 +49,7 @@ fun RatingDialog(
             modifier = modifier.size(170.dp, 91.dp),
         ) {
             Column(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .background(color = AppColors.White)
                     .padding(horizontal = 15.dp, vertical = 10.dp),
