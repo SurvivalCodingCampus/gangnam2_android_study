@@ -71,12 +71,6 @@ fun RatingDialog(
                         val starIndex = index + 1
                         val isFilled = starIndex <= rating
 
-//                        Text(
-//                            text = "$starIndex / $isFilled",
-//                            fontSize = 5.sp,
-//                            color = AppColors.label1,
-//                        )
-
                         Icon(
                             painter = painterResource(
                                 if(isFilled) R.drawable.bold_star
