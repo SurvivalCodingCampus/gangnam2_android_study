@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,7 +21,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun FilterButton(
     text: String,
     modifier: Modifier = Modifier,
-    isSelected: Boolean= false,
+    isSelected: Boolean = false,
     onClick: () -> Unit,
 ) {
     val shape = RoundedCornerShape(10.dp)
@@ -40,20 +39,14 @@ fun FilterButton(
                 color = borderColor,
                 shape = shape,
             )
-            .background(
-                color = backgroundColor,
-                shape = shape,
-            ),
+            .background(color = backgroundColor, shape = shape)
+            .padding(horizontal = 10.dp, vertical = 5.dp),
+        contentAlignment = Alignment.Center,
     ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = text,
-                style = AppTextStyles.PoppinsSmallerRegular.copy(color = color),
-            )
-        }
+        Text(
+            text = text,
+            style = AppTextStyles.PoppinsSmallerRegular.copy(color = color),
+        )
     }
 }
 

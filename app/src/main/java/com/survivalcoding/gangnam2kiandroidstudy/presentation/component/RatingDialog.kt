@@ -72,7 +72,7 @@ fun RatingDialog(
                             if (isStarSelected && it <= index) R.drawable.bold_star else R.drawable.outline_star
                         Image(
                             painter = painterResource(star),
-                            contentDescription = "star $it",
+                            contentDescription = "star ${it + 1}",
                             colorFilter = ColorFilter.tint(color = AppColors.Rating),
                             modifier = Modifier
                                 .size(20.dp)

@@ -28,7 +28,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun RatingButton(
     text: String,
     modifier: Modifier = Modifier,
-    isSelected: Boolean= false,
+    isSelected: Boolean = false,
     onClick: () -> Unit,
 ) {
     val shape = RoundedCornerShape(10.dp)

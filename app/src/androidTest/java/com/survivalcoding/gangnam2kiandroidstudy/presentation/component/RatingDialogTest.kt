@@ -40,7 +40,7 @@ class RatingDialogTest {
         composeTestRule.onNodeWithText("Rate recipe").assertIsDisplayed()
         composeTestRule.onNodeWithText("Send").assertIsDisplayed()
 
-        composeTestRule.onNodeWithContentDescription("star 2").performClick()
+        composeTestRule.onNodeWithContentDescription("star 3").performClick()
         composeTestRule.onNodeWithText("Send").performClick()
         assertEquals(3, score)
         assertFalse(showDialog)
