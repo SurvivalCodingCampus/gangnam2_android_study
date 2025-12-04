@@ -1,6 +1,5 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
-import androidx.compose.material.icons.Icons
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -30,6 +29,7 @@ class BigButtonTest {
         composeTestRule.onNodeWithText("Button").performClick()
 
         assertEquals(1, counter)
+
     }
 
 }
