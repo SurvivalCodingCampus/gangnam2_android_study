@@ -20,7 +20,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun Tab3(labels: List<String>, selectedIndex: Int, onValueChange: (Int) -> Unit) {
-    require(labels.size != 3) {"Tab3는 3개의 label만 필요합니다."}
+    require(labels.size != 3) { "Tab3는 3개의 label만 필요합니다." }
 
     Box(
         modifier = Modifier
@@ -60,7 +60,7 @@ fun Tab3(labels: List<String>, selectedIndex: Int, onValueChange: (Int) -> Unit)
                 ) {
                 Text(
                     text = labels[1],
-                    style = AppTextStyles.smallerTextBold.copy(if (selectedIndex == 1) AppColors.white else AppColors.primary80)
+                    style = AppTextStyles.smallerTextBold.copy(color = if (selectedIndex == 1) AppColors.white else AppColors.primary80)
                 )
             }
             //
@@ -78,7 +78,7 @@ fun Tab3(labels: List<String>, selectedIndex: Int, onValueChange: (Int) -> Unit)
                 ) {
                 Text(
                     text = labels[2],
-                    style = AppTextStyles.smallerTextBold.copy(if (selectedIndex == 2) AppColors.white else AppColors.primary80)
+                    style = AppTextStyles.smallerTextBold.copy(color = if (selectedIndex == 2) AppColors.white else AppColors.primary80)
                 )
             }
         }
@@ -90,8 +90,8 @@ fun Tab3(labels: List<String>, selectedIndex: Int, onValueChange: (Int) -> Unit)
 @Composable
 fun Tab3Preview() {
     Column {
-        Tab3(listOf("Label1", "Label2","Label3"), 0, {})
-        Tab3(listOf("Label1", "Label2","Label3"), 1, {})
-        Tab3(listOf("Label1", "Label2","Label3"), 2, {})
+        Tab3(listOf("Label1", "Label2", "Label3"), 0, {})
+        Tab3(listOf("Label1", "Label2", "Label3"), 1, {})
+        Tab3(listOf("Label1", "Label2", "Label3"), 2, {})
     }
 }
