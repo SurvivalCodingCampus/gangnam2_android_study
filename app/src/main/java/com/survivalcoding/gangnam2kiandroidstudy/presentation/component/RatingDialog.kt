@@ -61,7 +61,7 @@ fun RatingDialog(
                     color = AppColors.label1
                 )
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(5.dp))
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -90,7 +90,7 @@ fun RatingDialog(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(5.dp))
 
                 val enabled = rating > 0
                 Box(
