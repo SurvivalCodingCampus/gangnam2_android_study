@@ -18,14 +18,21 @@ import androidx.compose.ui.unit.sp
 import com.survivalcoding.gangnam2kiandroidstudy.kakao.presentation.KakaoChatScreen
 import com.survivalcoding.gangnam2kiandroidstudy.kakao.presentation.component.ChatListItem
 import com.survivalcoding.gangnam2kiandroidstudy.kakao.presentation.data.model.ChatItem
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.CounterScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.BigButton
 
 class MainActivity : ComponentActivity() {
+    override fun onDestroy() {
+        super.onDestroy()
+        println("MainActivity: onDestroy")
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        println("MainActivity: onCreate")
         enableEdgeToEdge()
         setContent {
-            KakaoChatScreen()
+            CounterScreen()
 
 //            Column(
 //                modifier = Modifier
