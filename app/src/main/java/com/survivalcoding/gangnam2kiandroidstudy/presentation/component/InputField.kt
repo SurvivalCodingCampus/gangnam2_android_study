@@ -32,12 +32,12 @@ fun InputField(
             value = value,
             onValueChange = onValueChange,
             modifier = Modifier.padding(top = 5.dp).size(width = 315.dp, height = 55.dp),
-            textStyle = AppTextStyles.smallTextRegular2,
+            textStyle = AppTextStyles.smallerTextRegular,
             placeholder = {
                 Text(
                     text = placeholder,
                     color = Color(0xFFD9D9D9),
-                    style = AppTextStyles.smallTextRegular2
+                    style = AppTextStyles.smallerTextRegular
                 )
             },
             shape = RoundedCornerShape(10.dp),
