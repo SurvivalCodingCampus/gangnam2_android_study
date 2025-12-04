@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component.buttons
 
+import android.graphics.drawable.shapes.Shape
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,7 +20,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
@@ -29,6 +32,8 @@ fun SmallButton(
     text: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    shape: Dp = 10.dp,
+    textStyle: TextStyle = AppTextStyles.smallerTextBold.copy(color = AppColors.white),
     onClick: () -> Unit = {},
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -46,7 +51,7 @@ fun SmallButton(
             .defaultMinSize(minWidth = 59.dp, minHeight = 20.dp)// 최소 규격
             .background(
                 color = backgroundColor,
-                shape = RoundedCornerShape(10.dp)
+                shape = RoundedCornerShape(shape),
             )
             .clickable(
                 enabled = enabled,
@@ -67,9 +72,7 @@ fun SmallButton(
             ) {
                 Text(
                     text = text,
-                    style = AppTextStyles.smallerTextBold.copy(
-                        color = AppColors.white,
-                    )
+                    style = textStyle,
                 )
             }
         }
