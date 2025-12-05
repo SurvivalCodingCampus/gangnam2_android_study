@@ -46,7 +46,7 @@ object AppTextStyles {
         fontFamily = AppFonts.poppins,
         fontWeight = FontWeight.Normal,
         fontSize = 11.sp,
-        lineHeight = 27.sp
+        lineHeight = 20.sp
     )
     val smallerTextSmall = TextStyle(
         fontFamily = AppFonts.poppins,
