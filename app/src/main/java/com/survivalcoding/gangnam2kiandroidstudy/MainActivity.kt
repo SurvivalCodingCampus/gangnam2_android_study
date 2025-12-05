@@ -11,6 +11,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,6 +25,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.kakao.presentation.component.Ch
 import com.survivalcoding.gangnam2kiandroidstudy.kakao.presentation.data.model.ChatItem
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.CounterScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.BigButton
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RatingDialog
 
 class MainActivity : ComponentActivity() {
     override fun onDestroy() {
@@ -32,7 +38,24 @@ class MainActivity : ComponentActivity() {
         println("MainActivity: onCreate")
         enableEdgeToEdge()
         setContent {
-            CounterScreen()
+            var rating by rememberSaveable { mutableStateOf(0) }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Column {
+                    Text("$rating")
+                    RatingDialog(
+                        onSubmit = {
+                            rating = it
+                        },
+                    )
+                }
+            }
+
+//            CounterScreen()
 
 //            Column(
 //                modifier = Modifier
