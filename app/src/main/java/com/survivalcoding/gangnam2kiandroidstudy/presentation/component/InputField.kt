@@ -20,13 +20,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun InputField(
     label: String,
     modifier: Modifier = Modifier,
-    placeholder: @Composable (() -> Unit)? = {
-        Text(
-            text = "Placeholder",
-            color = AppColors.gray4,
-            style = AppTextStyles.smallerTextRegular
-        )
-    },
+    placeholder: String = "Placeholder",
     value: String = "",
     onValueChange: (String) -> Unit = {},
 ) {
@@ -49,7 +43,13 @@ fun InputField(
                     .size(width = 315.dp, height = 55.dp)
                     .background(color = AppColors.white),
                 value = value,
-                placeholder = placeholder,
+                placeholder = {
+                    Text(
+                        text = placeholder,
+                        color = AppColors.gray4,
+                        style = AppTextStyles.smallerTextRegular
+                    )
+                },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = AppColors.primary80,
                     unfocusedBorderColor = AppColors.gray4,

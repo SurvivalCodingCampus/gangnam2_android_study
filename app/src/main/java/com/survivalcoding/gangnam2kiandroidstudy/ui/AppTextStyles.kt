@@ -95,13 +95,21 @@ object AppTextStyles {
         fontFamily = AppFonts.Poppins,
         fontWeight = FontWeight.Normal,
         fontSize = 11.sp,
-        lineHeight = 27.sp
+        lineHeight = 17.sp
     )
 
+    // 추가
     val smallerTextSmallLabel = TextStyle(
         fontFamily = AppFonts.Poppins,
         fontWeight = FontWeight.Normal,
         fontSize = 8.sp,
         lineHeight = 12.sp
+    )
+
+    val smallerTextSemiBold = TextStyle(
+        fontFamily = AppFonts.Poppins,
+        fontWeight = FontWeight.Medium,
+        fontSize = 11.sp,
+        lineHeight = 17.sp
     )
 }
