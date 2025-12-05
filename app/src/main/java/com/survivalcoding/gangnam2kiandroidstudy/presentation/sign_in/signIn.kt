@@ -67,7 +67,7 @@ fun SignIn() {
             Text(
                 "Or Sign in With",
                 modifier = Modifier,
-                style = AppTextStyles.smallerTextBold.copy(color = AppColors.gray4)
+                style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray4)
             )
             Spacer(modifier = Modifier.width(7.dp))
             HorizontalDivider(modifier = Modifier.weight(1f))
