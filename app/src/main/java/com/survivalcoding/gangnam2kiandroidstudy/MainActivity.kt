@@ -35,6 +35,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RatingDi
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Tabs
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.signin.SignInScreen
 import kotlinx.collections.immutable.toImmutableList
 
 class MainActivity : ComponentActivity() {
@@ -49,58 +50,10 @@ class MainActivity : ComponentActivity() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                Column {
 
-                    IngredientItem(
-                        ingredient = Ingredient(
-                            id = 1,
-                            image = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
-                            name = "Tomatos",
-                            amount = IngredientAmount(
-                                value = 500.0,
-                                unit = UnitType.GRAM
-                            )
-                        )
-                    )
+                    SignInScreen()
 
-                    Spacer(modifier = Modifier.height(10.dp))
 
-                    RecipeCard(
-                        recipe = Recipe(
-                            id = 1,
-                            name = "Traditional spare ribs baked",
-                            image = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-                            chef = "steve.kim",
-                            time = "30분",
-                            rating = 4.5
-                        )
-                    )
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    Row() {
-                        RatingButton("5", false)
-                        Spacer(modifier = Modifier.width(10.dp))
-                        RatingButton("5", true)
-                    }
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    BigButton("Button")
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    MediumButton("Button")
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    SmallButton("Button")
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    // RatingDialog()
-
-                }
 
             }
 
