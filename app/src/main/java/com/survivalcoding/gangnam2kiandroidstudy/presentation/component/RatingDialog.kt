@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,6 +19,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,22 +41,29 @@ fun RatingDialog(
     title: String = "Rate recipe",
     actionName: String = "Send",
     onDismiss: () -> Unit = {},
-    onConfirm: () -> Unit= {},
-    rating: Int= 3,
+    onConfirm: (Int) -> Unit= {},
+    initialRating: Int = 3,
 ) {
+    var rating by remember { mutableIntStateOf(initialRating) }
+
     Dialog(onDismissRequest = { onDismiss() }) {
 
         Card(
             modifier = Modifier
                 .width(170.dp)
                 .height(91.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .padding(15.dp, 10.dp),
+                .background(
+                    color = AppColors.white,
+                    shape = RoundedCornerShape(8.dp)
+                ),
             shape = RoundedCornerShape(8.dp),
 
         ) {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.padding(
+                    vertical = 10.dp,
+                    horizontal = 15.dp,
+                ).fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
 
@@ -58,12 +71,17 @@ fun RatingDialog(
                 Text(
                     text = title,
                     style = AppTextStyles.smallerTextRegular,
-                    color = AppColors.label1
+                    color = AppColors.label1,
+                    modifier = Modifier
+                        .height(17.dp)
                 )
 
-                Spacer(modifier = Modifier.height(5.dp))
-
                 Row(
+                    modifier = Modifier
+                        .padding(
+                            vertical = 5.dp,
+                        )
+                        .height(24.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
@@ -78,31 +96,43 @@ fun RatingDialog(
                             ),
                             contentDescription = "star",
                             tint = AppColors.rating,
-                            modifier = Modifier.size(20.dp, 20.dp)
-                                .clickable { onConfirm() },
+                            modifier = Modifier
+                                .size(18.dp)
+                                .clickable {
+                                    rating = starIndex
+                                },
                         )
+                        if (index < 4) {
+                            Spacer(Modifier.width(10.dp))
+                        }
                     }
                 }
-
-                Spacer(modifier = Modifier.height(5.dp))
 
                 val enabled = rating > 0
                 Box(
                     modifier = Modifier
-                        .width(60.dp)
                         .height(20.dp)
-                        .clip(RoundedCornerShape(10))
-                        .background(AppColors.rating)
-                        .clickable(
-                            enabled = enabled,
-                            onClick = onConfirm
-                        ),
-                    contentAlignment = Alignment.Center
+                        .background(
+                            color = if (rating != 0) AppColors.rating else AppColors.gray4,
+                            shape = RoundedCornerShape(6.dp)
+                        )
+                        .clickable {
+                            if (rating != 0) {
+                                onConfirm(rating)
+                                onDismiss()
+                            }
+                        },
+                    contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = actionName,
                         style = AppTextStyles.smallerTextSmallLabel,
-                        color = AppColors.white
+                        color = AppColors.white,
+                        modifier = Modifier
+                            .padding(
+                                vertical = 4.dp,
+                                horizontal = 20.dp
+                            )
                     )
                 }
 
