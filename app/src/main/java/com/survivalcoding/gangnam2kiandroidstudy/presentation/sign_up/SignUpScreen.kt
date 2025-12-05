@@ -169,7 +169,7 @@ fun SignUpScreen() {
                         }
                 ) {
                     if (isChecked) {
-                        Icon(Icons.Outlined.Check,"check", tint = AppColors.secondary100)
+                        Icon(Icons.Outlined.Check, "check", tint = AppColors.secondary100)
                     }
                 }
                 Spacer(modifier = Modifier.width(5.dp))
