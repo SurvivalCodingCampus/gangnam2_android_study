@@ -69,9 +69,9 @@ fun RateDialog(
                         Icon(
                             painter = painterResource(
                                 if (selectedRating >= value)
-                                    R.drawable.ic_star_6 // 채워진별
+                                    R.drawable.ic_star_6 // 채워진 별
                                 else
-                                    R.drawable.ic_star_6_1 // 빈별
+                                    R.drawable.ic_star_6_1 // 빈 별
                             ),
                             contentDescription = "$value stars",
                             tint = if (selectedRating >= value)
