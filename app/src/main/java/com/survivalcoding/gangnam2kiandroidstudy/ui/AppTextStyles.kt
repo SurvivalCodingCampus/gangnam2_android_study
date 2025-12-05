@@ -77,8 +77,8 @@ object AppTextStyles {
     val mediumTextBold = TextStyle(
         fontFamily = AppFonts.poppins,
         fontWeight = FontWeight.Bold,
-        fontSize = 20.sp,
-        lineHeight = 30.sp
+        fontSize = 18.sp,
+        lineHeight = 27.sp
     )
     val normalTextBold = TextStyle(
         fontFamily = AppFonts.poppins,
