@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,7 +41,8 @@ fun BigButton(onClick: () -> Unit, text: String) {
 
     Box(
         modifier = Modifier
-            .size(width = 315.dp, height = 60.dp)
+            .height(height = 60.dp)
+            .fillMaxWidth()
             .background(
                 color = if (isPressed) AppColors.gray4 else AppColors.primary100,
                 shape = RoundedCornerShape(10.dp)
