@@ -112,7 +112,6 @@ fun SignInScreen() {
             Spacer(modifier = Modifier.height(20.dp))
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(horizontal = 60.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {

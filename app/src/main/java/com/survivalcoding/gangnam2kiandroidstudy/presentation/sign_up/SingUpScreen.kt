@@ -188,7 +188,6 @@ fun SignUpScreen() {
             Spacer(modifier = Modifier.height(14.dp))
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(horizontal = 60.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {

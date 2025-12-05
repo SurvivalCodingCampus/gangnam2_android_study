@@ -21,8 +21,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Gangnam2kiAndroidStudyTheme {
-//                SignUpScreen()
-                SignInScreen()
+                SignUpScreen()
+//                SignInScreen()
             }
         }
     }
