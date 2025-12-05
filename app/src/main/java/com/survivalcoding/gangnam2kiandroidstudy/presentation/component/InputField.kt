@@ -62,7 +62,8 @@ fun InputField(
             shape = RoundedCornerShape(10.dp),
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
-            visualTransformation = visualTransformation
+            visualTransformation = visualTransformation,
+            maxLines = 1,
 
             )
 

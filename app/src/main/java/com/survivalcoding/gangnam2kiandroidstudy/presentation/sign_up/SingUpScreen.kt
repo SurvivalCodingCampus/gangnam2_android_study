@@ -5,10 +5,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,10 +17,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -56,6 +50,13 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun SignUpScreen() {
     var isChecked by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
+
+    var name by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var checkPassword by remember { mutableStateOf("") }
+
+
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -81,7 +82,7 @@ fun SignUpScreen() {
             InputField(
                 label = "Name",
                 placeholder = "Enter Name",
-                value = null,
+                value = name,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Next
@@ -89,7 +90,9 @@ fun SignUpScreen() {
                 keyboardActions = KeyboardActions(
                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                 ),
-            ) { }
+            ) {
+                name = it
+            }
 
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -103,15 +106,17 @@ fun SignUpScreen() {
                 keyboardActions = KeyboardActions(
                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                 ),
-                value = null
-            ) { }
+                value = email
+            ) {
+                email = it
+            }
 
             Spacer(modifier = Modifier.height(20.dp))
 
             InputField(
                 label = "Password",
                 placeholder = "Enter Password",
-                value = null,
+                value = password,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Next
@@ -120,14 +125,16 @@ fun SignUpScreen() {
                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                 ),
                 visualTransformation = PasswordVisualTransformation(),
-            ) { }
+            ) {
+                password = it
+            }
 
             Spacer(modifier = Modifier.height(20.dp))
 
             InputField(
                 label = "Confirm Password",
                 placeholder = "Retype Password",
-                value = null,
+                value = checkPassword,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
@@ -136,7 +143,9 @@ fun SignUpScreen() {
                     onDone = { focusManager.clearFocus() }
                 ),
                 visualTransformation = PasswordVisualTransformation()
-            ) { }
+            ) {
+                checkPassword = it
+            }
 
             Spacer(modifier = Modifier.height(20.dp))
 

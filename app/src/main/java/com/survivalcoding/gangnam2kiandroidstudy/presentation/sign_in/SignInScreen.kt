@@ -14,6 +14,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -36,6 +40,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun SignInScreen() {
     val focusManager = LocalFocusManager.current
+
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -60,7 +68,7 @@ fun SignInScreen() {
             InputField(
                 label = "Email",
                 placeholder = "Enter Email",
-                value = null,
+                value = email,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Next
@@ -68,13 +76,15 @@ fun SignInScreen() {
                 keyboardActions = KeyboardActions(
                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                 ),
-            ) { }
+            ) {
+                email = it
+            }
             Spacer(modifier = Modifier.height(30.dp))
 
             InputField(
                 label = "Enter Password",
                 placeholder = "Enter Password",
-                value = null,
+                value = password,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
@@ -83,7 +93,9 @@ fun SignInScreen() {
                     onDone = { focusManager.clearFocus() }
                 ),
                 visualTransformation = PasswordVisualTransformation()
-            ) { }
+            ) {
+                password = it
+            }
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 text = "Forgot Password?",
