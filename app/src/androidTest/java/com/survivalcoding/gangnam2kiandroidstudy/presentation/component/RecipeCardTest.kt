@@ -1,14 +1,10 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
-import androidx.compose.foundation.Image
-import androidx.compose.ui.graphics.painter.ColorPainter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
-import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import org.junit.Rule
 import org.junit.Test
 
@@ -28,23 +24,13 @@ class RecipeCardTest {
         )
 
         composeTestRule.setContent {
-            RecipeCard(
-                recipe = recipe,
-                imageLoader = {
-                    Image(
-                        painter = ColorPainter(AppColors.Primary100),
-                        contentDescription = "image",
-                        contentScale = ContentScale.Crop,
-                        modifier = it,
-                    )
-                },
-            )
+            RecipeCard(recipe = recipe)
         }
 
         composeTestRule.onNodeWithText("spice roasted chicken with flavored rice")
             .assertIsDisplayed()
         composeTestRule.onNodeWithText("By Chef John").assertIsDisplayed()
         composeTestRule.onNodeWithText("20 min").assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription("image").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("recipe image").assertIsDisplayed()
     }
 }
