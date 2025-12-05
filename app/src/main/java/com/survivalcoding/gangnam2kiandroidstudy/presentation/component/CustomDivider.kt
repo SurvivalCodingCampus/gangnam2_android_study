@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 
 @Composable
-fun MyDivider(modifier: Modifier = Modifier) {
+fun CustomDivider(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .width(50.dp)
