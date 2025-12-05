@@ -21,63 +21,36 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun FilterButton(text: String, isSelected: Boolean) {
-    when (isSelected) {
-        true -> {
-            Box(
-                modifier = Modifier
-                    .size(width = 50.dp, height = 28.dp)
-                    .background(color = AppColors.primary100, shape = RoundedCornerShape(10.dp))
-                    .border(
-                        color = AppColors.primary100,
-                        width = 1.dp,
-                        shape = RoundedCornerShape(10.dp)
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Row(
-                    modifier = Modifier,
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+    val backgroundColor = if (isSelected) AppColors.primary100 else AppColors.white
+    val borderColor = if (isSelected) AppColors.primary100 else AppColors.primary80
+    val textColor = if (isSelected) AppColors.white else AppColors.primary80
 
-                    Text(
-                        text = text,
-                        style = AppTextStyles.smallerTextBold.copy(color = AppColors.white)
-                    )
+    Box(
+        modifier = Modifier
+            .size(width = 50.dp, height = 28.dp)
+            .background(color = backgroundColor, shape = RoundedCornerShape(10.dp))
+            .border(
+                color = borderColor,
+                width = 1.dp,
+                shape = RoundedCornerShape(10.dp)
+            ),
 
-                }
-            }
+        contentAlignment = Alignment.Center
+    ) {
+        Row(
+            modifier = Modifier,
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
-        }
+            Text(
+                text = text,
+                style = AppTextStyles.smallerTextBold.copy(color = textColor)
+            )
 
-        false -> {
-            Box(
-                modifier = Modifier
-                    .size(width = 50.dp, height = 28.dp)
-                    .background(color = AppColors.white, shape = RoundedCornerShape(10.dp))
-                    .border(
-                        color = AppColors.primary80,
-                        width = 1.dp,
-                        shape = RoundedCornerShape(10.dp)
-                    ),
-
-                contentAlignment = Alignment.Center
-            ) {
-                Row(
-                    modifier = Modifier,
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-                    Text(
-                        text = text,
-                        style = AppTextStyles.smallerTextBold.copy(color = AppColors.primary80)
-                    )
-
-                }
-            }
         }
     }
+
 }
 
 
