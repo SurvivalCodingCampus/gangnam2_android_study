@@ -8,4 +8,7 @@ object AppFonts {
     val Poppins = FontFamily(
         Font(R.font.poppins_regular)
     )
+    val PoppinsSemiBold = FontFamily(
+        Font(R.font.poppins_semibold)
+    )
 }

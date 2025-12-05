@@ -74,7 +74,7 @@ object AppTextStyles {
         lineHeight = 30.sp
     )
     val normalTextBold = TextStyle(
-        fontFamily = AppFonts.Poppins,
+        fontFamily = AppFonts.PoppinsSemiBold,
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
         lineHeight = 24.sp
