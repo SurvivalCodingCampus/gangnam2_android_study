@@ -48,7 +48,7 @@ fun Tabs(
                     text = label,
                     color = if (index == selectedIndex) Color.White else AppColors.primary80,
                     fontWeight = FontWeight.SemiBold,
-                    style = AppTextStyles.smallTextRegular2
+                    style = AppTextStyles.smallerTextRegular
                 )
             }
             if (index != tabs.lastIndex) {

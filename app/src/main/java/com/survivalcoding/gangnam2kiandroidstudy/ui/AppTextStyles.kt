@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.ui
 
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
@@ -41,10 +42,18 @@ object AppTextStyles {
         fontSize = 14.sp,
         lineHeight = 21.sp
     )
-    val smallTextRegular2 = TextStyle(
+    val smallerTextRegular = TextStyle(
         fontFamily = AppFonts.poppins,
         fontWeight = FontWeight.Normal,
         fontSize = 11.sp,
         lineHeight = 27.sp
+    )
+    val smallerTextSmall = TextStyle(
+        fontFamily = AppFonts.poppins,
+        fontWeight = FontWeight.W400,
+        fontStyle = FontStyle.Normal,
+        fontSize = 8.sp,
+        lineHeight = 8.sp,
+        letterSpacing = 0.sp
     )
 }
