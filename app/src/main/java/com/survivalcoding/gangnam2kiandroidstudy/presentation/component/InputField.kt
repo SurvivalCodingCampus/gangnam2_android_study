@@ -20,7 +20,7 @@ fun InputField(
     label: String = "",
     placeholder: String = "",
     value: String = "",
-    onValueChange: (String) -> Unit,
+    onValueChange: (String) -> Unit= {},
     modifier: Modifier = Modifier,
 ) {
 

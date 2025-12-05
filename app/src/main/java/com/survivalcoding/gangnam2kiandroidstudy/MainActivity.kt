@@ -98,7 +98,7 @@ class MainActivity : ComponentActivity() {
 
                     Spacer(modifier = Modifier.height(10.dp))
 
-                    //RatingDialog()
+                    // RatingDialog()
 
                 }
 
