@@ -176,5 +176,8 @@ private fun PreviewSignIn() {
     SignInScreen(
         email = email.value,
         password = password.value,
+
+        onEmailChange = { email.value = it },
+        onPasswordChange = { password.value = it },
     )
 }
