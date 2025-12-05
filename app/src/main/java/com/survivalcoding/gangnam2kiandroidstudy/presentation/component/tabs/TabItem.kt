@@ -3,7 +3,8 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component.tabs
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,14 +22,12 @@ fun TabItem(
     text: String,
     selected: Boolean,
     onClick: () -> Unit,
-    width: Dp = 150.dp,
     height: Dp = 33.dp,
-    innerWidth: Dp = 150.dp,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
-            .size(width = width, height = height)
+            .height(height = height)
             .background(
                 color = if (selected) AppColors.primary100 else Color.Transparent,
                 shape = RoundedCornerShape(10.dp)
@@ -37,7 +36,9 @@ fun TabItem(
         contentAlignment = Alignment.Center
     ) {
         Box(
-            modifier = modifier.size(width = innerWidth, height = 17.dp),
+            modifier = modifier
+                .fillMaxWidth()
+                .height(17.dp),
             contentAlignment = Alignment.Center
         ) {
             Text(

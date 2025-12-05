@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,29 +19,36 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun DualTabBar(
+    modifier: Modifier = Modifier,
+    leftTab: String = "Label",
+    rightTab: String = "Label",
     selectedIndex: Int,
     onTabSelected: (Int) -> Unit,
-    modifier: Modifier = Modifier
-) {
+
+    ) {
     Row(
-        modifier = modifier.size(width = 375.dp, height = 58.dp),
+        modifier = modifier
+            .height(58.dp)
+            .padding(top = 12.dp, bottom = 13.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
         // Left
         TabItem(
-            text = "Label",
+            text = leftTab,
             selected = selectedIndex == 0,
-            onClick = { onTabSelected(0) }
+            onClick = { onTabSelected(0) },
+            modifier = Modifier.weight(1f)
         )
 
-        Spacer(Modifier.size(15.dp))
+        Spacer(Modifier.width(15.dp))
 
         // Right
         TabItem(
-            text = "Label",
+            text = rightTab,
             selected = selectedIndex == 1,
-            onClick = { onTabSelected(1) }
+            onClick = { onTabSelected(1) },
+            modifier = Modifier.weight(1f)
         )
     }
 }

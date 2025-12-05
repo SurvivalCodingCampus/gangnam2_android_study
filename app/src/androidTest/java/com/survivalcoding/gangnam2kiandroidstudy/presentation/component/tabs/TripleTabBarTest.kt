@@ -1,7 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component.tabs
 
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -17,13 +17,18 @@ class TripleTabBarTest {
 
         composeTestRule.setContent {
             TripleTabBar(
-                selectedIndex = selectedIndex, onTabSelected = { selectedIndex = it })
+                leftTab = "Left",
+                centerTab = "Center",
+                rightTab = "Right",
+                selectedIndex = selectedIndex,
+                onTabSelected = { selectedIndex = it }
+            )
         }
 
         composeTestRule.waitForIdle()
 
         // 첫 번째 Label 클릭
-        composeTestRule.onAllNodesWithText("Label")[0].performClick()
+        composeTestRule.onNodeWithText("Left").performClick()
 
         assertEquals(0, selectedIndex)
     }
@@ -34,13 +39,18 @@ class TripleTabBarTest {
 
         composeTestRule.setContent {
             TripleTabBar(
-                selectedIndex = selectedIndex, onTabSelected = { selectedIndex = it })
+                leftTab = "Left",
+                centerTab = "Center",
+                rightTab = "Right",
+                selectedIndex = selectedIndex,
+                onTabSelected = { selectedIndex = it }
+            )
         }
 
         composeTestRule.waitForIdle()
 
         // 두 번째 Label 클릭
-        composeTestRule.onAllNodesWithText("Label")[1].performClick()
+        composeTestRule.onNodeWithText("Center").performClick()
 
         assertEquals(1, selectedIndex)
     }
@@ -51,13 +61,18 @@ class TripleTabBarTest {
 
         composeTestRule.setContent {
             TripleTabBar(
-                selectedIndex = selectedIndex, onTabSelected = { selectedIndex = it })
+                leftTab = "Left",
+                centerTab = "Center",
+                rightTab = "Right",
+                selectedIndex = selectedIndex,
+                onTabSelected = { selectedIndex = it }
+            )
         }
 
         composeTestRule.waitForIdle()
 
         // 세 번째 Label 클릭
-        composeTestRule.onAllNodesWithText("Label")[2].performClick()
+        composeTestRule.onNodeWithText("Right").performClick()
         assertEquals(2, selectedIndex)
     }
 }

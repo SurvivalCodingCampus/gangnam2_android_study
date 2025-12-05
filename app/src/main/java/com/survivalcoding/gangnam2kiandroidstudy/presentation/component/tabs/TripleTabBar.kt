@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,47 +19,53 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TripleTabBar(
+    leftTab: String,
+    centerTab: String,
+    rightTab: String,
     selectedIndex: Int,
     onTabSelected: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier.size(width = 375.dp, height = 58.dp),
+        modifier = modifier
+            .height(58.dp)
+            .padding(top = 12.dp, bottom = 13.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
         // left
         TabItem(
-            text = "Label",
+            text = leftTab,
             selected = selectedIndex == 0,
-            width = 107.dp,
-            height = 33.dp,
-            innerWidth = 83.dp,
-            onClick = { onTabSelected(0) }
+            onClick = { onTabSelected(0) },
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 12.dp)
         )
 
-        Spacer(Modifier.size(7.dp))
+        Spacer(Modifier.width(7.dp))
 
         // center
         TabItem(
-            text = "Label",
+            text = centerTab,
             selected = selectedIndex == 1,
-            width = 107.dp,
-            height = 33.dp,
-            innerWidth = 83.dp,
-            onClick = { onTabSelected(1) }
+            onClick = { onTabSelected(1) },
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 12.dp)
         )
 
-        Spacer(Modifier.size(7.dp))
+        Spacer(Modifier.width(7.dp))
 
         // right
         TabItem(
-            text = "Label",
+            text = rightTab,
             selected = selectedIndex == 2,
-            width = 107.dp,
             height = 33.dp,
-            innerWidth = 83.dp,
-            onClick = { onTabSelected(2) }
+            onClick = { onTabSelected(2) },
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 12.dp)
         )
     }
 }
@@ -71,6 +79,9 @@ fun TripleTabBarPreview() {
 
     Column {
         TripleTabBar(
+            leftTab = "Left",
+            centerTab = "Center",
+            rightTab = "Right",
             selectedIndex = selectedTab1,
             onTabSelected = {
                 selectedTab1 = it
@@ -78,6 +89,9 @@ fun TripleTabBarPreview() {
         )
 
         TripleTabBar(
+            leftTab = "Left",
+            centerTab = "Center",
+            rightTab = "Right",
             selectedIndex = selectedTab2,
             onTabSelected = {
                 selectedTab2 = it
@@ -85,6 +99,9 @@ fun TripleTabBarPreview() {
         )
 
         TripleTabBar(
+            leftTab = "Left",
+            centerTab = "Center",
+            rightTab = "Right",
             selectedIndex = selectedTab3,
             onTabSelected = {
                 selectedTab3 = it

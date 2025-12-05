@@ -3,7 +3,6 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component.buttons
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +10,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,16 +38,17 @@ fun BigButton(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
-    val isHovered by interactionSource.collectIsHoveredAsState()
 
     val backgroundColor =
-        if (!enabled) AppColors.gray4
-        else if (isPressed || isHovered) AppColors.primary80
-        else AppColors.primary100
+        when {
+            !enabled -> AppColors.gray4 // 진짜 비활성
+            isPressed -> AppColors.gray4    // 누르고 있는 동안만 Disable
+            else -> AppColors.primary100    // 나머지는 기본 색
+        }
 
     Box(
         modifier = modifier
-            .size(width = 315.dp, height = 60.dp)
+            .height(60.dp)
             .background(
                 color = backgroundColor,
                 shape = RoundedCornerShape(10.dp)
@@ -87,7 +89,9 @@ fun BigButton(
 @Preview(showBackground = true)
 @Composable
 fun BigButtonPreview() {
-    Column {
+    Column(
+        modifier = Modifier.padding(horizontal = 30.dp)
+    ) {
         BigButton("Button")
         Spacer(Modifier.size(10.dp))
         BigButton("Disabled", enabled = false)
