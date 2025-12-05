@@ -125,7 +125,7 @@ fun RecipeCard(recipe: Recipes) {
                     Image(painter = painterResource(R.drawable.timer), contentDescription = "알람")
                     Spacer(modifier = Modifier.width(5.dp)) // 이미지와 텍스트 사이 간격
                     Text(
-                        text = "30 min", // 예시로 recipe.time을 사용
+                        text = recipe.time,
                         modifier = Modifier.width(38.dp), // 필요한 경우 너비 조절
                         style = AppTextStyles.smallerTextRegular.copy(color = AppColors.white) // 스타일 지정
                     )
