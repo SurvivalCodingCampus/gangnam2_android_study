@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -22,6 +24,7 @@ fun InputField(
     modifier: Modifier = Modifier,
     onValueChange: (String) -> Unit,
     placeholder: String,
+    isInputTypePassword: Boolean = false,
     focusedBorderColor: Color = AppColors.primary80,
     unfocusedBorderColor: Color = AppColors.gray4
 ) {
@@ -42,6 +45,8 @@ fun InputField(
                     style = AppTextStyles.smallerTextRegular
                 )
             },
+            visualTransformation =
+                if (isInputTypePassword) PasswordVisualTransformation() else VisualTransformation.None,
             shape = RoundedCornerShape(10.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = focusedBorderColor,

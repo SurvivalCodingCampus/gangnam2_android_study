@@ -83,7 +83,8 @@ fun SignUpScreen(
                 value = password,
                 modifier = Modifier.fillMaxWidth(),
                 onValueChange = { password = it },
-                placeholder = "Enter Password"
+                placeholder = "Enter Password",
+                isInputTypePassword = true
             )
             Spacer(modifier = Modifier.height(20.dp))
             InputField(
@@ -91,7 +92,8 @@ fun SignUpScreen(
                 value = confirmPassword,
                 modifier = Modifier.fillMaxWidth(),
                 onValueChange = { confirmPassword = it },
-                placeholder = "Retype Password"
+                placeholder = "Retype Password",
+                isInputTypePassword = true
             )
             Spacer(modifier = Modifier.height(20.dp))
             Row(modifier = Modifier.padding(start = 10.dp)) {
@@ -146,13 +148,13 @@ fun SignUpScreen(
             ) {
                 Text(
                     text = "Already a member? ",
-                    fontSize = 14.sp, color = Color.Black,
+                    fontSize = 14.sp, color = AppColors.black,
                     style = AppTextStyles.smallerTextRegular
                 )
                 Text(
                     text = "Sign In",
                     fontSize = 14.sp,
-                    color = Color(0xFFFF9800),
+                    color = AppColors.secondary100,
                     modifier = Modifier.clickable { onSignIn() },
                     style = AppTextStyles.smallerTextRegular
                 )

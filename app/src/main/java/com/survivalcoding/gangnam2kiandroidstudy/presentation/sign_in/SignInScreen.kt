@@ -71,7 +71,8 @@ fun SignInScreen(
                 value = password,
                 modifier = Modifier.fillMaxWidth(),
                 onValueChange = { password = it },
-                placeholder = "Enter Password"
+                placeholder = "Enter Password",
+                isInputTypePassword = true
             )
             Spacer(modifier = Modifier.height(20.dp))
             Text(
