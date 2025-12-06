@@ -38,6 +38,7 @@ fun SignUpScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .safeContentPadding()
             .padding(horizontal = 30.dp)
     ) {
         Column(
