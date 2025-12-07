@@ -47,7 +47,7 @@ fun SignUpScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.Start
         ) {
-            Spacer(modifier = Modifier.weight(54f))
+            Spacer(modifier = Modifier.height(54.dp))
             Column(Modifier.wrapContentWidth().padding(end = 120.dp)) {
                 Text(
                     text = "Create an account",
@@ -160,7 +160,7 @@ fun SignUpScreen(
                     style = AppTextStyles.smallerTextRegular
                 )
             }
-            Spacer(modifier = Modifier.weight(30f))
+            Spacer(modifier = Modifier.height(30.dp))
         }
     }
 }

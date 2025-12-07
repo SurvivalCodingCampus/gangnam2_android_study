@@ -45,7 +45,7 @@ fun SignInScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.Start
         ) {
-            Spacer(modifier = Modifier.weight(94f))
+            Spacer(modifier = Modifier.height(94.dp))
             Column {
                 Text(
                     text = "Hello,",
@@ -134,7 +134,7 @@ fun SignInScreen(
                     style = AppTextStyles.smallerTextRegular
                 )
             }
-            Spacer(modifier = Modifier.weight(99f))
+            Spacer(modifier = Modifier.height(99.dp))
         }
     }
 }
