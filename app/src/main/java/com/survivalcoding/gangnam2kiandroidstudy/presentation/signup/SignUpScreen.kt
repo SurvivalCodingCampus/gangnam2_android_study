@@ -43,7 +43,7 @@ fun SignUpScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-
+    var isTermsAccepted by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -108,7 +108,12 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         Row() {
-            LeeCheckBox(checked = false, onCheckedChange = {})
+            LeeCheckBox(
+                checked = isTermsAccepted,
+                onCheckedChange = {
+                    isTermsAccepted = it
+                },
+            )
             Spacer(modifier = Modifier.padding(4.dp))
             Text(
                 "Accept terms & Condition",
