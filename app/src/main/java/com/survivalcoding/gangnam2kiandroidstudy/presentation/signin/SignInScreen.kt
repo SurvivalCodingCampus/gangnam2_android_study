@@ -135,13 +135,13 @@ fun SignInScreen() {
             horizontalArrangement = Arrangement.Center,
         ) {
             Text(
-                "Already have an account?",
+                "Don't have an account?",
                 style = AppTextStyles.smallerTextRegular
             )
             Spacer(modifier = Modifier.padding(4.dp))
 
             Text(
-                "Sign In",
+                "Sign Up",
                 style = AppTextStyles.smallerTextBold,
                 color = AppColors.primary100,
             )
