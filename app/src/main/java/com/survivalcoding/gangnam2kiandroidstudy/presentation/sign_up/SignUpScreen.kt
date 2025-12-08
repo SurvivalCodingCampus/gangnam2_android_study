@@ -136,7 +136,7 @@ fun SignUpScreen(
 
             // Sign Up 버튼
             BigButton(
-                text = "Sign In",
+                text = "Sign Up",
                 modifier = Modifier
                     .clickable { onSignUpClick() }
             )
