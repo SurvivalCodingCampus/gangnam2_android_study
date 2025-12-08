@@ -96,6 +96,7 @@ fun SignUpScreen(
             placeholder = "Enter password",
             value = password,
             onValueChange = { password = it },
+            isPassword = true,
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -105,6 +106,7 @@ fun SignUpScreen(
             placeholder = "Confirm password",
             value = confirmPassword,
             onValueChange = { confirmPassword = it },
+            isPassword = true,
         )
 
         Spacer(modifier = Modifier.height(20.dp))
