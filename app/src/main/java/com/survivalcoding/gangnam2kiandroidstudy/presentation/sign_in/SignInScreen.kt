@@ -134,12 +134,12 @@ fun SignInScreen(
             ) {
                 SocialButton(
                     iconId = R.drawable.social_icons_google,
-                    modifier = modifier.clickable { onGoogleSignInClick() }
+                    modifier = Modifier.clickable { onGoogleSignInClick() }
                 )
                 Spacer(Modifier.width(25.dp))
                 SocialButton(
                     iconId = R.drawable.social_icons_facebook,
-                    modifier = modifier.clickable { onFacebookSignInClick() }
+                    modifier = Modifier.clickable { onFacebookSignInClick() }
                 )
             }
 
