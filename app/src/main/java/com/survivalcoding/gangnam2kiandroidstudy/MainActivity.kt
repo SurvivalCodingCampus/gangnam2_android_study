@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saveedrecipes.SavedRecipesScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,13 +26,7 @@ class MainActivity : ComponentActivity() {
                 verticalArrangement = Arrangement.Center,
             ) {
 
-                RecipeCard(
-                    name = "Traditional spare ribs baked",
-                    imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-                    chef = "Chef John",
-                    time = "20 min",
-                    rating = 4.0
-                )
+                SavedRecipesScreen()
 
 
             }
