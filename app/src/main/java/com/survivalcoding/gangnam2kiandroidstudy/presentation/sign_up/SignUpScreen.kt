@@ -29,7 +29,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun SignUp() {
+fun SignUpScreen() {
     Column(
         modifier = Modifier
             .fillMaxHeight()
@@ -144,7 +144,7 @@ fun SignUp() {
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpPreview(modifier: Modifier = Modifier) {
-    SignUp()
+fun SignUpScreenPreview(modifier: Modifier = Modifier) {
+    SignUpScreen()
 
 }
