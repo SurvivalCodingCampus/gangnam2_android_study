@@ -24,6 +24,8 @@ object AppColors {
 
     val rating = Color(0xFFFFAD30)
 
+    val label = Color(0xFF121212)
+
     val warning = Color(0xFFE94A59)
     val warning2 = Color(0xFFFFE1E7)
 

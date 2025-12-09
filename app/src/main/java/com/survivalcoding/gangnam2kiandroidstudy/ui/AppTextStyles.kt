@@ -49,6 +49,13 @@ object AppTextStyles {
         lineHeight = 27.sp
     )
 
+    val smallerTextSmallLable = TextStyle(
+        fontFamily = AppFonts.poppins,
+        fontWeight = FontWeight.Normal,
+        fontSize = 8.sp,
+        lineHeight = 12.sp
+    )
+
     val titleTextBold = TextStyle(
         fontFamily = AppFonts.poppins,
         fontWeight = FontWeight.Bold,
