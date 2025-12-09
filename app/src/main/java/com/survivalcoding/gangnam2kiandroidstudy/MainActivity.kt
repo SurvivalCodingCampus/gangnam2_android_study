@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,14 +21,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.kakao.presentation.KakaoChatScreen
 import com.survivalcoding.gangnam2kiandroidstudy.kakao.presentation.component.ChatListItem
 import com.survivalcoding.gangnam2kiandroidstudy.kakao.presentation.data.model.ChatItem
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.CounterScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.MainViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.BigButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RatingDialog
 
+class Hero(val name: String, val age: Int)
+
 class MainActivity : ComponentActivity() {
+    // 상태
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        // 화면 돌아갈때
+        // 상태 저장
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        // 상태를 복구
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         println("MainActivity: onDestroy")
@@ -35,9 +53,24 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val name = Hero("", 10)
+        println("Hero: ${name.hashCode()}")
+
+        // 매직
+        val viewModel: MainViewModel by viewModels {
+            MainViewModel.Factory
+        }
+        println("MainViewModel1: ${viewModel.hashCode()}")
+
         println("MainActivity: onCreate")
         enableEdgeToEdge()
         setContent {
+            // 컴포즈 전용
+            val viewModel2: MainViewModel = viewModel(
+                factory = MainViewModel.Factory
+            )
+            println("MainViewModel2: ${viewModel2.hashCode()}")
+
             var rating by rememberSaveable { mutableStateOf(0) }
 
             Box(
