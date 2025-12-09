@@ -6,14 +6,15 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.Day2Components
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in.SignInScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_up.SignUpScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Day2Components()
+            SignInScreen()
         }
     }
 }
@@ -21,5 +22,5 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun Day2ComponentsPreview() {
-    Day2Components()
+    SignUpScreen()
 }
