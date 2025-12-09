@@ -165,7 +165,7 @@ fun SignUpScreen(
             // 소셜 로그인
             Row(
                 modifier = Modifier
-                    .padding(bottom = 33.dp)
+                    .padding(bottom = 20.dp)
                     .align(Alignment.CenterHorizontally)
             ) {
                 SocialButton(
