@@ -63,5 +63,5 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
 
     // 컴포즈 전용 ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-android:2.10.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose-android:2.10.0")
 }
