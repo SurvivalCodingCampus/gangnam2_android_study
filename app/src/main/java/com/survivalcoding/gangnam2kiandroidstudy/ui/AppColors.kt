@@ -30,7 +30,7 @@ object AppColors {
 
     val success = Color(0xFF31B057)
 
-    val splashScreenColor1 = Color(0x00000066)
+    val splashScreenColor1 = Color(0x66000000)
     val splashScreenColor2 = Color(0xff000000)
 
     val splashScreenGradient = Brush.verticalGradient(
