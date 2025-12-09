@@ -36,11 +36,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun RecipeCard(recipe: Recipe) {
     Row(modifier = Modifier.height(150.dp)) {
-        Spacer(
-            modifier = Modifier
-                .width(30.dp)
-                .fillMaxHeight()
-        )
+
         Box(
             modifier = Modifier
                 .weight(1f)
@@ -151,11 +147,7 @@ fun RecipeCard(recipe: Recipe) {
                 }
             }
         }
-        Spacer(
-            modifier = Modifier
-                .width(30.dp)
-                .fillMaxHeight()
-        )
+
     }
     Spacer(modifier = Modifier.height(20.dp)) // 여기에 오른쪽 여백을 추가
 
