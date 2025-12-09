@@ -25,11 +25,11 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun InputField(label: String, placeholder: String, value: String, onValueChange: (String) -> Unit) {
     Box(
-        modifier = Modifier.size(width = 315.dp, height = 81.dp)
+        modifier = Modifier.height(height = 81.dp)
     ) {
         Column(modifier = Modifier) {
             Text(
-                modifier = Modifier.size(width = 38.dp, height = 21.dp),
+                modifier = Modifier.height( height = 21.dp),
                 text = label,
                 style = AppTextStyles.smallTextRegular
             )
@@ -38,14 +38,13 @@ fun InputField(label: String, placeholder: String, value: String, onValueChange:
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(55.dp)
-                    .background(Color.White, RoundedCornerShape(12.dp)) // Box에 배경색과 둥근 모서리 적용
-
             ) {
                 OutlinedTextField(
                     modifier = Modifier.fillMaxSize(), // TextField가 Box를 가득 채우도록 설정
                     textStyle = AppTextStyles.smallerTextRegular.copy(color = AppColors.black),
                     onValueChange = onValueChange,
                     value = value,
+                    shape = RoundedCornerShape(10.dp),
                     placeholder = { // placeholder 람다 추가
                         Text(
                             text = placeholder,
