@@ -125,8 +125,8 @@ fun SplashScreen(
             MediumButton(
                 text = "Start Cooking",
                 modifier = Modifier
-                    .padding(bottom = 84.dp)
-                    .clickable { onClick() },
+                    .padding(bottom = 84.dp),
+                onClick = onClick,
             )
         }
     }
