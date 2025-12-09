@@ -60,4 +60,7 @@ dependencies {
     //coil
     implementation("io.coil-kt.coil3:coil-compose:3.3.0")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
+
+    //compose viewmodel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose-android:2.10.0")
 }
