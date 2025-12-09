@@ -27,7 +27,7 @@ class RecipeRepositoryImpl(
                 }
 
                 val recipes = response.body?.toModel()
-                    ?: return@handleNetworkError Result.Error(NetworkError.Unknown("잘못된 사용자입니다"))
+                    ?: return@handleNetworkError Result.Error(NetworkError.Unknown("응답 데이터가 비어있습니다"))
 
                 Result.Success(recipes)
             }
