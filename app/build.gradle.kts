@@ -64,4 +64,10 @@ dependencies {
 
     // 컴포즈 전용 ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose-android:2.10.0")
+
+    // runTest
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
+
+    // mockk
+    testImplementation("io.mockk:mockk:1.13.9")
 }
