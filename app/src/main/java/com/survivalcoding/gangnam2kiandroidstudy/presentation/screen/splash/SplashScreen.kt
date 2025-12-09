@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.component.splash
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -52,7 +52,7 @@ fun SplashScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Spacer(modifier = Modifier.height(60.dp))
+            Spacer(modifier = Modifier.height(104.dp))
             Image(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 painter = painterResource(R.drawable.splash_top_img),
@@ -89,7 +89,7 @@ fun SplashScreen() {
 
                 }
             }
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(84.dp))
 
 
         }
