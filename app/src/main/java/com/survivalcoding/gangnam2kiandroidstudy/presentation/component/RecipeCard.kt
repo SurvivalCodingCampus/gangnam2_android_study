@@ -23,6 +23,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -56,74 +59,86 @@ fun RecipeCard(
                 .clip(RoundedCornerShape(10.dp))
         )
 
-        Column(
+        Box(
             modifier = Modifier
-                .fillMaxHeight()
-                .width(200.dp)
-                .padding(
-                    start = 10.dp,
-                    bottom = 10.dp,
-                ),
-            verticalArrangement = Arrangement.Bottom,
-        ) {
-            Text(
-                text = recipe.name,
-                style = AppTextStyles.smallTextBold,
-                color = AppColors.white
-            )
-            Text(
-                text = "By ${recipe.chef}",
-                style = AppTextStyles.smallerTextSmallLabel,
-                color = AppColors.gray4,
-                modifier = Modifier
-
-            )
-        }
+                .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color(0x00000000),
+                            Color(0xFF000000),
+                        )
+                    ),
+                    shape = RoundedCornerShape(10.dp)
+                )
+        )
 
         Row(
             modifier = Modifier
-                .padding(10.dp)
-                .height(24.dp)
-                .align(Alignment.BottomEnd),
+                .fillMaxSize()
+                .padding(10.dp),
+            verticalAlignment = Alignment.Bottom
         ) {
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxHeight(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.outline_timer),
-                    contentDescription = "타이머 아이콘",
-                    modifier = Modifier
-                        .size(17.dp),
-                    tint = AppColors.gray4,
-                )
-                Spacer(Modifier.width(5.dp))
+                    .weight(1f),
+
+                ) {
                 Text(
-                    text = recipe.time,
-                    style = AppTextStyles.smallerTextRegular,
+                    text = recipe.name,
+                    style = AppTextStyles.smallTextBold,
+                    color = AppColors.white
+                )
+                Text(
+                    text = "By ${recipe.chef}",
+                    style = AppTextStyles.smallerTextSmallLabel,
                     color = AppColors.gray4,
+                    modifier = Modifier
+
                 )
             }
-
             Spacer(Modifier.width(10.dp))
-
-            Box(
-                modifier = Modifier
-                    .size(24.dp)
-                    .background(
-                        color = AppColors.white,
-                        shape = CircleShape,
-                    ),
-                contentAlignment = Alignment.Center,
+            Row(
+                verticalAlignment = Alignment.Bottom
             ) {
-                Icon(
-                    painter = painterResource(R.drawable.outline_bookmark_inactive),
-                    contentDescription = "북마크 아이콘",
+                Row(
+                    modifier = Modifier.height(24.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.outline_timer),
+                        contentDescription = "타이머 아이콘",
+                        modifier = Modifier
+                            .size(17.dp),
+                        tint = AppColors.gray4,
+                    )
+                    Spacer(Modifier.width(5.dp))
+                    Text(
+                        text = recipe.time,
+                        style = AppTextStyles.smallerTextRegular,
+                        color = AppColors.gray4,
+                    )
+                }
+
+                Spacer(Modifier.width(10.dp))
+
+                Box(
                     modifier = Modifier
-                        .size(16.dp),
-                    tint = AppColors.primary80,
-                )
+                        .size(24.dp)
+                        .background(
+                            color = AppColors.white,
+                            shape = CircleShape,
+                        ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.outline_bookmark_inactive),
+                        contentDescription = "북마크 아이콘",
+                        modifier = Modifier
+                            .size(16.dp),
+                        tint = AppColors.primary80,
+                    )
+                }
             }
         }
 
@@ -161,7 +176,7 @@ fun RecipeCard(
     }
 }
 
-@Preview(showBackground = false)
+@Preview(showBackground = true)
 @Composable
 private fun PreviewRecipeCard() {
     val recipe = Recipe(
