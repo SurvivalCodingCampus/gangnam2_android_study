@@ -8,4 +8,5 @@ data class Recipe(
     val chef: String,
     val time: String,
     val rating: Double,
+    val ingredients: List<Ingredient>,
 )
