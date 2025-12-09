@@ -28,7 +28,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun SignIn() {
+fun SignInScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -123,6 +123,6 @@ fun SignIn() {
 
 @Preview(showBackground = true)
 @Composable
-fun SignInPreview(modifier: Modifier = Modifier) {
-    SignIn()
+fun SignInScreenPreview(modifier: Modifier = Modifier) {
+    SignInScreen()
 }
