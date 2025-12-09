@@ -3,9 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     //직렬화
-    kotlin("plugin.serialization") version "2.2.21"
-
-
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.21"
 }
 
 android {
