@@ -8,7 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.counter.CounterScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.todo.TodoScreen
 
 class LeeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,9 +18,9 @@ class LeeActivity : ComponentActivity() {
         setContent {
             Box(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = androidx.compose.ui.Alignment.Center
+                contentAlignment = androidx.compose.ui.Alignment.Center,
             ) {
-                CounterScreen()
+                TodoScreen()
             }
         }
     }
