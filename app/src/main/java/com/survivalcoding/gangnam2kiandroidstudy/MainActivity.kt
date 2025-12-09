@@ -43,6 +43,7 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier.padding(30.dp)
             ) {
                 val ingredient = Ingredient(
+                    id = 1,
                     name = "Tomatos",
                     imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
                 )
@@ -62,6 +63,7 @@ class MainActivity : ComponentActivity() {
                     chef = "Mark Kelvin",
                     time = "20 min",
                     rating = 4.0,
+                    ingredients = listOf(),
                 )
 
                 RecipeCard(recipe)
