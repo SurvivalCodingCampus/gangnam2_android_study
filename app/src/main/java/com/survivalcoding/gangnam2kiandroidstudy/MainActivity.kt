@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in.SignUpScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.util.KeyboardVisibilityHandler
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 
@@ -31,6 +31,9 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .windowInsetsPadding(WindowInsets.safeDrawing) // 상단 시스템 바 침범 방지
                 ) {
+                    SplashScreen(
+                        modifier = Modifier.fillMaxSize()
+                    )
 
                     Column(
                         modifier = Modifier
@@ -38,8 +41,9 @@ class MainActivity : ComponentActivity() {
                             .padding(horizontal = 30.dp),
                     ) {
 
+
                         //SignInScreen()
-                        SignUpScreen()
+                        //SignUpScreen()
                         // RecipeScreen()
                     }
                 }
