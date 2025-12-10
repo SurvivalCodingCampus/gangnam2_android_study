@@ -64,9 +64,11 @@ class SearchRecipesViewModelTest {
 
     private lateinit var viewModel: SearchRecipesViewModel
 
+    private val testDispatcher = StandardTestDispatcher()
+
     @Before
     fun setUp() {
-        Dispatchers.setMain(StandardTestDispatcher())
+        Dispatchers.setMain(testDispatcher)
         viewModel = SearchRecipesViewModel(mockRepository)
     }
 
@@ -79,7 +81,7 @@ class SearchRecipesViewModelTest {
     fun `viewModel이 데이터를 잘 가져오는지 테스트`() = runTest {
         // When
         viewModel.getAllRecipes()
-
+        testDispatcher.scheduler.advanceUntilIdle()
         // Then
         val recipes = viewModel.state.value.recipes
         assertEquals(4, recipes.size)
