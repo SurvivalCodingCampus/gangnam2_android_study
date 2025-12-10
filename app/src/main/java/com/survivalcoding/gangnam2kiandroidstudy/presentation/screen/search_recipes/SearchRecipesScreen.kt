@@ -62,7 +62,6 @@ fun SearchRecipesScreen(viewModel: SearchRecipesViewModel = viewModel(factory = 
             Spacer(modifier = Modifier.width(20.dp))
             SettingButton {
                 showBottomSheet.value = true
-                searchRecipes.selectedTime
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
