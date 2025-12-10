@@ -104,7 +104,7 @@ fun SearchRecipeScreen(
 
         if (state.value.showBottomSheet) {
             FilterSearchBottomSheet(
-                sheetState = rememberModalBottomSheetState(),
+                sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
                 onDismiss = {
                     viewModel.showBottomSheet(false)
                 },
