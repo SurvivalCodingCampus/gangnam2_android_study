@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     //직렬화
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.21"
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -73,6 +73,5 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
 
     //runTest
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
-
+    testImplementation(libs.kotlinx.coroutines.test)
 }
