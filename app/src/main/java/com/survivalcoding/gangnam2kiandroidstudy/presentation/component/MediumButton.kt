@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -47,7 +48,7 @@ fun MediumButton(
             horizontalArrangement = Arrangement.Center
         ) {
             Box(
-                modifier = Modifier.size(width = 114.dp, height = 24.dp),
+                modifier = Modifier.height(24.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -64,4 +65,10 @@ fun MediumButton(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MediumButtonPreview() {
+    MediumButton("Start Cooking")
 }
