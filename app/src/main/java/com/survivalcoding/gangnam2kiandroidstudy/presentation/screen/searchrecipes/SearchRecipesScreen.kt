@@ -53,8 +53,6 @@ fun SearchRecipesScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val isSearched = uiState.searchText.isNotBlank() && uiState.searchFilter.isNull()
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -114,11 +112,11 @@ fun SearchRecipesScreen(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = if (isSearched) "Search Result" else "Recent Search",
+                text = if (uiState.isSearched) "Search Result" else "Recent Search",
                 style = AppTextStyles.PoppinsNormalBold,
             )
 
-            if (isSearched) {
+            if (uiState.isSearched) {
                 Text(
                     text = "${uiState.recipes.size} results",
                     style = AppTextStyles.PoppinsSmallerRegular.copy(color = AppColors.Gray3),
@@ -132,6 +130,13 @@ fun SearchRecipesScreen(
                 contentAlignment = Alignment.Center,
             ) {
                 Text("Loading...")
+            }
+        } else if (uiState.recipes.isEmpty()) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text("데이터가 없습니다.")
             }
         } else {
             LazyVerticalGrid(
@@ -159,6 +164,7 @@ fun SearchRecipesScreen(
             },
             onFilter = {
                 viewModel.fetchRecipesByFilter()
+                viewModel.hideBottomSheet()
             },
         )
     }

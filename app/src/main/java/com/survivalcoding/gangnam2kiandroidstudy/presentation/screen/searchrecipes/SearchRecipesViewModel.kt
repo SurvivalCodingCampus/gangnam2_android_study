@@ -82,12 +82,6 @@ class SearchRecipesViewModel(
         }
     }
 
-    fun setLoading(isLoading: Boolean) {
-        _uiState.update {
-            it.copy(isLoading = isLoading)
-        }
-    }
-
     fun showBottomSheet() {
         _uiState.update {
             it.copy(isSheetVisible = true)
@@ -113,6 +107,12 @@ class SearchRecipesViewModel(
                     category = category,
                 ),
             )
+        }
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        _uiState.update {
+            it.copy(isLoading = isLoading)
         }
     }
 

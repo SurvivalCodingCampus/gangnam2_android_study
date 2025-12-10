@@ -8,4 +8,8 @@ data class RecipeSearchFilter(
     fun isNull(): Boolean {
         return time == null && rate == null && category == null
     }
+
+    fun isNotNull(): Boolean {
+        return !isNull()
+    }
 }

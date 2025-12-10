@@ -83,17 +83,6 @@ class SearchRecipesViewModelTest {
     }
 
     @Test
-    fun setLoading() {
-        viewModel = SearchRecipesViewModel(repository)
-
-        assertFalse(viewModel.uiState.value.isLoading)
-
-        viewModel.setLoading(true)
-
-        assertTrue(viewModel.uiState.value.isLoading)
-    }
-
-    @Test
     fun showBottomSheet() {
         viewModel = SearchRecipesViewModel(repository)
 

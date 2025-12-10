@@ -9,4 +9,7 @@ data class SearchRecipesUiState(
     val isLoading: Boolean = false,
     val isSheetVisible: Boolean = false,
     val searchFilter: RecipeSearchFilter = RecipeSearchFilter(),
-)
+) {
+    val isSearched: Boolean
+        get() = searchText.isNotBlank() || searchFilter.isNotNull()
+}

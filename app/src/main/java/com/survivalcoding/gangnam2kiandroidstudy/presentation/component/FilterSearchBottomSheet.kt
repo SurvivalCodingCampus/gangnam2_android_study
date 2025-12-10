@@ -145,7 +145,6 @@ fun FilterSearchBottomSheet(
             ) {
                 scope.launch { sheetState.hide() }.invokeOnCompletion {
                     if (!sheetState.isVisible) {
-                        onDismissRequest()
                         onFilter()
                     }
                 }
