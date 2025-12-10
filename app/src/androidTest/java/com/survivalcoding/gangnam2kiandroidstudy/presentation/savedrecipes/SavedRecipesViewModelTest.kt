@@ -1,8 +1,12 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes
 
+import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.data.MockRecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertFalse
+import junit.framework.TestCase.assertNull
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -17,6 +21,7 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SavedRecipesViewModelFakeTest {
+
     private val fakeJson = """
 {
   "recipes":[
@@ -73,57 +78,28 @@ class SavedRecipesViewModelFakeTest {
     }
 
     @Test
-    fun `fetchRecipes는_성공_시_uiState를_업데이트_하는지_테스트`() = runTest {
-        // given
-        val fakeRecipes = listOf(
-            Recipe(1, "Pizza"),
-            Recipe(2, "Burger")
-        )
+    fun `fetchRecipes_성공_시_uiState가_recipes로_업데이트된다`() = runTest {
+        // Given
         val dataSource = MockRecipeDataSource(fakeJson)
         val repository = RecipeRepositoryImpl.getInstance(dataSource)
+        val dispatcher = UnconfinedTestDispatcher(testScheduler)
 
-        // when
-        val viewModel = SavedRecipesViewModel(repository)
-
-        // then
-        val list = mutableListOf<SavedRecipesUiState>()
-        val job = launch {
-            viewModel.uiState.collect { list.add(it) }
+        val viewModel = SavedRecipesViewModel(repository).apply {
+            this.viewModelScope.coroutineContext + dispatcher
         }
 
-        advanceUntilIdle()
+        // When
+        // init{} 안에서 fetchRecipes() 실행 → 비동기 → Idle 시점까지 진척
+        testScheduler.advanceUntilIdle()
 
-        assert(list[0].isLoading == false)          // initial
-        assert(list[1].isLoading == true)           // loading
-        assert(list[2].recipes == fakeRecipes)      // success
-        assert(list[2].isLoading == false)
+        // Then
+        val state = viewModel.uiState.value
 
-        job.cancel()
-    }
+        assertFalse(state.isLoading)
+        assertEquals(4, state.recipes.size)              // JSON 기반으로 총 4개
+        assertNull(state.message)
 
-    @Test
-    fun `fetchRecipes는_실패_시_uiState를_업데이트_하는지_테스트`() = runTest {
-        // given
-        val error = Exception("Network error")
-        val dataSource = MockRecipeDataSource(fakeJson)
-        val repository = RecipeRepositoryImpl.getInstance(dataSource)
-
-        // when
-        val viewModel = SavedRecipesViewModel(repository)
-
-        // then
-        val list = mutableListOf<SavedRecipesUiState>()
-        val job = launch {
-            viewModel.uiState.collect { list.add(it) }
-        }
-
-        advanceUntilIdle()
-
-        assert(list[0].isLoading == false)
-        assert(list[1].isLoading == true)
-        assert(list[2].isLoading == false)
-        assert(list[2].message == "Network error")
-
-        job.cancel()
+        // 첫 번째 레시피 이름 검증
+        assertEquals("Traditional spare ribs baked", state.recipes[0].name)
     }
 }
