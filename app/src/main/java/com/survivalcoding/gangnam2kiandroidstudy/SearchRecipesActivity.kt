@@ -24,6 +24,7 @@ class SearchRecipesActivity : ComponentActivity() {
                 viewModel = viewModel,
                 onSearchTermChange = { viewModel.updateSearchTerm(it) },
                 onBackClick = {},
+                onFilterClick = {},
             )
         }
     }
