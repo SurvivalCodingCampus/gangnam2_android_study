@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedRecipes
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,7 +18,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.di.DependencyContainer
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.AppBar
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.LinearRecipeCard
 
 @Composable
 fun SavedRecipesScreen(
@@ -41,7 +41,7 @@ fun SavedRecipesScreen(
                         verticalArrangement = Arrangement.spacedBy(20.dp)
                     ) {
                         items(uiState.recipes) { recipe ->
-                            RecipeCard(recipe)
+                            LinearRecipeCard(recipe)
                         }
                     }
                 }

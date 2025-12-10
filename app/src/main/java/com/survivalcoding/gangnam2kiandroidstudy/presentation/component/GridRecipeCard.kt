@@ -3,7 +3,6 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -18,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
@@ -25,7 +25,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun RecipeCard(
+fun GridRecipeCard(
     recipe: Recipe,
     modifier: Modifier = Modifier,
     imageLoader: @Composable (Modifier) -> Unit = { modifier ->
@@ -40,6 +40,7 @@ fun RecipeCard(
     Box(
         modifier = modifier
             .height(150.dp)
+            .aspectRatio(1f)
             .clip(RoundedCornerShape(10.dp))
     ) {
         imageLoader(Modifier)
@@ -77,59 +78,22 @@ fun RecipeCard(
         Column(
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(start = 10.dp, bottom = 10.dp)
-                .height(54.dp),
+                .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
+                .height(49.dp),
             verticalArrangement = Arrangement.Bottom
         ) {
             Text(
                 recipe.name,
                 modifier = Modifier,
                 color = AppColors.white,
-                fontWeight = FontWeight.SemiBold,
-                style = AppTextStyles.smallTextRegular,
+                style = AppTextStyles.smallerTextRegular.copy(lineHeight = 18.sp, fontWeight = FontWeight.SemiBold),
                 maxLines = 2
             )
             Text(
-                recipe.chef,
+                "By ${recipe.chef}",
                 modifier = Modifier,
-                color = AppColors.white,
-                style = AppTextStyles.smallerTextRegular,
+                style = AppTextStyles.smallerTextSmall.copy(color = AppColors.gray3),
                 maxLines = 1
-            )
-        }
-        Row(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = 44.dp, bottom = 10.dp)
-                .height(24.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.timer),
-                contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier.size(17.dp)
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            Text(
-                text = recipe.time,
-                color = Color.White,
-                style = AppTextStyles.smallerTextRegular
-            )
-        }
-        Box(
-            modifier = Modifier
-                .padding(10.dp)
-                .size(24.dp)
-                .background(color = AppColors.white, shape = CircleShape)
-                .align(Alignment.BottomEnd)
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.bookmark),
-                contentDescription = null,
-                modifier = Modifier
-                    .align(Alignment.Center),
-                tint = AppColors.primary100
             )
         }
     }
@@ -137,19 +101,18 @@ fun RecipeCard(
 
 @Preview(showBackground = true)
 @Composable
-fun RecipeCardPreview() {
+fun GridRecipeCardPreview() {
     val recipe = Recipe(
         0,
         "",
         "Traditional spare ribs baked",
         "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-        "By Chef John",
+        "Chef John",
         "20 min",
         4.0
     )
-
-    Box(Modifier.width(375.dp).padding(30.dp)) {
-        RecipeCard(recipe) { modifier ->
+    Box(Modifier.size(210.dp).padding(30.dp)) {
+        GridRecipeCard(recipe) { modifier ->
             Image(
                 painter = painterResource(R.drawable.ic_launcher_background),
                 contentDescription = "item",

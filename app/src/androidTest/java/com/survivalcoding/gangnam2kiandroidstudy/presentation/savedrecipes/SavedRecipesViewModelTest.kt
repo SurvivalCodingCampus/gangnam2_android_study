@@ -2,8 +2,6 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedRecipes.SavedRecipesUiState
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedRecipes.SavedRecipesViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch

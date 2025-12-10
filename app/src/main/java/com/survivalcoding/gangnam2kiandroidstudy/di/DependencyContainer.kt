@@ -8,7 +8,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSourc
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedRecipes.SavedRecipesViewModel
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes.SavedRecipesViewModel
 
 // 임의의 싱글톤 DI 컨테이너
 object DependencyContainer {

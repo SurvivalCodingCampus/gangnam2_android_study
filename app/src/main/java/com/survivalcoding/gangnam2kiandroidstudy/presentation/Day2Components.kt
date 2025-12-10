@@ -23,7 +23,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterBu
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.IngredientCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RateRecipeDialog
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RatingButton
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.LinearRecipeCard
 
 @Composable
 fun Day2Components() {
@@ -45,7 +45,7 @@ fun Day2Components() {
                 )
             )
             Spacer(modifier = Modifier.height(36.dp))
-            RecipeCard(
+            LinearRecipeCard(
                 Recipe(
                     0,
                     "",
