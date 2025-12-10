@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedRecipesScreen
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedRecipes
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.data
+package com.survivalcoding.gangnam2kiandroidstudy.data
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.AppAssetManager
 import java.io.ByteArrayInputStream

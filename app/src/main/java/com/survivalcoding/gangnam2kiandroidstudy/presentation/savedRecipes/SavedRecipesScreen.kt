@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedRecipesScreen
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedRecipes
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn

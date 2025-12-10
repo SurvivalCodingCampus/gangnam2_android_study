@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.data
+package com.survivalcoding.gangnam2kiandroidstudy.data
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSourceImpl

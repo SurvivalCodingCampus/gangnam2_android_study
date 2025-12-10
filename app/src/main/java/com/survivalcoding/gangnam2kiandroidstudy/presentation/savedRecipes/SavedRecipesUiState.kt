@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedRecipesScreen
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedRecipes
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 
