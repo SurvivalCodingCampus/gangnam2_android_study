@@ -14,7 +14,7 @@ class SavedRecipesViewModel(
     private val _uiState = MutableStateFlow(SavedRecipesUiState())
     val uiState = _uiState.asStateFlow()
 
-    fun fetchRecipes() {
+    private fun fetchRecipes() {
         _uiState.update { state -> state.copy(isLoading = true) }
         viewModelScope.launch {
             recipeRepository.getAllRecipes()

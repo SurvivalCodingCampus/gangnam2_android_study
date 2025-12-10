@@ -33,6 +33,7 @@ fun RatingButton(
         modifier = modifier
             .background(background, shape = RoundedCornerShape(10.dp))
             .border(1.dp, borderColor, RoundedCornerShape(10.dp))
+            .size(width = 50.dp, height = 28.dp)
             .padding(horizontal = 10.dp, vertical = 5.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

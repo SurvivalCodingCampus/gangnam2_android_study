@@ -13,6 +13,17 @@ class RecipeRepositoryImpl private constructor(
         }
     }
 
+    override suspend fun getFilteredRecipes(keyword: String): Result<List<Recipe>> {
+        return suspendRunCatching {
+            recipeDataSource.getRecipes().filter {
+                val keywordLowercase = keyword.lowercase()
+
+                it.name.lowercase().contains(keywordLowercase)
+                        || it.chef.lowercase().contains(keywordLowercase)
+            }
+        }
+    }
+
     companion object {
         @Volatile private var instance: RecipeRepository? = null
 
