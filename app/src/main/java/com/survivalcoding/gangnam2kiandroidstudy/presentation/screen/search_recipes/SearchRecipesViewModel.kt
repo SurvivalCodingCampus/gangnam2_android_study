@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipes
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -41,19 +42,57 @@ class SearchRecipesViewModel(
                         resultRecipes = savedRecipesRepository.getSavedRecipes(),
                         searchInputText = "",
                     )
+            } else {
+                _state.value =
+                    _state.value.copy(
+                        resultRecipes = savedRecipesRepository.getSavedRecipes().filter {
+                            it.name.contains(
+                                searchText
+                            )
+                        },
+                        searchInputText = searchText,
+                    )
             }
-            _state.value =
-                _state.value.copy(
-                    resultRecipes = savedRecipesRepository.getSavedRecipes().filter {
-                        it.name.contains(
-                            searchText
-                        )
-                    },
-                    searchInputText = searchText,
-                )
+
         }
 
 
+    }
+
+    fun filterRecipes(time: String, rate: String, category: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.d("SearchRecipesViewModel", "time: $time, rate: $rate, category: $category")
+
+            _state.value = _state.value.copy(
+                selectedTime = time,
+                selectedRate = rate,
+                selectedCategory = category,
+                resultRecipes =
+                    if (rate.isNotEmpty()) {
+
+                        if (category.isNotEmpty()) {
+                            savedRecipesRepository.getSavedRecipes().filter { recipe ->
+                                recipe.rating >= rate.toInt()
+                            }.filter { recipe -> recipe.category == category }
+                        } else {
+                            savedRecipesRepository.getSavedRecipes().filter { recipe ->
+                                recipe.rating >= rate.toInt()
+                            }
+                        }
+
+
+                    } else {
+                        if (category.isNotEmpty()) {
+                            savedRecipesRepository.getSavedRecipes()
+                                .filter { recipe -> recipe.category == category }
+                        } else {
+                            savedRecipesRepository.getSavedRecipes()
+                        }
+                    }
+
+            )
+            Log.d("SearchRecipesViewModel", "result: ${_state.value}")
+        }
     }
 
     companion object {
