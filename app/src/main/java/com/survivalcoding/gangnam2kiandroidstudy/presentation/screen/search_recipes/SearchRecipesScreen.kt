@@ -54,7 +54,12 @@ fun SearchRecipesScreen(viewModel: SearchRecipesViewModel = viewModel(factory = 
         Row {
             Box(modifier = Modifier.weight(1f)) {
                 Search(onValueChange = {
-                    viewModel.changeSearchInputText(it)
+                    viewModel.filterRecipes(
+                        searchText = it,
+                        time = searchRecipes.selectedTime,
+                        rate = searchRecipes.selectedRate,
+                        category = searchRecipes.selectedCategory
+                    )
 
 
                 })
@@ -96,13 +101,22 @@ fun SearchRecipesScreen(viewModel: SearchRecipesViewModel = viewModel(factory = 
 
     if (showBottomSheet.value) {
         FilterBottomSheet(
+            inputText = searchRecipes.searchInputText,
             time = searchRecipes.selectedTime,
             rate = searchRecipes.selectedRate,
             category = searchRecipes.selectedCategory,
-            onDismiss = { time, rate, category ->
+            onDismiss = { inputText, time, rate, category ->
                 showBottomSheet.value = false
-                Log.d("SearchRecipesScreen", "time: $time, rate: $rate, category: $category")
-                viewModel.filterRecipes(time ?: "", rate ?: "", category ?: "")
+                Log.d(
+                    "SearchRecipesScreen",
+                    "inputText: $inputText, time: $time, rate: $rate, category: $category"
+                )
+                viewModel.filterRecipes(
+                    searchText = searchRecipes.searchInputText,
+                    time ?: "",
+                    rate ?: "",
+                    category ?: ""
+                )
             })
     }
 
