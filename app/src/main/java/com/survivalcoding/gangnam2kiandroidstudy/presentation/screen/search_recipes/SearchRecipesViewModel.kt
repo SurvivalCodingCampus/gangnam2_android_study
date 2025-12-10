@@ -71,11 +71,25 @@ class SearchRecipesViewModel(
     // 검색어 결과
     private fun applySearch(keyword: String) {
         _state.update { state ->
-            state.copy(
-                filteredRecipes = state.recipes.filter {
-                    it.title.contains(keyword, ignoreCase = true)
-                }
-            )
+            // 검색어 적용
+            var result = state.recipes.filter {
+                it.title.contains(keyword, ignoreCase = true)
+            }
+
+            // 필터 적용
+            result = result.filter { recipe ->
+                filterMatches(recipe, state.filterState)
+            }
+
+            // 정렬 적용
+            result = when (state.filterState.time) {
+                TimeFilter.ALL -> result
+                TimeFilter.NEWEST -> result.sortedByDescending { it.createdAt }
+                TimeFilter.OLDEST -> result.sortedBy { it.createdAt }
+                TimeFilter.POPULARITY -> result.sortedByDescending { it.rating }
+            }
+
+            state.copy(filteredRecipes = result)
         }
     }
 
