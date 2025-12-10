@@ -30,8 +30,7 @@ class SearchRecipesViewModel(
         _state.map { it.searchQuery }
             .debounce(300)
             .onEach { query ->
-//                filterRecipes(query)
-                executeFiltering()
+                filterRecipes()
             }
             .launchIn(viewModelScope)
     }
@@ -59,7 +58,7 @@ class SearchRecipesViewModel(
         _state.update {
             it.copy(filterState = newFilterState)
         }
-        executeFiltering()
+        filterRecipes()
     }
     fun showBottomSheet(isFilterOpen: Boolean) {
         _state.update {
@@ -67,7 +66,7 @@ class SearchRecipesViewModel(
         }
     }
 
-    private fun executeFiltering() {
+    private fun filterRecipes() {
         val query = _state.value.searchQuery
         val filters = _state.value.filterState
         var resultList = _state.value.recipes
