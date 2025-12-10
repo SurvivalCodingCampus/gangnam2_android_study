@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Items
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,6 +46,9 @@ fun RecipeCard(
     rating: Double,
     modifier: Modifier = Modifier
 ) {
+    var isBookmarked by remember { mutableStateOf(false) }
+
+
     Box(
         modifier = modifier
             .height(150.dp)
@@ -159,11 +167,19 @@ fun RecipeCard(
                             .background(
                                 AppColors.white,
                                 shape = RoundedCornerShape(12.dp)
-                            ),
-                        contentAlignment = Alignment.Center
+                            )
+                            .clickable {
+                                isBookmarked = !isBookmarked
+                            },
+                        contentAlignment = Alignment.Center,
+
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.ic_bookmark_outline),
+                            painter = painterResource( if (isBookmarked)
+                                R.drawable.ic_bookmark
+                            else
+                                R.drawable.ic_bookmark_outline
+                            ),
                             contentDescription = "book mark",
                             tint = AppColors.primary80,
                             modifier = Modifier.size(16.dp)

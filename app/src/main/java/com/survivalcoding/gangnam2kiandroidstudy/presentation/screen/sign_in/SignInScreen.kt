@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_in
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
