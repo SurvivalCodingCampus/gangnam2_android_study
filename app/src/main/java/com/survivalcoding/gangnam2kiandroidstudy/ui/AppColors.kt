@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.ui
 
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 object AppColors {
@@ -28,4 +29,11 @@ object AppColors {
     val warning2 = Color(0xFFFFE1E7)
 
     val success = Color(0xFF31B057)
+
+    val splashScreenColor1 = Color(0x66000000)
+    val splashScreenColor2 = Color(0xff000000)
+
+    val splashScreenGradient = Brush.verticalGradient(
+        colors = listOf(splashScreenColor1, splashScreenColor2),
+    )
 }

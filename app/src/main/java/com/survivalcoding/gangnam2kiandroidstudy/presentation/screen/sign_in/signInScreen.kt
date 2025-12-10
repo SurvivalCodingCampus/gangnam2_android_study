@@ -1,14 +1,13 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_up
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_in
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,54 +28,33 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun SignUp() {
+fun SignInScreen() {
     Column(
         modifier = Modifier
-            .fillMaxHeight()
-            .padding(horizontal = 30.dp), verticalArrangement = Arrangement.Center
+            .fillMaxSize()
+            .padding(horizontal = 30.dp),
+        verticalArrangement = Arrangement.Center
     ) {
-        Spacer(modifier = Modifier.height(height = 54.dp))
-        Text("Create an account", modifier = Modifier, style = AppTextStyles.largeTextBold)
-        Text(
-            "Let’s help you set up your account,\nit won’t take long.",
-            style = AppTextStyles.smallerTextRegular
-        )
-        Spacer(modifier = Modifier.height(height = 20.dp))
-        InputField(label = "Name", placeholder = "Enter Name", value = "", onValueChange = {})
-        Spacer(modifier = Modifier.height(height = 20.dp))
+        Spacer(modifier = Modifier.height(94.dp))
+        Text("Hello,", style = AppTextStyles.headerTextBold)
+        Text("welcome Back!", style = AppTextStyles.largeTextRegular)
+        Spacer(modifier = Modifier.height(57.dp))
         InputField(label = "Email", placeholder = "Enter Email", value = "", onValueChange = {})
-        Spacer(modifier = Modifier.height(height = 20.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         InputField(
-            label = "Password",
+            label = "Enter Password",
             placeholder = "Enter Password",
             value = "",
             onValueChange = {})
-        Spacer(modifier = Modifier.height(height = 20.dp))
-        InputField(
-            label = "Confirm Password",
-            placeholder = "Retype Password",
-            value = "",
-            onValueChange = {})
-        Spacer(modifier = Modifier.height(height = 20.dp))
-        Row(modifier = Modifier.padding(start = 10.dp)) {
-            Box(
-                modifier = Modifier
-                    .size(17.dp)
-                    .border(
-                        width = 1.dp,
-                        color = AppColors.secondary100,
-                        shape = RoundedCornerShape(5.dp)
-                    )
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            Text(
-                text = "Accept terms & Condition",
-                style = AppTextStyles.smallerTextRegular.copy(color = AppColors.secondary100)
-            )
-        }
-        Spacer(modifier = Modifier.height(height = 26.dp))
-        BigButton(text = "Sign Up", onClick = {})
-        Spacer(modifier = Modifier.height(14.dp))
+        Spacer(modifier = Modifier.height(20.dp))
+        Text(
+            "Forgot Password?",
+            modifier = Modifier.padding(start = 10.dp),
+            style = AppTextStyles.smallerTextRegular.copy(color = AppColors.secondary100)
+        )
+        Spacer(modifier = Modifier.height(25.dp))
+        BigButton(text = "Sign In", onClick = {})
+        Spacer(modifier = Modifier.height(20.dp))
         Row(modifier = Modifier.height(17.dp), verticalAlignment = Alignment.CenterVertically) {
             Spacer(modifier = Modifier.width(60.dp))
             HorizontalDivider(
@@ -125,17 +103,18 @@ fun SignUp() {
             }
             Spacer(modifier = Modifier.weight(1f))
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(55.dp))
         Row(modifier = Modifier) {
             Spacer(modifier = Modifier.weight(1f))
-            Text("Already a member?", style = AppTextStyles.smallerTextRegular)
+            Text("Don't have an account?", style = AppTextStyles.smallerTextRegular)
             Text(
-                " Sign Ip",
+                " Sign Up",
                 style = AppTextStyles.smallerTextRegular.copy(color = AppColors.secondary100)
             )
             Spacer(modifier = Modifier.weight(1f))
+
         }
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(99.dp))
 
 
     }
@@ -144,7 +123,6 @@ fun SignUp() {
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpPreview(modifier: Modifier = Modifier) {
-    SignUp()
-
+fun SignInScreenPreview(modifier: Modifier = Modifier) {
+    SignInScreen()
 }

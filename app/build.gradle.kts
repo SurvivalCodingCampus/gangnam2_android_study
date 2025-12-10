@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    //직렬화
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -58,6 +60,18 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     //coil
-    implementation("io.coil-kt.coil3:coil-compose:3.3.0")
-    implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
+    //compose viewmodel
+    implementation(libs.androidx.lifecycle.viewmodel.compose.android)
+
+    //직렬화
+    implementation(libs.kotlinx.serialization.json)
+
+    //Icon
+    implementation(libs.androidx.compose.material.icons.extended)
+
+    //runTest
+    testImplementation(libs.kotlinx.coroutines.test)
 }

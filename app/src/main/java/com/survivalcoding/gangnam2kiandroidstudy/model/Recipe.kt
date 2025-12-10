@@ -1,6 +1,10 @@
 package com.survivalcoding.gangnam2kiandroidstudy.model
 
-data class Recipes(
+import kotlinx.serialization.Serializable
+
+
+@Serializable
+data class Recipe(
     val category: String,
     val chef: String,
     val id: Int,

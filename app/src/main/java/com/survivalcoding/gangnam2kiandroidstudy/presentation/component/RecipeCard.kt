@@ -29,18 +29,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.model.Recipes
+import com.survivalcoding.gangnam2kiandroidstudy.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun RecipeCard(recipe: Recipes) {
+fun RecipeCard(recipe: Recipe) {
     Row(modifier = Modifier.height(150.dp)) {
-        Spacer(
-            modifier = Modifier
-                .width(30.dp)
-                .fillMaxHeight()
-        )
+
         Box(
             modifier = Modifier
                 .weight(1f)
@@ -86,7 +82,10 @@ fun RecipeCard(recipe: Recipes) {
 
                             Text(
                                 text = "${recipe.rating}", // 실제 레시피 평점 사용
-                                style = AppTextStyles.smallerTextRegular.copy(fontSize = 8.sp, color = AppColors.black) // 색상 지정
+                                style = AppTextStyles.smallerTextRegular.copy(
+                                    fontSize = 8.sp,
+                                    color = AppColors.black
+                                ) // 색상 지정
                             )
                             Spacer(modifier = Modifier.width(7.dp))
 
@@ -148,18 +147,16 @@ fun RecipeCard(recipe: Recipes) {
                 }
             }
         }
-        Spacer(
-            modifier = Modifier
-                .width(30.dp)
-                .fillMaxHeight()
-        )
+
     }
+    Spacer(modifier = Modifier.height(20.dp)) // 여기에 오른쪽 여백을 추가
+
 }
 
 @Preview(showBackground = true)
 @Composable
 fun RecipeCardPreview() {
-    val recipe = Recipes(
+    val recipeDto = Recipe(
         category = "Test",
         chef = "Chef John",
         id = 1,
@@ -168,5 +165,5 @@ fun RecipeCardPreview() {
         rating = 4.5,
         time = "30 min" // 예시 시간 추가
     )
-    RecipeCard(recipe)
+    RecipeCard(recipeDto)
 }
