@@ -2,11 +2,13 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes
 
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.data.MockRecipeDataSource
+import com.survivalcoding.gangnam2kiandroidstudy.data.MockRecipesRepositoryFailure
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertNull
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -101,5 +103,22 @@ class SavedRecipesViewModelFakeTest {
 
         // 첫 번째 레시피 이름 검증
         assertEquals("Traditional spare ribs baked", state.recipes[0].name)
+    }
+
+    @Test
+    fun `fetchRecipes_실패_시_uiState가_message로_업데이트된다`() = runTest {
+        // Given
+        val repository = MockRecipesRepositoryFailure("Network error")
+        val viewModel = SavedRecipesViewModel(repository)
+
+        // When
+        testScheduler.advanceUntilIdle()
+
+        // Then
+        val state = viewModel.uiState.value
+
+        assertFalse(state.isLoading)
+        assertTrue(state.recipes.isEmpty())
+        assertEquals("Network error", state.message)
     }
 }
