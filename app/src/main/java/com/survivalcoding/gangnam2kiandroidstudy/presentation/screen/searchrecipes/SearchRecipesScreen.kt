@@ -1,6 +1,8 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,12 +17,14 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,7 +34,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.core.NetworkError
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeSearchCondition
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCardSize
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchInputField
@@ -38,6 +44,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 import kotlinx.coroutines.FlowPreview
 
+@ExperimentalMaterial3Api
 @FlowPreview
 @Composable
 fun SearchRecipesScreen(
@@ -46,7 +53,7 @@ fun SearchRecipesScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val isSearched = uiState.searchText.isNotBlank()
+    val isSearched = uiState.searchText.isNotBlank() && uiState.searchFilter.isNull()
 
     Column(
         modifier = modifier
@@ -71,7 +78,7 @@ fun SearchRecipesScreen(
             SearchInputField(
                 value = uiState.searchText,
                 onValueChange = {
-                    viewModel.onSearchTextChange(it)
+                    viewModel.changeSearchText(it)
                 },
                 placeholder = "Search recipe",
                 modifier = Modifier.weight(1f),
@@ -80,6 +87,10 @@ fun SearchRecipesScreen(
             Box(
                 modifier = Modifier
                     .size(40.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .clickable {
+                        viewModel.showBottomSheet()
+                    }
                     .background(
                         color = AppColors.Primary100,
                         shape = RoundedCornerShape(10.dp),
@@ -109,7 +120,7 @@ fun SearchRecipesScreen(
 
             if (isSearched) {
                 Text(
-                    text = "${uiState.searchRecipes.size} results",
+                    text = "${uiState.recipes.size} results",
                     style = AppTextStyles.PoppinsSmallerRegular.copy(color = AppColors.Gray3),
                 )
             }
@@ -124,12 +135,11 @@ fun SearchRecipesScreen(
             }
         } else {
             LazyVerticalGrid(
-                columns = GridCells.FixedSize(150.dp),
+                columns = GridCells.Fixed(2),
                 verticalArrangement = Arrangement.spacedBy(15.dp),
                 horizontalArrangement = Arrangement.spacedBy(15.dp),
             ) {
-                val recipes = if (isSearched) uiState.searchRecipes else uiState.recipes
-                items(recipes) {
+                items(uiState.recipes) {
                     RecipeCard(
                         recipe = it,
                         size = RecipeCardSize.Small,
@@ -137,9 +147,25 @@ fun SearchRecipesScreen(
                 }
             }
         }
+
+        FilterSearchBottomSheet(
+            isSheetVisible = uiState.isSheetVisible,
+            searchFilter = uiState.searchFilter,
+            onDismissRequest = {
+                viewModel.hideBottomSheet()
+            },
+            onFilterChange = { time, rate, category ->
+                viewModel.changeSearchFilter(time, rate, category)
+            },
+            onFilter = {
+                viewModel.fetchRecipesByFilter()
+            },
+        )
     }
 }
 
+@SuppressLint("ViewModelConstructorInComposable")
+@ExperimentalMaterial3Api
 @FlowPreview
 @Preview(showBackground = true)
 @Composable
@@ -149,6 +175,8 @@ fun SearchRecipesScreenPreview() {
     SearchRecipesScreen(viewModel = viewModel)
 }
 
+@SuppressLint("ViewModelConstructorInComposable")
+@ExperimentalMaterial3Api
 @FlowPreview
 @Preview(showBackground = true)
 @Composable
@@ -163,6 +191,8 @@ fun SearchedSearchRecipesScreenPreview() {
     SearchRecipesScreen(viewModel = viewModel)
 }
 
+@SuppressLint("ViewModelConstructorInComposable")
+@ExperimentalMaterial3Api
 @FlowPreview
 @Preview(showBackground = true)
 @Composable
@@ -191,7 +221,7 @@ private val repository = object : RecipeRepository {
         )
     }
 
-    override suspend fun getRecipes(searchText: String): Result<List<Recipe>, NetworkError> {
+    override suspend fun getRecipes(searchCondition: RecipeSearchCondition): Result<List<Recipe>, NetworkError> {
         return Result.Success(
             List(10) {
                 Recipe(

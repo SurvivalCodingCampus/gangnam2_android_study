@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.datasource
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.Response
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.RecipesDto
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeSearchCondition
 import com.survivalcoding.gangnam2kiandroidstudy.util.json
 
 class MockRecipeDataSourceImpl : RecipeDataSource {
@@ -290,14 +291,17 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
         )
     }
 
-    override suspend fun getRecipes(searchText: String): Response<RecipesDto> {
+    override suspend fun getRecipes(searchCondition: RecipeSearchCondition): Response<RecipesDto> {
         val body = json.decodeFromString<RecipesDto>(jsonString)
+
+        val recipes = body.recipes
+
+        val filteredRecipes = searchCondition.apply(recipes)
+
         return Response(
             statusCode = 200,
             headers = emptyMap(),
-            body = if (searchText.isBlank()) body else RecipesDto(
-                recipes = body.recipes.filter { it.name?.contains(searchText) ?: false },
-            ),
+            body = RecipesDto(recipes = filteredRecipes),
         )
     }
 }

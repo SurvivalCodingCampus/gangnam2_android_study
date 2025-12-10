@@ -1,7 +1,10 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.CategoryFilterType
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.RateFilterType
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.TimeFilterType
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.test.MainDispatcherRule
 import io.mockk.MockKAnnotations
@@ -68,13 +71,13 @@ class SearchRecipesViewModelTest {
     }
 
     @Test
-    fun onSearchTextChange() {
+    fun changeSearchText() {
         viewModel = SearchRecipesViewModel(repository)
 
         assertTrue(viewModel.uiState.value.searchText.isEmpty())
 
         val searchText = "test"
-        viewModel.onSearchTextChange(searchText)
+        viewModel.changeSearchText(searchText)
 
         assertEquals(searchText, viewModel.uiState.value.searchText)
     }
@@ -88,5 +91,44 @@ class SearchRecipesViewModelTest {
         viewModel.setLoading(true)
 
         assertTrue(viewModel.uiState.value.isLoading)
+    }
+
+    @Test
+    fun showBottomSheet() {
+        viewModel = SearchRecipesViewModel(repository)
+
+        assertFalse(viewModel.uiState.value.isSheetVisible)
+
+        viewModel.showBottomSheet()
+
+        assertTrue(viewModel.uiState.value.isSheetVisible)
+    }
+
+    @Test
+    fun hideBottomSheet() {
+        viewModel = SearchRecipesViewModel(repository)
+
+        viewModel.showBottomSheet()
+
+        assertTrue(viewModel.uiState.value.isSheetVisible)
+
+        viewModel.hideBottomSheet()
+
+        assertFalse(viewModel.uiState.value.isSheetVisible)
+    }
+
+    @Test
+    fun changeSearchFilter() {
+        viewModel = SearchRecipesViewModel(repository)
+
+        val time = TimeFilterType.NEWEST
+        val rate = RateFilterType.FIVE
+        val category = CategoryFilterType.CEREAL
+
+        viewModel.changeSearchFilter(time, rate, category)
+
+        assertEquals(time, viewModel.uiState.value.searchFilter.time)
+        assertEquals(rate, viewModel.uiState.value.searchFilter.rate)
+        assertEquals(category, viewModel.uiState.value.searchFilter.category)
     }
 }

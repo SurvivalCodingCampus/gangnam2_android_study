@@ -5,6 +5,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.RecipeDto
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.RecipesDto
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeSearchCondition
 import io.mockk.MockKAnnotations
 import io.mockk.bdd.coGiven
 import io.mockk.impl.annotations.InjectMockKs
@@ -71,7 +72,8 @@ class RecipeRepositoryImplTest {
                 )
 
         val searchText = "test"
-        val result = repository.getRecipes(searchText)
+        val searchCondition = RecipeSearchCondition(searchText)
+        val result = repository.getRecipes(searchCondition)
 
         assertTrue(result is Result.Success)
 

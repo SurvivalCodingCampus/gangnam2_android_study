@@ -6,6 +6,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.mapper.toModel
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeSearchCondition
 import com.survivalcoding.gangnam2kiandroidstudy.util.isFail
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -35,10 +36,10 @@ class RecipeRepositoryImpl(
             }
         }
 
-    override suspend fun getRecipes(searchText: String): Result<List<Recipe>, NetworkError> =
+    override suspend fun getRecipes(searchCondition: RecipeSearchCondition): Result<List<Recipe>, NetworkError> =
         withContext(dispatcher) {
             handleNetworkError {
-                val response = dataSource.getRecipes(searchText)
+                val response = dataSource.getRecipes(searchCondition)
 
                 if (response.isFail()) {
                     return@handleNetworkError Result.Error(NetworkError.HttpError(response.statusCode))

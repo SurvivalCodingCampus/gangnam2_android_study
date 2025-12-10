@@ -9,6 +9,11 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result.Success
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.CategoryFilterType
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.RateFilterType
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeSearchCondition
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeSearchFilter
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.TimeFilterType
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -38,30 +43,28 @@ class SearchRecipesViewModel(
             .debounce(DEBOUNCE_TIMEOUT_MILLIS)
             .distinctUntilChanged()
             .onEach {
-                fetchRecipes(it)
+                fetchRecipes(searchText = it)
             }
             .launchIn(viewModelScope)
     }
 
-    fun fetchRecipes(searchText: String) {
+    fun fetchRecipes(searchText: String, searchFilter: RecipeSearchFilter = RecipeSearchFilter()) {
         setLoading(true)
 
-        val isSearched = searchText.isNotBlank()
+        val condition = RecipeSearchCondition(searchText, searchFilter)
 
         viewModelScope.launch {
-            when (val result = repository.getRecipes(searchText)) {
+            when (val result = repository.getRecipes(condition)) {
                 is Success -> {
                     _uiState.update {
-                        if (isSearched) it.copy(searchRecipes = result.data)
-                        else it.copy(recipes = result.data)
+                        it.copy(recipes = result.data)
                     }
                     setLoading(false)
                 }
 
                 is Result.Error -> {
                     _uiState.update {
-                        if (isSearched) it.copy(searchRecipes = emptyList())
-                        else it.copy(recipes = emptyList())
+                        it.copy(recipes = emptyList())
                     }
                     setLoading(false)
                 }
@@ -69,7 +72,11 @@ class SearchRecipesViewModel(
         }
     }
 
-    fun onSearchTextChange(searchText: String) {
+    fun fetchRecipesByFilter() {
+        fetchRecipes(uiState.value.searchText, uiState.value.searchFilter)
+    }
+
+    fun changeSearchText(searchText: String) {
         _uiState.update {
             it.copy(searchText = searchText)
         }
@@ -78,6 +85,34 @@ class SearchRecipesViewModel(
     fun setLoading(isLoading: Boolean) {
         _uiState.update {
             it.copy(isLoading = isLoading)
+        }
+    }
+
+    fun showBottomSheet() {
+        _uiState.update {
+            it.copy(isSheetVisible = true)
+        }
+    }
+
+    fun hideBottomSheet() {
+        _uiState.update {
+            it.copy(isSheetVisible = false)
+        }
+    }
+
+    fun changeSearchFilter(
+        time: TimeFilterType?,
+        rate: RateFilterType?,
+        category: CategoryFilterType?,
+    ) {
+        _uiState.update {
+            it.copy(
+                searchFilter = RecipeSearchFilter(
+                    time = time,
+                    rate = rate,
+                    category = category,
+                ),
+            )
         }
     }
 

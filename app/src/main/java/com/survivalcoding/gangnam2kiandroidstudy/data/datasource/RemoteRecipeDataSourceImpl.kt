@@ -3,6 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.datasource
 import com.survivalcoding.gangnam2kiandroidstudy.core.HttpClientFactory
 import com.survivalcoding.gangnam2kiandroidstudy.core.Response
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.RecipesDto
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeSearchCondition
 import com.survivalcoding.gangnam2kiandroidstudy.util.toResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
@@ -18,18 +19,18 @@ class RemoteRecipeDataSourceImpl(
         return httpResponse.toResponse()
     }
 
-    override suspend fun getRecipes(searchText: String): Response<RecipesDto> {
+    override suspend fun getRecipes(searchCondition: RecipeSearchCondition): Response<RecipesDto> {
         val httpResponse = client.get(baseUrl)
 
         val response = httpResponse.toResponse<RecipesDto>()
 
         val body = response.body
 
-        return if (searchText.isBlank()) response else response.copy(
-            body = body?.copy(
-                recipes = body.recipes.filter { it.name?.contains(searchText) ?: false },
-            ),
-        )
+        val recipes = body?.recipes ?: emptyList()
+
+        val filteredRecipes = searchCondition.apply(recipes)
+
+        return response.copy(body = body?.copy(recipes = filteredRecipes))
     }
 
     companion object {
