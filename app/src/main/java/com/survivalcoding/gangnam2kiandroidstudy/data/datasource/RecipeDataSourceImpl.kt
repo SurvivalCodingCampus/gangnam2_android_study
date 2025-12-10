@@ -2,7 +2,6 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.datasource
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.HttpClientFactory
 import com.survivalcoding.gangnam2kiandroidstudy.core.Response
-import com.survivalcoding.gangnam2kiandroidstudy.data.dto.RecipeDto
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.RecipeResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

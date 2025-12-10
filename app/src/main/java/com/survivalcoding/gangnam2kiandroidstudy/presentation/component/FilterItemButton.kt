@@ -2,10 +2,11 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,10 +18,16 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun FilterButton(modifier: Modifier = Modifier, text: String, isSelected: Boolean) {
+fun FilterItemButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    isSelected: Boolean,
+    onClick: () -> Unit = {},
+) {
     Column(
         modifier = modifier
-            .size(51.dp, 28.dp)
+            .height(28.dp)
+            .clickable { onClick() }
             .border(
                 width = 1.dp,
                 color = if (isSelected) AppColors.primary100 else AppColors.primary80,
@@ -44,12 +51,12 @@ fun FilterButton(modifier: Modifier = Modifier, text: String, isSelected: Boolea
 
 @Preview(showBackground = true)
 @Composable
-private fun FilterButtonPreview() {
-    FilterButton(text = "Text", isSelected = false)
+private fun FilterItemButtonPreview() {
+    FilterItemButton(text = "Text", isSelected = false)
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun FilterButtonPreview2() {
-    FilterButton(text = "Text", isSelected = true)
+private fun FilterItemButtonPreview2() {
+    FilterItemButton(text = "Text", isSelected = true)
 }
