@@ -10,7 +10,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.RecipeAppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.repository.SavedRecipesRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -38,7 +37,7 @@ class SearchRecipesViewModel(
         rate: String = "",
         category: String = ""
     ) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             Log.d("SearchRecipesViewModel", "time: $time, rate: $rate, category: $category")
             if (searchText.isNotEmpty()) {
                 _state.value = _state.value.copy(searchInputText = searchText)
@@ -70,6 +69,7 @@ class SearchRecipesViewModel(
                 filteredList = filteredList.sortedBy { it.time }
             }
             _state.value = _state.value.copy(
+                searchInputText = searchText,
                 selectedTime = time,
                 selectedRate = rate,
                 selectedCategory = category,
