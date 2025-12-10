@@ -47,8 +47,7 @@ fun RecipeCard(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(150.dp)
-            .padding(horizontal = 30.dp)
+            .aspectRatio(315 / 150f)
             .clip(RoundedCornerShape(10.dp))
     ) {
         //이미지
