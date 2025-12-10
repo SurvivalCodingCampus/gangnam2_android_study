@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.kakao.presentation.KakaoChatScreen
 import com.survivalcoding.gangnam2kiandroidstudy.kakao.presentation.component.ChatListItem
@@ -30,7 +31,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.MainViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.BigButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RatingDialog
 
-class Hero(val name: String, val age: Int)
+data class Hero(val name: String, val age: Int)
 
 class MainActivity : ComponentActivity() {
     // 상태
@@ -70,6 +71,8 @@ class MainActivity : ComponentActivity() {
                 factory = MainViewModel.Factory
             )
             println("MainViewModel2: ${viewModel2.hashCode()}")
+
+            viewModel.state.collectAsStateWithLifecycle()
 
             var rating by rememberSaveable { mutableStateOf(0) }
 
