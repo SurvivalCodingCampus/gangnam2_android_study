@@ -63,11 +63,19 @@ class SearchRecipesViewModel(
             } else {
                 "Search Result"
             }
+            val filteredRecipeText = if (query.isBlank()) {
+                ""
+            } else {
+                "${_state.value.recipes.filter { recipe ->
+                    recipe.title.contains(query, ignoreCase = true)
+                }.size} results"
+            }
             _state.update {
                 it.copy(
                     filteredRecipes = it.recipes.filter { recipe ->
                         recipe.title.contains(query, ignoreCase = true)
                     },
+                    filteredRecipesText = filteredRecipeText,
                     searchText = newSearchText,
                     isLoading = false
                 )

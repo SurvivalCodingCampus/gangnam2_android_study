@@ -68,11 +68,20 @@ fun SearchRecipeScreen(
                 }
             }
             Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                text = state.value.searchText,
-                style = AppTextStyles.normalTextBold,
-                modifier = Modifier.fillMaxWidth()
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = state.value.searchText,
+                    style = AppTextStyles.normalTextBold,
+                )
+                Text(
+                    text = state.value.filteredRecipesSize,
+                    style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray3)
+                )
+            }
             Spacer(modifier = Modifier.height(20.dp))
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
