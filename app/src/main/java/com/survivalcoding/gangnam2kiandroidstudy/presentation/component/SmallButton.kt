@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,8 +38,7 @@ fun SmallButton(
     val boxColor = if (isPressed) AppColors.gray4 else AppColors.primary100
 
     Box(
-        modifier = modifier
-            .size(width = 174.dp, height = 37.dp)
+        modifier = modifier.fillMaxWidth().height(37.dp)
             .background(
                 color = boxColor,
                 shape = RoundedCornerShape(10.dp)
@@ -54,7 +54,6 @@ fun SmallButton(
             horizontalArrangement = Arrangement.Center
         ) {
             Box(
-                modifier = Modifier.size(width = 114.dp, height = 17.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Text(

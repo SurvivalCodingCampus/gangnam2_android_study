@@ -139,6 +139,7 @@ private fun SearchRecipeCardPreview() {
             title = "Traditional spare ribs baked",
             chef = "Chef John",
             time = "20 min",
+            category = "Chinese",
             rating = 4.0,
             imageUrls = "image"
         )

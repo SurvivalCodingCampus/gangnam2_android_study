@@ -54,7 +54,12 @@ class SearchRecipesViewModel(
         }
     }
 
-    private fun filterRecipes(query: String) {
+    private fun filterRecipes(
+        query: String,
+        rating: String? = null,
+        time: String? = null,
+        category: String? = null,
+    ) {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
 
@@ -67,9 +72,11 @@ class SearchRecipesViewModel(
             val filteredRecipeText = if (query.isBlank()) {
                 ""
             } else {
-                "${_state.value.recipes.filter { recipe ->
-                    recipe.title.contains(query, ignoreCase = true)
-                }.size} results"
+                "${
+                    _state.value.recipes.filter { recipe ->
+                        recipe.title.contains(query, ignoreCase = true)
+                    }.size
+                } results"
             }
 
             _state.update {
@@ -83,6 +90,13 @@ class SearchRecipesViewModel(
                 )
             }
         }
+    }
+
+    fun applyFilters(newFilterState: FilterSearchState) {
+        _state.update {
+            it.copy(filterState = newFilterState)
+        }
+
     }
 
     companion object {

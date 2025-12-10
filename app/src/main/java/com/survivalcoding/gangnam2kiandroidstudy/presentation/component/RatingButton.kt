@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,11 +29,11 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun RatingButton(
     text: String,
     isSelected: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier
-            .width(50.dp)
             .height(28.dp)
             .background(
                 if (isSelected) AppColors.primary100 else AppColors.white,
@@ -42,11 +43,13 @@ fun RatingButton(
                 width = if (!isSelected) 1.dp else 0.dp,
                 color = if (!isSelected) AppColors.primary80 else AppColors.white,
                 shape = RoundedCornerShape(10.dp)
-            )
+            ).clickable {
+                onClick()
+            },
+        contentAlignment = Alignment.Center
     ) {
         Row(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(horizontal = 10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
