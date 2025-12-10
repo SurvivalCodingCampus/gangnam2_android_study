@@ -39,7 +39,13 @@ fun FilterBottomSheet(
     ModalBottomSheet(
         dragHandle = null,
         sheetState = sheetState,
-        onDismissRequest = { onDismiss(null, null, null) }) {
+        onDismissRequest = {
+            onDismiss(
+                selectedTime.value,
+                selectedRate.value,
+                selectedCategory.value
+            )
+        }) {
         Column(modifier = Modifier.padding(horizontal = 30.dp)) {
             Spacer(modifier = Modifier.height(31.dp))
             Text(
