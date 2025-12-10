@@ -27,7 +27,8 @@ fun FilterBottomSheet(
     time: String?,
     rate: String?,
     category: String?,
-    onDismiss: (time: String?, rate: String?, category: String?) -> Unit
+    inputText: String?,
+    onDismiss: (inputText: String?, time: String?, rate: String?, category: String?) -> Unit
 ) {
     val selectedTime = remember { mutableStateOf<String>(time ?: "") }
     val selectedRate = remember { mutableStateOf<String>(rate ?: "") }
@@ -41,6 +42,7 @@ fun FilterBottomSheet(
         sheetState = sheetState,
         onDismissRequest = {
             onDismiss(
+                inputText,
                 selectedTime.value,
                 selectedRate.value,
                 selectedCategory.value
@@ -180,7 +182,12 @@ fun FilterBottomSheet(
                 Spacer(modifier = Modifier.height(30.dp))
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     SmallButton("Filter") {
-                        onDismiss(selectedTime.value, selectedRate.value, selectedCategory.value)
+                        onDismiss(
+                            inputText,
+                            selectedTime.value,
+                            selectedRate.value,
+                            selectedCategory.value
+                        )
 
                     }
                 }
