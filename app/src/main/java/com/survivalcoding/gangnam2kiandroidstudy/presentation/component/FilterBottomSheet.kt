@@ -20,9 +20,9 @@ fun FilterBottomSheet(
     onFilterClick: (String, Int, String) -> Unit = fun(_, _, _) = Unit,
     modifier: Modifier = Modifier
 ) {
-    var selectedTime by remember { mutableStateOf(filterSearchState.time) }
-    var selectedRating by remember { mutableStateOf(filterSearchState.rate) }
-    var selectedCategory by remember { mutableStateOf(filterSearchState.category) }
+    var selectedTime by remember(filterSearchState.time) { mutableStateOf(filterSearchState.time) }
+    var selectedRating by remember(filterSearchState.rate) { mutableStateOf(filterSearchState.rate) }
+    var selectedCategory by remember(filterSearchState.category) { mutableStateOf(filterSearchState.category) }
 
     Column(
         modifier = modifier

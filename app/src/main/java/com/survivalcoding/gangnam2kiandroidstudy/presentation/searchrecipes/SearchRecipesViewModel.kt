@@ -3,9 +3,11 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -39,9 +41,11 @@ class SearchRecipesViewModel(
         }
     }
 
+    @OptIn(FlowPreview::class)
     private fun fetchFilteredRecipes() {
         viewModelScope.launch {
             uiState.map { it.searchKeyword }
+                .debounce(500)
                 .collectLatest { keyword ->
                     recipeRepository.getFilteredRecipes(keyword)
                         .onSuccess { recipes ->
