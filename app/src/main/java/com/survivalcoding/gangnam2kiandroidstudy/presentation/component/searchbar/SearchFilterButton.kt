@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component.searchbar
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,11 +17,15 @@ import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 
 @Composable
-fun SearchFilterButton(modifier: Modifier = Modifier) {
+fun SearchFilterButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+    ) {
     Box(
         modifier = modifier
             .size(40.dp)
-            .background(color = AppColors.primary100, shape = RoundedCornerShape(10.dp)),
+            .background(color = AppColors.primary100, shape = RoundedCornerShape(10.dp))
+            .clickable { onClick() },
         contentAlignment = Alignment.Center,
     ) {
         Icon(

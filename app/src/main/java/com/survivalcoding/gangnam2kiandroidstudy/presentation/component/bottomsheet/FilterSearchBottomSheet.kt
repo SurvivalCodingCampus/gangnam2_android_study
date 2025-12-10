@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -38,16 +37,17 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterSearchBottomSheet(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onDismiss: () -> Unit
 ) {
     var selectedTime by rememberSaveable { mutableStateOf(TimeFilter.ALL) }
     var selectedRate by rememberSaveable { mutableStateOf(RateFilter.FIVE) }
     var selectedCategory by rememberSaveable { mutableStateOf(CategoryFilter.ALL) }
 
-    val sheetState = rememberModalBottomSheetState (skipPartiallyExpanded = true)
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     ModalBottomSheet(
-        onDismissRequest = {},
+        onDismissRequest = onDismiss,
         modifier = Modifier,
         containerColor = AppColors.white,
         sheetState = sheetState,
@@ -122,7 +122,6 @@ fun FilterSearchBottomSheet(
                 }
             }
 
-            // BUTTON
             SmallButton(
                 modifier = Modifier
                     .padding(top = 20.dp)
@@ -149,5 +148,5 @@ private fun SectionTitle(title: String) {
 @Preview(showBackground = true)
 @Composable
 fun FilterSearchBottomSheetPreview(modifier: Modifier = Modifier) {
-    FilterSearchBottomSheet()
+    // FilterSearchBottomSheet()
 }

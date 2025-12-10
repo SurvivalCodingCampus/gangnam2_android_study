@@ -34,16 +34,15 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 
 @Composable
 fun SearchResultCard(
-    modifier: Modifier = Modifier, name: String,
+    modifier: Modifier = Modifier,
+    name: String,
     imageUrl: String,
     chef: String,
-    time: String,
     rating: Double
 ) {
     Box(
         modifier = modifier
             .size(150.dp)
-            .fillMaxWidth()
             .clip(RoundedCornerShape(10.dp))
     ) {
         Box(
@@ -138,7 +137,6 @@ private fun SearchResultCardPreview() {
         name = "Traditional spare ribs baked",
         imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
         chef = "Chef John",
-        time = "20 min",
         rating = 4.0
     )
 }
