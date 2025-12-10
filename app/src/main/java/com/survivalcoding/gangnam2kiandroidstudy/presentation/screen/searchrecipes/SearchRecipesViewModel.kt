@@ -42,24 +42,19 @@ class SearchRecipesViewModel(
         searchTextFlow
             .debounce(DEBOUNCE_TIMEOUT_MILLIS)
             .distinctUntilChanged()
-            .onEach {
-                fetchRecipes(
-                    searchText = it,
-                    searchFilter = uiState.value.searchFilter,
-                )
-            }
+            .onEach { fetchRecipes(searchText = it) }
             .launchIn(viewModelScope)
     }
 
     fun fetchRecipes(
-        searchText: String,
-        searchFilter: RecipeSearchFilter = RecipeSearchFilter(),
+        searchText: String = uiState.value.searchText,
+        searchFilter: RecipeSearchFilter = uiState.value.searchFilter,
     ) {
         setLoading(true)
 
         val condition = RecipeSearchCondition(searchText, searchFilter)
 
-        val isSearched = searchText.isNotBlank() || searchFilter.isNotNull()
+        val isSearched = searchText.isNotBlank() || searchFilter.isNotEmpty()
 
         viewModelScope.launch {
             when (val result = repository.getRecipes(condition)) {
@@ -70,7 +65,6 @@ class SearchRecipesViewModel(
                             isSearched = isSearched,
                         )
                     }
-                    setLoading(false)
                 }
 
                 is Result.Error -> {
@@ -80,14 +74,10 @@ class SearchRecipesViewModel(
                             isSearched = isSearched,
                         )
                     }
-                    setLoading(false)
                 }
             }
+            setLoading(false)
         }
-    }
-
-    fun fetchRecipesByFilter() {
-        fetchRecipes(uiState.value.searchText, uiState.value.searchFilter)
     }
 
     fun changeSearchText(searchText: String) {

@@ -21,6 +21,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.core.NetworkError
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeSearchCondition
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -82,7 +83,7 @@ fun SavedRecipesScreenPreview() {
                     )
                 }
 
-                override suspend fun getRecipes(searchText: String): Result<List<Recipe>, NetworkError> {
+                override suspend fun getRecipes(searchCondition: RecipeSearchCondition): Result<List<Recipe>, NetworkError> {
                     return Result.Success(
                         List(10) {
                             Recipe(

@@ -42,8 +42,8 @@ enum class RecipeCardSize {
 @Composable
 fun RecipeCard(
     recipe: Recipe,
-    size: RecipeCardSize = RecipeCardSize.Medium,
     modifier: Modifier = Modifier,
+    size: RecipeCardSize = RecipeCardSize.Medium,
 ) {
     Box(
         modifier = modifier

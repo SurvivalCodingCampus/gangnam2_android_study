@@ -163,7 +163,7 @@ fun SearchRecipesScreen(
                 viewModel.changeSearchFilter(time, rate, category)
             },
             onFilter = {
-                viewModel.fetchRecipesByFilter()
+                viewModel.fetchRecipes()
                 viewModel.hideBottomSheet()
             },
         )

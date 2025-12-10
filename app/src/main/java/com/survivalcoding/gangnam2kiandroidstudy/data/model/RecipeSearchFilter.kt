@@ -5,11 +5,11 @@ data class RecipeSearchFilter(
     val rate: RateFilterType? = null,
     val category: CategoryFilterType? = null,
 ) {
-    fun isNull(): Boolean {
+    fun isEmpty(): Boolean {
         return time == null && rate == null && category == null
     }
 
-    fun isNotNull(): Boolean {
-        return !isNull()
+    fun isNotEmpty(): Boolean {
+        return !isEmpty()
     }
 }
