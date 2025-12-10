@@ -8,6 +8,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.R
 object AppFonts {
     val poppins = FontFamily(
         Font(resId = R.font.poppins_bold, weight = FontWeight.Bold),
-        Font(resId = R.font.poppins_regular, weight = FontWeight.Normal)
+        Font(resId = R.font.poppins_regular, weight = FontWeight.Normal),
+        Font(resId = R.font.poppins_semi_bold, weight = FontWeight.SemiBold)
     )
 }

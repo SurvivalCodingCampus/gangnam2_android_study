@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,7 +36,8 @@ fun MediumButton(modifier: Modifier = Modifier, text: String = "", onClick: () -
 
     Box(
         modifier = modifier
-            .size(width = 243.dp, height = 54.dp)
+            .fillMaxWidth()
+            .height(54.dp)
             .background(color = backgroundColor, shape = RoundedCornerShape(10.dp))
             .clickable(interactionSource = interactionSource) {
                 onClick()

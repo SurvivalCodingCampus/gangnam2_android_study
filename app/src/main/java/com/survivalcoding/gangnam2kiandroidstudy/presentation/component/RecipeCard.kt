@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -33,7 +34,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
+fun RecipeCard(recipe: Recipe, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -43,7 +44,8 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
             model = recipe.image,
             contentDescription = "${recipe.name} image",
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .clip(RoundedCornerShape(10.dp)),
             contentScale = ContentScale.Crop
         )
 
