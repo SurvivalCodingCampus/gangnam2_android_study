@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_up
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_in
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -20,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.BigButton
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.CustomCheckbox
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.CustomDivider
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.InputField
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SocialButton
@@ -28,26 +26,21 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun SignUpScreen(
+fun SignInScreen(
     modifier: Modifier = Modifier,
 
-    name: String,
     email: String,
     password: String,
-    confirmPassword: String,
-    isChecked: Boolean,
-
-    onNameChange: (String) -> Unit = {},
     onEmailChange: (String) -> Unit = {},
     onPasswordChange: (String) -> Unit = {},
-    onConfirmPasswordChange: (String) -> Unit = {},
-    onCheckedChange: (Boolean) -> Unit = {},
 
-    onSignUpClick: () -> Unit = {},
+    onSignInClick: () -> Unit = {},
+    onForgotPasswordClick: () -> Unit = {},
     onGoogleSignInClick: () -> Unit = {},
     onFacebookSignInClick: () -> Unit = {},
-    onSignInNavigateClick: () -> Unit = {},
+    onSignUpClick: () -> Unit = {},
 ) {
+
     Box(
         modifier = modifier
             .fillMaxSize(),
@@ -57,97 +50,68 @@ fun SignUpScreen(
             modifier = Modifier
                 .padding(30.dp)
         ) {
-            // 회원가입 텍스트
+            // Hello
             Column(
                 modifier = Modifier
                     .align(Alignment.Start),
             ) {
                 Text(
-                    text = "Create an account",
-                    style = AppTextStyles.largeTextBold,
+                    text = "Hello,",
+                    style = AppTextStyles.headerTextBold,
                 )
                 Text(
-                    text = "Let’s help you set up your account, it won’t take long.",
-                    style = AppTextStyles.smallerTextRegular,
-                    modifier = Modifier
-                        .width(195.dp)
-                        .padding(top = 5.dp)
+                    text = "Welcome Back!",
+                    style = AppTextStyles.largeTextRegular,
                 )
             }
-
-            // 이름 입력
-            InputField(
-                label = "Name",
-                placeholder = "Enter Name",
-                value = name,
-                modifier = Modifier
-                    .padding(vertical = 20.dp),
-                onValueChange = onNameChange,
-            )
 
             // 이메일 입력
             InputField(
                 label = "Email",
                 placeholder = "Enter Email",
                 value = email,
-                onValueChange = onEmailChange,
+                modifier = Modifier
+                    .padding(
+                        top = 27.dp,
+                        bottom = 30.dp,
+                    ),
+                onValueChange = onEmailChange
             )
 
             // 비밀번호 입력
             InputField(
-                label = "Password",
+                label = "Enter Password",
                 placeholder = "Enter Password",
                 value = password,
-                modifier = Modifier
-                    .padding(vertical = 20.dp),
-                onValueChange = onPasswordChange,
+                onValueChange = onPasswordChange
             )
 
-            // 비밀번호 확인
-            InputField(
-                label = "Confirm Password",
-                placeholder = "Retype Password",
-                value = confirmPassword,
-                onValueChange = onConfirmPasswordChange,
-            )
-
-            // 이용약관 동의
-            Row(
+            // 비밀번호 찾기
+            Text(
+                text = "Forgot Password?",
+                style = AppTextStyles.smallerTextRegular,
+                color = AppColors.secondary100,
                 modifier = Modifier
                     .padding(
                         top = 20.dp,
                         start = 10.dp,
-                        bottom = 26.dp,
+                        bottom = 25.dp,
                     )
-                    .height(17.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                CustomCheckbox(
-                    isChecked = isChecked,
-                    onCheckedChange = onCheckedChange
-                )
-                Spacer(Modifier.width(5.dp))
-                Text(
-                    text = "Accept terms & Condition",
-                    style = AppTextStyles.smallerTextRegular,
-                    color = AppColors.secondary100,
-                )
-            }
+                    .clickable {
+                        onForgotPasswordClick()
+                    }
+            )
 
-            // Sign Up 버튼
+            // Sign In 버튼
             BigButton(
-                text = "Sign Up",
-                modifier = Modifier
-                    .clickable { onSignUpClick() }
+                text = "Sign In",
+                onClick = onSignInClick
             )
 
             // Or Sign in With
             Row(
                 modifier = Modifier
-                    .padding(
-                        top = 14.dp,
-                        bottom = 20.dp,
-                    )
+                    .padding(vertical = 20.dp)
                     .size(width = 195.dp, height = 17.dp)
                     .align(Alignment.CenterHorizontally),
                 verticalAlignment = Alignment.CenterVertically
@@ -165,7 +129,7 @@ fun SignUpScreen(
             // 소셜 로그인
             Row(
                 modifier = Modifier
-                    .padding(bottom = 33.dp)
+                    .padding(bottom = 55.dp)
                     .align(Alignment.CenterHorizontally)
             ) {
                 SocialButton(
@@ -182,18 +146,18 @@ fun SignUpScreen(
             // 회원가입 하세요
             Row(
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally),
+                    .align(Alignment.CenterHorizontally)
             ) {
                 Text(
-                    text = "Already a member? ",
+                    text = "Don’t have an account? ",
                     style = AppTextStyles.smallerTextSemiBold,
-                    color = AppColors.black,
+                    color = AppColors.black
                 )
                 Text(
-                    text = "Sign In",
+                    text = "Sign up",
                     style = AppTextStyles.smallerTextSemiBold,
                     color = AppColors.secondary100,
-                    modifier = Modifier.clickable { onSignInNavigateClick() }
+                    modifier = Modifier.clickable { onSignUpClick() }
                 )
             }
         }
@@ -202,24 +166,15 @@ fun SignUpScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun PreviewSignUp() {
+private fun PreviewSignIn() {
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
-    val name = remember { mutableStateOf("") }
-    val confirmPassword = remember { mutableStateOf("") }
-    val isChecked = remember { mutableStateOf(false) }
 
-    SignUpScreen(
-        name = name.value,
+    SignInScreen(
         email = email.value,
         password = password.value,
-        confirmPassword = confirmPassword.value,
-        isChecked = isChecked.value,
 
-        onNameChange = { name.value = it },
         onEmailChange = { email.value = it },
         onPasswordChange = { password.value = it },
-        onConfirmPasswordChange = { confirmPassword.value = it },
-        onCheckedChange = { isChecked.value = it },
     )
 }
