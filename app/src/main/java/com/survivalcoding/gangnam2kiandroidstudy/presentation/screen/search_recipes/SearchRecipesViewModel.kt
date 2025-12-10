@@ -27,10 +27,8 @@ class SearchRecipesViewModel(
 
     init {
         viewModelScope.launch {
-            val resultList: List<Recipe> =
-                savedRecipesRepository.getSavedRecipes()
-            _state.value = _state.value.copy(resultRecipes = resultList)
             cachedRecipes = savedRecipesRepository.getSavedRecipes()
+            _state.value = _state.value.copy(resultRecipes = cachedRecipes)
         }
     }
 
@@ -59,52 +57,34 @@ class SearchRecipesViewModel(
     fun filterRecipes(time: String, rate: String, category: String) {
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("SearchRecipesViewModel", "time: $time, rate: $rate, category: $category")
+            val currentSearch = _state.value.searchInputText
+            var filteredList = if (currentSearch.isNotEmpty()) {
+                cachedRecipes.filter { it.name.contains(currentSearch, ignoreCase = true) }
+            } else {
+                cachedRecipes
+            }
+            // Rating 필터
+            if (rate.isNotEmpty()) {
+                val ratingThreshold = rate.toIntOrNull()
+                if (ratingThreshold != null) {
+                    filteredList = filteredList.filter { it.rating >= ratingThreshold }
+                }
+            }
 
+            // Category 필터
+            if (category.isNotEmpty()) {
+                filteredList = filteredList.filter { it.category == category }
+            }
+
+            // Time 정렬
+            if (time.isNotEmpty()) {
+                filteredList = filteredList.sortedBy { it.time }
+            }
             _state.value = _state.value.copy(
                 selectedTime = time,
                 selectedRate = rate,
                 selectedCategory = category,
-                resultRecipes =
-                    if (rate.isNotEmpty()) {
-                        if (category.isNotEmpty()) {
-                            if (time.isNotEmpty()) {//rate, category, time
-                                cachedRecipes.filter { recipe ->
-                                    recipe.rating >= rate.toInt()
-                                }.filter { recipe -> recipe.category == category }
-                                    .sortedBy { it.time }
-                            } else {//rate, category
-                                cachedRecipes.filter { recipe ->
-                                    recipe.rating >= rate.toInt()
-                                }.filter { recipe -> recipe.category == category }
-                            }
-                        } else {
-                            if (time.isNotEmpty()) {//rate,time
-                                cachedRecipes.filter { recipe ->
-                                    recipe.rating >= rate.toInt()
-                                }.sortedBy { it.time }
-                            } else {//rate
-                                cachedRecipes.filter { recipe ->
-                                    recipe.rating >= rate.toInt()
-                                }
-                            }
-                        }
-                    } else {
-                        if (category.isNotEmpty()) {
-                            if (time.isNotEmpty()) {//category, time
-                                cachedRecipes.filter { recipe -> recipe.category == category }
-                                    .sortedBy { it.time }
-                            } else {//category
-                                cachedRecipes
-                                    .filter { recipe -> recipe.category == category }
-                            }
-                        } else {
-                            if (time.isNotEmpty()) {//time
-                                cachedRecipes.sortedBy { it.time }
-                            } else {//다 없어
-                                cachedRecipes
-                            }
-                        }
-                    }
+                resultRecipes = filteredList
             )
             Log.d("SearchRecipesViewModel", "result: ${_state.value}")
         }
