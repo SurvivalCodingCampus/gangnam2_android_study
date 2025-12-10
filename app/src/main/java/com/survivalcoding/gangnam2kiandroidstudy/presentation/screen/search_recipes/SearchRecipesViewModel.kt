@@ -31,10 +31,7 @@ class SearchRecipesViewModel(
                 savedRecipesRepository.getSavedRecipes()
             _state.value = _state.value.copy(resultRecipes = resultList)
             cachedRecipes = savedRecipesRepository.getSavedRecipes()
-
         }
-
-
     }
 
     fun changeSearchInputText(searchText: String) {
@@ -56,10 +53,7 @@ class SearchRecipesViewModel(
                         searchInputText = searchText,
                     )
             }
-
         }
-
-
     }
 
     fun filterRecipes(time: String, rate: String, category: String) {
@@ -72,27 +66,45 @@ class SearchRecipesViewModel(
                 selectedCategory = category,
                 resultRecipes =
                     if (rate.isNotEmpty()) {
-
                         if (category.isNotEmpty()) {
-                            cachedRecipes.filter { recipe ->
-                                recipe.rating >= rate.toInt()
-                            }.filter { recipe -> recipe.category == category }
+                            if (time.isNotEmpty()) {//rate, category, time
+                                cachedRecipes.filter { recipe ->
+                                    recipe.rating >= rate.toInt()
+                                }.filter { recipe -> recipe.category == category }
+                                    .sortedBy { it.time }
+                            } else {//rate, category
+                                cachedRecipes.filter { recipe ->
+                                    recipe.rating >= rate.toInt()
+                                }.filter { recipe -> recipe.category == category }
+                            }
                         } else {
-                            cachedRecipes.filter { recipe ->
-                                recipe.rating >= rate.toInt()
+                            if (time.isNotEmpty()) {//rate,time
+                                cachedRecipes.filter { recipe ->
+                                    recipe.rating >= rate.toInt()
+                                }.sortedBy { it.time }
+                            } else {//rate
+                                cachedRecipes.filter { recipe ->
+                                    recipe.rating >= rate.toInt()
+                                }
                             }
                         }
-
-
                     } else {
                         if (category.isNotEmpty()) {
-                            cachedRecipes
-                                .filter { recipe -> recipe.category == category }
+                            if (time.isNotEmpty()) {//category, time
+                                cachedRecipes.filter { recipe -> recipe.category == category }
+                                    .sortedBy { it.time }
+                            } else {//category
+                                cachedRecipes
+                                    .filter { recipe -> recipe.category == category }
+                            }
                         } else {
-                            cachedRecipes
+                            if (time.isNotEmpty()) {//time
+                                cachedRecipes.sortedBy { it.time }
+                            } else {//다 없어
+                                cachedRecipes
+                            }
                         }
                     }
-
             )
             Log.d("SearchRecipesViewModel", "result: ${_state.value}")
         }
