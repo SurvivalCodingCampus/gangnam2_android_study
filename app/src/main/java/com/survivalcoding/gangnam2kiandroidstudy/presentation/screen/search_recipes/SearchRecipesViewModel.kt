@@ -22,6 +22,7 @@ class SearchRecipesViewModel(
     private val savedRecipesRepository: SavedRecipesRepository
 ) : ViewModel() {
     private var _state = MutableStateFlow(SearchRecipesState())
+    private var cachedRecipes: List<Recipe> = emptyList()
     val state = _state.asStateFlow().debounce(1000)
 
     init {
@@ -29,6 +30,8 @@ class SearchRecipesViewModel(
             val resultList: List<Recipe> =
                 savedRecipesRepository.getSavedRecipes()
             _state.value = _state.value.copy(resultRecipes = resultList)
+            cachedRecipes = savedRecipesRepository.getSavedRecipes()
+
         }
 
 
@@ -39,13 +42,13 @@ class SearchRecipesViewModel(
             if (searchText.isEmpty()) {
                 _state.value =
                     _state.value.copy(
-                        resultRecipes = savedRecipesRepository.getSavedRecipes(),
+                        resultRecipes = cachedRecipes,
                         searchInputText = "",
                     )
             } else {
                 _state.value =
                     _state.value.copy(
-                        resultRecipes = savedRecipesRepository.getSavedRecipes().filter {
+                        resultRecipes = cachedRecipes.filter {
                             it.name.contains(
                                 searchText
                             )
@@ -71,11 +74,11 @@ class SearchRecipesViewModel(
                     if (rate.isNotEmpty()) {
 
                         if (category.isNotEmpty()) {
-                            savedRecipesRepository.getSavedRecipes().filter { recipe ->
+                            cachedRecipes.filter { recipe ->
                                 recipe.rating >= rate.toInt()
                             }.filter { recipe -> recipe.category == category }
                         } else {
-                            savedRecipesRepository.getSavedRecipes().filter { recipe ->
+                            cachedRecipes.filter { recipe ->
                                 recipe.rating >= rate.toInt()
                             }
                         }
@@ -83,10 +86,10 @@ class SearchRecipesViewModel(
 
                     } else {
                         if (category.isNotEmpty()) {
-                            savedRecipesRepository.getSavedRecipes()
+                            cachedRecipes
                                 .filter { recipe -> recipe.category == category }
                         } else {
-                            savedRecipesRepository.getSavedRecipes()
+                            cachedRecipes
                         }
                     }
 
