@@ -9,7 +9,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun HomeRoot(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = viewModel()
+    viewModel: HomeViewModel = viewModel(
+        factory = HomeViewModel.Factory
+    )
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
