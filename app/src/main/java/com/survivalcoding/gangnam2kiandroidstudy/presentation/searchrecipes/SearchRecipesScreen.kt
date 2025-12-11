@@ -61,7 +61,7 @@ fun SearchRecipesScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             SearchField(
-                query = "",
+                query = uiState.searchText,
                 placeholder = "Search recipe",
                 onQueryChange = {
                     viewModel.changeSearchText(it)
