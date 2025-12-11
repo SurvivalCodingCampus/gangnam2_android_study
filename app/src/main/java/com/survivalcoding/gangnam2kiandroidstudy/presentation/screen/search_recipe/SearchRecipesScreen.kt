@@ -23,20 +23,13 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallRecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
@@ -44,19 +37,15 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun SearchRecipesScreen(
-    modifier: Modifier = Modifier,
-    viewModel: SearchRecipesViewModel = viewModel(factory = SearchRecipesViewModel.Factory),
     state: SearchRecipesState,
 
     onSearchTermChange: (String) -> Unit = {},
     onBackClick: () -> Unit = {},
+    onFilterClick: () -> Unit = {},
 ) {
-    // 필터 시트 출력 여부
-    var showFilterSheet by remember { mutableStateOf(false) }
-    val filterState by viewModel.filterState.collectAsStateWithLifecycle()
 
     Column(
-        modifier = modifier.padding(horizontal = 30.dp),
+        modifier = Modifier.padding(horizontal = 30.dp),
     ) {
         // Search recipes
         Box(
@@ -127,7 +116,7 @@ fun SearchRecipesScreen(
                     .size(40.dp)
                     .clip(RoundedCornerShape(10.dp))
                     .background(color = AppColors.primary100)
-                    .clickable { showFilterSheet = true }
+                    .clickable { onFilterClick() }
             ) {
                 Icon(
                     painter = painterResource(R.drawable.outline_setting_4),
@@ -170,7 +159,6 @@ fun SearchRecipesScreen(
             verticalArrangement = Arrangement.spacedBy(15.dp),
         ) {
             if (state.searchTerm.isNotEmpty()) {
-//                viewModel.loadFilteredRecipes()
                 items(state.filteredRecipes) { recipe ->
                     SmallRecipeCard(recipe = recipe)
                 }
@@ -179,18 +167,6 @@ fun SearchRecipesScreen(
                     SmallRecipeCard(recipe = recipe)
                 }
             }
-        }
-
-        // 필터 시트
-        if (showFilterSheet) {
-            FilterSearchBottomSheet(
-                onApplyFilter = { filter ->
-                    viewModel.applyFilter(filter)
-                    showFilterSheet = false
-                },
-                onDismiss = { showFilterSheet = false },
-                initialFilter = filterState,
-            )
         }
     }
 }
