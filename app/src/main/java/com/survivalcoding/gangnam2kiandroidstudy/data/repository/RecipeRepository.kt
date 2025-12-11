@@ -6,4 +6,6 @@ interface RecipeRepository {
     suspend fun getAllRecipes(): Result<List<Recipe>>
 
     suspend fun getFilteredRecipes(keyword: String): Result<List<Recipe>>
+
+    suspend fun getFilteredRecipesByCategory(category: String): Result<List<Recipe>>
 }

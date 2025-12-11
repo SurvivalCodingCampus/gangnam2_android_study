@@ -1,6 +1,5 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,20 +8,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -31,10 +27,19 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun HorizontalRecipeCard(
     recipe: Recipe,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    imageLoader: @Composable BoxScope.(Modifier) -> Unit = { modifier ->
+        AsyncImage(
+            model = recipe.image,
+            contentDescription = "Recipe Image",
+            modifier = Modifier
+                .size(110.dp)
+                .clip(CircleShape)
+                .align(Alignment.TopCenter),
+            contentScale = ContentScale.None
+        )
+    }
 ) {
-    val imageBitmap = loadImageFromAssets("greek_salad.png")
-
     Box(
         modifier = modifier.size(width = 150.dp, height = 231.dp),
     ) {
@@ -46,7 +51,7 @@ fun HorizontalRecipeCard(
                 .align(Alignment.BottomCenter)
         ) {
             Text(
-                text = "Classic Greek Salad",
+                text = recipe.name,
                 modifier = Modifier.align(Alignment.Center),
                 style = AppTextStyles.smallTextRegular.copy(
                     fontWeight = FontWeight.SemiBold,
@@ -63,13 +68,12 @@ fun HorizontalRecipeCard(
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
-                    text = "15 Mins",
+                    text = recipe.time,
                     style = AppTextStyles.smallerTextRegular.copy(
                         fontWeight = FontWeight.SemiBold
                     )
                 )
             }
-
             Box(
                 modifier = Modifier
                     .size(24.dp)
@@ -79,44 +83,13 @@ fun HorizontalRecipeCard(
                 Icon(
                     painter = painterResource(R.drawable.bookmark),
                     contentDescription = null,
-                    modifier = Modifier
-                        .align(Alignment.Center),
+                    modifier = Modifier.align(Alignment.Center),
                     tint = AppColors.primary100
                 )
             }
         }
         Box(modifier = Modifier.fillMaxWidth()) {
-
-            // Top Recipe Image
-            /*if (imageBitmap != null) {
-                Image(
-                    bitmap = imageBitmap,
-                    contentDescription = "Recipe Image",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(110.dp),
-                    contentScale = ContentScale.Crop
-                )
-            } else {
-                // 로딩 실패 시 Placeholder
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(110.dp)
-                        .background(Color.LightGray)
-                )
-            }*/
-            Image(
-                painter = painterResource(R.drawable.circle_recipe),
-                contentDescription = "Recipe Image",
-                modifier = Modifier
-                    .size(110.dp)
-                    .clip(CircleShape)
-                    .align(Alignment.TopCenter),
-                contentScale = ContentScale.None
-            )
-
-            // Rating Badge
+            imageLoader(Modifier)
             Row(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -132,7 +105,7 @@ fun HorizontalRecipeCard(
                 )
                 Spacer(modifier = Modifier.width(3.dp))
                 Text(
-                    text = "4.5",
+                    text = recipe.rating.toString(),
                     style = AppTextStyles.smallerTextRegular,
                     color = Color.Black
                 )
@@ -141,24 +114,29 @@ fun HorizontalRecipeCard(
     }
 }
 
-
-@Composable
-fun loadImageFromAssets(fileName: String): ImageBitmap? {
-    val context = LocalContext.current
-    return remember(fileName) {
-        try {
-            val inputStream = context.assets.open(fileName)
-            val bitmap = BitmapFactory.decodeStream(inputStream)
-            bitmap.asImageBitmap()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun HorizontalRecipeCardPreview() {
-    HorizontalRecipeCard(Recipe(0))
+    HorizontalRecipeCard(
+        Recipe(
+            id = 0,
+            category = "All",
+            name = "Classic Greek Salad",
+            image = "https://cdn.pixabay.com/photo/2014/11/05/15/57/salmon-518032_1280.jpg",
+            chef = "unknown",
+            time = "15 min",
+            rating = 4.5
+        ),
+        modifier = Modifier.padding(10.dp)
+    ) { modifier ->
+        Image(
+            painter = painterResource(R.drawable.circle_recipe),
+            contentDescription = "Recipe Image",
+            modifier = Modifier
+                .size(110.dp)
+                .clip(CircleShape)
+                .align(Alignment.TopCenter),
+            contentScale = ContentScale.None
+        )
+    }
 }

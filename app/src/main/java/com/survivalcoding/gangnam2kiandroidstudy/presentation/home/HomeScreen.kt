@@ -17,7 +17,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.HorizontalRecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCategorySelector
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchInputField
@@ -25,7 +24,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun HomeScreen(uiState: HomeUiState) {
+fun HomeScreen(uiState: HomeUiState, onSelectCategory: (String) -> Unit) {
     var searchKeyword by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
@@ -92,15 +91,15 @@ fun HomeScreen(uiState: HomeUiState) {
             modifier = Modifier.padding(top = 15.dp),
             contentPadding = PaddingValues(start = 30.dp),
             selectedCategory = uiState.selectedCategory,
-            onCategoryClick = {  }
+            onCategoryClick = onSelectCategory
         )
         LazyRow(
             modifier = Modifier.padding(top = 15.dp),
             contentPadding = PaddingValues(horizontal = 30.dp),
             horizontalArrangement = Arrangement.spacedBy(15.dp)
         ) {
-            items((0..5).toList()) {
-                HorizontalRecipeCard(Recipe(it))
+            items(uiState.recipes) { recipe ->
+                HorizontalRecipeCard(recipe)
             }
         }
     }
@@ -109,5 +108,5 @@ fun HomeScreen(uiState: HomeUiState) {
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(HomeUiState())
+    HomeScreen(HomeUiState(), onSelectCategory = {})
 }
