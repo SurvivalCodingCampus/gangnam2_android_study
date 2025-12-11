@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.data
+package com.survivalcoding.gangnam2kiandroidstudy.data
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSourceImpl
@@ -51,9 +51,9 @@ class RecipeDataSourceTest {
 }
     """.trimIndent()
 
-    private val fakeAssetManager = FakeAssetManager(fakeJson)
+    private val mockAssetManager = MockAssetManager(fakeJson)
 
-    private val dataSource = RecipeDataSourceImpl.getInstance(fakeAssetManager)
+    private val dataSource = RecipeDataSourceImpl.getInstance(mockAssetManager)
 
     @Test
     fun `테스트`() {
