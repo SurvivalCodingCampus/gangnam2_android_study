@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,17 +20,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
+import kotlinx.serialization.json.Json
 
 @Composable
 fun MediumRecipeCard(recipe: Recipe) {
@@ -56,6 +61,7 @@ fun MediumRecipeCard(recipe: Recipe) {
                             color = AppColors.gray1,
                             fontWeight = FontWeight.SemiBold
                         ),
+                        minLines = 2,
                         maxLines = 2
                     )
                     Spacer(modifier = Modifier.height(19.dp))
@@ -88,13 +94,20 @@ fun MediumRecipeCard(recipe: Recipe) {
 
             }
         }
-        AsyncImage(
-            model = recipe.image,
-            contentDescription = "레시피 이미지",
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .size(110.dp)
-        )
+        Box(modifier = Modifier
+            .size(110.dp)
+            .clip(shape = CircleShape)
+            .align(Alignment.TopCenter), contentAlignment = Alignment.Center) {
+            AsyncImage(
+                model = recipe.image,
+                contentDescription = "레시피 이미지",
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxSize()
+                , contentScale = ContentScale.Crop
+            )
+
+        }
 
 
 
@@ -136,6 +149,26 @@ fun MediumRecipeCard(recipe: Recipe) {
 @Preview(showBackground = true)
 @Composable
 private fun MediumRecipeCardPreview() {
-    //MediumRecipeCard()
+    val mock = """
+        {"category": "Indian",
+      "id": 1,
+      "name": "Traditional spare ribs baked",
+      "image": "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
+      "chef": "Chef John",
+      "time": "20 min",
+      "rating": 4.0,
+      "ingredients": [
+        {
+          "ingredient": {
+            "id": 3,
+            "name": "Pork",
+            "image": "https://cdn.pixabay.com/photo/2019/12/20/14/44/meat-4708596_1280.jpg"
+          },
+          "amount": 500
+        }]}"""
+    val json = Json {
+        ignoreUnknownKeys = true
+    }
+    MediumRecipeCard(json.decodeFromString(mock))
 
 }
