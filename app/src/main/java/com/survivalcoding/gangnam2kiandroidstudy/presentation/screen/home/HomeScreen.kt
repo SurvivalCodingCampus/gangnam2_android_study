@@ -80,16 +80,15 @@ fun HomeScreen(
                     style = AppTextStyles.PoppinsSmallerRegular,
                 )
             }
-            uiState.profile?.let {
+            uiState.profile?.let { profile ->
                 AsyncImage(
-                    model = uiState.profile.imageUrl.orPreview,
+                    model = profile.imageUrl.orPreview,
                     contentDescription = "profile image",
                     modifier = Modifier
                         .size(40.dp)
                         .clip(RoundedCornerShape(10.dp)),
                     contentScale = ContentScale.Crop,
                 )
-
             }
         }
 
@@ -156,7 +155,7 @@ fun HomeScreen(
         } else {
             LazyRow(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
                     .padding(start = 30.dp),
                 horizontalArrangement = Arrangement.spacedBy(15.dp),
             ) {

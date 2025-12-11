@@ -40,8 +40,7 @@ class HomeScreenTest {
         composeTestRule.onNodeWithText("Cereal").assertIsDisplayed()
         composeTestRule.onNodeWithText("Vegetables").assertIsDisplayed()
 
-        composeTestRule.onAllNodes(hasText("spice", substring = true)).onFirst()
-            .assertIsDisplayed()
+        composeTestRule.onNode(hasText("Traditional", substring = true)).assertIsDisplayed()
         composeTestRule.onAllNodesWithText("Time").onFirst().assertIsDisplayed()
         composeTestRule.onAllNodesWithText("20 Mins").onFirst().assertIsDisplayed()
     }
@@ -64,8 +63,7 @@ class HomeScreenTest {
         composeTestRule.onNodeWithText("Cereal").assertIsDisplayed()
         composeTestRule.onNodeWithText("Vegetables").assertIsDisplayed()
 
-        composeTestRule.onAllNodes(hasText("spice", substring = true)).onFirst()
-            .assertIsNotDisplayed()
+        composeTestRule.onNode(hasText("Traditional", substring = true)).assertIsNotDisplayed()
         composeTestRule.onAllNodesWithText("Time").onFirst().assertIsNotDisplayed()
         composeTestRule.onAllNodesWithText("20 Mins").onFirst().assertIsNotDisplayed()
     }
@@ -89,8 +87,7 @@ class HomeScreenTest {
         composeTestRule.onNodeWithText("Vegetables").assertIsDisplayed()
 
         composeTestRule.onNodeWithText("Loading...").assertIsDisplayed()
-        composeTestRule.onAllNodes(hasText("spice", substring = true)).onFirst()
-            .assertIsNotDisplayed()
+        composeTestRule.onNode(hasText("Traditional", substring = true)).assertIsNotDisplayed()
         composeTestRule.onAllNodesWithText("Time").onFirst().assertIsNotDisplayed()
         composeTestRule.onAllNodesWithText("20 Mins").onFirst().assertIsNotDisplayed()
     }
@@ -114,8 +111,7 @@ class HomeScreenTest {
         composeTestRule.onNodeWithText("Vegetables").assertIsDisplayed()
 
         composeTestRule.onNodeWithText("데이터가 없습니다.").assertIsDisplayed()
-        composeTestRule.onAllNodes(hasText("spice", substring = true)).onFirst()
-            .assertIsNotDisplayed()
+        composeTestRule.onNode(hasText("Traditional", substring = true)).assertIsNotDisplayed()
         composeTestRule.onAllNodesWithText("Time").onFirst().assertIsNotDisplayed()
         composeTestRule.onAllNodesWithText("20 Mins").onFirst().assertIsNotDisplayed()
     }
