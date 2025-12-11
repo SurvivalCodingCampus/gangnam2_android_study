@@ -1,6 +1,8 @@
 package com.survivalcoding.gangnam2kiandroidstudy
 
 import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -30,8 +32,17 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.CounterScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.MainViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.BigButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RatingDialog
+import java.io.Serializable
 
-data class Hero(val name: String, val age: Int)
+data class Hero(val name: String, val age: Int): Parcelable {
+    override fun describeContents(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        TODO("Not yet implemented")
+    }
+}
 
 class MainActivity : ComponentActivity() {
     // 상태
@@ -40,6 +51,8 @@ class MainActivity : ComponentActivity() {
         super.onSaveInstanceState(outState)
         // 화면 돌아갈때
         // 상태 저장
+        val hero = Hero("홍", 10)
+        outState.putParcelable("hero", hero)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
