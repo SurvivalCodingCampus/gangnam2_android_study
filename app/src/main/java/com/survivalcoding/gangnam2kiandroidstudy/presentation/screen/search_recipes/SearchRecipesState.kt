@@ -8,7 +8,4 @@ data class SearchRecipesState(
     val selectedTime: String = "",
     val selectedRate: String = "",
     val selectedCategory: String = ""
-
-
-
     )
