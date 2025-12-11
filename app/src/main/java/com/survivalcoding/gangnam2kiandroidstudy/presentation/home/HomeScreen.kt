@@ -1,8 +1,5 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.home
 
-import android.R.attr.contentDescription
-import android.graphics.Color.YELLOW
-import android.graphics.drawable.ColorDrawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,11 +20,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterBox
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.HomeRecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCategorySelector
@@ -39,6 +36,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun HomeScreen(
     state: HomeState = HomeState(),
     onSelecteedCategory: (String) -> Unit = {},
+    profilePainter: Painter,
 ) {
     Column(
         modifier = Modifier
@@ -69,13 +67,11 @@ fun HomeScreen(
                     .size(40.dp)
                     .background(color = AppColors.secondary40, shape = RoundedCornerShape(10.dp))
             ) {
-                if (!LocalInspectionMode.current) {
-                    Image(
-                        painter = painterResource(R.drawable.profile),
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
+                Image(
+                    painter = profilePainter,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
+                )
             }
 
         }
@@ -131,5 +127,5 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenPrev() {
-    HomeScreen()
+    HomeScreen(profilePainter = ColorPainter(Color.Gray))
 }
