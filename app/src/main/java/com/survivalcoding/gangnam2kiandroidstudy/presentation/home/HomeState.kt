@@ -1,0 +1,10 @@
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.home
+
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+
+data class HomeState(
+    val isLoading: Boolean = false,
+    val recipes: List<Recipe> = emptyList(),
+    val filteredRecipes: List<Recipe> = emptyList(),
+    val selectedCategory: String = "",
+)
