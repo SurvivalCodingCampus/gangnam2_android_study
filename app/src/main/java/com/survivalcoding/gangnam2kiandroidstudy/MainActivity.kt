@@ -12,8 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes.SearchRecipesRoot
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes.SearchRecipesViewModel
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,18 +28,11 @@ class MainActivity : ComponentActivity() {
                 verticalArrangement = Arrangement.Center,
             ) {
 
-                // SplashScreen()
-                // SavedRecipesScreen()
-                // CounterScreen()
-                // BottomSheetScreen()
-                // SearchRecipesScreen()
-                SearchRecipesRoot(
-                    viewModel = viewModel(factory = SearchRecipesViewModel.Factory)
+                HomeRoot(
+                    viewModel = viewModel(factory = HomeViewModel.Factory)
                 )
 
-
             }
-
         }
     }
 }
