@@ -49,7 +49,10 @@ fun FilterBottomSheet(
                 selectedCategory.value,
                 true
             )
-            Log.d("FilterBottomSheet", "onDismissRequest: ${selectedTime.value}, ${selectedRate.value}, ${selectedCategory.value}")
+            Log.d(
+                "FilterBottomSheet",
+                "onDismissRequest: ${selectedTime.value}, ${selectedRate.value}, ${selectedCategory.value}"
+            )
         }) {
         Column(modifier = Modifier.padding(horizontal = 30.dp)) {
             Spacer(modifier = Modifier.height(31.dp))
@@ -252,7 +255,7 @@ fun FilterBottomSheet(
                             selectedTime.value,
                             selectedRate.value,
                             selectedCategory.value,
-                            true
+                            false
                         )
 
                     }
