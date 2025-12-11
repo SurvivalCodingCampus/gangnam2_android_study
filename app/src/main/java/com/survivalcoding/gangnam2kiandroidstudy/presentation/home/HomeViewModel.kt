@@ -8,7 +8,6 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes.SearchRecipesViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -61,13 +60,11 @@ class HomeViewModel(
             initializer {
                 // Application 인스턴스를 가져와서 recipeRepository를 얻습니다.
                 val recipeRepository = (this[APPLICATION_KEY] as AppApplication).recipeRepository
-                // SearchRecipesViewModel 인스턴스를 생성하여 반환합니다.
-                SearchRecipesViewModel(
+                // HomeViewModel 인스턴스를 생성하여 반환합니다.
+                HomeViewModel(
                     recipeRepository,
                 )
             }
         }
     }
 }
-
-
