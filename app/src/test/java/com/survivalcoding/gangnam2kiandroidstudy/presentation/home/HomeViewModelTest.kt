@@ -110,6 +110,7 @@ class HomeViewModelTest {
         assertEquals(1, filteredRecipes.size)
         assertEquals("Ttekbokki", filteredRecipes[0].title)
     }
+
     @Test
     fun `viewModel 카테고리 필터링 테스트()- All`() = runTest {
         val filter = "All"

@@ -21,15 +21,15 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 fun RecipeCategorySelector(
     modifier: Modifier = Modifier,
     category: List<String>,
-    onSelectCategory: (String) -> Unit= {},
+    onSelectCategory: (String) -> Unit = {},
 ) {
     var selectedCategory by remember { mutableStateOf("All") }
 
     LazyRow(
-       modifier = modifier
-           .fillMaxWidth()
-           .background(AppColors.white)
-           .padding(vertical = 10.dp)
+        modifier = modifier
+            .fillMaxWidth()
+            .background(AppColors.white)
+            .padding(vertical = 10.dp)
     ) {
         item {
             Spacer(modifier = Modifier.width(30.dp))
@@ -55,5 +55,5 @@ private fun RecipeCategorySelectorPreview() {
         category = listOf("Chinese", "Korean", "Japanese", "Western"),
 
 
-    )
+        )
 }

@@ -24,7 +24,10 @@ fun CategoryChip(
 ) {
     Box(
         modifier = modifier
-            .background(color = if (isSelected) AppColors.primary100 else AppColors.white, shape = RoundedCornerShape(10.dp))
+            .background(
+                color = if (isSelected) AppColors.primary100 else AppColors.white,
+                shape = RoundedCornerShape(10.dp)
+            )
             .padding(horizontal = 20.dp, vertical = 7.dp)
             .clickable {
                 onClick()
