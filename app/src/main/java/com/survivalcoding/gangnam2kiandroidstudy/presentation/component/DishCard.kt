@@ -112,7 +112,7 @@ fun DishCard(
             contentAlignment = Alignment.TopEnd,
         ) {
             Row(
-                modifier = modifier
+                modifier = Modifier
                     .height(23.dp)
                     .background(
                         color = AppColors.Secondary20,

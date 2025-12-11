@@ -33,7 +33,7 @@ import coil3.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.CategoryFilterType
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Profile
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.PreviewRecipeRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockRecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.DishCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCategorySelector
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchInputField
@@ -173,7 +173,7 @@ fun HomeScreen(
 fun HomeScreenPreview() {
     HomeScreen(
         uiState = HomeUiState(
-            recipes = PreviewRecipeRepositoryImpl.sampleRecipes,
+            recipes = MockRecipeRepositoryImpl.mockRecipes,
             profile = Profile(
                 name = "Jane",
                 imageUrl = "",
@@ -193,7 +193,7 @@ fun NoProfileHomeScreenPreview() {
 fun LongNameHomeScreenPreview() {
     HomeScreen(
         uiState = HomeUiState(
-            recipes = PreviewRecipeRepositoryImpl.sampleRecipes,
+            recipes = MockRecipeRepositoryImpl.mockRecipes,
             profile = Profile(
                 name = "Jane".repeat(10),
                 imageUrl = "",

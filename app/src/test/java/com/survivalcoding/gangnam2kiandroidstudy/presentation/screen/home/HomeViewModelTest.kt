@@ -60,9 +60,9 @@ class HomeViewModelTest {
                     ),
                 )
 
-        advanceUntilIdle()
-
         viewModel.fetchRecipes()
+
+        advanceUntilIdle()
 
         val recipes = viewModel.uiState.value.recipes
 

@@ -9,7 +9,7 @@ import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Profile
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.PreviewRecipeRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockRecipeRepositoryImpl
 import org.junit.Rule
 import org.junit.Test
 
@@ -23,7 +23,7 @@ class HomeScreenTest {
         composeTestRule.setContent {
             HomeScreen(
                 uiState = HomeUiState(
-                    recipes = PreviewRecipeRepositoryImpl.sampleRecipes,
+                    recipes = MockRecipeRepositoryImpl.mockRecipes,
                     profile = Profile(
                         name = "Jane",
                         imageUrl = "",
