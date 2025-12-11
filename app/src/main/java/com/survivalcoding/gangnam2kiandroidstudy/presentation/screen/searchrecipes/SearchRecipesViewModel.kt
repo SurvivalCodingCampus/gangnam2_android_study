@@ -104,6 +104,11 @@ class SearchRecipesViewModel(
         }
     }
 
+    fun applyFilter() {
+        fetchRecipes()
+        hideBottomSheet()
+    }
+
     private fun setLoading(isLoading: Boolean) {
         _uiState.update {
             it.copy(isLoading = isLoading)
