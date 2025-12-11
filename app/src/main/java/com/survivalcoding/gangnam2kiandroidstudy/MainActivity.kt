@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.search.SearchRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_up.SignUpScreen
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.Gangnam2kiAndroidStudyTheme
@@ -21,8 +22,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Gangnam2kiAndroidStudyTheme {
-                SignUpScreen()
+//                SignUpScreen()
 //                SignInScreen()
+                SearchRecipesRoot()
             }
         }
     }

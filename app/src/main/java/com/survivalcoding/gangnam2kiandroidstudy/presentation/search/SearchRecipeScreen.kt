@@ -21,8 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterBox
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchInputField
@@ -33,11 +32,12 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchRecipeScreen(
-    viewModel: SearchRecipesViewModel = viewModel(
-        factory = SearchRecipesViewModel.Factory
-    )
+    state: SearchRecipeState= SearchRecipeState(),
+    showBottomSheet: Boolean = false,
+    onSearchQuery: (String) -> Unit = {},
+    tapFilterButton: (Boolean) -> Unit = {},
+    onApplyFilter: (FilterSearchState) -> Unit = {}
 ) {
-    val state = viewModel.state.collectAsStateWithLifecycle()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = AppColors.white
@@ -61,14 +61,14 @@ fun SearchRecipeScreen(
             ) {
                 SearchInputField(
                     modifier = Modifier.weight(1f),
-                    value = state.value.searchQuery,
+                    value = state.searchQuery,
                     placeholder = "Search Recipe",
                 ) {
-                    viewModel.updateSearchQuery(it)
+                    onSearchQuery(it)
                 }
                 Spacer(modifier = Modifier.width(20.dp))
                 FilterBox {
-                    viewModel.showBottomSheet(true)
+                    tapFilterButton(true)
                 }
             }
             Spacer(modifier = Modifier.height(20.dp))
@@ -78,11 +78,11 @@ fun SearchRecipeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = state.value.searchText,
+                    text = state.searchText,
                     style = AppTextStyles.normalTextBold,
                 )
                 Text(
-                    text = state.value.filteredRecipesText,
+                    text = state.filteredRecipesText,
                     style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray3)
                 )
             }
@@ -93,7 +93,7 @@ fun SearchRecipeScreen(
                 horizontalArrangement = Arrangement.spacedBy(15.dp),
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
-                items(state.value.filteredRecipes) {
+                items(state.filteredRecipes) {
                     SearchRecipeCard(
                         recipe = it
                     )
@@ -102,16 +102,16 @@ fun SearchRecipeScreen(
             }
         }
 
-        if (state.value.showBottomSheet) {
+        if (showBottomSheet) {
             FilterSearchBottomSheet(
                 sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
                 onDismiss = {
-                    viewModel.showBottomSheet(false)
+                    tapFilterButton(false)
                 },
-                currentFilterState = state.value.filterState,
+                currentFilterState = state.filterState,
                 onApplyFilter = {
-                    viewModel.applyFilters(it)
-                    viewModel.showBottomSheet(false)
+                    onApplyFilter(it)
+                    tapFilterButton(false)
                 }
             )
         }
@@ -121,5 +121,22 @@ fun SearchRecipeScreen(
 @Preview
 @Composable
 private fun SearchRecipeScreenPreview() {
-    SearchRecipeScreen()
+    SearchRecipeScreen(
+        state = SearchRecipeState(
+            searchQuery = "query",
+            searchText = "Search Result",
+            filteredRecipesText = "10 results",
+            filteredRecipes = listOf(
+                Recipe(
+                    title = "Traditional spare ribs baked",
+                    chef = "Chef John",
+                    time = "20 min",
+                    category = "Chinese",
+                    rating = 4.0,
+                    imageUrls = "https://cdn.pixabay.",
+                    createdAt = System.currentTimeMillis()
+                )
+            ),
+        ),
+    )
 }
