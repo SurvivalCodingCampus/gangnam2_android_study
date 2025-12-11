@@ -78,12 +78,13 @@ fun HomeScreen(
         Row(modifier = Modifier.padding(horizontal = 30.dp)) {
             Box(modifier = Modifier.weight(1f)) {
                 Search() {
+                    //TODO 디자인 완성 후 콜백 구현
 
                 }
             }
             Spacer(modifier = Modifier.width(20.dp))
             SettingButton {
-
+                //TODO 디자인 완성 후 콜백 구현
             }
         }
         Spacer(modifier = Modifier.height(15.dp))
