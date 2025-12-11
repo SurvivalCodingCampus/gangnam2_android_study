@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.search
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -23,8 +23,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchRecipesScreen(
-    uiState: SearchRecipesUiState,
+fun SearchScreen(
+    uiState: SearchUiState,
     onSearchKeywordChange: (String) -> Unit,
     onFilterButtonClick: (Boolean) -> Unit
 ) {
@@ -128,9 +128,9 @@ fun GridHeader(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-fun SearchRecipesScreenPreview() {
-    SearchRecipesScreen(
-        uiState = SearchRecipesUiState(),
+fun SearchScreenPreview() {
+    SearchScreen(
+        uiState = SearchUiState(),
         onSearchKeywordChange = {},
         onFilterButtonClick = {}
     )

@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.search
 
 data class FilterSearchState(
     val time: String = "All",

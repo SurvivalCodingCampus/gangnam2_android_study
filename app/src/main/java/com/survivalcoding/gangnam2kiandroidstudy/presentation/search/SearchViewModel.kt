@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,10 +12,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SearchRecipesViewModel(
+class SearchViewModel(
     private val recipeRepository: RecipeRepository
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(SearchRecipesUiState())
+    private val _uiState = MutableStateFlow(SearchUiState())
     val uiState = _uiState.asStateFlow()
 
     private fun fetchAllRecipes() {

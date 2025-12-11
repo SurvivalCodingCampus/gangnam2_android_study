@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.search
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,9 +17,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchRecipesRoot(
-    viewModel: SearchRecipesViewModel = viewModel(
-        factory = DependencyContainer.provideSearchRecipesViewModelFactory(LocalContext.current)
+fun SearchRoot(
+    viewModel: SearchViewModel = viewModel(
+        factory = DependencyContainer.provideSearchViewModelFactory(LocalContext.current)
     )
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -27,7 +27,7 @@ fun SearchRecipesRoot(
         skipPartiallyExpanded = true
     )
 
-    SearchRecipesScreen(
+    SearchScreen(
         uiState,
         viewModel::onSearchKeywordChange,
         viewModel::onFilterButtonClick
