@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -9,6 +10,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.filter.FilterSearchState
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,6 +18,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -24,15 +27,17 @@ class SearchRecipeViewModel(private val recipeRepository: RecipeRepository) : Vi
     private val _uiState = MutableStateFlow(SearchRecipeState())
     val uiState: StateFlow<SearchRecipeState> = _uiState.asStateFlow()
 
-    private val _searchQuery = MutableStateFlow("")
-    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+    private val _searchQuery = _uiState
+        .map { it.query }
+        .debounce(1000)
+
 
     init {
-        fetchSearchRecipes("")
+        fetchRecipes()
 
         viewModelScope.launch {
-            _searchQuery.drop(1)
-                .debounce(1000)
+            _searchQuery
+                .drop(1)
                 .distinctUntilChanged()
                 .collect { query ->
                     fetchSearchRecipes(query)
@@ -41,52 +46,53 @@ class SearchRecipeViewModel(private val recipeRepository: RecipeRepository) : Vi
     }
 
     fun updateSearch(query: String) {
-        _searchQuery.value = query
-    }
-
-    fun updateFilterTime(time: String) {
         _uiState.update {
-            it.copy(time = time)
+            it.copy(query = query)
         }
     }
 
-    fun updateFilterRate(rate: String) {
-        _uiState.update {
-            it.copy(rate = rate.toDouble())
-        }
-    }
-
-    fun updateFilterCategory(category: String) {
-        _uiState.update {
-            it.copy(category = category)
-        }
-    }
-
-    fun updateFilter(time: String, rate: Double, category: String) {
+    fun updateFilterSearchState(filterSearchState: FilterSearchState) {
         _uiState.update {
             it.copy(
-                time = time,
-                rate = rate,
-                category = category
+                filterSearchState = filterSearchState,
+                showBottomSheet = false
             )
         }
 
-        fetchSearchRecipes(_searchQuery.value)
+        fetchSearchRecipes(_uiState.value.query)
     }
 
     fun performSearch() {
-        fetchSearchRecipes(_searchQuery.value)
+        fetchSearchRecipes(_uiState.value.query)
     }
 
-    fun showBottomSheet() {
+    fun toggleFilterSetting() {
         _uiState.update {
-            it.copy(showBottomSheet = true)
+            it.copy(showBottomSheet = !it.showBottomSheet)
         }
     }
 
-    fun hideBottomSheet() {
-        _uiState.update {
-            it.copy(showBottomSheet = false)
+    private fun fetchRecipes() {
+        try {
+            viewModelScope.launch {
+                val response = recipeRepository.findAll()
+
+                when (response) {
+                    is Result.Success -> _uiState.update {
+                        it.copy(recipes = response.data, isLoading = false)
+                    }
+
+                    is Result.Failure -> {
+                        _uiState.update {
+                            it.copy(isLoading = false, error = response.error.toString())
+                        }
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            _uiState.update {
+                it.copy(isLoading = false, error = "Error fetching ${e.message}")
+            }
         }
     }
 
@@ -95,26 +101,27 @@ class SearchRecipeViewModel(private val recipeRepository: RecipeRepository) : Vi
             viewModelScope.launch {
                 val response = recipeRepository.search(
                     query = query,
-                    _uiState.value.time,
-                    _uiState.value.rate,
-                    _uiState.value.category
+                    _uiState.value.filterSearchState.time,
+                    _uiState.value.filterSearchState.rate,
+                    _uiState.value.filterSearchState.category.displayName
                 )
+                Log.d("SearchRecipeViewModel fetchSearchRecipes", "$response")
 
                 when (response) {
                     is Result.Success -> _uiState.update {
-                        it.copy(data = response.data, loading = false)
+                        it.copy(filterRecipes = response.data, isLoading = false)
                     }
 
                     is Result.Failure -> {
                         _uiState.update {
-                            it.copy(loading = false, error = response.error.toString())
+                            it.copy(isLoading = false, error = response.error.toString())
                         }
                     }
                 }
             }
         } catch (e: Exception) {
             _uiState.update {
-                it.copy(loading = false, error = "Error fetching ${e.message}")
+                it.copy(isLoading = false, error = "Error fetching ${e.message}")
             }
         }
     }

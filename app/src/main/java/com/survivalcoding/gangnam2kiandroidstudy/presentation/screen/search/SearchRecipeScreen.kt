@@ -21,29 +21,30 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSettingButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeSearchCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Search
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.filter.FilterSearchBottomSheet
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.filter.FilterSearchState
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun SearchRecipeScreen(
+    state: SearchRecipeState,
     modifier: Modifier = Modifier,
-    viewModel: SearchRecipeViewModel = viewModel(factory = SearchRecipeViewModel.Factory),
+    onClickSearch: () -> Unit = {},
+    onUpdateSearch: (String) -> Unit = {},
+    toggleFilterSetting: () -> Unit = {},
+    onUpdateFilterSearch: (FilterSearchState) -> Unit = {},
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
-
     Box(modifier = modifier.fillMaxSize()) {
         Column(modifier = Modifier.padding(horizontal = 30.dp, vertical = 10.dp)) {
             Row(
@@ -68,14 +69,13 @@ fun SearchRecipeScreen(
                 Search(
                     modifier = Modifier.weight(1f),
                     placeholder = "Search recipe",
-                    value = searchQuery,
-                    onClick = { viewModel.performSearch() },
-                    onValueChange = { viewModel.updateSearch(it) })
+                    value = state.query,
+                    onClick = { onClickSearch() },
+                    onValueChange = { onUpdateSearch(it) }
+                )
                 Spacer(Modifier.width(20.dp))
 
-                FilterSettingButton {
-                    viewModel.showBottomSheet()
-                }
+                FilterSettingButton { toggleFilterSetting() }
             }
             Spacer(Modifier.height(20.dp))
 
@@ -85,21 +85,21 @@ fun SearchRecipeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = if (searchQuery.isNotEmpty()) "Search Result" else "Recent Search",
+                    text = if (state.filterRecipes.isNotEmpty()) "Search Result" else "Recent Search",
                     modifier = Modifier
                         .weight(1f),
                     style = AppTextStyles.normalTextBold
                 )
 
                 Text(
-                    text = if (uiState.data.isNotEmpty()) "${uiState.data.size} results" else "",
+                    text = if (state.filterRecipes.isNotEmpty()) "${state.filterRecipes.size} results" else "",
                     style = AppTextStyles.smallerTextRegular,
                     color = AppColors.gray3
                 )
             }
             Spacer(Modifier.height(20.dp))
 
-            if (uiState.loading) {
+            if (state.isLoading) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
                 }
@@ -110,22 +110,19 @@ fun SearchRecipeScreen(
                     horizontalArrangement = Arrangement.spacedBy(15.dp),
                     verticalArrangement = Arrangement.spacedBy(15.dp)
                 ) {
-                    items(uiState.data) { recipe ->
+                    val recipes = state.filterRecipes.ifEmpty { state.recipes }
+
+                    items(recipes) { recipe ->
                         RecipeSearchCard(recipe = recipe)
                     }
                 }
             }
 
             FilterSearchBottomSheet(
-                uiState = uiState,
-                showBottomSheet = uiState.showBottomSheet,
-                onDismiss = { viewModel.hideBottomSheet() },
-                onTimeSelected = { viewModel.updateFilterTime(it) },
-                onRateSelected = { viewModel.updateFilterRate(it) },
-                onCategorySelected = { viewModel.updateFilterCategory(it) },
-                onFilterClick = { time, rate, category ->
-                    viewModel.updateFilter(time, rate, category)
-                }
+                state = state.filterSearchState,
+                showBottomSheet = state.showBottomSheet,
+                onDismiss = { toggleFilterSetting() },
+                onClickFilter = { onUpdateFilterSearch(it) },
             )
         }
     }
@@ -134,7 +131,44 @@ fun SearchRecipeScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun SearchRecipeScreenPreview() {
+    val state = SearchRecipeState(
+        recipes = listOf(
+            Recipe(
+                1,
+                "Indian",
+                "Classic Greek Salad",
+                "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
+                "Chef John",
+                "20 min",
+                4.0
+            ),
+            Recipe(
+                2,
+                "Indian",
+                "Classic Greek Salad",
+                "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
+                "Chef John",
+                "20 min",
+                4.0
+            )
+        ),
+        filterRecipes = listOf(
+            Recipe(
+                1,
+                "Indian",
+                "Classic Greek Salad",
+                "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
+                "Chef John",
+                "20 min",
+                4.0
+            )
+        )
+    )
+
     Scaffold { innerPadding ->
-        SearchRecipeScreen(modifier = Modifier.padding(innerPadding))
+        SearchRecipeScreen(
+            state = state,
+            modifier = Modifier.padding(innerPadding)
+        )
     }
 }

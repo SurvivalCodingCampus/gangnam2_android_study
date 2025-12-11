@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.filter
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,32 +14,33 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterItemButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RatingButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallButton
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterSearchBottomSheet(
-    uiState: SearchRecipeState,
+    state: FilterSearchState,
     showBottomSheet: Boolean,
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit = {},
-    onTimeSelected: (String) -> Unit = {},
-    onRateSelected: (String) -> Unit = {},
-    onCategorySelected: (String) -> Unit = {},
-    onFilterClick: (String, Double, String) -> Unit = { _, _, _ -> }
+    onClickFilter: (FilterSearchState) -> Unit = {},
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val scope = rememberCoroutineScope()
+
+    val time = remember { mutableStateOf(state.time) }
+    val rate = remember { mutableStateOf(state.rate) }
+    val category = remember { mutableStateOf(state.category) }
 
     if (showBottomSheet) {
         ModalBottomSheet(
@@ -65,11 +66,11 @@ fun FilterSearchBottomSheet(
                         modifier = Modifier,
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        listOf("All", "Newest", "Oldest", "Popularity").forEach { time ->
+                        listOf("All", "Newest", "Oldest", "Popularity").forEach {
                             FilterItemButton(
-                                text = time,
-                                isSelected = uiState.time == time,
-                                onClick = { onTimeSelected(time) }
+                                text = it,
+                                isSelected = it == time.value,
+                                onClick = { time.value = it }
                             )
                         }
                     }
@@ -84,11 +85,11 @@ fun FilterSearchBottomSheet(
                         modifier = Modifier,
                         horizontalArrangement = Arrangement.spacedBy(15.dp)
                     ) {
-                        listOf("5", "4", "3", "2", "1").forEach { rate ->
+                        listOf("5", "4", "3", "2", "1").forEach {
                             RatingButton(
-                                text = rate,
-                                isSelected = uiState.rate == rate.toDouble(),
-                                onClick = { onRateSelected(rate) }
+                                text = it,
+                                isSelected = it.toDouble() == rate.value,
+                                onClick = { rate.value = it.toDouble() }
                             )
                         }
                     }
@@ -104,16 +105,11 @@ fun FilterSearchBottomSheet(
                         horizontalArrangement = Arrangement.spacedBy(10.dp),
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        val categories = listOf(
-                            "All", "Cereal", "Vegetables", "Dinner",
-                            "Chinese", "Local Dish", "Fruit", "BreakFast",
-                            "Spanish", "Chinese", "Lunch"
-                        )
-                        categories.forEach { category ->
+                        RecipeCategory.entries.forEach {
                             FilterItemButton(
-                                text = category,
-                                isSelected = uiState.category == category,
-                                onClick = { onCategorySelected(category) }
+                                text = it.displayName,
+                                isSelected = it == category.value,
+                                onClick = { category.value = it }
                             )
                         }
                     }
@@ -121,15 +117,9 @@ fun FilterSearchBottomSheet(
                 Spacer(Modifier.height(30.dp))
 
                 SmallButton(modifier = Modifier.padding(horizontal = 70.dp), text = "Filter") {
-                    onFilterClick(uiState.time, uiState.rate, uiState.category)
-
-                    scope.launch {
-                        sheetState.hide()
-                    }.invokeOnCompletion {
-                        if (!sheetState.isVisible) {
-                            onDismiss()
-                        }
-                    }
+                    onClickFilter(
+                        FilterSearchState(time = time.value, rate = rate.value, category = category.value)
+                    )
                 }
             }
         }
@@ -139,9 +129,11 @@ fun FilterSearchBottomSheet(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun FilterSearchBottomSheetPreview() {
+    val state = FilterSearchState()
+
     Scaffold { innerPadding ->
         FilterSearchBottomSheet(
-            SearchRecipeState(),
+            state = state,
             true,
             modifier = Modifier.padding(innerPadding)
         )
