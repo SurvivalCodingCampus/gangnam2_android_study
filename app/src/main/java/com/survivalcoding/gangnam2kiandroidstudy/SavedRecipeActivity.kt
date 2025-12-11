@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved.SavedRecipeScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.SearchRecipeScreen
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.Gangnam2kiAndroidStudyTheme
 
 class SavedRecipeActivity : ComponentActivity() {
@@ -18,7 +19,8 @@ class SavedRecipeActivity : ComponentActivity() {
         setContent {
             Gangnam2kiAndroidStudyTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SavedRecipeScreen(modifier = Modifier.padding(innerPadding))
+//                    SavedRecipeScreen(modifier = Modifier.padding(innerPadding))
+                    SearchRecipeScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }

@@ -2,10 +2,12 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -23,10 +25,16 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun RatingButton(modifier: Modifier = Modifier, text: String, isSelected: Boolean) {
+fun RatingButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    isSelected: Boolean,
+    onClick: () -> Unit = {},
+) {
     Column(
         modifier = modifier
-            .size(51.dp, 28.dp)
+            .height(28.dp)
+            .clickable { onClick() }
             .border(
                 width = 1.dp,
                 color = if (isSelected) AppColors.primary100 else AppColors.primary80,
@@ -40,7 +48,7 @@ fun RatingButton(modifier: Modifier = Modifier, text: String, isSelected: Boolea
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row {
+        Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = text,
                 style = AppTextStyles.smallerTextBold,
