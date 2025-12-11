@@ -42,7 +42,7 @@ fun SearchRecipesScreen(
     viewModel: SearchRecipesViewModel = viewModel(factory = SearchRecipesViewModel.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val recipes = uiState.recipes
+    val recipes = uiState.filteredRecipes
 
     Column(
         modifier = modifier

@@ -42,7 +42,11 @@ class SearchRecipesViewModel(
             try {
                 val recipes = recipeRepository.getRecipes()
                 _uiState.update {
-                    it.copy(recipes = recipes, isLoading = false)
+                    it.copy(
+                        recipes = recipes,
+                        filteredRecipes = recipes,
+                        isLoading = false,
+                    )
                 }
             } catch (e: Exception) {
                 _uiState.update {
