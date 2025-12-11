@@ -55,7 +55,7 @@ class SearchRecipesViewModel(
 
     fun fetchRecipes(
         searchText: String = uiState.value.searchText,
-        searchFilter: RecipeSearchFilter = uiState.value.searchFilter,
+        searchFilter: RecipeFilterState = uiState.value.searchFilter,
     ) {
         setLoading(true)
 
