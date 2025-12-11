@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,7 +29,7 @@ fun FilterBottomSheet(
     rate: String?,
     category: String?,
     inputText: String?,
-    onDismiss: (inputText: String?, time: String?, rate: String?, category: String?) -> Unit
+    onDismiss: (inputText: String?, time: String?, rate: String?, category: String?, enableBottomSheet: Boolean) -> Unit
 ) {
     val selectedTime = remember { mutableStateOf<String>(time ?: "") }
     val selectedRate = remember { mutableStateOf<String>(rate ?: "") }
@@ -45,8 +46,10 @@ fun FilterBottomSheet(
                 inputText,
                 selectedTime.value,
                 selectedRate.value,
-                selectedCategory.value
+                selectedCategory.value,
+                true
             )
+            Log.d("FilterBottomSheet", "onDismissRequest: ${selectedTime.value}, ${selectedRate.value}, ${selectedCategory.value}")
         }) {
         Column(modifier = Modifier.padding(horizontal = 30.dp)) {
             Spacer(modifier = Modifier.height(31.dp))
@@ -63,37 +66,33 @@ fun FilterBottomSheet(
             Spacer(modifier = Modifier.height(10.dp))
             Row(modifier = Modifier, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 FilterButton("All", selectedTime.value == ("All")) {
-                    if(selectedTime.value == ("All")){
+                    if (selectedTime.value == ("All")) {
                         selectedTime.value = ""
-                    }
-                    else{
+                    } else {
                         selectedTime.value = "All"
                     }
 
                 }
                 FilterButton("Newest", selectedTime.value == ("Newest")) {
-                    if(selectedTime.value == ("Newest")){
+                    if (selectedTime.value == ("Newest")) {
                         selectedTime.value = ""
-                    }
-                    else{
+                    } else {
                         selectedTime.value = "Newest"
                     }
 
                 }
                 FilterButton("Oldest", selectedTime.value == ("Oldest")) {
-                    if(selectedTime.value == ("Oldest")){
+                    if (selectedTime.value == ("Oldest")) {
                         selectedTime.value = ""
-                    }
-                    else{
+                    } else {
                         selectedTime.value = "Oldest"
                     }
 
                 }
                 FilterButton("Popularity", selectedTime.value == ("Popularity")) {
-                    if(selectedTime.value == ("Popularity")){
+                    if (selectedTime.value == ("Popularity")) {
                         selectedTime.value = ""
-                    }
-                    else{
+                    } else {
                         selectedTime.value = "Popularity"
                     }
                 }
@@ -109,42 +108,37 @@ fun FilterBottomSheet(
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 RatingButton("5", selectedRate.value == ("5")) {
-                    if(selectedRate.value == ("5")){
+                    if (selectedRate.value == ("5")) {
                         selectedRate.value = ""
-                    }
-                    else{
+                    } else {
                         selectedRate.value = "5"
                     }
                 }
                 RatingButton("4", selectedRate.value == ("4")) {
-                    if(selectedRate.value == ("4")){
+                    if (selectedRate.value == ("4")) {
                         selectedRate.value = ""
-                    }
-                    else{
+                    } else {
                         selectedRate.value = "4"
                     }
                 }
                 RatingButton("3", selectedRate.value == ("3")) {
-                    if(selectedRate.value == ("3")){
+                    if (selectedRate.value == ("3")) {
                         selectedRate.value = ""
-                    }
-                    else{
+                    } else {
                         selectedRate.value = "3"
                     }
                 }
                 RatingButton("2", selectedRate.value == ("2")) {
-                    if(selectedRate.value == ("2")){
+                    if (selectedRate.value == ("2")) {
                         selectedRate.value = ""
-                    }
-                    else{
+                    } else {
                         selectedRate.value = "2"
                     }
                 }
                 RatingButton("1", selectedRate.value == ("1")) {
-                    if(selectedRate.value == ("1")){
+                    if (selectedRate.value == ("1")) {
                         selectedRate.value = ""
-                    }
-                    else{
+                    } else {
                         selectedRate.value = "1"
                     }
                 }
@@ -160,35 +154,31 @@ fun FilterBottomSheet(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     FilterButton("All", selectedCategory.value == ("All")) {
-                        if(selectedCategory.value == ("All")){
+                        if (selectedCategory.value == ("All")) {
                             selectedCategory.value = ""
-                        }
-                        else{
+                        } else {
                             selectedCategory.value = "All"
                         }
 
                     }
                     FilterButton("Cereal", selectedCategory.value == ("Cereal")) {
-                        if(selectedCategory.value == ("Cereal")){
+                        if (selectedCategory.value == ("Cereal")) {
                             selectedCategory.value = ""
-                        }
-                        else{
+                        } else {
                             selectedCategory.value = "Cereal"
                         }
                     }
                     FilterButton("Vegetables", selectedCategory.value == ("Vegetables")) {
-                        if(selectedCategory.value == ("Vegetables")){
+                        if (selectedCategory.value == ("Vegetables")) {
                             selectedCategory.value = ""
-                        }
-                        else{
+                        } else {
                             selectedCategory.value = "Vegetables"
                         }
                     }
                     FilterButton("Dinner", selectedCategory.value == ("Dinner")) {
-                        if(selectedCategory.value == ("Dinner")){
+                        if (selectedCategory.value == ("Dinner")) {
                             selectedCategory.value = ""
-                        }
-                        else{
+                        } else {
                             selectedCategory.value = "Dinner"
                         }
                     }
@@ -200,34 +190,30 @@ fun FilterBottomSheet(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     FilterButton("Chinese", selectedCategory.value == ("Chinese")) {
-                        if(selectedCategory.value == ("Chinese")){
+                        if (selectedCategory.value == ("Chinese")) {
                             selectedCategory.value = ""
-                        }
-                        else{
+                        } else {
                             selectedCategory.value = "Chinese"
                         }
                     }
                     FilterButton("Local Dish", selectedCategory.value == ("Local Dish")) {
-                        if(selectedCategory.value == ("Local Dish")){
+                        if (selectedCategory.value == ("Local Dish")) {
                             selectedCategory.value = ""
-                        }
-                        else{
+                        } else {
                             selectedCategory.value = "Local Dish"
                         }
                     }
                     FilterButton("Fruit", selectedCategory.value == ("Fruit")) {
-                        if(selectedCategory.value == ("Fruit")){
+                        if (selectedCategory.value == ("Fruit")) {
                             selectedCategory.value = ""
-                        }
-                        else{
+                        } else {
                             selectedCategory.value = "Fruit"
                         }
                     }
                     FilterButton("BreakFast", selectedCategory.value == ("BreakFast")) {
-                        if(selectedCategory.value == ("BreakFast")){
+                        if (selectedCategory.value == ("BreakFast")) {
                             selectedCategory.value = ""
-                        }
-                        else{
+                        } else {
                             selectedCategory.value = "BreakFast"
                         }
                     }
@@ -237,26 +223,23 @@ fun FilterBottomSheet(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     FilterButton("Spanish", selectedCategory.value == ("Spanish")) {
-                        if(selectedCategory.value == ("Spanish")){
+                        if (selectedCategory.value == ("Spanish")) {
                             selectedCategory.value = ""
-                        }
-                        else{
+                        } else {
                             selectedCategory.value = "Spanish"
                         }
                     }
                     FilterButton("Chinese", selectedCategory.value == ("Chinese")) {
-                        if(selectedCategory.value == ("Chinese")){
+                        if (selectedCategory.value == ("Chinese")) {
                             selectedCategory.value = ""
-                        }
-                        else{
+                        } else {
                             selectedCategory.value = "Chinese"
                         }
                     }
                     FilterButton("Lunch", selectedCategory.value == ("Lunch")) {
-                        if(selectedCategory.value == ("Lunch")){
+                        if (selectedCategory.value == ("Lunch")) {
                             selectedCategory.value = ""
-                        }
-                        else{
+                        } else {
                             selectedCategory.value = "Lunch"
                         }
                     }
@@ -268,7 +251,8 @@ fun FilterBottomSheet(
                             inputText,
                             selectedTime.value,
                             selectedRate.value,
-                            selectedCategory.value
+                            selectedCategory.value,
+                            true
                         )
 
                     }
