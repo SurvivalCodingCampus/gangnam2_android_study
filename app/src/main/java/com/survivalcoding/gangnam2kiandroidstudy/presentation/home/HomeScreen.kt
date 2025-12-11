@@ -35,7 +35,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun HomeScreen(
     state: HomeState = HomeState(),
-    onSelecteedCategory: (String) -> Unit = {},
+    onSelectCategory: (String) -> Unit = {},
     profilePainter: Painter,
 ) {
     Column(
@@ -99,13 +99,14 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(15.dp))
 
         RecipeCategorySelector(
-            category = listOf(
+            categories = listOf(
                 "All", "Indian", "Italian", "Asian", "Chinese",
                 "Fruit", "Vegetables", "Protein", "Cereal", "Local Dishes"
             ),
             onSelectCategory = { category ->
-                onSelecteedCategory(category)
-            }
+                onSelectCategory(category)
+            },
+            selectedCategory = state.selectedCategory
         )
 
         Spacer(modifier = Modifier.height(15.dp))

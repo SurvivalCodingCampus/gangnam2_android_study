@@ -8,10 +8,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -20,11 +16,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 @Composable
 fun RecipeCategorySelector(
     modifier: Modifier = Modifier,
-    category: List<String>,
+    categories: List<String>,
+    selectedCategory: String,
     onSelectCategory: (String) -> Unit = {},
 ) {
-    var selectedCategory by remember { mutableStateOf("All") }
-
     LazyRow(
         modifier = modifier
             .fillMaxWidth()
@@ -34,12 +29,11 @@ fun RecipeCategorySelector(
         item {
             Spacer(modifier = Modifier.width(30.dp))
         }
-        items(category) {
+        items(categories) {
             CategoryChip(
                 text = it,
                 isSelected = it == selectedCategory,
                 onClick = {
-                    selectedCategory = it
                     onSelectCategory(it)
                 }
             )
@@ -52,8 +46,7 @@ fun RecipeCategorySelector(
 @Composable
 private fun RecipeCategorySelectorPreview() {
     RecipeCategorySelector(
-        category = listOf("Chinese", "Korean", "Japanese", "Western"),
-
-
-        )
+        categories = listOf("Chinese", "Korean", "Japanese", "Western"),
+        selectedCategory = "Chinese"
+    )
 }

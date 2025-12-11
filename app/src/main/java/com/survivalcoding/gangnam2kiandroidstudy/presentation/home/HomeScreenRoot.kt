@@ -16,7 +16,7 @@ fun HomeScreenRoot(
     val state by viewModel.state.collectAsStateWithLifecycle()
     HomeScreen(
         state = state,
-        onSelecteedCategory = {
+        onSelectCategory = {
             viewModel.onSelectCategory(it)
         },
         profilePainter = painterResource(R.drawable.profile)

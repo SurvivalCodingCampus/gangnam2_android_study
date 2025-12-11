@@ -29,9 +29,9 @@ class HomeViewModel(
             it.copy(
                 selectedCategory = category,
                 filteredRecipes = if (category == "All") {
-                    _state.value.recipes
+                    it.recipes
                 } else {
-                    _state.value.recipes.filter { recipe ->
+                    it.recipes.filter { recipe ->
                         recipe.category == category
                     }
                 }
