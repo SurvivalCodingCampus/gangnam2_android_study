@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.data.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -52,8 +53,11 @@ class HomeViewModel(
     }
 
 
+    // race condition 방지
+    private var loadJob: Job? = null
     fun loadRecipes() {
-        viewModelScope.launch {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
 
             when (val response = recipeRepository.findRecipes()) {
