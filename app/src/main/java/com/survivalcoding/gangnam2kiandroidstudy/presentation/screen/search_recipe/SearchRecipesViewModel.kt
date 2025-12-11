@@ -119,6 +119,7 @@ class SearchRecipesViewModel(
                 when (filter.time) {
                     "Newest" -> list.sortedByDescending { it.id }
                     "Oldest" -> list.sortedBy { it.id }
+                    "Popularity" -> list.sortedByDescending { it.rating }
                     else -> list
                 }
             }
