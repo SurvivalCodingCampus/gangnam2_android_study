@@ -15,12 +15,8 @@ fun SearchRecipesRoot(viewModel: SearchRecipesViewModel = viewModel(factory = Se
         onViewmodelCalled = { searchText, time, rate, category, enableBottomSheet ->
             if (enableBottomSheet) {
                 viewModel.toggleBottomSheet()
-
-            } else {
-                viewModel.toggleBottomSheet()
-                viewModel.filterRecipes(searchText, time, rate, category)
-
             }
+            viewModel.filterRecipes(searchText, time, rate, category)
 
             Log.d(
                 "SearchRecipesRoot",
