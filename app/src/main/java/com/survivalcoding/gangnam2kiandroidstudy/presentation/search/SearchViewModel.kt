@@ -41,29 +41,33 @@ class SearchViewModel(
         }
     }
 
+    private suspend fun fetchFilteredRecipesByKeyword(keyword: String) {
+        recipeRepository.getFilteredRecipes(keyword)
+            .onSuccess { recipes ->
+                _uiState.update { state ->
+                    state.copy(
+                        isLoading = false,
+                        filteredRecipes = recipes
+                    )
+                }
+            }
+            .onFailure {
+                _uiState.update { state ->
+                    state.copy(
+                        isLoading = false,
+                        message = it.message
+                    )
+                }
+            }
+    }
+
     @OptIn(FlowPreview::class)
-    private fun fetchFilteredRecipes() {
+    private fun subscribeSearchKeywordFlow() {
         viewModelScope.launch {
             uiState.map { it.searchKeyword }
                 .debounce(500)
                 .collectLatest { keyword ->
-                    recipeRepository.getFilteredRecipes(keyword)
-                        .onSuccess { recipes ->
-                            _uiState.update { state ->
-                                state.copy(
-                                    isLoading = false,
-                                    filteredRecipes = recipes
-                                )
-                            }
-                        }
-                        .onFailure {
-                            _uiState.update { state ->
-                                state.copy(
-                                    isLoading = false,
-                                    message = it.message
-                                )
-                            }
-                        }
+                    fetchFilteredRecipesByKeyword(keyword)
                 }
         }
     }
@@ -82,6 +86,6 @@ class SearchViewModel(
 
     init {
         fetchAllRecipes()
-        fetchFilteredRecipes()
+        subscribeSearchKeywordFlow()
     }
 }
