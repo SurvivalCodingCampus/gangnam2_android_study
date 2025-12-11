@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -28,7 +29,7 @@ fun FilterButton(text: String, isSelected: Boolean, onClick: () -> Unit) {
 
     Box(
         modifier = Modifier
-            .size(width = 50.dp, height = 28.dp)
+            .height(height = 27.dp)
             .clickable(onClick = onClick)
             .background(color = backgroundColor, shape = RoundedCornerShape(10.dp))
             .border(
@@ -46,8 +47,9 @@ fun FilterButton(text: String, isSelected: Boolean, onClick: () -> Unit) {
         ) {
 
             Text(
+                modifier = Modifier.padding(horizontal = 10.dp),
                 text = text,
-                style = AppTextStyles.smallerTextBold.copy(color = textColor)
+                style = AppTextStyles.smallerTextRegular.copy(color = textColor)
             )
 
         }

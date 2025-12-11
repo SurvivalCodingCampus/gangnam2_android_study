@@ -36,4 +36,10 @@ object AppColors {
     val splashScreenGradient = Brush.verticalGradient(
         colors = listOf(splashScreenColor1, splashScreenColor2),
     )
+    val searchRecipeScreenColor1 = Color(0x00000000)
+    val searchRecipeScreenColor2 = Color(0xff000000)
+
+    val searchRecipeScreenGradient = Brush.verticalGradient(
+        colors = listOf(searchRecipeScreenColor1, searchRecipeScreenColor2),
+    )
 }

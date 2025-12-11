@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -46,7 +47,8 @@ fun SmallButton(text: String, onClick: () -> Unit) {
                 .size(width = 114.dp, height = 17.dp),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = text, color = AppColors.white, style = AppTextStyles.smallerTextBold)
+            Text(text = text, color = AppColors.white, style = AppTextStyles.smallerTextBold,
+                fontWeight = FontWeight.SemiBold)
         }
     }
 
