@@ -36,7 +36,7 @@ class SearchRecipesViewModel(
             .onEach { fetchRecipes(searchText = it) }
             .launchIn(viewModelScope)
 
-        // ViewModel이 생성될 때 레시PI 목록을 가져옵니다.
+        // ViewModel이 생성될 때 레시피 목록을 가져옵니다.
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
@@ -92,7 +92,7 @@ class SearchRecipesViewModel(
         const val DEBOUNCE_TIMEOUT_MILLIS = 500L
 
         /**
-         * SavedRecipesViewModel 인스턴스를 생성하는 ViewModelProvider.Factory 입니다.
+         * SearchRecipesViewModel 인스턴스를 생성하는 ViewModelProvider.Factory 입니다.
          */
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
