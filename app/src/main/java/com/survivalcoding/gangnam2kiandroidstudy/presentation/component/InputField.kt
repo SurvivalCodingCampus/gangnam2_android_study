@@ -35,9 +35,7 @@ fun InputField(
     var borderColor by remember { mutableStateOf(AppColors.gray4) }
 
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(20.dp)
+        modifier = modifier,
     ) {
         Text(
             text = label,
@@ -50,40 +48,6 @@ fun InputField(
             modifier = Modifier
                 .size(width = 315.dp, height = 55.dp)
                 .border(width = 1.5.dp, color = borderColor, shape = RoundedCornerShape(10.dp))
-                .onFocusChanged { focusState ->
-                    borderColor = if (focusState.isFocused) AppColors.primary80 else AppColors.gray4
-                },
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                focusedContainerColor = AppColors.white,
-                unfocusedContainerColor = AppColors.white,
-                focusedTextColor = AppColors.black
-            ),
-            placeholder = {
-                Text(
-                    text = placeholder,
-                    modifier = Modifier
-                        .size(width = 66.dp, height = 17.dp),
-                    style = AppTextStyles.smallTextRegular,
-                    color = AppColors.gray4
-                )
-            },
-            value = value,
-            onValueChange = onValueChange
-        )
-
-        Text(
-            text = label,
-            modifier = Modifier
-                .size(width = 38.dp, height = 21.dp),
-            style = AppTextStyles.smallTextRegular
-        )
-        Spacer(Modifier.height(5.dp))
-        TextField(
-            modifier = Modifier
-                .size(width = 315.dp, height = 55.dp)
-                .border(width = 1.5.dp, color = AppColors.primary80, shape = RoundedCornerShape(10.dp))
                 .onFocusChanged { focusState ->
                     borderColor = if (focusState.isFocused) AppColors.primary80 else AppColors.gray4
                 },
