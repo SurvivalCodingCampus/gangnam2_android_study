@@ -13,7 +13,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.repository.SavedRecipesReposito
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
@@ -22,7 +21,7 @@ class SearchRecipesViewModel(
 ) : ViewModel() {
     private var _state = MutableStateFlow(SearchRecipesState())
     private var cachedRecipes: List<Recipe> = emptyList()
-    val state = _state.asStateFlow().debounce(1000)
+    val state = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -30,6 +29,13 @@ class SearchRecipesViewModel(
             _state.value = _state.value.copy(resultRecipes = cachedRecipes)
         }
     }
+
+    fun toggleBottomSheet() {
+        _state.value = _state.value.copy(enableBottomSheet = !_state.value.enableBottomSheet)
+        Log.d("SearchRecipesViewModel", "toggleBottomSheet: ${_state.value.enableBottomSheet}")
+
+    }
+
 
     fun filterRecipes(
         searchText: String = "",
