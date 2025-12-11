@@ -51,4 +51,24 @@
     <string name="ic_back_description">Backward</string>
     <string name="ic_more_description">More Info</string>
     <string name="saved_recipes_title">Saved recipes</string>
+    <string name="search_recipes_title">Search recipes</string>
+
+
+    <!-- Search Bar-->
+    <string name="search_bar_placeholder">Search recipe</string>
+    <string name="ic_search_filter_description">Search Filter Button</string>
+
+    <!-- Search Recipes-->
+    <string name="recent_search_subtitle">Recent Search</string>
+    <string name="search_result_subtitle">Search Result</string>
+    <string name="result_count_format">%1$d results</string>
+
+    <!-- Bottom Sheet-->
+    <string name="bottom_sheet_title">Filter Search</string>
+    <string name="bottom_sheet_time_subtitle">Time</string>
+    <string name="bottom_sheet_rate_subtitle">Rate</string>
+    <string name="bottom_sheet_category_subtitle">Category</string>
+    <string name="filter_button_text">Filter</string>
+
+
 </resources>

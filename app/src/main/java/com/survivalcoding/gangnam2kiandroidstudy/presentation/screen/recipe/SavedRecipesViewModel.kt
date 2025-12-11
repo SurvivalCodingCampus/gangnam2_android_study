@@ -8,7 +8,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.data.Repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeCard
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,8 +18,8 @@ class SavedRecipesViewModel(
     val repository: RecipeRepository
 
 ) : ViewModel() {
-    private val _recipes = MutableStateFlow<List<RecipeCard>>(emptyList())
-    val recipes: StateFlow<List<RecipeCard>> = _recipes.asStateFlow()
+    private val _recipes = MutableStateFlow<List<Recipe>>(emptyList())
+    val recipes: StateFlow<List<Recipe>> = _recipes.asStateFlow()
 
     init {
         loadRecipes()

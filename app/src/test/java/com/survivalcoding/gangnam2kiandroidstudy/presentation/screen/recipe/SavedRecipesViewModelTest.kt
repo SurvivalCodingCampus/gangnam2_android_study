@@ -1,7 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipe
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.Repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeCard
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
@@ -37,14 +37,14 @@ class SavedRecipesViewModelTest {
         val viewModel = SavedRecipesViewModel(fakeRepository)
 
         // then
-        assertEquals(emptyList<RecipeCard>(), viewModel.recipes.value)
+        assertEquals(emptyList<Recipe>(), viewModel.recipes.value)
     }
 
     @Test
     fun `init 호출 - 자동으로 레시피 로드`() = runTest {
         // given
         val mockList = listOf(
-            RecipeCard(
+            Recipe(
                 title = "Pizza",
                 rating = 4.5,
                 imageUrls = "url",
