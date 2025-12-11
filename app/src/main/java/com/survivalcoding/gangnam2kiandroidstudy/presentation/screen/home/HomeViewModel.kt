@@ -30,10 +30,20 @@ class HomeViewModel(
         viewModelScope.launch {
             val recipes = repository.getRecipes()
             _state.update { current ->
+                // 현재 선택된 카테고리를 유지하면서 셀렉터 다시 계산
+                val filtered =
+                    if (current.selectedCategory == HomeCategory.ALL) {
+                        recipes
+                    } else {
+                        recipes.filter { it.category == current.selectedCategory.label }
+                    }
+
                 current.copy(
                     recipes = recipes,
-                    filteredRecipes = recipes
+                    filteredRecipes = filtered  // 현재 선택 상태 기반으로 셀렉터 재적용
                 )
+
+
             }
         }
     }
