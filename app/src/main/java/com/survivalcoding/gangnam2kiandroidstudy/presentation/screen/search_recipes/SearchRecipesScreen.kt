@@ -12,20 +12,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Items.SearchResultCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.appbar.CustomAppTopBar
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.FilterSearchBottomSheet
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.FilterSearchState
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.searchbar.SearchBarContainer
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
@@ -33,11 +29,13 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchRecipesScreen(
-    modifier: Modifier = Modifier, viewModel: SearchRecipesViewModel = viewModel(
-        factory = SearchRecipesViewModel.Factory
-    )
+    modifier: Modifier = Modifier,
+    state: SearchRecipesState,
+    onKeywordChange: (String) -> Unit,
+    onFilterClick: () -> Unit,
+    onApplyFilter: (FilterSearchState) -> Unit,
+    onDismissBottomSheet: () -> Unit,
 ) {
-    val searchState by viewModel.state.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(), containerColor = AppColors.white, topBar = {
@@ -58,9 +56,10 @@ fun SearchRecipesScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp),
-                    value = searchState.searchKeyword,
-                    onValueChange = { viewModel.updateSearchKeyword(it) },
-                    onFilterClick = { viewModel.showBottomSheet(true) })
+                    value = state.searchKeyword,
+                    onValueChange = onKeywordChange,
+                    onFilterClick = onFilterClick,
+                )
             }
 
             // Recent text
@@ -73,15 +72,15 @@ fun SearchRecipesScreen(
                 ) {
                     // 왼쪽 텍스트
                     Text(
-                        text = stringResource(searchState.headerTitleRes),
+                        text = stringResource(state.headerTitleRes),
                         style = AppTextStyles.normalTextBold
                     )
 
                     // “XX results”
-                    searchState.resultCountResId?.let { resId ->
+                    state.resultCountResId?.let { resId ->
                         Text(
                             text = stringResource(
-                                id = resId, searchState.filteredRecipes.size
+                                id = resId, state.filteredRecipes.size
                             ),
                             style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray3)
                         )
@@ -90,7 +89,7 @@ fun SearchRecipesScreen(
             }
 
             // Grid 만들기
-            items(searchState.filteredRecipes.chunked(2)) { rowItems ->
+            items(state.filteredRecipes.chunked(2)) { rowItems ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -117,25 +116,11 @@ fun SearchRecipesScreen(
             }
 
         }
-        // filter bottom sheet
-        if (searchState.showBottomSheet) {
-            FilterSearchBottomSheet(
-                initialState = searchState.filterState,
-                onDismiss = {
-                    viewModel.showBottomSheet(false)
-                },
-                onApplyFilter = {
-                    viewModel.applyFilters(it)
-                    viewModel.showBottomSheet(false)
-                }
-            )
-        }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
 private fun SearchRecipesScreenPreview() {
-    SearchRecipesScreen()
+    // SearchRecipesScreen()
 }
