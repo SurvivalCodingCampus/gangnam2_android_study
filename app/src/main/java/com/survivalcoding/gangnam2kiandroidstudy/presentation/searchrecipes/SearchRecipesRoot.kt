@@ -1,0 +1,58 @@
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes
+
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.survivalcoding.gangnam2kiandroidstudy.di.DependencyContainer
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterBottomSheet
+import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchRecipesRoot(
+    viewModel: SearchRecipesViewModel = viewModel(
+        factory = DependencyContainer.provideSearchRecipesViewModelFactory(LocalContext.current)
+    )
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+
+    SearchRecipesScreen(
+        uiState,
+        viewModel::onSearchKeywordChange,
+        viewModel::onFilterButtonClick
+    )
+    LaunchedEffect(Unit) {
+        sheetState.expand()
+    }
+    if (uiState.isShowBottomSheet) {
+        ModalBottomSheet(
+            sheetState = sheetState,
+            onDismissRequest = { viewModel.onFilterButtonClick(false) },
+            shape = RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp),
+            containerColor = AppColors.white,
+            dragHandle = null
+        ) {
+            FilterBottomSheet(
+                filterSearchState = uiState.filterSearchState,
+                onFilterClick = { time, rating, category ->
+                    val filterResult = FilterSearchState(time, rating, category)
+
+                    viewModel.onFilterComplete(filterResult)
+                    // 필터 적용 처리
+                    viewModel.onFilterButtonClick(false)
+                }
+            )
+        }
+    }
+}
