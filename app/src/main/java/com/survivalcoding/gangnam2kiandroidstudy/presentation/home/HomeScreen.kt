@@ -33,7 +33,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(uiState: HomeUiState) {
     var searchKeyword by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
@@ -99,7 +99,7 @@ fun HomeScreen() {
             items = listOf("All", "Indian", "Italian", "Asian", "Chinese", "Fruit", "Vegetables", "Protein", "Cereal", "Local Dishes"),
             modifier = Modifier.padding(top = 15.dp),
             contentPadding = PaddingValues(start = 30.dp),
-            selectedCategory = "Indian",
+            selectedCategory = uiState.selectedCategory,
             onCategoryClick = {  }
         )
         LazyRow(
@@ -244,7 +244,7 @@ fun loadImageFromAssets(fileName: String): ImageBitmap? {
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(HomeUiState())
 }
 
 @Preview(showBackground = true)
