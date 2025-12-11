@@ -4,6 +4,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.CategoryFilterType
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.RateFilterType
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeSearchFilter
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.TimeFilterType
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.test.MainDispatcherRule
@@ -113,8 +114,9 @@ class SearchRecipesViewModelTest {
         val time = TimeFilterType.NEWEST
         val rate = RateFilterType.FIVE
         val category = CategoryFilterType.CEREAL
+        val searchFilter = RecipeSearchFilter(time, rate, category)
 
-        viewModel.changeSearchFilter(time, rate, category)
+        viewModel.changeSearchFilter(searchFilter)
 
         assertEquals(time, viewModel.uiState.value.searchFilter.time)
         assertEquals(rate, viewModel.uiState.value.searchFilter.rate)

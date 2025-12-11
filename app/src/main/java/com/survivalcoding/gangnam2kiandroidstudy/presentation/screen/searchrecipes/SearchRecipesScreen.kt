@@ -152,12 +152,8 @@ fun SearchRecipesScreen(
         FilterSearchBottomSheet(
             isSheetVisible = uiState.isSheetVisible,
             searchFilter = uiState.searchFilter,
-            onDismissRequest = {
-                viewModel.hideBottomSheet()
-            },
-            onFilterChange = { time, rate, category ->
-                viewModel.changeSearchFilter(time, rate, category)
-            },
+            onDismissRequest = { viewModel.hideBottomSheet() },
+            onFilterChange = { viewModel.changeSearchFilter(it) },
             onFilter = {
                 viewModel.fetchRecipes()
                 viewModel.hideBottomSheet()

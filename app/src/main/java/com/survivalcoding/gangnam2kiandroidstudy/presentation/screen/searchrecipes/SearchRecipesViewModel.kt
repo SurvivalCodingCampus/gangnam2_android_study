@@ -9,11 +9,8 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result.Success
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.CategoryFilterType
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.RateFilterType
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeSearchCondition
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeSearchFilter
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.TimeFilterType
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -101,19 +98,9 @@ class SearchRecipesViewModel(
         }
     }
 
-    fun changeSearchFilter(
-        time: TimeFilterType?,
-        rate: RateFilterType?,
-        category: CategoryFilterType?,
-    ) {
+    fun changeSearchFilter(searchFilter: RecipeSearchFilter) {
         _uiState.update {
-            it.copy(
-                searchFilter = RecipeSearchFilter(
-                    time = time,
-                    rate = rate,
-                    category = category,
-                ),
-            )
+            it.copy(searchFilter = searchFilter)
         }
     }
 
