@@ -9,25 +9,17 @@ class CounterViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(CounterState())
     val uiState = _uiState.asStateFlow()
 
-    // private: ViewModel 내부에서만 수정 가능한 MutableStateFlow
-    // 외부에서 직접 수정하는 것을 방지
-    private val _count = MutableStateFlow(0)
-
-    // public: UI에서 관찰(observe)할 수 있는 읽기 전용 StateFlow
-    // asStateFlow()로 변환하여 외부에서 값 변경 불가능하게 함
-    val count = _count.asStateFlow()
-
     /**
      * 카운트를 1 증가시키는 함수
      */
     fun increment() {
-        _count.value++
+        _uiState.value = _uiState.value.copy(value = _uiState.value.value + 1)
     }
 
     /**
      * 카운트를 1 감소시키는 함수
      */
     fun decrement() {
-        _count.value--
+        _uiState.value = _uiState.value.copy(value = _uiState.value.value - 1)
     }
 }
