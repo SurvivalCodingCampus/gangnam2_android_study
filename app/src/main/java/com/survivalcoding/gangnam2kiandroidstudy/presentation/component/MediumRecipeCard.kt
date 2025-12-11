@@ -1,0 +1,141 @@
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
+import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
+import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
+
+@Composable
+fun MediumRecipeCard(recipe: Recipe) {
+    Box(
+        modifier = Modifier
+            .size(width = 150.dp, height = 231.dp)
+    ) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Spacer(modifier = Modifier.weight(1f))
+            Box(
+                modifier = Modifier
+                    .height(176.dp)
+                    .fillMaxWidth()
+                    .background(color = AppColors.gray4, shape = RoundedCornerShape(12.dp))
+            ) {
+                Column(modifier = Modifier.padding(horizontal = 10.dp)) {
+                    Spacer(modifier = Modifier.height(66.dp))
+                    Text(
+                        recipe.name,
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        style = AppTextStyles.smallTextBold.copy(
+                            color = AppColors.gray1,
+                            fontWeight = FontWeight.SemiBold
+                        ),
+                        maxLines = 2
+                    )
+                    Spacer(modifier = Modifier.height(19.dp))
+                    Text(
+                        modifier = Modifier,
+                        text = "Time",
+                        style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray3)
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Text(
+                        modifier = Modifier,
+                        text = recipe.time,
+                        style = AppTextStyles.smallerTextBold.copy(color = AppColors.gray1)
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .padding(end = 10.dp, bottom = 10.dp)
+                        .size(24.dp)
+                        .background(color = AppColors.white, shape = CircleShape)
+                        .align(Alignment.BottomEnd)
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.inactive),
+                        contentDescription = "inactive",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+
+            }
+        }
+        AsyncImage(
+            model = recipe.image,
+            contentDescription = "레시피 이미지",
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .size(110.dp)
+        )
+
+
+
+        Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End) {
+            Spacer(modifier = Modifier.height(39.dp))
+
+            Row(
+                modifier = Modifier
+                    .background(
+                        color = AppColors.secondary20,
+                        shape = RoundedCornerShape(20.dp)
+                    )
+                    .size(width = 37.dp, height = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Spacer(modifier = Modifier.width(7.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.star),
+                    contentDescription = "별점",
+                    modifier = Modifier.size(width = 8.dp, height = 8.dp)
+                )
+                Spacer(modifier = Modifier.width(3.dp))
+                Text(
+                    text = recipe.rating.toString(), // 실제 레시피 평점 사용
+                    style = AppTextStyles.smallerTextRegular.copy(
+                        fontSize = 8.sp,
+                        color = AppColors.black
+                    ) // 색상 지정
+                )
+                Spacer(modifier = Modifier.width(7.dp))
+            }
+        }
+
+    }
+
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MediumRecipeCardPreview() {
+    //MediumRecipeCard()
+
+}
