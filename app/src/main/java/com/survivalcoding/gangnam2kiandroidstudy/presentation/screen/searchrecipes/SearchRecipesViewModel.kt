@@ -57,26 +57,28 @@ class SearchRecipesViewModel(
         val isSearched = searchText.isNotBlank() || searchFilter.isNotEmpty()
 
         viewModelScope.launch {
-            when (val result = repository.getRecipes(condition)) {
-                is Success -> {
-                    _uiState.update {
-                        it.copy(
-                            recipes = result.data,
-                            isSearched = isSearched,
-                        )
+            try {
+                when (val result = repository.getRecipes(condition)) {
+                    is Success -> {
+                        _uiState.update {
+                            it.copy(
+                                recipes = result.data,
+                                isSearched = isSearched,
+                            )
+                        }
                     }
-                    setLoading(false)
-                }
 
-                is Result.Error -> {
-                    _uiState.update {
-                        it.copy(
-                            recipes = emptyList(),
-                            isSearched = isSearched,
-                        )
+                    is Result.Error -> {
+                        _uiState.update {
+                            it.copy(
+                                recipes = emptyList(),
+                                isSearched = isSearched,
+                            )
+                        }
                     }
-                    setLoading(false)
                 }
+            } finally {
+                setLoading(false)
             }
         }
     }
