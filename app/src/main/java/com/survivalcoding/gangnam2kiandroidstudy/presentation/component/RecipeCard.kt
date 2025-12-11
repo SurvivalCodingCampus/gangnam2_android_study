@@ -6,11 +6,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,10 +34,17 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 import com.survivalcoding.gangnam2kiandroidstudy.util.orPreview
 
+enum class RecipeCardSize {
+    Small,
+    Medium,
+    Large,
+}
+
 @Composable
 fun RecipeCard(
     recipe: Recipe,
     modifier: Modifier = Modifier,
+    size: RecipeCardSize = RecipeCardSize.Medium,
 ) {
     Box(
         modifier = modifier
@@ -98,10 +107,7 @@ fun RecipeCard(
                         )
                     }
 
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(10.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
+                    if (size != RecipeCardSize.Small) {
                         Row(
                             modifier = Modifier.padding(vertical = 4.dp),
                             horizontalArrangement = Arrangement.spacedBy(5.dp),
@@ -118,6 +124,8 @@ fun RecipeCard(
                                 style = AppTextStyles.PoppinsSmallerRegular.copy(color = AppColors.Gray4),
                             )
                         }
+
+                        Spacer(modifier = Modifier.width(10.dp))
 
                         Box(
                             modifier = Modifier
@@ -164,4 +172,17 @@ fun LongNameRecipeCardPreview() {
         rating = 4.0,
     )
     RecipeCard(recipe = recipe)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SmallSizeRecipeCardPreview() {
+    val recipe = Recipe(
+        name = "spice roasted chicken with flavored rice",
+        imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
+        chef = "Chef John",
+        time = 20,
+        rating = 4.0,
+    )
+    RecipeCard(recipe = recipe, size = RecipeCardSize.Small, modifier = Modifier.width(150.dp))
 }

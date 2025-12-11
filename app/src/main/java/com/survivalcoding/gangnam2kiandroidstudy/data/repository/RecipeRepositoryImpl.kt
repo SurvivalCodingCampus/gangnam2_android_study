@@ -6,6 +6,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.mapper.toModel
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeSearchCondition
 import com.survivalcoding.gangnam2kiandroidstudy.util.isFail
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +24,22 @@ class RecipeRepositoryImpl(
         withContext(dispatcher) {
             handleNetworkError {
                 val response = dataSource.getSavedRecipes()
+
+                if (response.isFail()) {
+                    return@handleNetworkError Result.Error(NetworkError.HttpError(response.statusCode))
+                }
+
+                val recipes = response.body?.toModel()
+                    ?: return@handleNetworkError Result.Error(NetworkError.Unknown("응답 데이터가 비어있습니다"))
+
+                Result.Success(recipes)
+            }
+        }
+
+    override suspend fun getRecipes(searchCondition: RecipeSearchCondition): Result<List<Recipe>, NetworkError> =
+        withContext(dispatcher) {
+            handleNetworkError {
+                val response = dataSource.getRecipes(searchCondition)
 
                 if (response.isFail()) {
                     return@handleNetworkError Result.Error(NetworkError.HttpError(response.statusCode))
