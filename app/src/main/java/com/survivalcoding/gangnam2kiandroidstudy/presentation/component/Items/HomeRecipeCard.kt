@@ -33,11 +33,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 
 @Composable
-fun HomeRecipeCardContainer(modifier: Modifier = Modifier) {
-
-}
-
-@Composable
 fun HomeRecipeCard(
     recipe: Recipe,
     modifier: Modifier = Modifier
