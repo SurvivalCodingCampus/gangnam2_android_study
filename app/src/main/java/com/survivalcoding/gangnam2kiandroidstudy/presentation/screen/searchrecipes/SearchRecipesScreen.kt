@@ -38,7 +38,7 @@ fun SearchRecipesScreen(
     modifier: Modifier = Modifier,
     uiState: SearchRecipesUiState = SearchRecipesUiState(),
     onSearchTextChange: (String) -> Unit = {},
-    onSettingsClick: () -> Unit = {},
+    onFilterClick: () -> Unit = {},
 ) {
     Column(
         modifier = modifier
@@ -71,7 +71,7 @@ fun SearchRecipesScreen(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(RoundedCornerShape(10.dp))
-                    .clickable(onClick = onSettingsClick)
+                    .clickable(onClick = onFilterClick)
                     .background(
                         color = AppColors.Primary100,
                         shape = RoundedCornerShape(10.dp),

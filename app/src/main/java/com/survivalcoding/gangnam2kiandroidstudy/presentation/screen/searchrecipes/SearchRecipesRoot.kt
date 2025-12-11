@@ -19,7 +19,7 @@ fun SearchRecipesRoot(
     SearchRecipesScreen(
         uiState = uiState,
         onSearchTextChange = viewModel::changeSearchText,
-        onSettingsClick = viewModel::showBottomSheet,
+        onFilterClick = viewModel::showBottomSheet,
     )
 
     FilterSearchBottomSheet(
