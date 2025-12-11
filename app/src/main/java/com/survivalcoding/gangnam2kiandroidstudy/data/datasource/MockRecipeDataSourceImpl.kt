@@ -3,18 +3,20 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.datasource
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.IngredientDto
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.IngredientListDto
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.RecipeDto
+import com.survivalcoding.gangnam2kiandroidstudy.data.util.date
 
 
 class MockRecipeDataSourceImpl : RecipeDataSource {
     val mockRecipeDtoList = listOf(
         RecipeDto(
-            category = "Indian",
+            category = "Dinner",
             chef = "Chef John",
             id = 1,
             image = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
             name = "Traditional spare ribs baked",
             rating = 4.0,
             time = "20 min",
+            createdAt = date("2025-12-10"),
             ingredients = listOf(
                 IngredientListDto(
                     amount = 500,
@@ -51,13 +53,14 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             )
         ),
         RecipeDto(
-            category = "Asian",
+            category = "Local Dish",
             chef = "Mark Kelvin",
             id = 2,
             image = "https://cdn.pixabay.com/photo/2018/12/04/16/49/tandoori-3856045_1280.jpg",
             name = "Spice roasted chicken with flavored rice",
             rating = 4.0,
             time = "20 min",
+            createdAt = date("2000-03-10"),
             ingredients = listOf(
                 IngredientListDto(
                     amount = 300,
@@ -101,6 +104,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             name = "Spicy fried rice mix chicken bali",
             rating = 4.0,
             time = "20 min",
+            createdAt = date("2020-01-10"),
             ingredients = listOf(
                 IngredientListDto(
                     amount = 200,
@@ -129,23 +133,25 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             )
         ),
         RecipeDto(
-            category = "Japanese",
+            category = "Lunch",
             chef = "Kim Dahee",
             id = 4,
             image = "https://cdn.pixabay.com/photo/2017/07/27/16/48/toppokki-2545943_1280.jpg",
             name = "Ttekbokki",
             rating = 5.0,
             time = "30 min",
-            ingredients = emptyList() // ingredients: []
+            ingredients = emptyList(),
+            createdAt = date("2025-12-06"),
         ),
         RecipeDto(
-            category = "American",
+            category = "Lunch",
             chef = "Alice Johnson",
             id = 5,
             image = "https://cdn.pixabay.com/photo/2014/11/05/15/57/salmon-518032_1280.jpg",
             name = "Grilled salmon with avocado salsa",
             rating = 4.5,
             time = "25 min",
+            createdAt = date("2020-01-01"),
             ingredients = listOf(
                 IngredientListDto(
                     amount = 150,
@@ -166,13 +172,14 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             )
         ),
         RecipeDto(
-            category = "British",
+            category = "Dinner",
             chef = "Gordon Ramsay",
             id = 6,
             image = "https://cdn.pixabay.com/photo/2019/10/22/10/11/beef-wellington-4568239_1280.jpg",
             name = "Beef Wellington",
             rating = 5.0,
             time = "45 min",
+            createdAt = date("2023-02-10"),
             ingredients = listOf(
                 IngredientListDto(
                     amount = 500,
@@ -193,13 +200,14 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             )
         ),
         RecipeDto(
-            category = "Italian",
+            category = "Dinner",
             chef = "Mario Batali",
             id = 7,
             image = "https://cdn.pixabay.com/photo/2019/05/15/18/56/pizza-4205701_1280.jpg",
             name = "Classic Margherita Pizza",
             rating = 4.3,
             time = "15 min",
+            createdAt = date("2025-09-12"),
             ingredients = listOf(
                 IngredientListDto(
                     amount = 200,
@@ -219,6 +227,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             name = "Sushi Platter",
             rating = 4.8,
             time = "60 min",
+            createdAt = date("2025-12-11"),
             ingredients = listOf(
                 IngredientListDto(
                     amount = 200,
@@ -239,13 +248,14 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             )
         ),
         RecipeDto(
-            category = "French",
+            category = "BreakFast",
             chef = "Julia Child",
             id = 9,
             image = "https://cdn.pixabay.com/photo/2016/03/03/16/19/food-1234483_1280.jpg",
             name = "French Onion Soup",
             rating = 4.6,
             time = "40 min",
+            createdAt = date("2025-12-09"),
             ingredients = listOf(
                 IngredientListDto(
                     amount = 300,
@@ -258,13 +268,14 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             )
         ),
         RecipeDto(
-            category = "French",
+            category = "Dinner",
             chef = "Paul Hollywood",
             id = 10,
             image = "https://cdn.pixabay.com/photo/2016/11/22/18/52/cake-1850011_1280.jpg",
             name = "Chocolate Lava Cake",
             rating = 4.9,
             time = "30 min",
+            createdAt = date("2025-05-10"),
             ingredients = listOf(
                 IngredientListDto(
                     amount = 100,

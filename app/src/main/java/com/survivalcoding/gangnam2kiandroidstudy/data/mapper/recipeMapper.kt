@@ -8,7 +8,9 @@ fun RecipeDto.toModel(): Recipe {
         title = this.name ?: "제목 없음",
         chef = this.chef ?: "Unknown Chef",
         time = this.time ?: "",
+        category = this.category ?: "",
         rating = this.rating ?: 0.0,
-        imageUrls = this.image ?: ""
+        imageUrls = this.image ?: "",
+        createdAt = this.createdAt ?: System.currentTimeMillis()
     )
 }
