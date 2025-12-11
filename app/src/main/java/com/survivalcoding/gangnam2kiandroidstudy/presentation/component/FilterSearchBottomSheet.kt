@@ -43,8 +43,6 @@ fun FilterSearchBottomSheet(
     )
     val scope = rememberCoroutineScope()
 
-    val (time, rate, category) = searchFilter
-
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
@@ -52,8 +50,7 @@ fun FilterSearchBottomSheet(
         shape = RoundedCornerShape(topStart = 60.dp, topEnd = 60.dp),
     ) {
         Column(
-            modifier = modifier
-                .padding(horizontal = 30.dp),
+            modifier = modifier.padding(horizontal = 30.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             Text(
@@ -62,80 +59,11 @@ fun FilterSearchBottomSheet(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
             )
 
-            Column(
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-                Text(
-                    text = "Time",
-                    style = AppTextStyles.PoppinsSmallBold,
-                )
+            TimeFilterSection(searchFilter, onFilterChange)
 
-                FlowRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                ) {
-                    TimeFilterType.entries.forEach {
-                        FilterButton(
-                            text = it.label,
-                            isSelected = it == time,
-                        ) {
-                            val selectedTime = if (it == time) null else it
-                            onFilterChange(selectedTime, rate, category)
-                        }
-                    }
-                }
-            }
+            RateFilterSection(searchFilter, onFilterChange)
 
-            Column(
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-                Text(
-                    text = "Rate",
-                    style = AppTextStyles.PoppinsSmallBold,
-                )
-
-                FlowRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                ) {
-                    RateFilterType.entries.forEach {
-                        RatingButton(
-                            text = it.label,
-                            isSelected = it == rate,
-                        ) {
-                            val selectedRate = if (it == rate) null else it
-                            onFilterChange(time, selectedRate, category)
-                        }
-                    }
-                }
-            }
-
-            Column(
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-                Text(
-                    text = "Category",
-                    style = AppTextStyles.PoppinsSmallBold,
-                )
-
-                FlowRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                ) {
-                    CategoryFilterType.entries.forEach {
-                        FilterButton(
-                            text = it.label,
-                            isSelected = it == category,
-                        ) {
-                            val selectedCategory = if (it == category) null else it
-                            onFilterChange(time, rate, selectedCategory)
-                        }
-                    }
-                }
-            }
+            CategoryFilterSection(searchFilter, onFilterChange)
 
             SmallButton(
                 text = "Filter",
@@ -147,6 +75,105 @@ fun FilterSearchBottomSheet(
                     if (!sheetState.isVisible) {
                         onFilter()
                     }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TimeFilterSection(
+    searchFilter: RecipeSearchFilter = RecipeSearchFilter(),
+    onFilterChange: (TimeFilterType?, RateFilterType?, CategoryFilterType?) -> Unit,
+) {
+    val (time, rate, category) = searchFilter
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        Text(
+            text = "Time",
+            style = AppTextStyles.PoppinsSmallBold,
+        )
+
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            TimeFilterType.entries.forEach {
+                FilterButton(
+                    text = it.label,
+                    isSelected = it == time,
+                ) {
+                    val selectedTime = it.takeUnless { it == time }
+                    onFilterChange(selectedTime, rate, category)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun RateFilterSection(
+    searchFilter: RecipeSearchFilter = RecipeSearchFilter(),
+    onFilterChange: (TimeFilterType?, RateFilterType?, CategoryFilterType?) -> Unit,
+) {
+    val (time, rate, category) = searchFilter
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        Text(
+            text = "Rate",
+            style = AppTextStyles.PoppinsSmallBold,
+        )
+
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            RateFilterType.entries.forEach {
+                RatingButton(
+                    text = it.label,
+                    isSelected = it == rate,
+                ) {
+                    val selectedRate = it.takeUnless { it == rate }
+                    onFilterChange(time, selectedRate, category)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CategoryFilterSection(
+    searchFilter: RecipeSearchFilter = RecipeSearchFilter(),
+    onFilterChange: (TimeFilterType?, RateFilterType?, CategoryFilterType?) -> Unit,
+) {
+    val (time, rate, category) = searchFilter
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        Text(
+            text = "Category",
+            style = AppTextStyles.PoppinsSmallBold,
+        )
+
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            CategoryFilterType.entries.forEach {
+                FilterButton(
+                    text = it.label,
+                    isSelected = it == category,
+                ) {
+                    val selectedCategory = it.takeUnless { it == category }
+                    onFilterChange(time, rate, selectedCategory)
                 }
             }
         }
