@@ -41,39 +41,48 @@ class SearchRecipesViewModel(private val recipeRepository: RecipeRepository) : V
 
         viewModelScope.launch {
             state
+                .map { current ->
+                    Triple(
+                        current.searchQuery,
+                        current.appliedFilters,
+                        current.allRecipes,
+                    )
+                }
                 .debounce(300L)
-                .collectLatest { currentState ->
+                .distinctUntilChanged()
+                .collectLatest { (searchQuery, filters, allRecipes) ->
                     val filteredList = withContext(Dispatchers.Default) {
-                        var list = currentState.allRecipes
+                        var list = allRecipes
 
-                        if (currentState.searchQuery.isNotBlank()) {
+                        if (searchQuery.isNotBlank()) {
                             list = list.filter {
-                                it.name.contains(currentState.searchQuery, ignoreCase = true)
+                                it.name.contains(searchQuery, ignoreCase = true)
                             }
                         }
 
-                        currentState.appliedFilters.selectedCategory?.let { category ->
+                        filters.selectedCategory?.let { category ->
                             if (category != "All") {
                                 list = list.filter { it.category.equals(category, ignoreCase = true) }
                             }
                         }
 
-                        currentState.appliedFilters.selectedRate?.let { rateString ->
+                        filters.selectedRate?.let { rateString ->
                             val rate = rateString.toIntOrNull() ?: 0
                             list = list.filter { it.rating >= rate }
                         }
 
-                        list = when (currentState.appliedFilters.selectedTime) {
+                        list = when (filters.selectedTime) {
                             "Newest" -> list.sortedByDescending { it.id }
                             "Oldest" -> list.sortedBy { it.id }
                             else -> list
                         }
+
                         list
                     }
+
                     _state.update { it.copy(recipes = filteredList) }
                 }
         }
-    }
 
     fun onSearchQueryChanged(query: String) {
         _state.update { it.copy(searchQuery = query) }
