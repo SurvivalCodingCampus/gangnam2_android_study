@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.MyApp
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeScreenRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.search.SearchRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in.SignInScreen
@@ -22,26 +23,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Gangnam2kiAndroidStudyTheme {
-//                SearchRecipesRoot()
-                HomeScreenRoot()
-            }
+//            Gangnam2kiAndroidStudyTheme {
+//                HomeScreenRoot()
+//            }
+            MyApp()
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Gangnam2kiAndroidStudyTheme {
-        Greeting("Android")
     }
 }
