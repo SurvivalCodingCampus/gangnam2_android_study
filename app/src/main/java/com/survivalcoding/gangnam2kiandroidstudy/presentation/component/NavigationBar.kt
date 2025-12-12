@@ -11,7 +11,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavKey
-import androidx.navigation3.runtime.rememberNavBackStack
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.core.routing.Route
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -21,10 +20,7 @@ fun NavigationBar(
     modifier: Modifier = Modifier,
     currentRoute: NavKey?,
 
-    onHomeClick: () -> Unit = {},
-    onSavedClick: () -> Unit = {},
-    onNotificationClick: () -> Unit = {},
-    onProfileClick: () -> Unit = {},
+    onItemClick: (Route) -> Unit,
 ) {
 
     val colors = NavigationBarItemDefaults.colors(
@@ -40,7 +36,7 @@ fun NavigationBar(
     ) {
         NavigationBarItem(
             selected = currentRoute is Route.Home,
-            onClick = onHomeClick,
+            onClick = { onItemClick(Route.Home) },
             icon = {
                 Icon(
                     painter = painterResource(R.drawable.outline_home),
@@ -52,7 +48,7 @@ fun NavigationBar(
 
         NavigationBarItem(
             selected = currentRoute is Route.SavedRecipes,
-            onClick = onSavedClick,
+            onClick = { onItemClick(Route.SavedRecipes) },
             icon = {
                 Icon(
                     painter = painterResource(R.drawable.outline_bookmark_inactive),
@@ -64,7 +60,7 @@ fun NavigationBar(
 
         NavigationBarItem(
             selected = currentRoute is Route.Notifications,
-            onClick = onNotificationClick,
+            onClick = { onItemClick(Route.Notifications) },
             icon = {
                 Icon(
                     painter = painterResource(R.drawable.outline_notification_bing),
@@ -76,7 +72,7 @@ fun NavigationBar(
 
         NavigationBarItem(
             selected = currentRoute is Route.Profile,
-            onClick = onProfileClick,
+            onClick = { onItemClick(Route.Profile) },
             icon = {
                 Icon(
                     painter = painterResource(R.drawable.outline_profile),
@@ -92,5 +88,8 @@ fun NavigationBar(
 @Composable
 private fun PreviewNavigationBar() {
     val currentRoute = Route.SavedRecipes
-    NavigationBar(currentRoute = currentRoute)
+    NavigationBar(
+        currentRoute = currentRoute,
+        onItemClick = {},
+    )
 }

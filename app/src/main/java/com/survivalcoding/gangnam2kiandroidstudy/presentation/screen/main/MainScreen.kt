@@ -1,6 +1,5 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main
 
-import androidx.compose.foundation.background
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -24,7 +23,13 @@ fun MainScreen(
 
     Scaffold(
         bottomBar = {
-            NavigationBar(currentRoute = currentRoute)
+            NavigationBar(
+                currentRoute = currentRoute,
+                onItemClick = { route ->
+                    backStack.clear()
+                    backStack.add(route)
+                }
+            )
         }
     ) {
         body(modifier)
