@@ -10,6 +10,7 @@ fun RecipesDto.toModel(): List<Recipe> {
 
 fun RecipeDto.toModel(): Recipe {
     return Recipe(
+        id = this.id ?: 0,
         name = this.name.orEmpty(),
         imageUrl = this.image.orEmpty(),
         chef = this.chef.orEmpty(),

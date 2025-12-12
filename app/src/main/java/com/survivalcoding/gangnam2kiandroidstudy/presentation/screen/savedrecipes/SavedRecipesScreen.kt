@@ -15,10 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockRecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -27,7 +29,12 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun SavedRecipesScreen(
     modifier: Modifier = Modifier,
-    viewModel: SavedRecipesViewModel = viewModel(factory = SavedRecipesViewModel.Factory),
+    viewModel: SavedRecipesViewModel = viewModel(
+        factory = SavedRecipesViewModel.factory(
+            LocalContext.current.applicationContext as AppApplication,
+        ),
+    ),
+    onCardClick: (Long) -> Unit = {},
 ) {
     val recipes by viewModel.recipes.collectAsStateWithLifecycle()
 
@@ -53,7 +60,10 @@ fun SavedRecipesScreen(
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             items(items = recipes) {
-                RecipeCard(recipe = it)
+                RecipeCard(
+                    recipe = it,
+                    onClick = onCardClick,
+                )
             }
         }
     }

@@ -43,6 +43,7 @@ class HomeViewModelTest {
                 AppResult.Success(
                     listOf(
                         Recipe(
+                            id = 1,
                             name = "Test Recipe",
                             imageUrl = "imageUrl",
                             chef = "chef",
@@ -50,6 +51,7 @@ class HomeViewModelTest {
                             rating = 4.5,
                         ),
                         Recipe(
+                            id = 2,
                             name = "Test Recipe2",
                             imageUrl = "imageUrl",
                             chef = "chef",

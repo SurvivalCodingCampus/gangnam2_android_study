@@ -48,6 +48,7 @@ fun HomeScreen(
     onQueryChange: (String) -> Unit = {},
     onFilterClick: () -> Unit = {},
     onCategorySelect: (CategoryFilterType) -> Unit = {},
+    onDishClick: (Long) -> Unit = {},
 ) {
     Column(
         modifier = modifier
@@ -160,7 +161,12 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(15.dp),
             ) {
                 items(items = uiState.recipes) {
-                    DishCard(recipe = it)
+                    DishCard(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable(onClick = { onDishClick(it.id) }),
+                        recipe = it,
+                    )
                 }
             }
         }

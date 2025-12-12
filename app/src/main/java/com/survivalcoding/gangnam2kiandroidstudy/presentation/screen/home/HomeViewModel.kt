@@ -4,7 +4,6 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -92,10 +91,9 @@ class HomeViewModel(
     companion object {
         const val DEBOUNCE_TIMEOUT_MILLIS = 500L
 
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
+        fun factory(application: AppApplication): ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val repository = (this[APPLICATION_KEY] as AppApplication).recipeRepository
-                HomeViewModel(repository)
+                HomeViewModel(application.recipeRepository)
             }
         }
     }

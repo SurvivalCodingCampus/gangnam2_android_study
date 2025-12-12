@@ -37,6 +37,7 @@ class SavedRecipesViewModelTest {
         coGiven { repository.getSavedRecipes() } returns AppResult.Success(
             listOf(
                 Recipe(
+                    id = 1,
                     name = "Test Recipe",
                     imageUrl = "imageUrl",
                     chef = "chef",
@@ -44,6 +45,7 @@ class SavedRecipesViewModelTest {
                     rating = 4.5,
                 ),
                 Recipe(
+                    id = 2,
                     name = "Test Recipe2",
                     imageUrl = "imageUrl",
                     chef = "chef",

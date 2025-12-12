@@ -141,6 +141,7 @@ fun DishCard(
 @Composable
 fun DishCardPreview() {
     val recipe = Recipe(
+        id = 1L,
         name = "Vegetable and Chicken",
         imageUrl = "",
         chef = "Laura Goodman",
