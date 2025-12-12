@@ -7,8 +7,6 @@ data class SearchRecipesState(
     val resultRecipes: List<Recipe> = emptyList(),
     val selectedTime: String = "",
     val selectedRate: String = "",
-    val selectedCategory: String = ""
-
-
-
+    val selectedCategory: String = "",
+    val enableBottomSheet:Boolean = false
     )
