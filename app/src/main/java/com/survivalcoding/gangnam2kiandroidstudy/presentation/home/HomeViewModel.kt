@@ -49,13 +49,35 @@ class HomeViewModel(
 
     fun changeCategory(category: String) {
         _uiState.update {
-            it.copy(selectedCategory = category)
+            val filtered = if (category == "All" || category.isEmpty()) {
+                it.recipes
+            } else {
+                it.recipes.filter { recipe ->
+                    recipe.category == category
+                }
+            }.filter { recipe ->
+                recipe.name.contains(it.searchText, ignoreCase = true)
+            }
+            it.copy(
+                selectedCategory = category,
+                filteredRecipes = filtered
+            )
         }
     }
 
     fun changeSearchText(searchText: String) {
         _uiState.update {
-            it.copy(searchText = searchText)
+            val filtered = it.recipes.filter { recipe ->
+                recipe.name.contains(searchText, ignoreCase = true)
+            }.filter { recipe ->
+                it.selectedCategory.isEmpty() ||
+                        it.selectedCategory == "All" ||
+                        recipe.category == it.selectedCategory
+            }
+            it.copy(
+                searchText = searchText,
+                filteredRecipes = filtered
+            )
         }
     }
 
