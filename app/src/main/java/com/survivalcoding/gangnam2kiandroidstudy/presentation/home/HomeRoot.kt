@@ -22,5 +22,9 @@ fun HomeRoot(
 @Preview(showBackground = true)
 @Composable
 fun HomeRootPreview() {
-    HomeRoot()
+    HomeScreen(
+        state = HomeState(),
+        onCategoryClick = {},
+        onSearchQueryChange = {},
+    )
 }
