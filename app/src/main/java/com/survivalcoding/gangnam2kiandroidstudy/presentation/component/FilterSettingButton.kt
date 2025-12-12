@@ -18,12 +18,12 @@ import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 
 @Composable
-fun FilterSettingButton(modifier: Modifier = Modifier, onBottomSheetClick: () -> Unit = {}) {
+fun FilterSettingButton(modifier: Modifier = Modifier, onClickFilterSetting: () -> Unit = {}) {
     Box(
         modifier = modifier
             .size(40.dp)
             .background(color = AppColors.primary100, shape = RoundedCornerShape(10.dp))
-            .clickable { onBottomSheetClick() },
+            .clickable { onClickFilterSetting() },
         contentAlignment = Alignment.Center
     ) {
         Icon(
