@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -52,26 +53,48 @@ fun MainScreen(
     }
 }
 
+private data class NavItem(
+    val route: Route,
+    val label: String,
+    val icon: Int,
+    val selectedIcon: Int,
+)
+
 @Composable
 private fun MainNavigationBar(
     currentRoute: NavKey?,
     onNavigate: (Route) -> Unit,
     onFabClick: () -> Unit = {},
 ) {
-    val routes = listOf(Route.Home, Route.SavedRecipes, Route.Notification, Route.Profile)
-    val icons = listOf(
-        R.drawable.outline_home,
-        R.drawable.outline_bookmark,
-        R.drawable.outline_notification_bing,
-        R.drawable.outline_profile,
+    val leftNavItems = listOf(
+        NavItem(
+            Route.Home,
+            "Home",
+            R.drawable.outline_home,
+            R.drawable.select_home,
+        ),
+        NavItem(
+            Route.SavedRecipes,
+            "Saved Recipes",
+            R.drawable.outline_bookmark,
+            R.drawable.select_bookmark,
+        ),
     )
-    val selectedIcons = listOf(
-        R.drawable.select_home,
-        R.drawable.select_bookmark,
-        R.drawable.select_notification_bing,
-        R.drawable.select_profile,
+
+    val rightNavItems = listOf(
+        NavItem(
+            Route.Notification,
+            "Notification",
+            R.drawable.outline_notification_bing,
+            R.drawable.select_notification_bing,
+        ),
+        NavItem(
+            Route.Profile,
+            "Profile",
+            R.drawable.outline_profile,
+            R.drawable.select_profile,
+        ),
     )
-    val labels = listOf("Home", "Saved Recipes", "Notification", "Profile")
 
     Box(
         modifier = Modifier
@@ -83,41 +106,14 @@ private fun MainNavigationBar(
             containerColor = AppColors.White,
             modifier = Modifier.height(72.dp),
         ) {
-            routes.take(2).forEachIndexed { index, route ->
-                NavigationBarItem(
-                    selected = currentRoute == route,
-                    onClick = { onNavigate(route) },
-                    icon = {
-                        Icon(
-                            painter = painterResource(if (currentRoute == route) selectedIcons[index] else icons[index]),
-                            contentDescription = labels[index],
-                            tint = if (currentRoute == route) Companion.Unspecified else AppColors.Gray4,
-                        )
-                    },
-                    colors = NavigationBarItemDefaults.colors(
-                        indicatorColor = AppColors.White,
-                    ),
-                )
+            leftNavItems.forEach { navItem ->
+                MainNavigationBarItem(currentRoute, navItem, onNavigate)
             }
 
             Spacer(modifier = Modifier.weight(1f))
 
-            routes.takeLast(2).forEachIndexed { index, route ->
-                val realIndex = index + 2
-                NavigationBarItem(
-                    selected = currentRoute == route,
-                    onClick = { onNavigate(route) },
-                    icon = {
-                        Icon(
-                            painter = painterResource(if (currentRoute == route) selectedIcons[realIndex] else icons[realIndex]),
-                            contentDescription = labels[realIndex],
-                            tint = if (currentRoute == route) Companion.Unspecified else AppColors.Gray4,
-                        )
-                    },
-                    colors = NavigationBarItemDefaults.colors(
-                        indicatorColor = AppColors.White,
-                    ),
-                )
+            rightNavItems.forEach { navItem ->
+                MainNavigationBarItem(currentRoute, navItem, onNavigate)
             }
         }
 
@@ -137,6 +133,29 @@ private fun MainNavigationBar(
             )
         }
     }
+}
+
+@Composable
+private fun RowScope.MainNavigationBarItem(
+    currentRoute: NavKey?,
+    navItem: NavItem,
+    onNavigate: (Route) -> Unit,
+) {
+    val selected = currentRoute == navItem.route
+    NavigationBarItem(
+        selected = selected,
+        onClick = { onNavigate(navItem.route) },
+        icon = {
+            Icon(
+                painter = painterResource(if (selected) navItem.selectedIcon else navItem.icon),
+                contentDescription = navItem.label,
+                tint = if (selected) Companion.Unspecified else AppColors.Gray4,
+            )
+        },
+        colors = NavigationBarItemDefaults.colors(
+            indicatorColor = AppColors.White,
+        ),
+    )
 }
 
 @Preview

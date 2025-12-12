@@ -160,9 +160,11 @@ fun HomeScreen(
                     .padding(start = 30.dp),
                 horizontalArrangement = Arrangement.spacedBy(15.dp),
             ) {
-                items(items = uiState.recipes) {
+                items(
+                    items = uiState.recipes,
+                    key = { it.id },
+                ) {
                     DishCard(
-                        modifier = Modifier,
                         recipe = it,
                         onClick = onDishClick,
                     )
