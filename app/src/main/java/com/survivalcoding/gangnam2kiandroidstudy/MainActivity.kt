@@ -4,15 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes.SavedRecipesScreen
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes.SearchRecipesScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeRoot
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            SearchRecipesScreen()
+            HomeRoot()
         }
     }
 }

@@ -1,8 +1,8 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.search
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 
-data class SearchRecipesUiState(
+data class SearchUiState(
     val searchKeyword: String = "",
     val isLoading: Boolean = false,
     val isShowBottomSheet: Boolean = false,

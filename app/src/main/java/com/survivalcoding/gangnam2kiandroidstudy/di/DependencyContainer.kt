@@ -8,8 +8,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSourc
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes.SavedRecipesViewModel
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes.SearchRecipesViewModel
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.search.SearchViewModel
 
 // 임의의 싱글톤 DI 컨테이너
 object DependencyContainer {
@@ -36,9 +37,17 @@ object DependencyContainer {
         }
     }
 
-    fun provideSearchRecipesViewModelFactory(context: Context) = viewModelFactory {
+    fun provideSearchViewModelFactory(context: Context) = viewModelFactory {
         initializer {
-            SearchRecipesViewModel(
+            SearchViewModel(
+                recipeRepository = provideRecipeRepository(context)
+            )
+        }
+    }
+
+    fun provideHomeViewModelFactory(context: Context) = viewModelFactory {
+        initializer {
+            HomeViewModel(
                 recipeRepository = provideRecipeRepository(context)
             )
         }

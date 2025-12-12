@@ -24,6 +24,18 @@ class RecipeRepositoryImpl private constructor(
         }
     }
 
+    override suspend fun getFilteredRecipesByCategory(category: String): Result<List<Recipe>> {
+        return suspendRunCatching {
+            if (category == "All") {
+                recipeDataSource.getRecipes()
+            } else {
+                recipeDataSource.getRecipes().filter {
+                    it.category == category
+                }
+            }
+        }
+    }
+
     companion object {
         @Volatile private var instance: RecipeRepository? = null
 

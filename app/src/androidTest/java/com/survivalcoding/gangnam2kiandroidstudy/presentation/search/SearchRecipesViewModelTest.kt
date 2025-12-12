@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.search
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.MockRecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
@@ -67,7 +67,7 @@ class SearchRecipesViewModelTest {
         // Given
         val dataSource = MockRecipeDataSource(fakeJson)
         val repository = RecipeRepositoryImpl.getInstance(dataSource)
-        val viewModel = SearchRecipesViewModel(repository)
+        val viewModel = SearchViewModel(repository)
 
         // 초기 fetchAllRecipes, fetchFilteredRecipes 안정화
         advanceUntilIdle()
@@ -86,7 +86,7 @@ class SearchRecipesViewModelTest {
         val dataSource = MockRecipeDataSource(fakeJson)
         val repository = RecipeRepositoryImpl.getInstance(dataSource)
 
-        val viewModel = SearchRecipesViewModel(repository)
+        val viewModel = SearchViewModel(repository)
         advanceUntilIdle()
 
         // When
@@ -112,7 +112,7 @@ class SearchRecipesViewModelTest {
     fun `onFilterButtonClick_값_변경_테스트`() = runTest {
         val dataSource = MockRecipeDataSource(fakeJson)
         val repository = RecipeRepositoryImpl.getInstance(dataSource)
-        val viewModel = SearchRecipesViewModel(repository)
+        val viewModel = SearchViewModel(repository)
 
         // When
         viewModel.onFilterButtonClick(true)
@@ -128,7 +128,7 @@ class SearchRecipesViewModelTest {
     fun `onFilterComplete_호출_시_filterSearchState_변경`() = runTest {
         val dataSource = MockRecipeDataSource(fakeJson)
         val repository = RecipeRepositoryImpl.getInstance(dataSource)
-        val viewModel = SearchRecipesViewModel(repository)
+        val viewModel = SearchViewModel(repository)
 
         val filterState = FilterSearchState(
             time = "10min",

@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.search
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -8,21 +8,14 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.di.DependencyContainer
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.AppBar
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterBottomSheet
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.GridRecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchInputField
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -30,16 +23,11 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchRecipesScreen(
-    viewModel: SearchRecipesViewModel = viewModel(
-        factory = DependencyContainer.provideSearchRecipesViewModelFactory(LocalContext.current)
-    )
+fun SearchScreen(
+    uiState: SearchUiState,
+    onSearchKeywordChange: (String) -> Unit,
+    onFilterButtonClick: (Boolean) -> Unit
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
-
     Column(modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
         AppBar(
             title = "Search recipes",
@@ -61,8 +49,8 @@ fun SearchRecipesScreen(
                 item(span = { GridItemSpan(2) }) {
                     GridHeader(
                         searchKeyword = uiState.searchKeyword,
-                        onSearchKeywordChange = viewModel::onSearchKeywordChange,
-                        onFilterButtonClick = { viewModel.onFilterButtonClick(true) },
+                        onSearchKeywordChange = onSearchKeywordChange,
+                        onFilterButtonClick = { onFilterButtonClick(true) },
                         filteredRecipesSize = uiState.filteredRecipes.size
                     )
                 }
@@ -75,29 +63,6 @@ fun SearchRecipesScreen(
                         GridRecipeCard(recipe)
                     }
                 }
-            }
-        }
-        LaunchedEffect(Unit) {
-            sheetState.expand()
-        }
-        if (uiState.isShowBottomSheet) {
-            ModalBottomSheet(
-                sheetState = sheetState,
-                onDismissRequest = { viewModel.onFilterButtonClick(false) },
-                shape = RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp),
-                containerColor = AppColors.white,
-                dragHandle = null
-            ) {
-                FilterBottomSheet(
-                    filterSearchState = uiState.filterSearchState,
-                    onFilterClick = { time, rating, category ->
-                        val filterResult = FilterSearchState(time, rating, category)
-
-                        viewModel.onFilterComplete(filterResult)
-                        // 필터 적용 처리
-                        viewModel.onFilterButtonClick(false)
-                    }
-                )
             }
         }
     }
@@ -160,8 +125,13 @@ fun GridHeader(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-fun SearchRecipesScreenPreview() {
-    SearchRecipesScreen()
+fun SearchScreenPreview() {
+    SearchScreen(
+        uiState = SearchUiState(),
+        onSearchKeywordChange = {},
+        onFilterButtonClick = {}
+    )
 }
