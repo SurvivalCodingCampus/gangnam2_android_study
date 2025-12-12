@@ -27,8 +27,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 
 @Composable
-fun SplashScreen(modifier: Modifier = Modifier) {
-
+fun SplashScreen(
+    modifier: Modifier = Modifier,
+    onStartClick: () -> Unit
+) {
     Box(modifier = modifier.fillMaxSize()) {
 
         // 배경
@@ -95,6 +97,7 @@ fun SplashScreen(modifier: Modifier = Modifier) {
 
             MediumButton(
                 text = stringResource(R.string.splash_button),
+                onClick = onStartClick
             )
         }
     }
@@ -104,5 +107,7 @@ fun SplashScreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun SplashScreenPreview() {
-    SplashScreen()
+    SplashScreen(
+        onStartClick = { /* preview no-op */ }
+    )
 }
