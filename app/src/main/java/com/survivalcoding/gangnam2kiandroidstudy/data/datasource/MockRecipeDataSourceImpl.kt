@@ -9,7 +9,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.util.date
 class MockRecipeDataSourceImpl : RecipeDataSource {
     val mockRecipeDtoList = listOf(
         RecipeDto(
-            category = "Dinner",
+            category = "Italian",
             chef = "Chef John",
             id = 1,
             image = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
@@ -53,7 +53,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             )
         ),
         RecipeDto(
-            category = "Local Dish",
+            category = "Local Dishes",
             chef = "Mark Kelvin",
             id = 2,
             image = "https://cdn.pixabay.com/photo/2018/12/04/16/49/tandoori-3856045_1280.jpg",
@@ -133,7 +133,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             )
         ),
         RecipeDto(
-            category = "Lunch",
+            category = "Asian",
             chef = "Kim Dahee",
             id = 4,
             image = "https://cdn.pixabay.com/photo/2017/07/27/16/48/toppokki-2545943_1280.jpg",
@@ -144,7 +144,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             createdAt = date("2025-12-06"),
         ),
         RecipeDto(
-            category = "Lunch",
+            category = "Italian",
             chef = "Alice Johnson",
             id = 5,
             image = "https://cdn.pixabay.com/photo/2014/11/05/15/57/salmon-518032_1280.jpg",
@@ -172,7 +172,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             )
         ),
         RecipeDto(
-            category = "Dinner",
+            category = "Italian",
             chef = "Gordon Ramsay",
             id = 6,
             image = "https://cdn.pixabay.com/photo/2019/10/22/10/11/beef-wellington-4568239_1280.jpg",
@@ -200,7 +200,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             )
         ),
         RecipeDto(
-            category = "Dinner",
+            category = "Italian",
             chef = "Mario Batali",
             id = 7,
             image = "https://cdn.pixabay.com/photo/2019/05/15/18/56/pizza-4205701_1280.jpg",
@@ -220,7 +220,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             )
         ),
         RecipeDto(
-            category = "Japanese",
+            category = "Asian",
             chef = "Jiro Ono",
             id = 8,
             image = "https://cdn.pixabay.com/photo/2017/10/15/11/41/sushi-2853382_1280.jpg",
@@ -248,7 +248,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             )
         ),
         RecipeDto(
-            category = "BreakFast",
+            category = "Cereal",
             chef = "Julia Child",
             id = 9,
             image = "https://cdn.pixabay.com/photo/2016/03/03/16/19/food-1234483_1280.jpg",
@@ -268,7 +268,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             )
         ),
         RecipeDto(
-            category = "Dinner",
+            category = "Italian",
             chef = "Paul Hollywood",
             id = 10,
             image = "https://cdn.pixabay.com/photo/2016/11/22/18/52/cake-1850011_1280.jpg",
