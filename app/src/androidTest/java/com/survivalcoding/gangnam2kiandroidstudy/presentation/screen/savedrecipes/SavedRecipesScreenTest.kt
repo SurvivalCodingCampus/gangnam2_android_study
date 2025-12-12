@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.savedrecipes
 
 import androidx.compose.ui.test.assertIsDisplayed
@@ -5,6 +7,9 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.MockRecipeDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -15,12 +20,14 @@ class SavedRecipesScreenTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun testSavedRecipesScreen() {
+    fun testSavedRecipesScreen() = runTest {
         val viewModel = SavedRecipesViewModel(
             repository = RecipeRepositoryImpl(
                 dataSource = MockRecipeDataSourceImpl(),
             ),
         )
+
+        advanceUntilIdle()
 
         composeTestRule.setContent {
             SavedRecipesScreen(

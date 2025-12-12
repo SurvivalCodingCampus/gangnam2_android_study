@@ -9,6 +9,7 @@ object MockRecipeRepositoryImpl : RecipeRepository {
 
     val mockRecipes = listOf(
         Recipe(
+            id = 1,
             name = "Traditional spare ribs baked",
             imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
             chef = "Chef John",
@@ -16,6 +17,7 @@ object MockRecipeRepositoryImpl : RecipeRepository {
             rating = 4.0,
         ),
         Recipe(
+            id = 2,
             name = "Spice roasted chicken with flavored rice",
             imageUrl = "https://cdn.pixabay.com/photo/2018/12/04/16/49/tandoori-3856045_1280.jpg",
             chef = "Mark Kelvin",
@@ -23,6 +25,7 @@ object MockRecipeRepositoryImpl : RecipeRepository {
             rating = 4.0,
         ),
         Recipe(
+            id = 3,
             name = "Spicy fried rice mix chicken bali",
             imageUrl = "https://cdn.pixabay.com/photo/2019/09/07/19/02/spanish-paella-4459519_1280.jpg",
             chef = "Spicy Nelly",
@@ -30,6 +33,7 @@ object MockRecipeRepositoryImpl : RecipeRepository {
             rating = 4.0,
         ),
         Recipe(
+            id = 4,
             name = "Ttekbokki",
             imageUrl = "https://cdn.pixabay.com/photo/2017/07/27/16/48/toppokki-2545943_1280.jpg",
             chef = "Kim Dahee",
@@ -37,6 +41,7 @@ object MockRecipeRepositoryImpl : RecipeRepository {
             rating = 5.0,
         ),
         Recipe(
+            id = 5,
             name = "Grilled salmon with avocado salsa",
             imageUrl = "https://cdn.pixabay.com/photo/2014/11/05/15/57/salmon-518032_1280.jpg",
             chef = "Alice Johnson",
@@ -44,6 +49,7 @@ object MockRecipeRepositoryImpl : RecipeRepository {
             rating = 4.5,
         ),
         Recipe(
+            id = 6,
             name = "Beef Wellington",
             imageUrl = "https://cdn.pixabay.com/photo/2019/10/22/10/11/beef-wellington-4568239_1280.jpg",
             chef = "Gordon Ramsay",
@@ -51,6 +57,7 @@ object MockRecipeRepositoryImpl : RecipeRepository {
             rating = 5.0,
         ),
         Recipe(
+            id = 7,
             name = "Classic Margherita Pizza",
             imageUrl = "https://cdn.pixabay.com/photo/2019/05/15/18/56/pizza-4205701_1280.jpg",
             chef = "Mario Batali",
@@ -58,6 +65,7 @@ object MockRecipeRepositoryImpl : RecipeRepository {
             rating = 4.3,
         ),
         Recipe(
+            id = 8,
             name = "Sushi Platter",
             imageUrl = "https://cdn.pixabay.com/photo/2017/10/15/11/41/sushi-2853382_1280.jpg",
             chef = "Jiro Ono",
@@ -65,6 +73,7 @@ object MockRecipeRepositoryImpl : RecipeRepository {
             rating = 4.8,
         ),
         Recipe(
+            id = 9,
             name = "French Onion Soup",
             imageUrl = "https://cdn.pixabay.com/photo/2016/03/03/16/19/food-1234483_1280.jpg",
             chef = "Julia Child",
@@ -72,6 +81,7 @@ object MockRecipeRepositoryImpl : RecipeRepository {
             rating = 4.6,
         ),
         Recipe(
+            id = 10,
             name = "Chocolate Lava Cake",
             imageUrl = "https://cdn.pixabay.com/photo/2016/11/22/18/52/cake-1850011_1280.jpg",
             chef = "Paul Hollywood",

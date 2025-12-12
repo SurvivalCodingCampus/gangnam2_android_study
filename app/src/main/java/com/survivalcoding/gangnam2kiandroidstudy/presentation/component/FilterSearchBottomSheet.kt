@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +26,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 import kotlinx.coroutines.launch
 
-@ExperimentalMaterial3Api
 @Composable
 fun FilterSearchBottomSheet(
     modifier: Modifier = Modifier,
@@ -174,7 +175,6 @@ private fun CategoryFilterSection(
     }
 }
 
-@ExperimentalMaterial3Api
 @Preview(showBackground = true)
 @Composable
 fun FilterSearchBottomSheetPreview() {

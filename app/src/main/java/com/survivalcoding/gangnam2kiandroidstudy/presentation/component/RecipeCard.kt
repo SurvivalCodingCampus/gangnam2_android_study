@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,12 +46,14 @@ fun RecipeCard(
     recipe: Recipe,
     modifier: Modifier = Modifier,
     size: RecipeCardSize = RecipeCardSize.Medium,
+    onClick: (Long) -> Unit = {},
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(150.dp)
-            .clip(RoundedCornerShape(10.dp)),
+            .clip(RoundedCornerShape(10.dp))
+            .clickable { onClick(recipe.id) },
     ) {
         AsyncImage(
             model = recipe.imageUrl.orPreview,
@@ -152,6 +155,7 @@ fun RecipeCard(
 @Composable
 fun RecipeCardPreview() {
     val recipe = Recipe(
+        id = 1L,
         name = "spice roasted chicken with flavored rice",
         imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
         chef = "Chef John",
@@ -165,6 +169,7 @@ fun RecipeCardPreview() {
 @Composable
 fun LongNameRecipeCardPreview() {
     val recipe = Recipe(
+        id = 1L,
         name = "spice roasted chicken with flavored rice".repeat(3),
         imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
         chef = "Chef John",
@@ -178,6 +183,7 @@ fun LongNameRecipeCardPreview() {
 @Composable
 fun SmallSizeRecipeCardPreview() {
     val recipe = Recipe(
+        id = 1L,
         name = "spice roasted chicken with flavored rice",
         imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
         chef = "Chef John",

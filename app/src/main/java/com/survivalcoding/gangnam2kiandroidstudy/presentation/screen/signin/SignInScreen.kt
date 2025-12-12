@@ -43,7 +43,11 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun SignInScreen(modifier: Modifier = Modifier) {
+fun SignInScreen(
+    modifier: Modifier = Modifier,
+    onSignIn: () -> Unit = {},
+    onSignUp: () -> Unit = {},
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -116,7 +120,10 @@ fun SignInScreen(modifier: Modifier = Modifier) {
                 .clickable {},
         )
 
-        BigButton(text = "Sign In") {}
+        BigButton(
+            text = "Sign In",
+            onClick = onSignIn,
+        )
 
         Row(
             modifier = Modifier
@@ -213,7 +220,7 @@ fun SignInScreen(modifier: Modifier = Modifier) {
                     color = AppColors.Secondary100,
                     fontWeight = FontWeight.SemiBold,
                 ),
-                modifier = Modifier.clickable {},
+                modifier = Modifier.clickable(onClick = onSignUp),
             )
         }
     }
