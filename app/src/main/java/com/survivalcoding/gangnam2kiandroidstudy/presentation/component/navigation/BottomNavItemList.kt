@@ -3,7 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component.navigat
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.core.routing.Route
 
-val mainBottomNavItems = listOf(
+val bottomNavItemList = listOf(
     BottomNavItem(
         route = Route.Home,
         selectedIcon = R.drawable.ic_home_nav,

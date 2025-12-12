@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component.navigation
 
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -25,7 +26,9 @@ fun BottomNavBar(
     modifier: Modifier = Modifier,
 ) {
     NavigationBar(
-        modifier = modifier.height(58.dp),
+        modifier = modifier
+            .height(58.dp)
+            .padding(10.dp, 10.dp, 10.dp, 24.dp),
         containerColor = AppColors.white,
         tonalElevation = 0.dp
     ) {
