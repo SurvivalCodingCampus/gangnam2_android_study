@@ -1,20 +1,19 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.main
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.core.routing.Route
+import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 
 @Composable
 fun MainScreen(
@@ -26,7 +25,10 @@ fun MainScreen(
 
     Scaffold(
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                containerColor = AppColors.white,
+                contentColor = AppColors.gray4
+            ) {
                 NavigationBarItem(
                     selected = currentRoute is Route.Home,
                     onClick = {
@@ -34,9 +36,18 @@ fun MainScreen(
                         backStack.add(Route.Home)
                     },
                     icon = {
-                        Icon(Icons.Default.Home, contentDescription = "Home")
+                        Icon(
+                            painter = if (currentRoute is Route.Home)
+                                painterResource(R.drawable.bottom_home_primary)
+                            else
+                                painterResource(R.drawable.bottom_home_gray),
+                            contentDescription = "Home",
+                            tint = Color.Unspecified
+                        )
                     },
-                    label = { Text("Home") }
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color.Transparent
+                    )
                 )
                 NavigationBarItem(
                     selected = currentRoute is Route.SavedRecipes,
@@ -45,9 +56,18 @@ fun MainScreen(
                         backStack.add(Route.SavedRecipes)
                     },
                     icon = {
-                        Icon(Icons.Default.Favorite, contentDescription = "Saved Recipes")
+                        Icon(
+                            painter = if (currentRoute is Route.SavedRecipes)
+                                painterResource(R.drawable.bottom_saved_primary)
+                            else
+                                painterResource(R.drawable.bottom_saved_gray),
+                            contentDescription = "Saved Recipes",
+                            tint = Color.Unspecified
+                        )
                     },
-                    label = { Text("Saved") }
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color.Transparent
+                    )
                 )
                 NavigationBarItem(
                     selected = currentRoute is Route.Notifications,
@@ -56,9 +76,18 @@ fun MainScreen(
                         backStack.add(Route.Notifications)
                     },
                     icon = {
-                        Icon(Icons.Default.Notifications, contentDescription = "Notifications")
+                        Icon(
+                            painter = if (currentRoute is Route.Notifications)
+                                painterResource(R.drawable.bottom_notification_primary)
+                            else
+                                painterResource(R.drawable.bottom_notification_gray),
+                            contentDescription = "Notifications",
+                            tint = Color.Unspecified
+                        )
                     },
-                    label = { Text("Notifications") }
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color.Transparent
+                    )
                 )
                 NavigationBarItem(
                     selected = currentRoute is Route.Profile,
@@ -67,9 +96,18 @@ fun MainScreen(
                         backStack.add(Route.Profile)
                     },
                     icon = {
-                        Icon(Icons.Default.AccountCircle, contentDescription = "Profile")
+                        Icon(
+                            painter = if (currentRoute is Route.Profile)
+                                painterResource(R.drawable.bottom_profile_primary)
+                            else
+                                painterResource(R.drawable.bottom_profile_gray),
+                            contentDescription = "Profile",
+                            tint = Color.Unspecified
+                        )
                     },
-                    label = { Text("Profile") }
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color.Transparent
+                    )
                 )
             }
         }

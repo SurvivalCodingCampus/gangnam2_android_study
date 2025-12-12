@@ -67,12 +67,22 @@ fun NavigationRoot(
                         NavDisplay(
                             modifier = modifier,
                             backStack = backStack,
+                            entryDecorators = listOf(
+                                rememberSaveableStateHolderNavEntryDecorator(),
+                                rememberViewModelStoreNavEntryDecorator()
+                            ),
                             entryProvider = entryProvider {
                                 entry<Route.Home> {
                                     HomeScreenRoot()
                                 }
                                 entry<Route.SavedRecipes> {
                                     SavedRecipesScreen()
+                                }
+                                entry<Route.Notifications> {
+
+                                }
+                                entry<Route.Profile> {
+
                                 }
                             }
                         )
