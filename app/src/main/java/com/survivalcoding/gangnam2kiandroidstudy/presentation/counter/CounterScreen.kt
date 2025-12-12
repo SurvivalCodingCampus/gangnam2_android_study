@@ -4,11 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 @Composable
@@ -42,12 +39,9 @@ fun CounterScreen(
 @Preview(showBackground = true)
 @Composable
 fun CounterScreenPreview() {
-    val viewModel: CounterViewModel = viewModel()
-    val state by viewModel.uiState.collectAsState()
-
     CounterScreen(
-        state = state,
-        onIncrement = { viewModel.increment() },
-        onDecrement = { viewModel.decrement() }
+        state = CounterState(value = 5),
+        onIncrement = {},
+        onDecrement = {}
     )
 }
