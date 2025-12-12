@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saveedrecipes
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,7 +28,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun SavedRecipesScreen(
     modifier: Modifier = Modifier,
-    viewModel: SavedRecipesViewModel = viewModel(factory = SavedRecipesViewModel.Factory)
+    viewModel: SavedRecipesViewModel = viewModel(factory = SavedRecipesViewModel.Factory),
+    onClick: (Int) -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsState()
 

@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saveedrecipes
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

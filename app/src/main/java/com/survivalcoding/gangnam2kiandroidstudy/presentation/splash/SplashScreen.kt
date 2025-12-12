@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,6 +32,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun SplashScreen(
     modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -112,6 +113,7 @@ fun SplashScreen(
 
             MediumButton(
                 text = stringResource(R.string.splash_button),
+                onClick = onClick,
             )
         }
     }
