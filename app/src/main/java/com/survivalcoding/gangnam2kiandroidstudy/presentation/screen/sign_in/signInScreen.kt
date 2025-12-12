@@ -29,7 +29,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun SignInScreen(onSignUpButtonClick: () -> Unit) {
+fun SignInScreen(onSignUpButtonClick: () -> Unit, onSignInButtonClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,7 +54,7 @@ fun SignInScreen(onSignUpButtonClick: () -> Unit) {
             style = AppTextStyles.smallerTextRegular.copy(color = AppColors.secondary100)
         )
         Spacer(modifier = Modifier.height(25.dp))
-        BigButton(text = "Sign In", onClick = {})
+        BigButton(text = "Sign In", onClick = { onSignInButtonClick() })
         Spacer(modifier = Modifier.height(20.dp))
         Row(modifier = Modifier.height(17.dp), verticalAlignment = Alignment.CenterVertically) {
             Spacer(modifier = Modifier.width(60.dp))
@@ -116,19 +116,13 @@ fun SignInScreen(onSignUpButtonClick: () -> Unit) {
                 }
             )
             Spacer(modifier = Modifier.weight(1f))
-
         }
         Spacer(modifier = Modifier.height(99.dp))
-
-
     }
-
 }
 
 @Preview(showBackground = true)
 @Composable
 fun SignInScreenPreview(modifier: Modifier = Modifier) {
-    SignInScreen() {
-
-    }
+    SignInScreen({}, {})
 }
