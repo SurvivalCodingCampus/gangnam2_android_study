@@ -24,9 +24,11 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun HomeScreen(uiState: HomeUiState, onSelectCategory: (String) -> Unit) {
-    var searchKeyword by remember { mutableStateOf("") }
-
+fun HomeScreen(
+    uiState: HomeUiState,
+    onSearchKeywordChange: (String) -> Unit,
+    onSelectCategory: (String) -> Unit
+) {
     Column(modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
         Spacer(modifier = Modifier.height(54.dp))
         Row(
@@ -61,9 +63,9 @@ fun HomeScreen(uiState: HomeUiState, onSelectCategory: (String) -> Unit) {
             modifier = Modifier.padding(top = 30.dp, start = 30.dp, end = 30.dp).fillMaxWidth().height(40.dp)
         ) {
             SearchInputField(
-                value = searchKeyword,
+                value = uiState.searchKeyword,
                 modifier = Modifier.weight(1f),
-                onValueChange = {},
+                onValueChange = onSearchKeywordChange,
                 placeholder = "Search recipe"
             )
             Spacer(modifier = Modifier.width(20.dp))
@@ -108,5 +110,5 @@ fun HomeScreen(uiState: HomeUiState, onSelectCategory: (String) -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(HomeUiState(), onSelectCategory = {})
+    HomeScreen(HomeUiState(), onSearchKeywordChange = {}, onSelectCategory = {})
 }

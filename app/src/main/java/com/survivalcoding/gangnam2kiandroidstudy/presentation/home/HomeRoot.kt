@@ -12,5 +12,5 @@ fun HomeRoot(viewModel: HomeViewModel = viewModel(
 )) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    HomeScreen(uiState, viewModel::onSelectCategory)
+    HomeScreen(uiState, viewModel::onSearchKeywordChange, viewModel::onSelectCategory)
 }

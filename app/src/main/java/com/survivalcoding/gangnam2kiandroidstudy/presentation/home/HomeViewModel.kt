@@ -50,6 +50,10 @@ class HomeViewModel(
         _uiState.update { it.copy(selectedCategory = value) }
     }
 
+    fun onSearchKeywordChange(value: String) {
+        _uiState.update { it.copy(searchKeyword = value) }
+    }
+
     init {
         subscribeSelectedCategoryFlow()
     }
