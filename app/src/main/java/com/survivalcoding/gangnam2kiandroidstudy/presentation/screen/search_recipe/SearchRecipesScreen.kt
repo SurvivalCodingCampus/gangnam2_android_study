@@ -1,42 +1,29 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipe
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchBar
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallRecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
@@ -44,19 +31,15 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun SearchRecipesScreen(
-    modifier: Modifier = Modifier,
-    viewModel: SearchRecipesViewModel = viewModel(factory = SearchRecipesViewModel.Factory),
     state: SearchRecipesState,
 
     onSearchTermChange: (String) -> Unit = {},
     onBackClick: () -> Unit = {},
+    onFilterClick: () -> Unit = {},
 ) {
-    // 필터 시트 출력 여부
-    var showFilterSheet by remember { mutableStateOf(false) }
-    val filterState by viewModel.filterState.collectAsStateWithLifecycle()
 
     Column(
-        modifier = modifier.padding(horizontal = 30.dp),
+        modifier = Modifier.padding(horizontal = 30.dp),
     ) {
         // Search recipes
         Box(
@@ -84,61 +67,12 @@ fun SearchRecipesScreen(
             )
         }
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(46.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            OutlinedTextField(
-                value = state.searchTerm,
-                modifier = Modifier
-                    .weight(1f)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(color = AppColors.white),
-                placeholder = {
-                    Text(
-                        text = "Search recipe",
-                        color = AppColors.gray4,
-                        style = AppTextStyles.smallerTextRegular
-                    )
-                },
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = AppColors.gray4,
-                    unfocusedBorderColor = AppColors.gray4,
-                ),
-                shape = RoundedCornerShape(10.dp),
-                onValueChange = onSearchTermChange,
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(R.drawable.outline_search_normal),
-                        contentDescription = "검색 아이콘",
-                        modifier = Modifier.size(20.dp),
-                        tint = AppColors.gray4,
-                    )
-                },
-            )
-
-            Spacer(Modifier.width(20.dp))
-
-            // 필터 아이콘
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(color = AppColors.primary100)
-                    .clickable { showFilterSheet = true }
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.outline_setting_4),
-                    contentDescription = "필터 아이콘",
-                    tint = AppColors.white,
-                    modifier = Modifier
-                        .padding(10.dp)
-                        .size(20.dp)
-                )
-            }
-        }
+        // 검색란
+        SearchBar(
+            state = state,
+            onSearchTermChange = onSearchTermChange,
+            onFilterClick = onFilterClick,
+        )
 
         // Search 타이틀
         Box(
@@ -170,7 +104,6 @@ fun SearchRecipesScreen(
             verticalArrangement = Arrangement.spacedBy(15.dp),
         ) {
             if (state.searchTerm.isNotEmpty()) {
-//                viewModel.loadFilteredRecipes()
                 items(state.filteredRecipes) { recipe ->
                     SmallRecipeCard(recipe = recipe)
                 }
@@ -179,18 +112,6 @@ fun SearchRecipesScreen(
                     SmallRecipeCard(recipe = recipe)
                 }
             }
-        }
-
-        // 필터 시트
-        if (showFilterSheet) {
-            FilterSearchBottomSheet(
-                onApplyFilter = { filter ->
-                    viewModel.applyFilter(filter)
-                    showFilterSheet = false
-                },
-                onDismiss = { showFilterSheet = false },
-                initialFilter = filterState,
-            )
         }
     }
 }
@@ -209,4 +130,25 @@ fun LoadingOverlay() {
             color = AppColors.gray3
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewSearchRecipesScreen() {
+    SearchRecipesScreen(
+        state = SearchRecipesState(
+            allRecipes = listOf(
+                Recipe(
+                    id = 5,
+                    category = "American",
+                    name = "Grilled salmon with avocado salsa",
+                    imageUrl = "https://cdn.pixabay.com/photo/2014/11/05/15/57/salmon-518032_1280.jpg",
+                    chef = "Alice Johnson",
+                    time = "25 min",
+                    rating = 4.5,
+                    ingredients = listOf()
+                ),
+            )
+        )
+    )
 }
