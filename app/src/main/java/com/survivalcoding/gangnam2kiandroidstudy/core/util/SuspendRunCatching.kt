@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.common.util
+package com.survivalcoding.gangnam2kiandroidstudy.core.util
 
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.ensureActive
