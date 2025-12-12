@@ -31,7 +31,7 @@ fun FilterSearchBottomSheet(
     isSheetVisible: Boolean = false,
     searchFilter: RecipeSearchFilter = RecipeSearchFilter(),
     onDismissRequest: () -> Unit = {},
-    onFilterChange: (TimeFilterType?, RateFilterType?, CategoryFilterType?) -> Unit = { _, _, _ -> },
+    onFilterChange: (RecipeSearchFilter) -> Unit = { _ -> },
     onFilter: () -> Unit = {},
 ) {
     if (!isSheetVisible) {
@@ -84,10 +84,8 @@ fun FilterSearchBottomSheet(
 @Composable
 private fun TimeFilterSection(
     searchFilter: RecipeSearchFilter = RecipeSearchFilter(),
-    onFilterChange: (TimeFilterType?, RateFilterType?, CategoryFilterType?) -> Unit,
+    onFilterChange: (RecipeSearchFilter) -> Unit,
 ) {
-    val (time, rate, category) = searchFilter
-
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
@@ -104,10 +102,10 @@ private fun TimeFilterSection(
             TimeFilterType.entries.forEach {
                 FilterButton(
                     text = it.label,
-                    isSelected = it == time,
+                    isSelected = it == searchFilter.time,
                 ) {
-                    val selectedTime = it.takeUnless { it == time }
-                    onFilterChange(selectedTime, rate, category)
+                    val selectedTime = it.takeUnless { it == searchFilter.time }
+                    onFilterChange(searchFilter.copy(time = selectedTime))
                 }
             }
         }
@@ -117,10 +115,8 @@ private fun TimeFilterSection(
 @Composable
 private fun RateFilterSection(
     searchFilter: RecipeSearchFilter = RecipeSearchFilter(),
-    onFilterChange: (TimeFilterType?, RateFilterType?, CategoryFilterType?) -> Unit,
+    onFilterChange: (RecipeSearchFilter) -> Unit,
 ) {
-    val (time, rate, category) = searchFilter
-
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
@@ -137,10 +133,10 @@ private fun RateFilterSection(
             RateFilterType.entries.forEach {
                 RatingButton(
                     text = it.label,
-                    isSelected = it == rate,
+                    isSelected = it == searchFilter.rate,
                 ) {
-                    val selectedRate = it.takeUnless { it == rate }
-                    onFilterChange(time, selectedRate, category)
+                    val selectedRate = it.takeUnless { it == searchFilter.rate }
+                    onFilterChange(searchFilter.copy(rate = selectedRate))
                 }
             }
         }
@@ -150,10 +146,8 @@ private fun RateFilterSection(
 @Composable
 private fun CategoryFilterSection(
     searchFilter: RecipeSearchFilter = RecipeSearchFilter(),
-    onFilterChange: (TimeFilterType?, RateFilterType?, CategoryFilterType?) -> Unit,
+    onFilterChange: (RecipeSearchFilter) -> Unit,
 ) {
-    val (time, rate, category) = searchFilter
-
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
@@ -170,10 +164,10 @@ private fun CategoryFilterSection(
             CategoryFilterType.entries.forEach {
                 FilterButton(
                     text = it.label,
-                    isSelected = it == category,
+                    isSelected = it == searchFilter.category,
                 ) {
-                    val selectedCategory = it.takeUnless { it == category }
-                    onFilterChange(time, rate, selectedCategory)
+                    val selectedCategory = it.takeUnless { it == searchFilter.category }
+                    onFilterChange(searchFilter.copy(category = selectedCategory))
                 }
             }
         }

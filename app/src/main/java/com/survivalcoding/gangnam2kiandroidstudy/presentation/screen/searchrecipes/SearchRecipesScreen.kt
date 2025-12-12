@@ -1,6 +1,5 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,38 +16,30 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.PreviewRecipeRepositoryImpl
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockRecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCardSize
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchInputField
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
-import kotlinx.coroutines.FlowPreview
 
-@ExperimentalMaterial3Api
-@FlowPreview
 @Composable
 fun SearchRecipesScreen(
     modifier: Modifier = Modifier,
-    viewModel: SearchRecipesViewModel = viewModel(factory = SearchRecipesViewModel.Factory),
+    uiState: SearchRecipesUiState = SearchRecipesUiState(),
+    onSearchTextChange: (String) -> Unit = {},
+    onFilterClick: () -> Unit = {},
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -71,9 +62,7 @@ fun SearchRecipesScreen(
         ) {
             SearchInputField(
                 value = uiState.searchText,
-                onValueChange = {
-                    viewModel.changeSearchText(it)
-                },
+                onValueChange = onSearchTextChange,
                 placeholder = "Search recipe",
                 modifier = Modifier.weight(1f),
             )
@@ -82,9 +71,7 @@ fun SearchRecipesScreen(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(RoundedCornerShape(10.dp))
-                    .clickable {
-                        viewModel.showBottomSheet()
-                    }
+                    .clickable(onClick = onFilterClick)
                     .background(
                         color = AppColors.Primary100,
                         shape = RoundedCornerShape(10.dp),
@@ -140,7 +127,7 @@ fun SearchRecipesScreen(
                 verticalArrangement = Arrangement.spacedBy(15.dp),
                 horizontalArrangement = Arrangement.spacedBy(15.dp),
             ) {
-                items(uiState.recipes) {
+                items(items = uiState.recipes) {
                     RecipeCard(
                         recipe = it,
                         size = RecipeCardSize.Small,
@@ -148,62 +135,36 @@ fun SearchRecipesScreen(
                 }
             }
         }
-
-        FilterSearchBottomSheet(
-            isSheetVisible = uiState.isSheetVisible,
-            searchFilter = uiState.searchFilter,
-            onDismissRequest = {
-                viewModel.hideBottomSheet()
-            },
-            onFilterChange = { time, rate, category ->
-                viewModel.changeSearchFilter(time, rate, category)
-            },
-            onFilter = {
-                viewModel.fetchRecipes()
-                viewModel.hideBottomSheet()
-            },
-        )
     }
 }
 
-@SuppressLint("ViewModelConstructorInComposable")
-@ExperimentalMaterial3Api
-@FlowPreview
 @Preview(showBackground = true)
 @Composable
 fun SearchRecipesScreenPreview() {
-    val viewModel = SearchRecipesViewModel(PreviewRecipeRepositoryImpl)
-    viewModel.fetchRecipes("")
-    SearchRecipesScreen(viewModel = viewModel)
+    SearchRecipesScreen(
+        uiState = SearchRecipesUiState(
+            recipes = MockRecipeRepositoryImpl.mockRecipes,
+        ),
+    )
 }
 
-@SuppressLint("ViewModelConstructorInComposable")
-@ExperimentalMaterial3Api
-@FlowPreview
 @Preview(showBackground = true)
 @Composable
 fun SearchedSearchRecipesScreenPreview() {
-    val viewModel = SearchRecipesViewModel(
-        repository = PreviewRecipeRepositoryImpl,
-        state = SearchRecipesUiState(
+    SearchRecipesScreen(
+        uiState = SearchRecipesUiState(
             searchText = "rice",
+            recipes = MockRecipeRepositoryImpl.mockRecipes,
         ),
     )
-    viewModel.fetchRecipes("rice")
-    SearchRecipesScreen(viewModel = viewModel)
 }
 
-@SuppressLint("ViewModelConstructorInComposable")
-@ExperimentalMaterial3Api
-@FlowPreview
 @Preview(showBackground = true)
 @Composable
 fun LoadingSearchRecipesScreenPreview() {
-    val viewModel = SearchRecipesViewModel(
-        repository = PreviewRecipeRepositoryImpl,
-        state = SearchRecipesUiState(
+    SearchRecipesScreen(
+        uiState = SearchRecipesUiState(
             isLoading = true,
         ),
     )
-    SearchRecipesScreen(viewModel = viewModel)
 }
