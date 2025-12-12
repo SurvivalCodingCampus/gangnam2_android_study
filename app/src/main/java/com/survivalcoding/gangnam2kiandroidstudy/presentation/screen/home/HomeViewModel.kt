@@ -116,5 +116,15 @@ class HomeViewModel(
                 )
             }
         }
+
+        fun factory(application: AppApplication): ViewModelProvider.Factory =
+            viewModelFactory {
+                initializer {
+                    HomeViewModel(
+                        recipeRepository = application.recipeRepository,
+                        savedStateHandle = createSavedStateHandle(),
+                    )
+                }
+            }
     }
 }

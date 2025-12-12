@@ -174,5 +174,15 @@ class SearchRecipesViewModel(
                 )
             }
         }
+
+        fun factory(application: AppApplication): ViewModelProvider.Factory =
+            viewModelFactory {
+                initializer {
+                    SearchRecipesViewModel(
+                        recipeRepository = application.recipeRepository,
+                        savedStateHandle = createSavedStateHandle(),
+                    )
+                }
+            }
     }
 }
