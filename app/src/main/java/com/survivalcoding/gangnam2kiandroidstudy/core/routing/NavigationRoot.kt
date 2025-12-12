@@ -9,7 +9,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes.SavedRecipesScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.signin.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.signup.SignUpScreen
@@ -47,6 +47,7 @@ fun NavigationRoot(
                 SplashScreen(
                     onClick = {
                         Log.d("NavigationRoot", "Splash -> SignIn")
+                        topLevelBackStack.clear()
                         topLevelBackStack.add(Route.SignIn)
                     }
                 )
@@ -55,10 +56,12 @@ fun NavigationRoot(
                 SignInScreen(
                     onLogin = {
                         Log.d("NavigationRoot", "SignIn -> Home")
-                        // topLevelBackStack.add(Route.Home)
+                        topLevelBackStack.clear()
+                        topLevelBackStack.add(Route.Home)
                     },
                     onSignUp = {
                         Log.d("NavigationRoot", "SignIn -> SignUp")
+                        topLevelBackStack.clear()
                         topLevelBackStack.add(Route.SignUp)
                     }
                 )
@@ -67,11 +70,14 @@ fun NavigationRoot(
                 SignUpScreen(
                     onSignInClick = {
                         Log.d("NavigationRoot", "SignUp -> SignIn")
+                        topLevelBackStack.clear()
                         topLevelBackStack.add(Route.SignIn)
                     }
                 )
             }
-            entry<Route.Home> { HomeScreen() }
+            entry<Route.Home> {
+                HomeRoot()
+            }
             entry<Route.SavedRecipes> { SavedRecipesScreen() }
         }
     )
