@@ -1,6 +1,5 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -12,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
+import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 
 @Composable
 fun HomeRoot(
@@ -25,7 +25,9 @@ fun HomeRoot(
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    Scaffold { innerPadding ->
+    Scaffold(
+        containerColor = AppColors.white
+    ) { innerPadding ->
         HomeScreen(
             modifier = modifier
                 .fillMaxSize()
