@@ -3,6 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_up
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,7 +30,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(onSignInButtonClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxHeight()
@@ -130,8 +131,11 @@ fun SignUpScreen() {
             Spacer(modifier = Modifier.weight(1f))
             Text("Already a member?", style = AppTextStyles.smallerTextRegular)
             Text(
-                " Sign Ip",
-                style = AppTextStyles.smallerTextRegular.copy(color = AppColors.secondary100)
+                " Sign Up",
+                style = AppTextStyles.smallerTextRegular.copy(color = AppColors.secondary100),
+                modifier = Modifier.clickable {
+                    onSignInButtonClick()
+                }
             )
             Spacer(modifier = Modifier.weight(1f))
         }
@@ -145,6 +149,8 @@ fun SignUpScreen() {
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview(modifier: Modifier = Modifier) {
-    SignUpScreen()
+    SignUpScreen() {
+
+    }
 
 }

@@ -48,7 +48,7 @@ fun HomeScreen(
                     "Hello Jega",
                     modifier = Modifier.padding(start = 30.dp),
                     style = AppTextStyles.largeTextBold.copy(fontWeight = FontWeight.SemiBold)
-                )//나중에 이름 반영하게 수정
+                )//TODO나중에 이름 반영하게 수정
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
                     "What are you cooking today?",
@@ -64,7 +64,6 @@ fun HomeScreen(
                     .clip(shape = RoundedCornerShape(10.dp))
                     .background(color = AppColors.secondary40)
                     .align(Alignment.CenterVertically), contentAlignment = Alignment.Center
-
             ) {
                 Image(
                     modifier = Modifier.fillMaxSize(),
@@ -79,7 +78,6 @@ fun HomeScreen(
             Box(modifier = Modifier.weight(1f)) {
                 Search() {
                     //TODO 디자인 완성 후 콜백 구현
-
                 }
             }
             Spacer(modifier = Modifier.width(20.dp))
@@ -95,7 +93,6 @@ fun HomeScreen(
             item {
                 SmallButton2(text = "All", isSelected = state.selectedCategory == "All") {
                     onViewmodelCalled(it)
-
                 }
             }
             item {
@@ -118,24 +115,22 @@ fun HomeScreen(
                     onViewmodelCalled(it)
                 }
             }
-
-
         }
         Spacer(modifier = Modifier.height(15.dp))
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(15.dp), contentPadding = PaddingValues(30.dp)) {
-            items(state.resultRecipes){recipe->
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(15.dp),
+            contentPadding = PaddingValues(30.dp)
+        ) {
+            items(state.resultRecipes) { recipe ->
                 MediumRecipeCard(recipe)
             }
-
         }
     }
-
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
     HomeScreen(state = HomeState(), onViewmodelCalled = { "All" })
-
 }
 
