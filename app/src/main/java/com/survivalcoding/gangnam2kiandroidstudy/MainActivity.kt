@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
@@ -33,6 +34,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.MainViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.BigButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RatingDialog
 import java.io.Serializable
+import kotlin.jvm.java
 
 data class Hero(val name: String, val age: Int): Parcelable {
     override fun describeContents(): Int {
@@ -51,8 +53,8 @@ class MainActivity : ComponentActivity() {
         super.onSaveInstanceState(outState)
         // 화면 돌아갈때
         // 상태 저장
-        val hero = Hero("홍", 10)
-        outState.putParcelable("hero", hero)
+//        val hero = Hero("홍", 10)
+//        outState.putParcelable("hero", hero)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -66,6 +68,9 @@ class MainActivity : ComponentActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val myIntent = Intent(this, SavedRecipesActivity::class.java)
+        startActivity(myIntent)
 
         val name = Hero("", 10)
         println("Hero: ${name.hashCode()}")
