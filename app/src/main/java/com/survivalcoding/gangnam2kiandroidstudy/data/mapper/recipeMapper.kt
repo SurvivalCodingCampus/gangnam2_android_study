@@ -10,6 +10,7 @@ fun RecipeDto.toRecipe(): Recipe {
         image = image ?: "",
         chef = chef ?: "",
         time = time ?: "",
-        rating = rating ?: 0.0
+        rating = rating ?: 0.0,
+        category = category ?: "",
     )
 }
