@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_in
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,12 +39,13 @@ fun SignInScreen(
     onForgotPasswordClick: () -> Unit = {},
     onGoogleSignInClick: () -> Unit = {},
     onFacebookSignInClick: () -> Unit = {},
-    onSignUpClick: () -> Unit = {},
+    onSignUpNavigateClick: () -> Unit = {},
 ) {
 
     Box(
         modifier = modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(color = AppColors.white),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -83,7 +85,8 @@ fun SignInScreen(
                 label = "Enter Password",
                 placeholder = "Enter Password",
                 value = password,
-                onValueChange = onPasswordChange
+                onValueChange = onPasswordChange,
+                isPassword = true,
             )
 
             // 비밀번호 찾기
@@ -157,7 +160,7 @@ fun SignInScreen(
                     text = "Sign up",
                     style = AppTextStyles.smallerTextSemiBold,
                     color = AppColors.secondary100,
-                    modifier = Modifier.clickable { onSignUpClick() }
+                    modifier = Modifier.clickable { onSignUpNavigateClick() }
                 )
             }
         }

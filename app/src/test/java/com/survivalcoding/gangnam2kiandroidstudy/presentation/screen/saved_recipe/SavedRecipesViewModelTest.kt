@@ -5,7 +5,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.MockRecipeData
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.core.Result
+import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import io.mockk.coEvery

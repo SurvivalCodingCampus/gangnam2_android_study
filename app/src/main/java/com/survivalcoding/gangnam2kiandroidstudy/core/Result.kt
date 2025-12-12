@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.data.core
+package com.survivalcoding.gangnam2kiandroidstudy.core
 
 sealed class Result<out T, out E> {
     data class Success<out T>(
