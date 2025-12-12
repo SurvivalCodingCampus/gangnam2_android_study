@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipe
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.Repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.HomeImage
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -50,7 +51,11 @@ class SavedRecipesViewModelTest {
                 imageUrls = "url",
                 chef = "chef",
                 time = "10 min",
-            )
+                createdAt = 1736034600000,
+                category = "Cereal",
+                homeImage = HomeImage.FOOD1,
+
+                )
         )
         coEvery { fakeRepository.getRecipes() } returns mockList
 

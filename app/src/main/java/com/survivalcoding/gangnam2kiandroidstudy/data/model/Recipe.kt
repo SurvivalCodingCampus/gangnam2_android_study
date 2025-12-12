@@ -11,4 +11,5 @@ data class Recipe(
     val imageUrls: String,
     val createdAt: Long,
     val category: String,
+    val homeImage: HomeImage,
 )

@@ -13,8 +13,9 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.FilterSearchBottomSheet
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipes.SearchRecipesScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipes.SearchRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.util.KeyboardVisibilityHandler
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 
@@ -41,8 +42,10 @@ class MainActivity : ComponentActivity() {
                             .fillMaxSize()
                             .padding(horizontal = 30.dp),
                     ) {
+                       HomeRoot()
+
                         //FilterSearchBottomSheet()
-                        SearchRecipesScreen()
+                        SearchRecipesRoot()
                         //SavedRecipesScreen()
 
 

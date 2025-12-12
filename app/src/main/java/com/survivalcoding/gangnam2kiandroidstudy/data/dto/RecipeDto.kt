@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.dto
 
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.HomeImage
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -12,4 +13,5 @@ data class RecipeDto(
     val time: String? = null,
     val rating: Double? = null,
     val createdAt: Long? = null,
+    val homeImage: HomeImage? = null,
 )

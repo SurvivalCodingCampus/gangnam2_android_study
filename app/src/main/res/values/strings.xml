@@ -70,5 +70,14 @@
     <string name="bottom_sheet_category_subtitle">Category</string>
     <string name="filter_button_text">Filter</string>
 
+    <!-- Home Screen -->
+    <string name="home_title">Hello Jega</string>
+    <string name="home_subtitle">What are you cooking today?</string>
+    <string name="home_recipe_card_time">Time</string>
+
+
+    <!-- AverageRatingButton -->
+    <string name="ic_star_description">Average Rate</string>
+
 
 </resources>

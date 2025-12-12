@@ -138,9 +138,9 @@ class SearchRecipesViewModel(
             recipe.category != filter.category.label
         ) return false
 
-        // Rate
+        // Rate : 선택한 평점 이하만 표시
         if (filter.rate != RateFilter.FIVE &&
-            recipe.rating < filter.rate.value
+            recipe.rating > filter.rate.value
         ) return false
 
         return true

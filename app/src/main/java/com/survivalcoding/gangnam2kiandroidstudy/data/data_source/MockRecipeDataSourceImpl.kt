@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.data_source
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.RecipeDto
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.HomeImage
 
 
 class MockRecipeDataSourceImpl : RecipeDataSource {
@@ -14,7 +15,8 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             chef = "Chef John",
             time = "20 min",
             rating = 4.0,
-            createdAt = 1736034600000, // 2025-01-05
+            createdAt = 1736034600000, // 2025-01-05,
+            homeImage = HomeImage.FOOD1,
         ),
         RecipeDto(
             id = 2,
@@ -25,6 +27,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             time = "20 min",
             rating = 4.0,
             createdAt = 1739332200000, // 2025-02-12
+            homeImage = HomeImage.FOOD2,
         ),
         RecipeDto(
             id = 3,
@@ -35,6 +38,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             time = "20 min",
             rating = 4.0,
             createdAt = 1742453100000, // 2025-03-20
+            homeImage = HomeImage.FOOD3,
         ),
         RecipeDto(
             id = 4,
@@ -45,6 +49,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             time = "30 min",
             rating = 5.0,
             createdAt = 1744113720000, // 2025-04-08
+            homeImage = HomeImage.FOOD4,
         ),
         RecipeDto(
             id = 5,
@@ -55,6 +60,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             time = "25 min",
             rating = 4.5,
             createdAt = 1747445700000, // 2025-05-17
+            homeImage = HomeImage.FOOD5,
         ),
         RecipeDto(
             id = 6,
@@ -65,6 +71,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             time = "45 min",
             rating = 5.0,
             createdAt = 1750863000000, // 2025-06-25
+            homeImage = HomeImage.FOOD1,
         ),
         RecipeDto(
             id = 7,
@@ -75,6 +82,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             time = "15 min",
             rating = 4.3,
             createdAt = 1753852800000, // 2025-07-30
+            homeImage = HomeImage.FOOD2,
         ),
         RecipeDto(
             id = 8,
@@ -85,6 +93,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             time = "60 min",
             rating = 4.8,
             createdAt = 1755168900000, // 2025-08-14
+            homeImage = HomeImage.FOOD3,
         ),
         RecipeDto(
             id = 9,
@@ -95,6 +104,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             time = "40 min",
             rating = 4.6,
             createdAt = 1758921900000, // 2025-09-27
+            homeImage = HomeImage.FOOD4,
         ),
         RecipeDto(
             id = 10,
@@ -105,6 +115,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             time = "30 min",
             rating = 4.9,
             createdAt = 1761941400000, // 2025-10-31
+            homeImage = HomeImage.FOOD5,
         )
     )
 
