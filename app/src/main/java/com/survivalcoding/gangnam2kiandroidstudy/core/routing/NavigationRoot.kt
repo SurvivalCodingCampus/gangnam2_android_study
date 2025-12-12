@@ -7,6 +7,9 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main.MainScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipe.SearchRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_in.SignInRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_up.SignUpRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashScreen
@@ -59,7 +62,48 @@ fun NavigationRoot(
             }
             // Home, Saved, Notifications, Profile
             entry<Route.Main> {
+                val mainBackStack = rememberNavBackStack(Route.Home)
 
+                MainScreen(
+                    backStack = mainBackStack,
+                    body = {
+                        NavDisplay(
+                            modifier = modifier,
+                            backStack = mainBackStack,
+                            entryProvider = entryProvider {
+                                entry<Route.Home> {
+                                    HomeRoot(
+                                        onSearchClick = {
+                                            topLevelBackStack.add(Route.SearchRecipes)
+                                        },
+                                        onProfileClick = {
+                                            mainBackStack.clear()
+                                            mainBackStack.add(Route.Profile)
+                                        },
+                                    )
+                                }
+                                entry<Route.SavedRecipes> {
+
+                                }
+                                entry<Route.Notifications> {
+
+                                }
+                                entry<Route.Profile> {
+
+                                }
+                            }
+                        )
+                    }
+                )
+            }
+            entry<Route.SearchRecipes> {
+                SearchRecipesRoot(
+                    onBackClick = {
+                        if (topLevelBackStack.size > 1) {
+                            topLevelBackStack.removeLast()
+                        }
+                    }
+                )
             }
         }
     )
