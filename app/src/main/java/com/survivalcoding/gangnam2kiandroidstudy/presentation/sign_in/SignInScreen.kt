@@ -108,7 +108,7 @@ fun SignInScreen(
             BigButton(
                 text = "Sign In",
                 modifier = Modifier.fillMaxWidth()
-            ){
+            ) {
                 onLoginClick()
             }
             Spacer(modifier = Modifier.height(20.dp))
@@ -152,7 +152,6 @@ fun SignInScreen(
                     }
                 )
             }
-
 
 
         }

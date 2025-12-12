@@ -28,7 +28,10 @@ fun SavedRecipesScreen(
     viewModel: SavedRecipesViewModel = viewModel(
         factory = SavedRecipesViewModel.Factory,
         extras = MutableCreationExtras().apply {
-            set(ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY, LocalContext.current.applicationContext as AppApplication)
+            set(
+                ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY,
+                LocalContext.current.applicationContext as AppApplication
+            )
         }
     )
 ) {

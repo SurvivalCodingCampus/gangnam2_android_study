@@ -70,7 +70,9 @@ fun SplashScreen(
             Spacer(modifier = Modifier.height(64.dp))
             MediumButton(
                 text = "Start Cooking",
-                modifier = Modifier.padding(horizontal = 66.dp).padding(bottom = 84.dp)
+                modifier = Modifier
+                    .padding(horizontal = 66.dp)
+                    .padding(bottom = 84.dp)
             ) {
                 onClick()
             }

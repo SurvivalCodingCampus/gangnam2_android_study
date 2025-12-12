@@ -16,7 +16,10 @@ fun HomeScreenRoot(
     viewModel: HomeViewModel = viewModel(
         factory = HomeViewModel.Factory,
         extras = MutableCreationExtras().apply {
-            set(ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY, LocalContext.current.applicationContext as AppApplication)
+            set(
+                ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY,
+                LocalContext.current.applicationContext as AppApplication
+            )
         }
     )
 ) {
