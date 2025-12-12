@@ -7,7 +7,7 @@ data class HomeState(
     val recipes: List<Recipe> = emptyList(),
     val filteredRecipes: List<Recipe> = emptyList(), // 검색어에 따른 필터링된 레시피 목록
     val isLoading: Boolean = false,
-    val selectedCategory: String = "",
+    val selectedCategory: String = "All",
     val newRecipes: List<Recipe> = emptyList(),
     val errorMessages: String? = "",
 )
