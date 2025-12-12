@@ -74,7 +74,7 @@ fun MainScreen(
                         colors = NavigationBarItemDefaults.colors(
                             indicatorColor = Color.Transparent
                         ),
-                        label = { "Home" },
+                        label = { Text("Home") },
                         alwaysShowLabel = false
                     )
                     NavigationBarItem(
@@ -93,7 +93,8 @@ fun MainScreen(
                         colors = NavigationBarItemDefaults.colors(
                             indicatorColor = Color.Transparent
                         ),
-                        label = { "Saved Recipes" }
+                        label = { Text("Saved Recipes") },
+                        alwaysShowLabel = false
                     )
 
                     Box(modifier = Modifier.offset(y = (-18).dp)) {
@@ -130,7 +131,8 @@ fun MainScreen(
                         colors = NavigationBarItemDefaults.colors(
                             indicatorColor = Color.Transparent
                         ),
-                        label = { "Notification" }
+                        label = { Text("Notification") },
+                        alwaysShowLabel = false
                     )
                     NavigationBarItem(
                         selected = currentRoute is Route.Profile,
@@ -148,7 +150,8 @@ fun MainScreen(
                         colors = NavigationBarItemDefaults.colors(
                             indicatorColor = Color.Transparent
                         ),
-                        label = { "Profile" }
+                        label = { Text("Profile") },
+                        alwaysShowLabel = false
                     )
                 }
             }
