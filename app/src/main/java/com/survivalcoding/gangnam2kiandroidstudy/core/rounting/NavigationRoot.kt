@@ -8,15 +8,15 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main.MainScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipes.SavedRecipesScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_in.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_up.SignUpScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashScreen
 
 @Composable
 fun NavigationRoot(modifier: Modifier = Modifier) {
-
     val topLevelBackStack = rememberNavBackStack(Route.Splash)
-
     NavDisplay(
         modifier = modifier,
         backStack = topLevelBackStack,
@@ -54,9 +54,27 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                 )
             }
             entry<Route.Main> {
-                HomeRoot()
+                val backStack = rememberNavBackStack(Route.Home)
+                MainScreen(
+                    modifier = Modifier,
+                    backStack = backStack,
+                    body = {
+                        NavDisplay(
+                            modifier = modifier,
+                            backStack = backStack,
+                            entryProvider = entryProvider {
+                                entry<Route.Home> { HomeRoot() }
+                                entry<Route.SavedRecipes> {
+                                    SavedRecipesScreen()
+                                }
+                                entry<Route.Notifications> { HomeRoot() }
+                                entry<Route.Profile> { HomeRoot() }
+                            }
+                        )
+                    }
+                )
+
             }
         }
     )
-
 }
