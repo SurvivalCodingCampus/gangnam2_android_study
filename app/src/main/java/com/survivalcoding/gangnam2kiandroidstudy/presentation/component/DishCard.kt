@@ -87,7 +87,9 @@ fun DishCard(
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
-                    text = recipe.time.substringBefore("min") + "Mins",
+                    text = recipe.time.replace("min", "Mins", ignoreCase = true)
+                        .takeIf { it.contains("Mins", ignoreCase = true) }
+                        ?: "${recipe.time} Mins",
                     style = AppTextStyles.smallerTextBold,
                     color = AppColors.gray1,
                 )

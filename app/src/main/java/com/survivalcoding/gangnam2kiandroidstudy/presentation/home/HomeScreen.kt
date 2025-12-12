@@ -96,16 +96,15 @@ fun HomeScreen(
 
         // dish cards
         LazyRow() {
-            item {
-                Spacer(modifier = Modifier.width(30.dp))
-            }
-
             items(state.filteredRecipes) { item ->
                 DishCard(
                     recipe = item,
                     onDishClick = {},
                     onBookmarkClick = {},
                     isSaved = false,
+                    modifier = Modifier
+                        .padding(end = 15.dp)
+                        .width(150.dp)
                     )
             }
         }
@@ -127,7 +126,7 @@ fun HomeScreen(
 }
 
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
     HomeScreen()
