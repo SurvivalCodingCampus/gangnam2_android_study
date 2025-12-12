@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult
@@ -12,7 +14,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.bdd.coGiven
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -22,8 +23,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 class SearchRecipesViewModelTest {
 
     @get:Rule

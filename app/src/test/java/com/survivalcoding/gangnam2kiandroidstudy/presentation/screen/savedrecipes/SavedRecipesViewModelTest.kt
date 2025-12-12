@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.savedrecipes
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult
@@ -15,7 +17,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class SavedRecipesViewModelTest {
 
     @get:Rule

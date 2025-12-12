@@ -1,3 +1,5 @@
+@file:OptIn(FlowPreview::class)
+
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
 import androidx.lifecycle.ViewModel
@@ -25,7 +27,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-@FlowPreview
 class HomeViewModel(
     private val recipeRepository: RecipeRepository,
     homeUiState: HomeUiState = HomeUiState(),

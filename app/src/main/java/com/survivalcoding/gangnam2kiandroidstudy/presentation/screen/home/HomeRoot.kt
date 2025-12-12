@@ -5,9 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.FlowPreview
 
-@FlowPreview
 @Composable
 fun HomeRoot(
     modifier: Modifier = Modifier,

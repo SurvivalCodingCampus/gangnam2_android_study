@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult
@@ -11,7 +13,6 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
@@ -20,8 +21,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 class HomeViewModelTest {
 
     @get:Rule
