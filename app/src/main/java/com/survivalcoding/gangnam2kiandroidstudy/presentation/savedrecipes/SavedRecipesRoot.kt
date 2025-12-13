@@ -10,8 +10,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun SavedRecipesRoot() {
+    // 현재 컨텍스트에서 applicationContext를 가져옵니다.
+    val context = LocalContext.current
+    val application = context.applicationContext as Application
+
     // 위에서 수정한 Factory를 사용하여 ViewModel을 생성합니다.
-    val viewModel: SavedRecipesViewModel = viewModel(factory = SavedRecipesViewModel.Factory)
+    val viewModel: SavedRecipesViewModel = viewModel(factory = SavedRecipesViewModelFactory(application))
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     SavedRecipesScreen(

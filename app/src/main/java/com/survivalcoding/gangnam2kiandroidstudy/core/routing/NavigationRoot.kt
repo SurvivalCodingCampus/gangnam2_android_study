@@ -13,6 +13,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.notifications.NotificationsScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.profile.ProfileScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes.SavedRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes.SavedRecipesScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.signin.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.signup.SignUpScreen
@@ -58,7 +59,7 @@ fun NavigationRoot(
             entry<Route.SignIn> {
                 SignInScreen(
                     onLogin = {
-                        Log.d("NavigationRoot", "SignIn -> Home")
+                        Log.d("NavigationRoot", "SignIn -> Main")
                         topLevelBackStack.clear()
                         topLevelBackStack.add(Route.Main)
                     },
@@ -71,6 +72,11 @@ fun NavigationRoot(
             }
             entry<Route.SignUp> {
                 SignUpScreen(
+                    onSignUpClick = {
+                        Log.d("NavigationRoot", "SignUp -> SignIn or Main")
+                        topLevelBackStack.clear()
+                        topLevelBackStack.add(Route.SignIn) // 또는 Route.Main
+                    },
                     onSignInClick = {
                         Log.d("NavigationRoot", "SignUp -> SignIn")
                         topLevelBackStack.clear()
@@ -96,14 +102,7 @@ fun NavigationRoot(
                             backStack = backStack,
                             entryProvider = entryProvider {
                                 entry<Route.Home> { HomeRoot() }
-                                entry<Route.SavedRecipes> {
-                                    SavedRecipesScreen(
-                                        onClick = { recipeId ->
-                                            topLevelBackStack.removeIf { it is Route.RecipeDetail }
-                                            topLevelBackStack.add(Route.RecipeDetail(recipeId))
-                                        }
-                                    )
-                                }
+                                entry<Route.SavedRecipes> { SavedRecipesRoot() }
                                 entry<Route.Notifications> { NotificationsScreen() }
                                 entry<Route.Profile> { ProfileScreen() }
                             }
