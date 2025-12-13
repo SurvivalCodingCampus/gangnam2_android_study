@@ -99,6 +99,10 @@ fun NavigationRoot(
                         NavDisplay(
                             modifier = modifier,
                             backStack = backStack,
+                            entryDecorators = listOf(
+                                rememberSaveableStateHolderNavEntryDecorator(),
+                                rememberViewModelStoreNavEntryDecorator()
+                            ),
                             entryProvider = entryProvider {
                                 entry<Route.Home> { HomeRoot() }
                                 entry<Route.SavedRecipes> { SavedRecipesRoot() }
