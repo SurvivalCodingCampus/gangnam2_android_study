@@ -2,7 +2,11 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.21"
+    //id("org.jetbrains.kotlin.plugin.serialization") version "2.2.21"
+
+    // Optional, provides the @Serialize annotation for autogeneration of Serializers.
+    alias(libs.plugins.jetbrains.kotlin.serialization)
+
 }
 
 android {
@@ -71,4 +75,11 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.androidx.material3.adaptive.navigation3)
+    implementation(libs.kotlinx.serialization.core)
+
 }

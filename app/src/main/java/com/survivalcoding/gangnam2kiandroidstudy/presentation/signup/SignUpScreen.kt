@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.signup
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,6 +40,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun SignUpScreen(
     onSignUpClick: () -> Unit = {},
+    onSignInClick: () -> Unit = {},
 ) {
 
     var name by remember { mutableStateOf("") }
@@ -181,6 +183,7 @@ fun SignUpScreen(
                 "Sign In",
                 style = AppTextStyles.smallerTextBold,
                 color = AppColors.primary100,
+                modifier = Modifier.clickable { onSignInClick() },
             )
         }
     }

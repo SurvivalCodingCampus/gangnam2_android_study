@@ -137,5 +137,5 @@ val sampleRecipe =
         chef = "Chef John",
         time = "20 min",
         rating = 4.0,
+        category = "Indian",
     )
-

@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.test.core.app.ApplicationProvider
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes.SavedRecipesViewModel
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
