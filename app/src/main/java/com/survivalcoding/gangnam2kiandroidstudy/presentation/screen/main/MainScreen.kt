@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -31,8 +32,8 @@ fun MainScreen(
                 }
             )
         }
-    ) {
-        body(modifier)
+    ) { innerPadding ->
+        body(modifier.padding(innerPadding))    // 하단바에 콘텐츠가 가려짐 방지
     }
 }
 
