@@ -25,12 +25,17 @@ class SavedRecipesViewModel(
     init {
         // ViewModel이 생성될 때 레시PI 목록을 가져옵니다.
         viewModelScope.launch {
-            // 로딩 상태를 true로 설정합니다.
-            _uiState.value = _uiState.value.copy(isLoading = true)
-            // 리포지토리에서 레시피 목록을 가져옵니다.
-            val recipes = recipeRepository.getRecipes()
-            // 가져온 레시피 목록으로 UI 상태를 업데이트하고 로딩 상태를 false로 설정합니다.
-            _uiState.value = _uiState.value.copy(recipes = recipes, isLoading = false)
+            try {
+                // 로딩 상태를 true로 설정합니다.
+                _uiState.value = _uiState.value.copy(isLoading = true)
+                // 리포지토리에서 레시피 목록을 가져옵니다.
+                val recipes = recipeRepository.getRecipes()
+                // 가져온 레시피 목록으로 UI 상태를 업데이트하고 로딩 상태를 false로 설정합니다.
+                _uiState.value = _uiState.value.copy(recipes = recipes, isLoading = false)
+            } catch (e: Exception) {
+                // 에러 발생 시 로딩을 중지하고 에러 상태를 설정합니다.
+                _uiState.value = _uiState.value.copy(isLoading = false)
+            }
         }
     }
 }
