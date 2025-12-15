@@ -22,10 +22,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun InputField(
     label: String,
     modifier: Modifier = Modifier,
-    isPassword: Boolean = false,
     placeholder: String = "Placeholder",
     value: String = "",
     onValueChange: (String) -> Unit = {},
+    isPassword: Boolean = false,
 ) {
     Column(
         modifier = modifier
