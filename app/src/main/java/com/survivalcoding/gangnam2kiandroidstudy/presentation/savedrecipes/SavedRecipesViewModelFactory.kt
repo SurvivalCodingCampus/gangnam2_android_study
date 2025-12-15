@@ -9,7 +9,8 @@ class SavedRecipesViewModelFactory(private val application: Application) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SavedRecipesViewModel::class.java)) {
-            val repository = (application as AppApplication).recipeRepository
+            val repository = (application as? AppApplication)?.recipeRepository
+                ?: throw IllegalStateException("Application must be an instance of AppApplication")
             @Suppress("UNCHECKED_CAST")
             return SavedRecipesViewModel(repository) as T
         }
