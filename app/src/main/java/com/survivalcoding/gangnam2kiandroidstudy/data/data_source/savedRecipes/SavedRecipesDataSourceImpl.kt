@@ -215,7 +215,7 @@ class SavedRecipesDataSourceImpl : SavedRecipesDataSource {
       "id": 8,
       "category": "Japanese",
       "name": "Sushi Platter",
-      "image": "https://cdn.pixabay.com/photo/2017/10/15/11/41/s sushi-2853382_1280.jpg",
+      "image": "https://cdn.pixabay.com/photo/2017/10/15/11/41/sushi-2853382_1280.jpg",
       "chef": "Jiro Ono",
       "time": "60 min",
       "rating": 4.8,
