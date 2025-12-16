@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.data.Repository
+package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.mapper.toModel

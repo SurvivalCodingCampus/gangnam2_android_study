@@ -1,9 +1,9 @@
 package com.survivalcoding.gangnam2kiandroidstudy
 
 import android.app.Application
-import com.survivalcoding.gangnam2kiandroidstudy.data.Repository.BookmarkRepositoryImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.Repository.RecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.MockRecipeDataSourceImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.BookmarkRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetSavedRecipesUseCase
