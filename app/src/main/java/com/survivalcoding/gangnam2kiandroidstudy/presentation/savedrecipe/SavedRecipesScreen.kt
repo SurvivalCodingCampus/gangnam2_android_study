@@ -10,32 +10,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.MutableCreationExtras
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun SavedRecipesScreen(
-    viewModel: SavedRecipesViewModel = viewModel(
-        factory = SavedRecipesViewModel.Factory,
-        extras = MutableCreationExtras().apply {
-            set(
-                ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY,
-                LocalContext.current.applicationContext as AppApplication
-            )
-        }
-    )
+    state: SavedRecipesState= SavedRecipesState()
 ) {
-    val recipes = viewModel.recipes.collectAsState()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -53,7 +38,7 @@ fun SavedRecipesScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 30.dp),
         ) {
-            items(recipes.value) { recipe ->
+            items(state.recipes) { recipe ->
                 RecipeCard(
                     recipe = recipe,
                     modifier = Modifier.padding(vertical = 10.dp)

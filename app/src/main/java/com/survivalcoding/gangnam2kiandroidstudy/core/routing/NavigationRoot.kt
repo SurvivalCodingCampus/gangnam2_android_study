@@ -10,6 +10,7 @@ import androidx.navigation3.ui.NavDisplay
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeScreenRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipe.SavedRecipesScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipe.SavedRecipesScreenRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_up.SignUpScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.splash.SplashScreen
@@ -76,7 +77,7 @@ fun NavigationRoot(
                                     HomeScreenRoot()
                                 }
                                 entry<Route.SavedRecipes> {
-                                    SavedRecipesScreen()
+                                    SavedRecipesScreenRoot()
                                 }
                                 entry<Route.Notifications> {
 

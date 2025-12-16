@@ -34,7 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
@@ -145,7 +145,8 @@ private fun SearchRecipeCardPreview() {
             category = "Chinese",
             rating = 4.0,
             imageUrls = "image",
-            createdAt = System.currentTimeMillis()
+            createdAt = System.currentTimeMillis(),
+            id = 0
         )
     )
 

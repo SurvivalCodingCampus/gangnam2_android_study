@@ -1,7 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipe
 
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.util.date
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
