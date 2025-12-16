@@ -4,11 +4,24 @@ import android.content.Context
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.AppAssetManagerImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.BookmarkDataSource
+import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.BookmarkDataSourceImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.IngredientDataSource
+import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.IngredientDataSourceImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.ProcedureDataSource
+import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.ProcedureDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSourceImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.BookmarkRepository
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.BookmarkRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.IngredientRepository
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.IngredientRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ProcedureRepository
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ProcedureRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeViewModel
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetail.RecipeDetailViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes.SavedRecipesViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.search.SearchViewModel
 
@@ -20,9 +33,45 @@ object DependencyContainer {
         )
     }
 
+    fun provideIngredientDataSource(context: Context): IngredientDataSource {
+        return IngredientDataSourceImpl.getInstance(
+            provideAssetManager(context)
+        )
+    }
+
+    fun provideProcedureDataSource(context: Context): ProcedureDataSource {
+        return ProcedureDataSourceImpl.getInstance(
+            provideAssetManager(context)
+        )
+    }
+
+    fun provideBookmarkDataSource(context: Context): BookmarkDataSource {
+        return BookmarkDataSourceImpl.getInstance(
+            provideAssetManager(context)
+        )
+    }
+
     fun provideRecipeRepository(context: Context): RecipeRepository {
         return RecipeRepositoryImpl.getInstance(
             provideRecipeDataSource(context)
+        )
+    }
+
+    fun provideIngredientRepository(context: Context): IngredientRepository {
+        return IngredientRepositoryImpl.getInstance(
+            provideIngredientDataSource(context)
+        )
+    }
+
+    fun provideProcedureRepository(context: Context): ProcedureRepository {
+        return ProcedureRepositoryImpl.getInstance(
+            provideProcedureDataSource(context)
+        )
+    }
+
+    fun provideBookmarkRepository(context: Context): BookmarkRepository {
+        return BookmarkRepositoryImpl.getInstance(
+            provideBookmarkDataSource(context)
         )
     }
 
@@ -32,7 +81,7 @@ object DependencyContainer {
     fun provideSavedRecipesViewModelFactory(context: Context) = viewModelFactory {
         initializer {
             SavedRecipesViewModel(
-                recipeRepository = provideRecipeRepository(context)
+                recipeRepository = provideRecipeRepository(context.applicationContext)
             )
         }
     }
@@ -40,7 +89,7 @@ object DependencyContainer {
     fun provideSearchViewModelFactory(context: Context) = viewModelFactory {
         initializer {
             SearchViewModel(
-                recipeRepository = provideRecipeRepository(context)
+                recipeRepository = provideRecipeRepository(context.applicationContext)
             )
         }
     }
@@ -48,7 +97,16 @@ object DependencyContainer {
     fun provideHomeViewModelFactory(context: Context) = viewModelFactory {
         initializer {
             HomeViewModel(
-                recipeRepository = provideRecipeRepository(context)
+                recipeRepository = provideRecipeRepository(context.applicationContext)
+            )
+        }
+    }
+
+    fun provideRecipeDetailViewModelFactory(context: Context) = viewModelFactory {
+        initializer {
+            RecipeDetailViewModel(
+                ingredientRepository = provideIngredientRepository(context.applicationContext),
+                procedureRepository = provideProcedureRepository(context.applicationContext)
             )
         }
     }

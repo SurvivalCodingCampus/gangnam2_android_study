@@ -74,28 +74,30 @@ fun LinearRecipeCard(
                     )
                 )
         )
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(start = 10.dp, bottom = 10.dp)
-                .height(54.dp),
-            verticalArrangement = Arrangement.Bottom
-        ) {
-            Text(
-                recipe.name,
-                modifier = Modifier,
-                color = AppColors.white,
-                fontWeight = FontWeight.SemiBold,
-                style = AppTextStyles.smallTextRegular,
-                maxLines = 2
-            )
-            Text(
-                "By ${recipe.chef}",
-                modifier = Modifier,
-                color = AppColors.white,
-                style = AppTextStyles.smallerTextRegular,
-                maxLines = 1
-            )
+        if (!recipe.name.isEmpty() && !recipe.chef.isEmpty()) {
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(start = 10.dp, bottom = 10.dp)
+                    .height(54.dp),
+                verticalArrangement = Arrangement.Bottom
+            ) {
+                Text(
+                    text = recipe.name,
+                    modifier = Modifier,
+                    color = AppColors.white,
+                    fontWeight = FontWeight.SemiBold,
+                    style = AppTextStyles.smallTextRegular,
+                    maxLines = 2
+                )
+                Text(
+                    text = "By ${recipe.chef}",
+                    modifier = Modifier,
+                    color = AppColors.white,
+                    style = AppTextStyles.smallerTextRegular,
+                    maxLines = 1
+                )
+            }
         }
         Row(
             modifier = Modifier

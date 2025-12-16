@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,7 +17,12 @@ import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun AppBar(title: String, modifier: Modifier = Modifier, navigationIcon: @Composable () -> Unit = {}) {
+fun AppBar(
+    title: String,
+    modifier: Modifier = Modifier,
+    navigationIcon: @Composable () -> Unit = {},
+    actions: @Composable RowScope.() -> Unit = {}
+) {
     Box(
         modifier = modifier.padding(top = 44.dp).height(47.dp).fillMaxWidth(),
         contentAlignment = Alignment.Center
@@ -24,6 +30,7 @@ fun AppBar(title: String, modifier: Modifier = Modifier, navigationIcon: @Compos
         Row(modifier = Modifier.padding(horizontal = 30.dp).fillMaxWidth()) {
             navigationIcon()
             Spacer(modifier = Modifier.weight(1f))
+            actions()
         }
         Text(
             text = title,
