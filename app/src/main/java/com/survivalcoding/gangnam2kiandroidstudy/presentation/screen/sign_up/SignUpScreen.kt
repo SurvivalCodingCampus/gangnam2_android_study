@@ -131,7 +131,7 @@ fun SignUpScreen(onSignInButtonClick: () -> Unit) {
             Spacer(modifier = Modifier.weight(1f))
             Text("Already a member?", style = AppTextStyles.smallerTextRegular)
             Text(
-                " Sign Up",
+                " Sign In",
                 style = AppTextStyles.smallerTextRegular.copy(color = AppColors.secondary100),
                 modifier = Modifier.clickable {
                     onSignInButtonClick()
