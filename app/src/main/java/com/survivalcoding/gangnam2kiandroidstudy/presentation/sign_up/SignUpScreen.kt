@@ -31,12 +31,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
@@ -47,7 +44,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(
+    onSignInClick: () -> Unit = {}
+) {
     var isChecked by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
@@ -213,20 +212,21 @@ fun SignUpScreen() {
             }
             Spacer(modifier = Modifier.height(20.dp))
 
-            Text(
-                text = buildAnnotatedString {
-                    append("Already a member? ")
-                    withStyle(
-                        style = SpanStyle(
-                            color = AppColors.secondary100,
-                        )
-                    ) {
-                        append("Sign In")
-                    }
-                },
-                style = AppTextStyles.smallerTextBold,
+            Row(
                 modifier = Modifier.padding(bottom = 30.dp)
-            )
+            ) {
+                Text(
+                    text = "Already a member? ",
+                    style = AppTextStyles.smallerTextBold
+                )
+                Text(
+                    text = "Sign In",
+                    style = AppTextStyles.smallerTextBold.copy(color = AppColors.secondary100),
+                    modifier = Modifier.clickable {
+                        onSignInClick()
+                    }
+                )
+            }
 
         }
 

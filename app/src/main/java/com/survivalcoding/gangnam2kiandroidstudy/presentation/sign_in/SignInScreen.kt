@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,12 +22,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
@@ -37,7 +35,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun SignInScreen() {
+fun SignInScreen(
+    onSignUpClick: () -> Unit = {},
+    onLoginClick: () -> Unit = {}
+) {
     val focusManager = LocalFocusManager.current
 
     var email by remember { mutableStateOf("") }
@@ -107,7 +108,9 @@ fun SignInScreen() {
             BigButton(
                 text = "Sign In",
                 modifier = Modifier.fillMaxWidth()
-            )
+            ) {
+                onLoginClick()
+            }
             Spacer(modifier = Modifier.height(20.dp))
             Row(
                 modifier = Modifier
@@ -136,19 +139,19 @@ fun SignInScreen() {
             }
             Spacer(modifier = Modifier.height(55.dp))
 
-            Text(
-                text = buildAnnotatedString {
-                    append("Don't have an account? ")
-                    withStyle(
-                        style = SpanStyle(
-                            color = AppColors.secondary100,
-                        )
-                    ) {
-                        append("Sign up")
+            Row {
+                Text(
+                    text = "Don't have an account? ",
+                    style = AppTextStyles.smallerTextBold
+                )
+                Text(
+                    text = "Sign up",
+                    style = AppTextStyles.smallerTextBold.copy(color = AppColors.secondary100),
+                    modifier = Modifier.clickable {
+                        onSignUpClick()
                     }
-                },
-                style = AppTextStyles.smallerTextBold
-            )
+                )
+            }
 
 
         }
