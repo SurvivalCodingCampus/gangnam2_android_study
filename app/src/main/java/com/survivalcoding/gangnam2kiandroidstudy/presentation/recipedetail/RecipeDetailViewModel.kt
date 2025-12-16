@@ -3,6 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ChefRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.IngredientRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
@@ -13,51 +14,62 @@ import kotlinx.coroutines.launch
 
 class RecipeDetailViewModel(
     private val recipeRepository: RecipeRepository,
+    private val chefRepository: ChefRepository,
     private val ingredientRepository: IngredientRepository,
     private val procedureRepository: ProcedureRepository, // GetRecipeDetailsUseCase 는 추후에 리팩토링으로 작성
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(RecipeDetailUiState())
     val uiState = _uiState.asStateFlow()
 
     val recipeId = savedStateHandle.get<Int>("recipeId") ?: -1
 
-    private fun loadRecipe(id: Int) {
+    private fun loadChef(name: String) {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            recipeRepository.getRecipeById(id)
-                .onSuccess { recipe ->
-                    _uiState.update { it.copy(isLoading = false, recipe = recipe ?: return@launch) }
+            chefRepository.getChefByName(name)
+                .onSuccess { chef ->
+                    _uiState.update { it.copy(isLoading = false, chef = chef) }
                 }
                 .onFailure {
-                    _uiState.update { it.copy(isLoading = false, message = it.message) }
+                    _uiState.update { state -> state.copy(isLoading = false, message = it.message) }
                 }
         }
     }
 
-    private fun loadIngredient(recipeId: Int) {
+    private fun loadRecipeDetail(recipeId: Int) {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            ingredientRepository.getIngredientByRecipeId(recipeId)
-                .onSuccess { ingredients ->
-                    _uiState.update { it.copy(isLoading = false, ingredients = ingredients) }
-                }
-                .onFailure {
-                    _uiState.update { it.copy(isLoading = false, message = it.message) }
-                }
-        }
-    }
-
-    private fun loadProcedure(recipeId: Int) {
-        _uiState.update { it.copy(isLoading = true) }
-        viewModelScope.launch {
-            procedureRepository.getProcedureByRecipeId(recipeId)
-                .onSuccess { procedures ->
-                    _uiState.update { it.copy(isLoading = false, procedures = procedures) }
-                }
-                .onFailure {
-                    _uiState.update { it.copy(isLoading = false, message = it.message) }
-                }
+            launch {
+                recipeRepository.getRecipeById(recipeId)
+                    .onSuccess { recipe ->
+                        if (recipe != null) {
+                            loadChef(recipe.chef)
+                            _uiState.update { it.copy(isLoading = false, recipe = recipe) }
+                        }
+                    }
+                    .onFailure {
+                        _uiState.update { state -> state.copy(isLoading = false, message = it.message) }
+                    }
+            }
+            launch {
+                ingredientRepository.getIngredientByRecipeId(recipeId)
+                    .onSuccess { ingredients ->
+                        _uiState.update { it.copy(isLoading = false, ingredients = ingredients) }
+                    }
+                    .onFailure {
+                        _uiState.update { state -> state.copy(isLoading = false, message = it.message) }
+                    }
+            }
+            launch {
+                procedureRepository.getProcedureByRecipeId(recipeId)
+                    .onSuccess { procedures ->
+                        _uiState.update { it.copy(isLoading = false, procedures = procedures) }
+                    }
+                    .onFailure {
+                        _uiState.update { state -> state.copy(isLoading = false, message = it.message) }
+                    }
+            }
         }
     }
 
@@ -66,8 +78,6 @@ class RecipeDetailViewModel(
     }
 
     init {
-        loadRecipe(recipeId)
-        loadIngredient(recipeId)
-        loadProcedure(recipeId)
+        loadRecipeDetail(recipeId)
     }
 }

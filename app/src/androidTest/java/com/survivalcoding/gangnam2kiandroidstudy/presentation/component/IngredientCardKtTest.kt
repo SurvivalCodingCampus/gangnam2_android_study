@@ -9,13 +9,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeIngredientUI
-import org.junit.Assert.*
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeIngredient
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -28,7 +26,7 @@ class IngredientCardKtTest {
 
     @Test
     fun `IngredientCard가_올바른_데이터를_표현하는지_테스트`() {
-        val ingredient = RecipeIngredientUI(
+        val ingredient = RecipeIngredient(
             name = "Tomato",
             amount = 120,
             image = "https://test-image.com/tomato.png"

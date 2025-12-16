@@ -1,7 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.datasource
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Procedure
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.ProcedureResponse
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.ProceduresResponse
 import kotlinx.serialization.json.Json
 
 class ProcedureDataSourceImpl private constructor(
@@ -12,7 +12,7 @@ class ProcedureDataSourceImpl private constructor(
     }
 
     override fun getAllProcedure(): List<Procedure> {
-        val response = Json.decodeFromString<ProcedureResponse>(proceduresJsonString)
+        val response = Json.decodeFromString<ProceduresResponse>(proceduresJsonString)
         return response.procedures
     }
 

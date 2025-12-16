@@ -60,9 +60,9 @@ fun TabButton(
             disabledContentColor = AppColors.white
         ) else ButtonColors(
             containerColor = AppColors.transparent,
-            contentColor = AppColors.transparent,
+            contentColor =  AppColors.primary80,
             disabledContainerColor = AppColors.transparent,
-            disabledContentColor = AppColors.transparent
+            disabledContentColor = AppColors.gray3
         ),
         interactionSource = interactionSource
     ) {

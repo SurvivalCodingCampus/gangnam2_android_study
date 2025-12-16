@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeIngredientUI
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeIngredient
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.AppBar
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.LinearRecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.TabLayout
@@ -90,7 +90,7 @@ fun RecipeDetailScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = rememberAsyncImagePainter(recipeDetailUiState.recipe.image),
+                painter = rememberAsyncImagePainter(recipeDetailUiState.chef?.image),
                 contentDescription = null,
                 modifier = Modifier
                     .size(40.dp)
@@ -98,7 +98,7 @@ fun RecipeDetailScreen(
             )
             Column(modifier = Modifier.padding(start = 10.dp)) {
                 Text(
-                    text = recipeDetailUiState.recipe.chef,
+                    text = recipeDetailUiState.chef?.name ?: recipeDetailUiState.recipe.chef,
                     style = AppTextStyles.smallTextRegular.copy(
                         fontWeight = FontWeight.SemiBold
                     )
@@ -112,7 +112,7 @@ fun RecipeDetailScreen(
                     )
                     Spacer(modifier = Modifier.width(1.dp))
                     Text(
-                        text = "Lagos, Nigeria",
+                        text = recipeDetailUiState.chef?.address ?: "",
                         style = AppTextStyles.smallerTextRegular
                     )
                 }
@@ -198,11 +198,11 @@ fun RecipeDetailScreenPreview() {
                 rating = 0.0
             ),
             ingredients = listOf(
-                RecipeIngredientUI("Tomatos", 500, ""),
-                RecipeIngredientUI("Tomatos", 500, ""),
-                RecipeIngredientUI("Tomatos", 500, ""),
-                RecipeIngredientUI("Tomatos", 500, ""),
-                RecipeIngredientUI("Tomatos", 500, "")
+                RecipeIngredient("Tomatos", 500, ""),
+                RecipeIngredient("Tomatos", 500, ""),
+                RecipeIngredient("Tomatos", 500, ""),
+                RecipeIngredient("Tomatos", 500, ""),
+                RecipeIngredient("Tomatos", 500, "")
             ),
             procedures = emptyList(),
         ),

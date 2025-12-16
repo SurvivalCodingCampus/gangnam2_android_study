@@ -8,6 +8,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.routing.Route
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.AppAssetManagerImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.BookmarkDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.BookmarkDataSourceImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.ChefDataSource
+import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.ChefDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.IngredientDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.IngredientDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.ProcedureDataSource
@@ -16,6 +18,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSourc
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.BookmarkRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.BookmarkRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ChefRepository
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ChefRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.IngredientRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.IngredientRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ProcedureRepository
@@ -30,25 +34,23 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.search.SearchViewM
 // 임의의 싱글톤 DI 컨테이너
 object DependencyContainer {
     fun provideRecipeDataSource(context: Context): RecipeDataSource {
-        return RecipeDataSourceImpl.getInstance(
-            provideAssetManager(context)
-        )
+        return RecipeDataSourceImpl.getInstance(provideAssetManager(context))
     }
 
     fun provideIngredientDataSource(context: Context): IngredientDataSource {
-        return IngredientDataSourceImpl.getInstance(
-            provideAssetManager(context)
-        )
+        return IngredientDataSourceImpl.getInstance(provideAssetManager(context))
     }
 
     fun provideProcedureDataSource(context: Context): ProcedureDataSource {
-        return ProcedureDataSourceImpl.getInstance(
-            provideAssetManager(context)
-        )
+        return ProcedureDataSourceImpl.getInstance(provideAssetManager(context))
     }
 
     fun provideBookmarkDataSource(): BookmarkDataSource {
         return BookmarkDataSourceImpl.getInstance()
+    }
+
+    fun provideChefDataSource(context: Context): ChefDataSource {
+        return ChefDataSourceImpl.getInstance(provideAssetManager(context))
     }
 
     fun provideRecipeRepository(context: Context): RecipeRepository {
@@ -73,6 +75,10 @@ object DependencyContainer {
         return BookmarkRepositoryImpl.getInstance(
             provideBookmarkDataSource()
         )
+    }
+
+    fun provideChefRepository(context: Context): ChefRepository {
+        return ChefRepositoryImpl.getInstance(provideChefDataSource(context))
     }
 
     fun provideAssetManager(context: Context) =
@@ -109,6 +115,7 @@ object DependencyContainer {
             savedStateHandle["recipeId"] = route.recipeId
             RecipeDetailViewModel(
                 recipeRepository = provideRecipeRepository(context.applicationContext),
+                chefRepository = provideChefRepository(context.applicationContext),
                 ingredientRepository = provideIngredientRepository(context.applicationContext),
                 procedureRepository = provideProcedureRepository(context.applicationContext),
                 savedStateHandle

@@ -12,4 +12,7 @@ data class RecipesIngredientsResponse(val recipesIngredients: List<RecipeIngredi
 data class IngredientsResponse(val ingredients: List<IngredientEntity>)
 
 @Serializable
-data class ProcedureResponse(val procedures: List<Procedure>)
+data class ProceduresResponse(val procedures: List<Procedure>)
+
+@Serializable
+data class ProfilesResponse(val profiles: List<Chef>)
