@@ -7,18 +7,22 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult
-import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetSavedRecipesUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.ToggleBookmarkUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SavedRecipesViewModel(
-    private val repository: RecipeRepository,
+    private val getSavedRecipesUseCase: GetSavedRecipesUseCase,
+    private val toggleBookmarkUseCase: ToggleBookmarkUseCase,
+    savedRecipesUiState: SavedRecipesUiState = SavedRecipesUiState(),
 ) : ViewModel() {
-    private val _recipes: MutableStateFlow<List<Recipe>> = MutableStateFlow(emptyList())
-    val recipes: StateFlow<List<Recipe>> = _recipes.asStateFlow()
+    private val _uiState: MutableStateFlow<SavedRecipesUiState> =
+        MutableStateFlow(savedRecipesUiState)
+    val uiState: StateFlow<SavedRecipesUiState> = _uiState.asStateFlow()
 
     init {
         getSavedRecipes()
@@ -26,14 +30,26 @@ class SavedRecipesViewModel(
 
     fun getSavedRecipes() {
         viewModelScope.launch {
-            when (val result = repository.getSavedRecipes()) {
+            when (val result = getSavedRecipesUseCase()) {
                 is AppResult.Success -> {
-                    _recipes.value = result.data
+                    _uiState.update { it.copy(recipes = result.data) }
                 }
 
                 is AppResult.Error -> {
-                    _recipes.value = emptyList()
+                    _uiState.update { it.copy(recipes = emptyList()) }
                 }
+            }
+        }
+    }
+
+    fun toggleBookmark(recipeId: Long) {
+        viewModelScope.launch {
+            when (toggleBookmarkUseCase(recipeId)) {
+                is AppResult.Success -> {
+                    val recipes = uiState.value.recipes.filterNot { it.id == recipeId }
+                    _uiState.update { it.copy(recipes = recipes) }
+                }
+                is AppResult.Error -> Unit
             }
         }
     }
@@ -41,7 +57,10 @@ class SavedRecipesViewModel(
     companion object {
         fun factory(application: AppApplication): ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                SavedRecipesViewModel(application.recipeRepository)
+                SavedRecipesViewModel(
+                    application.getSavedRecipesUseCase,
+                    application.toggleBookmarkUseCase,
+                )
             }
         }
     }

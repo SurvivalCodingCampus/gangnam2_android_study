@@ -5,12 +5,9 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.savedrecip
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.MockRecipeDataSourceImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockRecipeRepositoryImpl
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
@@ -21,27 +18,19 @@ class SavedRecipesScreenTest {
 
     @Test
     fun testSavedRecipesScreen() = runTest {
-        val viewModel = SavedRecipesViewModel(
-            repository = RecipeRepositoryImpl(
-                dataSource = MockRecipeDataSourceImpl(),
-            ),
-        )
-
-        advanceUntilIdle()
+        val recipes = MockRecipeRepositoryImpl.mockRecipes
 
         composeTestRule.setContent {
             SavedRecipesScreen(
-                viewModel = viewModel,
+                uiState = SavedRecipesUiState(
+                    recipes = recipes,
+                ),
             )
         }
 
         composeTestRule.waitForIdle()
 
         composeTestRule.onNodeWithText("Saved Recipes").assertIsDisplayed()
-
-        val recipes = viewModel.recipes.value
-
-        assertEquals(10, recipes.size)
 
         recipes.let { data ->
             (0..3).forEach { index ->

@@ -4,7 +4,8 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.savedrecip
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetSavedRecipesUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.ToggleBookmarkUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.test.MainDispatcherRule
 import io.mockk.MockKAnnotations
 import io.mockk.bdd.coGiven
@@ -23,7 +24,10 @@ class SavedRecipesViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     @MockK
-    private lateinit var repository: RecipeRepository
+    private lateinit var getSavedRecipesUseCase: GetSavedRecipesUseCase
+
+    @MockK
+    private lateinit var toggleBookmarkUseCase: ToggleBookmarkUseCase
 
     private lateinit var viewModel: SavedRecipesViewModel
 
@@ -34,7 +38,7 @@ class SavedRecipesViewModelTest {
 
     @Test
     fun testSavedRecipesViewModel() = runTest {
-        coGiven { repository.getSavedRecipes() } returns AppResult.Success(
+        coGiven { getSavedRecipesUseCase() } returns AppResult.Success(
             listOf(
                 Recipe(
                     id = 1,
@@ -55,11 +59,14 @@ class SavedRecipesViewModelTest {
             ),
         )
 
-        viewModel = SavedRecipesViewModel(repository)
+        viewModel = SavedRecipesViewModel(
+            getSavedRecipesUseCase,
+            toggleBookmarkUseCase,
+        )
 
         advanceUntilIdle()
 
-        val recipes = viewModel.recipes.value
+        val recipes = viewModel.uiState.value.recipes
 
         assertEquals(2, recipes.size)
         assertEquals("Test Recipe", recipes[0].name)

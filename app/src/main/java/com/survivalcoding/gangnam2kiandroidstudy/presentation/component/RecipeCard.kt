@@ -47,6 +47,7 @@ fun RecipeCard(
     modifier: Modifier = Modifier,
     size: RecipeCardSize = RecipeCardSize.Medium,
     onClick: (Long) -> Unit = {},
+    onBookmarkClick: (Long) -> Unit = {},
 ) {
     Box(
         modifier = modifier
@@ -134,6 +135,7 @@ fun RecipeCard(
                             modifier = Modifier
                                 .size(24.dp)
                                 .clip(RoundedCornerShape(12.dp))
+                                .clickable { onBookmarkClick(recipe.id) }
                                 .background(color = AppColors.White),
                             contentAlignment = Alignment.Center,
                         ) {
