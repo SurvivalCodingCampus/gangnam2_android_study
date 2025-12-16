@@ -56,7 +56,6 @@ fun NavigationRoot() {
             entry<Route.Main> {
                 val backStack = rememberNavBackStack(Route.Home)
                 MainScreen(
-                    modifier = Modifier,
                     backStack = backStack,
                     body = {
                         NavDisplay(
