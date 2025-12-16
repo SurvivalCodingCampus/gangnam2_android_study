@@ -3,11 +3,11 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.home
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.rules.MainCoroutineRule
 import com.survivalcoding.gangnam2kiandroidstudy.util.TestRecipeRepository
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertFalse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
