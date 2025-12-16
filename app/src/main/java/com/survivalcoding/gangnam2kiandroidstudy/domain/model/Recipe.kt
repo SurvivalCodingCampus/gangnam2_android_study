@@ -7,4 +7,5 @@ data class Recipe(
     val chef: String,
     val time: Int,
     val rating: Double,
+    val serve: Int = 1,
 )

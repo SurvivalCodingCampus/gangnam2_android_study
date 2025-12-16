@@ -96,4 +96,8 @@ object MockRecipeRepositoryImpl : RecipeRepository {
 
     override suspend fun getRecipes(searchCondition: RecipeSearchCondition): AppResult<List<Recipe>, NetworkError> =
         AppResult.Success(mockRecipes)
+
+    override suspend fun getRecipe(recipeId: Long): Recipe {
+        return mockRecipes.first()
+    }
 }

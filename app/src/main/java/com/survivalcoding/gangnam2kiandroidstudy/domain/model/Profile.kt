@@ -9,4 +9,5 @@ data class Profile(
     val followingCount: Int = 0,
     val job: String = "",
     val biography: String = "",
+    val address: String = "",
 )

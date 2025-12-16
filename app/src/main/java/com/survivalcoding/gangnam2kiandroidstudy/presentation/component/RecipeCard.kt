@@ -99,16 +99,18 @@ fun RecipeCard(
                     Column(
                         modifier = Modifier.weight(1f),
                     ) {
-                        Text(
-                            text = recipe.name,
-                            style = AppTextStyles.PoppinsSmallBold.copy(color = AppColors.White),
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                        Text(
-                            text = "By ${recipe.chef}",
-                            style = AppTextStyles.PoppinsSmallerRegular.copy(color = AppColors.White),
-                        )
+                        if (size != RecipeCardSize.Large) {
+                            Text(
+                                text = recipe.name,
+                                style = AppTextStyles.PoppinsSmallBold.copy(color = AppColors.White),
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                            Text(
+                                text = "By ${recipe.chef}",
+                                style = AppTextStyles.PoppinsSmallerRegular.copy(color = AppColors.White),
+                            )
+                        }
                     }
 
                     if (size != RecipeCardSize.Small) {
@@ -156,14 +158,6 @@ fun RecipeCard(
 @Preview(showBackground = true)
 @Composable
 fun RecipeCardPreview() {
-    val recipe = Recipe(
-        id = 1L,
-        name = "spice roasted chicken with flavored rice",
-        imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-        chef = "Chef John",
-        time = 20,
-        rating = 4.0,
-    )
     RecipeCard(recipe = recipe)
 }
 
@@ -184,13 +178,20 @@ fun LongNameRecipeCardPreview() {
 @Preview(showBackground = true)
 @Composable
 fun SmallSizeRecipeCardPreview() {
-    val recipe = Recipe(
-        id = 1L,
-        name = "spice roasted chicken with flavored rice",
-        imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-        chef = "Chef John",
-        time = 20,
-        rating = 4.0,
-    )
     RecipeCard(recipe = recipe, size = RecipeCardSize.Small, modifier = Modifier.width(150.dp))
 }
+
+@Preview(showBackground = true)
+@Composable
+fun LargeSizeRecipeCardPreview() {
+    RecipeCard(recipe = recipe, size = RecipeCardSize.Large)
+}
+
+private val recipe = Recipe(
+    id = 1L,
+    name = "spice roasted chicken with flavored rice",
+    imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
+    chef = "Chef John",
+    time = 20,
+    rating = 4.0,
+)

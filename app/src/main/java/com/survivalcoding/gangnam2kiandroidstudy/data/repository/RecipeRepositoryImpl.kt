@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
 import android.util.Log
 import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult
+import com.survivalcoding.gangnam2kiandroidstudy.core.HttpException
 import com.survivalcoding.gangnam2kiandroidstudy.core.NetworkError
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.mapper.toModel
@@ -53,9 +54,26 @@ class RecipeRepositoryImpl(
             }
         }
 
+    override suspend fun getRecipe(recipeId: Long): Recipe {
+        return withContext(dispatcher) {
+            val response = dataSource.getSavedRecipes()
+
+            if (response.isFail()) {
+                throw HttpException(response.statusCode)
+            }
+
+            val recipes = response.body?.toModel() ?: throw IllegalStateException("응답 데이터가 비어있습니다")
+
+            recipes.first { it.id == recipeId }
+        }
+    }
+
     private suspend fun <T> handleNetworkError(block: suspend () -> AppResult<T, NetworkError>): AppResult<T, NetworkError> =
         try {
             block()
+        } catch (e: HttpException) {
+            Log.e("RecipeRepositoryImpl", e.stackTraceToString())
+            AppResult.Error(NetworkError.HttpError(e.code))
         } catch (e: IOException) {
             Log.e("RecipeRepositoryImpl", e.stackTraceToString())
             AppResult.Error(NetworkError.NetworkUnavailable)

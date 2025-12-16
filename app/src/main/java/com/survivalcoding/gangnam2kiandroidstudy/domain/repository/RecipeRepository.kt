@@ -8,4 +8,5 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeSearchCondit
 interface RecipeRepository {
     suspend fun getSavedRecipes(): AppResult<List<Recipe>, NetworkError>
     suspend fun getRecipes(searchCondition: RecipeSearchCondition): AppResult<List<Recipe>, NetworkError>
+    suspend fun getRecipe(recipeId: Long): Recipe
 }
