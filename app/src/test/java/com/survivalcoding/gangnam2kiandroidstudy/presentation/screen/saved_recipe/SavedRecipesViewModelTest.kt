@@ -3,11 +3,12 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_reci
 import androidx.lifecycle.SavedStateHandle
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.MockRecipeDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSource
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Ingredient
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -65,24 +66,13 @@ class SavedRecipesViewModelTest {
         // 특정 레시피 저장 확인을 위해 모킹
         val expected = Recipe(
             id = 2,
-            category = "Asian",
+            category = RecipeCategory.ASIAN,
             name = "Spice roasted chicken with flavored rice",
             imageUrl = "https://cdn.pixabay.com/photo/2018/12/04/16/49/tandoori-3856045_1280.jpg",
             chef = "Mark Kelvin",
             time = "20 min",
             rating = 4.0,
-            ingredients = listOf(
-                Ingredient(
-                    id = 6,
-                    name = "Chicken",
-                    imageUrl = "https://cdn.pixabay.com/photo/2010/12/10/08/chicken-1140_1280.jpg",
-                ) to 300,
-                Ingredient(
-                    id = 4,
-                    name = "Rice",
-                    imageUrl = "https://cdn.pixabay.com/photo/2016/02/29/05/46/brown-rice-1228099_1280.jpg",
-                ) to 200,
-            )
+            ingredients = listOf()
         )
 
         val mockRepository = mockk<RecipeRepository>()
