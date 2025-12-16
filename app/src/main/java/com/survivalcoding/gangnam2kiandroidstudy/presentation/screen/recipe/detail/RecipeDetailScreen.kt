@@ -145,7 +145,7 @@ fun RecipeDetailScreen(
 
                 Spacer(Modifier.height(22.dp))
                 when (uiState.tabLabels[uiState.selectedTabIndex]) {
-                    "Ingrident" -> IngridentScreen(ingridents = recipe.ingridents)
+                    "Ingredient" -> IngredientScreen(ingredients = recipe.ingredients)
                     "Procedure" -> ProcedureScreen(procedures = recipe.procedures)
                 }
             } ?: Column(

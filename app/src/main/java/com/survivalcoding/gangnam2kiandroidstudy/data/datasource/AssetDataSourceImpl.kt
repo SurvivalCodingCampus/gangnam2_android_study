@@ -7,7 +7,7 @@ import kotlinx.serialization.json.Json
 
 // TODO 파일에서 가져오기 때문에 Response는 나중에 추가
 class AssetDataSourceImpl(private val context: Context) : AssetDataSource {
-    override suspend fun getIngridents(): IngredientResponse {
+    override suspend fun getIngredients(): IngredientResponse {
         val jsonString = context.assets
             .open("ingredients.json")
             .bufferedReader()

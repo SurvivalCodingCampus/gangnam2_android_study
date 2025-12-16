@@ -5,6 +5,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.dto.ProcedureResponse
 
 interface AssetDataSource {
 
-    suspend fun getIngridents(): IngredientResponse
+    suspend fun getIngredients(): IngredientResponse
     suspend fun getProcedures(): ProcedureResponse
 }

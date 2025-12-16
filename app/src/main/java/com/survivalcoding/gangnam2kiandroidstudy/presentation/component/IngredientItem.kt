@@ -24,13 +24,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingrident
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun IngredientItem(
-    ingrident: Ingrident,
+    ingredient: Ingredient,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -45,12 +45,12 @@ fun IngredientItem(
             val painter = if (LocalInspectionMode.current) {
                 painterResource(R.drawable.tomato)
             } else {
-                rememberAsyncImagePainter(ingrident.image)
+                rememberAsyncImagePainter(ingredient.image)
             }
 
             Image(
                 painter = painter,
-                contentDescription = "${ingrident.name} image",
+                contentDescription = "${ingredient.name} image",
                 modifier = Modifier
                     .size(52.dp)
                     .clip(RoundedCornerShape(10.dp)),
@@ -58,11 +58,11 @@ fun IngredientItem(
             )
             Spacer(Modifier.width(16.dp))
 
-            Text(text = ingrident.name, modifier = Modifier.height(24.dp), style = AppTextStyles.normalTextBold)
+            Text(text = ingredient.name, modifier = Modifier.height(24.dp), style = AppTextStyles.normalTextBold)
             Spacer(Modifier.weight(1f))
 
             Text(
-                text = ingrident.weight,
+                text = ingredient.weight,
                 modifier = Modifier.height(21.dp),
                 style = AppTextStyles.smallTextRegular,
                 color = AppColors.gray3
@@ -74,14 +74,15 @@ fun IngredientItem(
 @Preview(showBackground = true)
 @Composable
 private fun IngredientItemPreview() {
-    val ingrident = Ingrident(
+    val ingredient = Ingredient(
         1,
         "Tomatos",
         "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
         "500g",
         1
     )
+
     Scaffold {
-        IngredientItem(modifier = Modifier.padding(it), ingrident = ingrident)
+        IngredientItem(modifier = Modifier.padding(it), ingredient = ingredient)
     }
 }

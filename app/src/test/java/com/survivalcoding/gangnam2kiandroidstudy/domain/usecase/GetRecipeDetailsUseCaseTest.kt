@@ -1,10 +1,10 @@
 package com.survivalcoding.gangnam2kiandroidstudy.domain.usecase
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
-import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingrident
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngridentRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import io.mockk.coEvery
@@ -19,7 +19,7 @@ import org.junit.Test
 class GetRecipeDetailsUseCaseTest {
 
     private lateinit var recipeRepository: RecipeRepository
-    private lateinit var ingridentRepository: IngridentRepository
+    private lateinit var ingredientRepository: IngredientRepository
     private lateinit var procedureRepository: ProcedureRepository
 
     private lateinit var useCase: GetRecipeDetailsUseCase
@@ -27,12 +27,12 @@ class GetRecipeDetailsUseCaseTest {
     @Before
     fun setUp() {
         recipeRepository = mockk()
-        ingridentRepository = mockk()
+        ingredientRepository = mockk()
         procedureRepository = mockk()
 
         useCase = GetRecipeDetailsUseCase(
             recipeRepository,
-            ingridentRepository,
+            ingredientRepository,
             procedureRepository
         )
     }
@@ -54,8 +54,8 @@ class GetRecipeDetailsUseCaseTest {
             emptyList()
         )
 
-        val ingridents = listOf(
-            Ingrident(
+        val ingredients = listOf(
+            Ingredient(
                 1,
                 "Tomatos",
                 "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
@@ -73,7 +73,7 @@ class GetRecipeDetailsUseCaseTest {
         )
 
         coEvery { recipeRepository.getRecipeById(recipeId) } returns baseRecipe
-        coEvery { ingridentRepository.getIngridents(recipeId) } returns ingridents
+        coEvery { ingredientRepository.getIngredients(recipeId) } returns ingredients
         coEvery { procedureRepository.getProcedures(recipeId) } returns procedures
 
         // when
@@ -83,7 +83,7 @@ class GetRecipeDetailsUseCaseTest {
         assertTrue(result is Result.Success)
 
         val data = (result as Result.Success).data
-        assertEquals(ingridents, data.ingridents)
+        assertEquals(ingredients, data.ingredients)
         assertEquals(procedures, data.procedures)
     }
 
@@ -104,7 +104,7 @@ class GetRecipeDetailsUseCaseTest {
             (result as Result.Failure).error.message
         )
 
-        coVerify(exactly = 0) { ingridentRepository.getIngridents(any()) }
+        coVerify(exactly = 0) { ingredientRepository.getIngredients(any()) }
         coVerify(exactly = 0) { procedureRepository.getProcedures(any()) }
     }
 

@@ -2,15 +2,15 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.AssetDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.mapper.toModel
-import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingrident
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngridentRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
 
-class IngridentRepositoryImpl(
+class IngredientRepositoryImpl(
     private val dataSource: AssetDataSource
-) : IngridentRepository {
+) : IngredientRepository {
 
-    override suspend fun getIngridents(id: Int): List<Ingrident> {
-        return dataSource.getIngridents().ingredients
+    override suspend fun getIngredients(id: Int): List<Ingredient> {
+        return dataSource.getIngredients().ingredients
             ?.filter { it.recipeId == id }
             ?.map { it.toModel() }
             ?: emptyList()

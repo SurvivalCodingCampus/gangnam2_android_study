@@ -1,6 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata
 
-import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingrident
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 
@@ -13,8 +13,8 @@ object MockRecipeData {
         "James Milner",
         "20 min",
         4.0,
-        ingridents = listOf(
-            Ingrident(
+        ingredients = listOf(
+            Ingredient(
                 1,
                 "Tomatos",
                 "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
@@ -40,8 +40,8 @@ object MockRecipeData {
             "Chef John",
             "20 min",
             4.0,
-            ingridents = listOf(
-                Ingrident(
+            ingredients = listOf(
+                Ingredient(
                     1,
                     "Tomatos",
                     "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
@@ -65,8 +65,8 @@ object MockRecipeData {
             "Chef John",
             "20 min",
             4.0,
-            ingridents = listOf(
-                Ingrident(
+            ingredients = listOf(
+                Ingredient(
                     1,
                     "Tomatos",
                     "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
@@ -93,8 +93,8 @@ object MockRecipeData {
             "Chef John",
             "20 min",
             4.0,
-            ingridents = listOf(
-                Ingrident(
+            ingredients = listOf(
+                Ingredient(
                     1,
                     "Tomatos",
                     "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",

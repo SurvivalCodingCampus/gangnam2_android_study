@@ -3,13 +3,13 @@ package com.survivalcoding.gangnam2kiandroidstudy.domain.usecase
 import com.survivalcoding.gangnam2kiandroidstudy.core.NetworkError
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngridentRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 
 class GetRecipeDetailsUseCase(
     private val recipeRepository: RecipeRepository,
-    private val ingridentRepository: IngridentRepository,
+    private val ingredientRepository: IngredientRepository,
     private val procedureRepository: ProcedureRepository
 ) {
 
@@ -21,7 +21,7 @@ class GetRecipeDetailsUseCase(
                 )
 
             val mergedRecipe = recipeResult.copy(
-                ingridents = ingridentRepository.getIngridents(recipeId),
+                ingredients = ingredientRepository.getIngredients(recipeId),
                 procedures = procedureRepository.getProcedures(recipeId)
             )
 

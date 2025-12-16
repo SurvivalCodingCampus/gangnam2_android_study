@@ -12,7 +12,7 @@ fun RecipeDto.toModel(): Recipe {
         chef = chef ?: "",
         time = time ?: "",
         rating = rating ?: 0.0,
-        ingridents = ingredients?.filter { it.id != null }
+        ingredients = ingredients?.filter { it.id != null }
             ?.map { it.toModel() }
             ?: emptyList(),
         procedures = procedures?.filter { it.recipeId != null }

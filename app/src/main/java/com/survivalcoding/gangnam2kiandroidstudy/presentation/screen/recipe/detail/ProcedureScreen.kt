@@ -34,7 +34,8 @@ fun ProcedureScreen(
             Row {
                 Icon(
                     painter = painterResource(R.drawable.recipe_serve),
-                    contentDescription = "Recipe Serve"
+                    contentDescription = "Recipe Serve",
+                    tint = AppColors.gray3
                 )
                 Spacer(Modifier.width(5.dp))
                 Text(

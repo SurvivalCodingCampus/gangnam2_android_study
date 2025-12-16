@@ -19,14 +19,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingrident
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.IngredientItem
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun IngridentScreen(
-    ingridents: List<Ingrident>,
+fun IngredientScreen(
+    ingredients: List<Ingredient>,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.fillMaxSize()) {
@@ -34,7 +34,8 @@ fun IngridentScreen(
             Row {
                 Icon(
                     painter = painterResource(R.drawable.recipe_serve),
-                    contentDescription = "Recipe Serve"
+                    contentDescription = "Recipe Serve",
+                    tint = AppColors.gray3
                 )
                 Spacer(Modifier.width(5.dp))
                 Text(
@@ -46,7 +47,7 @@ fun IngridentScreen(
 
             Spacer(Modifier.weight(1f))
             Text(
-                text = "${ingridents.size} Items",
+                text = "${ingredients.size} Items",
                 style = AppTextStyles.smallerTextRegular,
                 color = AppColors.gray3
             )
@@ -55,8 +56,8 @@ fun IngridentScreen(
         Spacer(Modifier.height(20.dp))
 
         LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            items(ingridents) { ingredient ->
-                IngredientItem(ingrident = ingredient)
+            items(ingredients) { ingredient ->
+                IngredientItem(ingredient = ingredient)
             }
         }
     }
@@ -64,23 +65,23 @@ fun IngridentScreen(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-private fun IngridentScreenPreview() {
-    val ingridents = listOf(
-        Ingrident(
+private fun IngredientScreenPreview() {
+    val ingredients = listOf(
+        Ingredient(
             1,
             "Tomatos",
             "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
             "500g",
             1
         ),
-        Ingrident(
+        Ingredient(
             2,
             "Tomatos",
             "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
             "500g",
             1
         ),
-        Ingrident(
+        Ingredient(
             3,
             "Tomatos",
             "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
@@ -89,8 +90,8 @@ private fun IngridentScreenPreview() {
         )
     )
 
-    IngridentScreen(
-        ingridents = ingridents,
+    IngredientScreen(
+        ingredients = ingredients,
         modifier = Modifier.padding(30.dp)
     )
 }
