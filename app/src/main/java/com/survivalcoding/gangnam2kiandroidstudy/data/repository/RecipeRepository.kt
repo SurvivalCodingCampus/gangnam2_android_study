@@ -8,4 +8,6 @@ interface RecipeRepository {
     suspend fun getFilteredRecipes(keyword: String): Result<List<Recipe>>
 
     suspend fun getFilteredRecipesByCategory(category: String): Result<List<Recipe>>
+
+    suspend fun getRecipeById(id: Int): Result<Recipe?>
 }

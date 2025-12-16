@@ -1,5 +1,8 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class IngredientEntity(
     val id: Int = 0,
     val name: String = "",

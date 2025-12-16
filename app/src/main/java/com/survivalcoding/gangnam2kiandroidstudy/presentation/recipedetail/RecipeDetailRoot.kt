@@ -1,25 +1,19 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetail
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
-import com.survivalcoding.gangnam2kiandroidstudy.di.DependencyContainer
+import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
-fun RecipeDetailRoot(viewModel: RecipeDetailViewModel = viewModel(factory = DependencyContainer.provideRecipeDetailViewModelFactory(LocalContext.current))) {
+fun RecipeDetailRoot(
+    viewModel: RecipeDetailViewModel,
+    onNavigateUp: () -> Unit
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     RecipeDetailScreen(
-        recipe = Recipe(
-            id = 0,
-            category = "category",
-            name = "name",
-            image = "image",
-            chef = "chef",
-            time = "time",
-            rating = 0.0
-        ),
-        ingredients = listOf(),
-        procedure = "",
-        onFollowClick = {}
+        recipeDetailUiState = uiState,
+        onTabClick = viewModel::onTabClick,
+        onFollowClick = {},
+        onNavigateUp = onNavigateUp
     )
 }

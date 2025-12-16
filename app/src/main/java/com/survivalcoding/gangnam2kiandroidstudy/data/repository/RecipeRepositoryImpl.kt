@@ -36,6 +36,12 @@ class RecipeRepositoryImpl private constructor(
         }
     }
 
+    override suspend fun getRecipeById(id: Int): Result<Recipe?> {
+        return suspendRunCatching {
+            recipeDataSource.getRecipes().find { it.id == id }
+        }
+    }
+
     companion object {
         @Volatile private var instance: RecipeRepository? = null
 

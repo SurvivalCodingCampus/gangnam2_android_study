@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetail
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,22 +26,21 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun RecipeDetailScreen(
-    recipe: Recipe,
-    ingredients: List<RecipeIngredientUI>,
-    procedure: String,
-    onFollowClick: () -> Unit
+    recipeDetailUiState: RecipeDetailUiState,
+    onTabClick: (Int) -> Unit,
+    onFollowClick: () -> Unit,
+    onNavigateUp: () -> Unit
 ) {
-    var selectedTab by remember { mutableStateOf(0) } // 0 = Ingredient, 1 = Procedure
     val tabs = listOf(
-        "Ingredient" to @Composable { IngredientScreen(ingredients) },
-        "Procedure" to @Composable { ProcedureScreen() }
+        "Ingredient" to @Composable { IngredientScreen(recipeDetailUiState.ingredients) },
+        "Procedure" to @Composable { ProcedureScreen(recipeDetailUiState.procedures) }
     )
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
         AppBar(
             title = "",
             navigationIcon = {
-                IconButton(onClick = { /* Back action */ }) {
+                IconButton(onClick = onNavigateUp) {
                     Icon(painter = painterResource(R.drawable.arrow_left), contentDescription = null)
                 }
             },
@@ -51,11 +51,22 @@ fun RecipeDetailScreen(
             }
         )
         Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp)) {
-            // Recipe image card
-            LinearRecipeCard(recipe = recipe.copy(name = "", chef = ""))
+            Box(modifier = Modifier.wrapContentSize(), contentAlignment = Alignment.Center) {
+                LinearRecipeCard(recipe = recipeDetailUiState.recipe.copy(name = "", chef = ""))
+                if (tabs[recipeDetailUiState.selectedTabPosition].first == "Procedure") {
+                    Box(modifier = Modifier.size(48.dp).background(AppColors.gray4, CircleShape), contentAlignment = Alignment.Center) {
+                        Icon(
+                            painter = painterResource(R.drawable.play),
+                            contentDescription = "재생",
+                            modifier = Modifier.padding(start = 2.dp),
+                            tint = AppColors.primary80
+                        )
+                    }
+                }
+            }
             Row(modifier = Modifier.padding(top = 10.dp).padding(horizontal = 5.dp)) {
                 Text(
-                    text = "Spicy chicken burger with French fries",
+                    text = recipeDetailUiState.recipe.name,
                     modifier = Modifier.weight(1f),
                     maxLines = 2,
                     style = AppTextStyles.smallTextRegular.copy(
@@ -71,10 +82,7 @@ fun RecipeDetailScreen(
                 )
             }
         }
-
         Spacer(modifier = Modifier.height(10.dp))
-
-        // Chef info + follow button
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -82,7 +90,7 @@ fun RecipeDetailScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = rememberAsyncImagePainter(recipe.image),
+                painter = rememberAsyncImagePainter(recipeDetailUiState.recipe.image),
                 contentDescription = null,
                 modifier = Modifier
                     .size(40.dp)
@@ -90,7 +98,7 @@ fun RecipeDetailScreen(
             )
             Column(modifier = Modifier.padding(start = 10.dp)) {
                 Text(
-                    text = recipe.chef,
+                    text = recipeDetailUiState.recipe.chef,
                     style = AppTextStyles.smallTextRegular.copy(
                         fontWeight = FontWeight.SemiBold
                     )
@@ -145,8 +153,8 @@ fun RecipeDetailScreen(
         TabLayout(
             tabs = tabs.map { it.first },
             modifier = Modifier.padding(horizontal = 30.dp).padding(top = 12.dp, bottom = 13.dp),
-            currentSelectTabPosition = selectedTab,
-            onTabClick = { selectedTab = it }
+            currentSelectTabPosition = recipeDetailUiState.selectedTabPosition,
+            onTabClick = onTabClick
         )
         Row(
             modifier = Modifier.padding(top = 22.dp, bottom = 20.dp).height(24.dp).fillMaxWidth().padding(horizontal = 30.dp),
@@ -156,6 +164,7 @@ fun RecipeDetailScreen(
                 painter = painterResource(R.drawable.ic_food_dish),
                 contentDescription = null
             )
+            Spacer(modifier = Modifier.width(5.dp))
             Text(
                 text = "1 serve",
                 style = AppTextStyles.smallerTextRegular.copy(
@@ -164,13 +173,13 @@ fun RecipeDetailScreen(
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "10 Items",
+                text = if (tabs[recipeDetailUiState.selectedTabPosition].first == "Ingredient") "${recipeDetailUiState.ingredients.size} Items" else "${recipeDetailUiState.procedures.size} Steps",
                 style = AppTextStyles.smallerTextRegular.copy(
                     color = AppColors.gray3
                 )
             )
         }
-        tabs[selectedTab].second()
+        tabs[recipeDetailUiState.selectedTabPosition].second()
     }
 }
 
@@ -178,23 +187,27 @@ fun RecipeDetailScreen(
 @Composable
 fun RecipeDetailScreenPreview() {
     RecipeDetailScreen(
-        recipe = Recipe(
-            id = 0,
-            category = "category",
-            name = "name",
-            image = "image",
-            chef = "Laura wilson",
-            time = "time",
-            rating = 0.0
+        recipeDetailUiState = RecipeDetailUiState(
+            recipe = Recipe(
+                id = 0,
+                category = "category",
+                name = "Spicy chicken burger with French fries",
+                image = "image",
+                chef = "Laura wilson",
+                time = "time",
+                rating = 0.0
+            ),
+            ingredients = listOf(
+                RecipeIngredientUI("Tomatos", 500, ""),
+                RecipeIngredientUI("Tomatos", 500, ""),
+                RecipeIngredientUI("Tomatos", 500, ""),
+                RecipeIngredientUI("Tomatos", 500, ""),
+                RecipeIngredientUI("Tomatos", 500, "")
+            ),
+            procedures = emptyList(),
         ),
-        ingredients = listOf(
-            RecipeIngredientUI("Tomatos", 500, ""),
-            RecipeIngredientUI("Tomatos", 500, ""),
-            RecipeIngredientUI("Tomatos", 500, ""),
-            RecipeIngredientUI("Tomatos", 500, ""),
-            RecipeIngredientUI("Tomatos", 500, "")
-        ),
-        procedure = "",
-        onFollowClick = {}
+        onTabClick = fun (_) = Unit,
+        onFollowClick = fun() = Unit,
+        onNavigateUp = fun() = Unit
     )
 }

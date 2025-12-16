@@ -1,10 +1,28 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
+import com.survivalcoding.gangnam2kiandroidstudy.core.util.suspendRunCatching
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.IngredientDataSource
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeIngredientUI
 
 class IngredientRepositoryImpl private constructor(
     private val ingredientDataSource: IngredientDataSource
 ) : IngredientRepository {
+    override suspend fun getIngredientByRecipeId(recipeId: Int): Result<List<RecipeIngredientUI>> {
+        return suspendRunCatching {
+            val recipeIngredients = ingredientDataSource.getRecipeIngredientsByRecipeId(recipeId)
+            val ingredients = ingredientDataSource.getAllIngredients()
+            recipeIngredients.mapNotNull { recipeIngredient ->
+                val ingredient = ingredients.find { it.id == recipeIngredient.ingredientId }
+                ingredient?.let {
+                    RecipeIngredientUI(
+                        name = it.name,
+                        image = it.image,
+                        amount = recipeIngredient.amount
+                    )
+                }
+            }
+        }
+    }
 
     companion object {
         @Volatile private var instance: IngredientRepository? = null

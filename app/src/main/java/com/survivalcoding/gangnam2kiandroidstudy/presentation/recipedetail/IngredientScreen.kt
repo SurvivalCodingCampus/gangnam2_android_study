@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetail
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -13,7 +14,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Ingredie
 @Composable
 fun IngredientScreen(ingredients: List<RecipeIngredientUI>) {
     LazyColumn(
-        modifier = Modifier.padding(horizontal = 30.dp),
+        modifier = Modifier.fillMaxSize().padding(horizontal = 30.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         items(ingredients) { ingredient ->

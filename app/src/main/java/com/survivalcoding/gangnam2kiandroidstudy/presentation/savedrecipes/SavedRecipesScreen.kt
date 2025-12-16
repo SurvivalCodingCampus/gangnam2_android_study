@@ -15,7 +15,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.LinearRe
 
 @Composable
 fun SavedRecipesScreen(
-    uiState: SavedRecipesUiState
+    uiState: SavedRecipesUiState,
+    onItemClick: (Int) -> Unit,
+    onBookmarkClick: (Int) -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
         AppBar(title = "Saved recipes")
@@ -26,11 +28,16 @@ fun SavedRecipesScreen(
             when {
                 !uiState.recipes.isEmpty() -> {
                     LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(top = 10.dp, bottom = 44.dp, start = 30.dp, end = 30.dp),
                         verticalArrangement = Arrangement.spacedBy(20.dp)
                     ) {
                         items(uiState.recipes) { recipe ->
-                            LinearRecipeCard(recipe)
+                            LinearRecipeCard(
+                                recipe,
+                                onClick = { onItemClick(recipe.id) },
+                                onBookmarkClick = { onBookmarkClick(recipe.id) }
+                            )
                         }
                     }
                 }
@@ -48,5 +55,5 @@ fun SavedRecipesScreen(
 @Preview(showBackground = true)
 @Composable
 fun SavedRecipesScreenPreview() {
-    SavedRecipesScreen(SavedRecipesUiState())
+    SavedRecipesScreen(SavedRecipesUiState(), fun(_) = Unit, fun(_) = Unit)
 }

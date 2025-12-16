@@ -1,8 +1,10 @@
 package com.survivalcoding.gangnam2kiandroidstudy.di
 
 import android.content.Context
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.survivalcoding.gangnam2kiandroidstudy.core.routing.Route
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.AppAssetManagerImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.BookmarkDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.BookmarkDataSourceImpl
@@ -45,10 +47,8 @@ object DependencyContainer {
         )
     }
 
-    fun provideBookmarkDataSource(context: Context): BookmarkDataSource {
-        return BookmarkDataSourceImpl.getInstance(
-            provideAssetManager(context)
-        )
+    fun provideBookmarkDataSource(): BookmarkDataSource {
+        return BookmarkDataSourceImpl.getInstance()
     }
 
     fun provideRecipeRepository(context: Context): RecipeRepository {
@@ -69,9 +69,9 @@ object DependencyContainer {
         )
     }
 
-    fun provideBookmarkRepository(context: Context): BookmarkRepository {
+    fun provideBookmarkRepository(): BookmarkRepository {
         return BookmarkRepositoryImpl.getInstance(
-            provideBookmarkDataSource(context)
+            provideBookmarkDataSource()
         )
     }
 
@@ -81,7 +81,8 @@ object DependencyContainer {
     fun provideSavedRecipesViewModelFactory(context: Context) = viewModelFactory {
         initializer {
             SavedRecipesViewModel(
-                recipeRepository = provideRecipeRepository(context.applicationContext)
+                recipeRepository = provideRecipeRepository(context.applicationContext),
+                bookmarkRepository = provideBookmarkRepository()
             )
         }
     }
@@ -102,11 +103,15 @@ object DependencyContainer {
         }
     }
 
-    fun provideRecipeDetailViewModelFactory(context: Context) = viewModelFactory {
+    fun provideRecipeDetailViewModelFactory(context: Context, route: Route.RecipeDetails) = viewModelFactory {
         initializer {
+            val savedStateHandle = createSavedStateHandle()
+            savedStateHandle["recipeId"] = route.recipeId
             RecipeDetailViewModel(
+                recipeRepository = provideRecipeRepository(context.applicationContext),
                 ingredientRepository = provideIngredientRepository(context.applicationContext),
-                procedureRepository = provideProcedureRepository(context.applicationContext)
+                procedureRepository = provideProcedureRepository(context.applicationContext),
+                savedStateHandle
             )
         }
     }
