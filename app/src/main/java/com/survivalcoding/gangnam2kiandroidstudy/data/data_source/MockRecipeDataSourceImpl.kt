@@ -1,11 +1,12 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.data_source
 
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Ingredient
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.data.dto.IngredientAmountDTO
+import com.survivalcoding.gangnam2kiandroidstudy.data.dto.IngredientDTO
+import com.survivalcoding.gangnam2kiandroidstudy.data.dto.RecipeDTO
 
 class MockRecipeDataSourceImpl : RecipeDataSource {
-    override suspend fun getRecipe(id: Long): Recipe {
-        return Recipe(
+    override suspend fun getRecipe(id: Long): RecipeDTO? {
+        return RecipeDTO(
             id = 1,
             category = "Indian",
             name = "Traditional spare ribs baked",
@@ -14,23 +15,29 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             time = "20 min",
             rating = 4.0,
             ingredients = listOf(
-                Ingredient(
-                    id = 3,
-                    name = "Pork",
-                    imageUrl = "https://cdn.pixabay.com/photo/2019/12/20/14/44/meat-4708596_1280.jpg",
-                ) to 500,
-                Ingredient(
-                    id = 9,
-                    name = "Onion",
-                    imageUrl = "https://cdn.pixabay.com/photo/2013/02/21/19/14/onion-bulbs-84722_1280.jpg",
-                ) to 50,
+                IngredientAmountDTO(
+                    ingredient = IngredientDTO(
+                        id = 3,
+                        name = "Pork",
+                        imageUrl = "https://cdn.pixabay.com/photo/2019/12/20/14/44/meat-4708596_1280.jpg",
+                    ),
+                    amount = 500,
+                ),
+                IngredientAmountDTO(
+                    ingredient = IngredientDTO(
+                        id = 9,
+                        name = "Onion",
+                        imageUrl = "https://cdn.pixabay.com/photo/2013/02/21/19/14/onion-bulbs-84722_1280.jpg",
+                    ),
+                    amount = 50,
+                ),
             )
         )
     }
 
-    override suspend fun getRecipes(): List<Recipe> {
+    override suspend fun getRecipes(): List<RecipeDTO> {
         return listOf(
-            Recipe(
+            RecipeDTO(
                 id = 1,
                 category = "Indian",
                 name = "Traditional spare ribs baked",
@@ -39,19 +46,25 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 time = "20 min",
                 rating = 4.0,
                 ingredients = listOf(
-                    Ingredient(
-                        id = 3,
-                        name = "Pork",
-                        imageUrl = "https://cdn.pixabay.com/photo/2019/12/20/14/44/meat-4708596_1280.jpg",
-                    ) to 500,
-                    Ingredient(
-                        id = 9,
-                        name = "Onion",
-                        imageUrl = "https://cdn.pixabay.com/photo/2013/02/21/19/14/onion-bulbs-84722_1280.jpg",
-                    ) to 50,
+                    IngredientAmountDTO(
+                        ingredient = IngredientDTO(
+                            id = 3,
+                            name = "Pork",
+                            imageUrl = "https://cdn.pixabay.com/photo/2019/12/20/14/44/meat-4708596_1280.jpg",
+                        ),
+                        amount = 500,
+                    ),
+                    IngredientAmountDTO(
+                        ingredient = IngredientDTO(
+                            id = 9,
+                            name = "Onion",
+                            imageUrl = "https://cdn.pixabay.com/photo/2013/02/21/19/14/onion-bulbs-84722_1280.jpg",
+                        ),
+                        amount = 50,
+                    ),
                 )
             ),
-            Recipe(
+            RecipeDTO(
                 id = 2,
                 category = "Asian",
                 name = "Spice roasted chicken with flavored rice",
@@ -60,19 +73,25 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 time = "20 min",
                 rating = 4.0,
                 ingredients = listOf(
-                    Ingredient(
-                        id = 6,
-                        name = "Chicken",
-                        imageUrl = "https://cdn.pixabay.com/photo/2010/12/10/08/chicken-1140_1280.jpg",
-                    ) to 300,
-                    Ingredient(
-                        id = 4,
-                        name = "Rice",
-                        imageUrl = "https://cdn.pixabay.com/photo/2016/02/29/05/46/brown-rice-1228099_1280.jpg",
-                    ) to 200,
+                    IngredientAmountDTO(
+                        ingredient = IngredientDTO(
+                            id = 6,
+                            name = "Chicken",
+                            imageUrl = "https://cdn.pixabay.com/photo/2010/12/10/08/chicken-1140_1280.jpg",
+                        ),
+                        amount = 300,
+                    ),
+                    IngredientAmountDTO(
+                        ingredient = IngredientDTO(
+                            id = 4,
+                            name = "Rice",
+                            imageUrl = "https://cdn.pixabay.com/photo/2016/02/29/05/46/brown-rice-1228099_1280.jpg",
+                        ),
+                        amount = 200,
+                    ),
                 )
             ),
-            Recipe(
+            RecipeDTO(
                 id = 3,
                 category = "Chinese",
                 name = "Spicy fried rice mix chicken bali",
@@ -81,24 +100,33 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 time = "20 min",
                 rating = 4.0,
                 ingredients = listOf(
-                    Ingredient(
-                        id = 6,
-                        name = "Chicken",
-                        imageUrl = "https://cdn.pixabay.com/photo/2010/12/10/08/chicken-1140_1280.jpg",
-                    ) to 200,
-                    Ingredient(
-                        id = 4,
-                        name = "Rice",
-                        imageUrl = "https://cdn.pixabay.com/photo/2016/02/29/05/46/brown-rice-1228099_1280.jpg",
-                    ) to 150,
-                    Ingredient(
-                        id = 1,
-                        name = "Tomato",
-                        imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
-                    ) to 100,
+                    IngredientAmountDTO(
+                        ingredient = IngredientDTO(
+                            id = 6,
+                            name = "Chicken",
+                            imageUrl = "https://cdn.pixabay.com/photo/2010/12/10/08/chicken-1140_1280.jpg",
+                        ),
+                        amount = 200,
+                    ),
+                    IngredientAmountDTO(
+                        ingredient = IngredientDTO(
+                            id = 4,
+                            name = "Rice",
+                            imageUrl = "https://cdn.pixabay.com/photo/2016/02/29/05/46/brown-rice-1228099_1280.jpg",
+                        ),
+                        amount = 150,
+                    ),
+                    IngredientAmountDTO(
+                        ingredient = IngredientDTO(
+                            id = 1,
+                            name = "Tomato",
+                            imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
+                        ),
+                        amount = 100,
+                    ),
                 )
             ),
-            Recipe(
+            RecipeDTO(
                 id = 4,
                 category = "Japanese",
                 name = "Long Very Long Long Very Very Long Ttekbokki",
@@ -108,7 +136,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 rating = 5.0,
                 ingredients = listOf()
             ),
-            Recipe(
+            RecipeDTO(
                 id = 5,
                 category = "American",
                 name = "Grilled salmon with avocado salsa",
@@ -117,19 +145,25 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 time = "25 min",
                 rating = 4.5,
                 ingredients = listOf(
-                    Ingredient(
-                        id = 5,
-                        name = "Avocado",
-                        imageUrl = "https://cdn.pixabay.com/photo/2020/01/02/01/43/avocado-4734786_1280.jpg",
-                    ) to 150,
-                    Ingredient(
-                        id = 8,
-                        name = "Pepper",
-                        imageUrl = "https://cdn.pixabay.com/photo/2016/03/05/22/31/pepper-1239308_1280.jpg",
-                    ) to 5,
+                    IngredientAmountDTO(
+                        ingredient = IngredientDTO(
+                            id = 5,
+                            name = "Avocado",
+                            imageUrl = "https://cdn.pixabay.com/photo/2020/01/02/01/43/avocado-4734786_1280.jpg",
+                        ),
+                        amount = 150,
+                    ),
+                    IngredientAmountDTO(
+                        ingredient = IngredientDTO(
+                            id = 8,
+                            name = "Pepper",
+                            imageUrl = "https://cdn.pixabay.com/photo/2016/03/05/22/31/pepper-1239308_1280.jpg",
+                        ),
+                        amount = 5,
+                    ),
                 )
             ),
-            Recipe(
+            RecipeDTO(
                 id = 6,
                 category = "British",
                 name = "Beef Wellington",
@@ -138,19 +172,25 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 time = "45 min",
                 rating = 5.0,
                 ingredients = listOf(
-                    Ingredient(
-                        id = 2,
-                        name = "Beef",
-                        imageUrl = "https://cdn.pixabay.com/photo/2016/01/21/18/08/meet-1154341_1280.png",
-                    ) to 500,
-                    Ingredient(
-                        id = 9,
-                        name = "Onion",
-                        imageUrl = "https://cdn.pixabay.com/photo/2013/02/21/19/14/onion-bulbs-84722_1280.jpg",
-                    ) to 100,
+                    IngredientAmountDTO(
+                        ingredient = IngredientDTO(
+                            id = 2,
+                            name = "Beef",
+                            imageUrl = "https://cdn.pixabay.com/photo/2016/01/21/18/08/meet-1154341_1280.png",
+                        ),
+                        amount = 500,
+                    ),
+                    IngredientAmountDTO(
+                        ingredient = IngredientDTO(
+                            id = 9,
+                            name = "Onion",
+                            imageUrl = "https://cdn.pixabay.com/photo/2013/02/21/19/14/onion-bulbs-84722_1280.jpg",
+                        ),
+                        amount = 100,
+                    ),
                 )
             ),
-            Recipe(
+            RecipeDTO(
                 id = 7,
                 category = "Italian",
                 name = "Classic Margherita Pizza",
@@ -159,14 +199,17 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 time = "15 min",
                 rating = 4.3,
                 ingredients = listOf(
-                    Ingredient(
-                        id = 1,
-                        name = "Tomato",
-                        imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
-                    ) to 200,
+                    IngredientAmountDTO(
+                        ingredient = IngredientDTO(
+                            id = 1,
+                            name = "Tomato",
+                            imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
+                        ),
+                        amount = 200,
+                    ),
                 )
             ),
-            Recipe(
+            RecipeDTO(
                 id = 8,
                 category = "Japanese",
                 name = "Sushi Platter",
@@ -175,19 +218,25 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 time = "60 min",
                 rating = 4.8,
                 ingredients = listOf(
-                    Ingredient(
-                        id = 6,
-                        name = "Chicken",
-                        imageUrl = "https://cdn.pixabay.com/photo/2010/12/10/08/chicken-1140_1280.jpg",
-                    ) to 200,
-                    Ingredient(
-                        id = 4,
-                        name = "Rice",
-                        imageUrl = "https://cdn.pixabay.com/photo/2016/02/29/05/46/brown-rice-1228099_1280.jpg",
-                    ) to 100,
+                    IngredientAmountDTO(
+                        ingredient = IngredientDTO(
+                            id = 6,
+                            name = "Chicken",
+                            imageUrl = "https://cdn.pixabay.com/photo/2010/12/10/08/chicken-1140_1280.jpg",
+                        ),
+                        amount = 200,
+                    ),
+                    IngredientAmountDTO(
+                        ingredient = IngredientDTO(
+                            id = 4,
+                            name = "Rice",
+                            imageUrl = "https://cdn.pixabay.com/photo/2016/02/29/05/46/brown-rice-1228099_1280.jpg",
+                        ),
+                        amount = 100,
+                    ),
                 )
             ),
-            Recipe(
+            RecipeDTO(
                 id = 9,
                 category = "French",
                 name = "French Onion Soup",
@@ -196,14 +245,17 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 time = "40 min",
                 rating = 4.6,
                 ingredients = listOf(
-                    Ingredient(
-                        id = 9,
-                        name = "Onion",
-                        imageUrl = "https://cdn.pixabay.com/photo/2013/02/21/19/14/onion-bulbs-84722_1280.jpg",
-                    ) to 300,
+                    IngredientAmountDTO(
+                        ingredient = IngredientDTO(
+                            id = 9,
+                            name = "Onion",
+                            imageUrl = "https://cdn.pixabay.com/photo/2013/02/21/19/14/onion-bulbs-84722_1280.jpg",
+                        ),
+                        amount = 300,
+                    ),
                 )
             ),
-            Recipe(
+            RecipeDTO(
                 id = 10,
                 category = "French",
                 name = "Chocolate Lava Cake",
@@ -212,11 +264,14 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 time = "30 min",
                 rating = 4.9,
                 ingredients = listOf(
-                    Ingredient(
-                        id = 7,
-                        name = "Sugar",
-                        imageUrl = "https://cdn.pixabay.com/photo/2014/11/28/19/10/lump-sugar-549096_1280.jpg",
-                    ) to 100,
+                    IngredientAmountDTO(
+                        ingredient = IngredientDTO(
+                            id = 7,
+                            name = "Sugar",
+                            imageUrl = "https://cdn.pixabay.com/photo/2014/11/28/19/10/lump-sugar-549096_1280.jpg",
+                        ),
+                        amount = 100,
+                    ),
                 )
             ),
         )
