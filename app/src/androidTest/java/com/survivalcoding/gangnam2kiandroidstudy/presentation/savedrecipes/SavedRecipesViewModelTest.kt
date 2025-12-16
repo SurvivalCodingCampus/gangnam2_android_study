@@ -1,11 +1,10 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saveedrecipes
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes
 
 import android.content.Context
-import androidx.lifecycle.SavedStateHandle
 import androidx.test.core.app.ApplicationProvider
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
-import org.junit.Assert.assertTrue
+import org.junit.Assert
 import org.junit.Test
 
 class SavedRecipesViewModelTest {
@@ -17,11 +16,10 @@ class SavedRecipesViewModelTest {
                     context = ApplicationProvider.getApplicationContext<Context>()
                 )
             ),
-            savedStateHandle = SavedStateHandle()
         )
 
         // then
-        assertTrue(viewModel.uiState.value.recipes.isNotEmpty())
+        Assert.assertTrue(viewModel.uiState.value.recipes.isNotEmpty())
 
     }
 }

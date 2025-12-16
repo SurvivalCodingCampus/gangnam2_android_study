@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.signin
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,7 +38,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun SignInScreen() {
+fun SignInScreen(
+    onLogin: () -> Unit = {},
+    onSignUp: () -> Unit = {},
+) {
     // 비밀번호 필드로 포커스를 이동시키기 위한 FocusRequester 생성
     val passwordFocusRequester = remember { FocusRequester() }
     // 키보드 컨트롤러
@@ -114,6 +118,7 @@ fun SignInScreen() {
 
         BigButton(
             text = "Sign In",
+            onClick = onLogin,
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -145,6 +150,7 @@ fun SignInScreen() {
                 "Sign Up",
                 style = AppTextStyles.smallerTextBold,
                 color = AppColors.primary100,
+                modifier = Modifier.clickable { onSignUp() }
             )
         }
 

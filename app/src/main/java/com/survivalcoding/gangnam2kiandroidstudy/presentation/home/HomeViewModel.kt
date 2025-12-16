@@ -1,12 +1,10 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.home
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
 import kotlinx.coroutines.FlowPreview
@@ -99,15 +97,17 @@ class HomeViewModel(
 
     companion object {
         const val DEBOUNCE_TIMEOUT_MILLIS = 500L
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                // Application 인스턴스를 가져와서 recipeRepository를 얻습니다.
-                val recipeRepository = (this[APPLICATION_KEY] as AppApplication).recipeRepository
-                // HomeViewModel 인스턴스를 생성하여 반환합니다.
-                HomeViewModel(
-                    recipeRepository,
-                )
-            }
+    }
+}
+
+class HomeViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+            // 전달받은 application을 안전하게 캐스팅하여 repository 생성
+            val recipeRepository = (application as AppApplication).recipeRepository
+            @Suppress("UNCHECKED_CAST")
+            return HomeViewModel(recipeRepository) as T
         }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
