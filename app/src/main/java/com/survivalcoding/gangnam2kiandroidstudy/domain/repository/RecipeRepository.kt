@@ -4,6 +4,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 
 interface RecipeRepository {
-    suspend fun findRecipe(id: Long): Result<Recipe, String>
-    suspend fun findRecipes(): Result<List<Recipe>, String>
+    suspend fun findRecipe(id: Long): Recipe
+    suspend fun findRecipes(): List<Recipe>
 }
