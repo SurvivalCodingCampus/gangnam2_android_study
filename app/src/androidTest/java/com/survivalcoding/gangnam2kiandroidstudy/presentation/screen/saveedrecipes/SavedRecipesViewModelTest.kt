@@ -1,7 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saveedrecipes
 
 import android.content.Context
-import androidx.lifecycle.SavedStateHandle
 import androidx.test.core.app.ApplicationProvider
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
@@ -18,7 +17,6 @@ class SavedRecipesViewModelTest {
                     context = ApplicationProvider.getApplicationContext<Context>()
                 )
             ),
-            savedStateHandle = SavedStateHandle()
         )
 
         // then
