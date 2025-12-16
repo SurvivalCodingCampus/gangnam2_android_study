@@ -8,7 +8,8 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main.MainScreen
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipes.SavedRecipesScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipe_detail.SavedRecipeItemRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipes.SavedRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_in.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_up.SignUpScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashScreen
@@ -44,6 +45,7 @@ fun NavigationRoot() {
                     topLevelBackStack.add(Route.Main)
                 })
             }
+
             entry<Route.Main> {
                 val backStack = rememberNavBackStack(Route.Home)
                 MainScreen(
@@ -55,13 +57,21 @@ fun NavigationRoot() {
                             ), entryProvider = entryProvider {
                                 entry<Route.Home> { HomeRoot() }
                                 entry<Route.SavedRecipes> {
-                                    SavedRecipesScreen()
+                                    SavedRecipesRoot(onRecipeClick = {
+                                        topLevelBackStack.add(Route.RecipeItem(it))
+                                    })
                                 }
+
                                 entry<Route.Notifications> { HomeRoot() }
                                 entry<Route.Profile> { HomeRoot() }
+
                             })
+
                     })
 
+            }
+            entry<Route.RecipeItem> { navEntry ->
+                SavedRecipeItemRoot(navEntry.recipe)
             }
         })
 }
