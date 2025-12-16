@@ -1,7 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.rounting
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -18,7 +17,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.Spla
 fun NavigationRoot() {
     val topLevelBackStack = rememberNavBackStack(Route.Splash)
     NavDisplay(
-        modifier = Modifier, backStack = topLevelBackStack, entryDecorators = listOf(
+        backStack = topLevelBackStack, entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator()
         ), entryProvider = entryProvider {
@@ -50,7 +49,7 @@ fun NavigationRoot() {
                 MainScreen(
                     backStack = backStack, body = {
                         NavDisplay(
-                            modifier = Modifier, backStack = backStack, entryDecorators = listOf(
+                            backStack = backStack, entryDecorators = listOf(
                                 rememberSaveableStateHolderNavEntryDecorator(),
                                 rememberViewModelStoreNavEntryDecorator()
                             ), entryProvider = entryProvider {
