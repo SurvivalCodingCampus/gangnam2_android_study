@@ -128,7 +128,8 @@ private fun HomeRecipeCardPreview() {
     val sample = Recipe(
         id = 1,
         title = "Sample Salad",
-        chef = "Chef",
+        chefId = 1,
+        chefName = "Chef",
         time = "15 min",
         rating = 4.5,
         imageUrls = "",

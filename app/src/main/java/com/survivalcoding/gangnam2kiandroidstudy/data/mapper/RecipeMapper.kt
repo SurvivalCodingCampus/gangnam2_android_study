@@ -8,7 +8,8 @@ fun RecipeDto.toModel(): Recipe {
     return Recipe(
         id = this.id ?: -1,
         title = this.name ?: "",
-        chef = this.chef ?: "Unknown",
+        chefId = this.chefId ?: -1,
+        chefName = chefName ?: "UNKNOWN",
         time = this.time ?: "-",
         rating = this.rating ?: 0.0,
         imageUrls = this.image ?: "",

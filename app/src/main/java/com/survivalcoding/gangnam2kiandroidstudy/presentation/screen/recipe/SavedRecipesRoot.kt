@@ -17,7 +17,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 fun SavedRecipesRoot(
     modifier: Modifier = Modifier,
     application: AppApplication =
-        LocalContext.current.applicationContext as AppApplication
+        LocalContext.current.applicationContext as AppApplication,
+    onNavigateToRecipeDetail: (Int) -> Unit
 ) {
     val viewModel: SavedRecipesViewModel = viewModel(
         factory = SavedRecipesViewModel.factory(application)
@@ -27,14 +28,15 @@ fun SavedRecipesRoot(
 
     Scaffold(
         containerColor = AppColors.white
-    ) { innerpadding ->
+    ) { innerPadding ->
         SavedRecipesScreen(
             modifier = modifier
                 .fillMaxSize()
-                .padding(innerpadding)
+                .padding(innerPadding)
                 .padding(horizontal = 30.dp),
             state = state,
-            onBookmarkClick = viewModel::onBookmarkClick
+            onBookmarkClick = viewModel::onBookmarkClick,
+            onRecipeClick = onNavigateToRecipeDetail
         )
     }
 }

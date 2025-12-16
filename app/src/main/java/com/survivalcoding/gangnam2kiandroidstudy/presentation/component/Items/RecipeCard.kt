@@ -43,6 +43,8 @@ fun RecipeCard(
     rating: Double,
     isBookmarked: Boolean,
     onBookmarkClick: () -> Unit,
+    onClick: () -> Unit,
+    showTitleAndChef: Boolean = true,
     modifier: Modifier = Modifier
 ) {
 
@@ -51,6 +53,7 @@ fun RecipeCard(
             .height(150.dp)
             .fillMaxWidth()
             .clip(RoundedCornerShape(10.dp))
+            .clickable { onClick() }
     ) {
 
         // Background Image
@@ -84,26 +87,34 @@ fun RecipeCard(
             verticalAlignment = Alignment.Bottom
         ) {
 
-            // Left
-            Column(
-                modifier = Modifier.width(200.dp),
-                verticalArrangement = Arrangement.Bottom
+            // Left (조건부 렌더링)
+            Box(
+                modifier = Modifier
+                    .weight(1f)
             ) {
-                Text(
-                    text = name,
-                    style = AppTextStyles.smallTextBold.copy(color = AppColors.white),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(end = 15.dp)
-                )
-                Text(
-                    text = "By $chef",
-                    style = AppTextStyles.smallerTextRegular.copy(
-                        color = AppColors.white,
-                        fontSize = 8.sp
-                    )
-                )
+                if (showTitleAndChef) {
+                    Column(
+                        verticalArrangement = Arrangement.Bottom
+                    ) {
+                        Text(
+                            text = name,
+                            style = AppTextStyles.smallTextBold.copy(color = AppColors.white),
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.padding(end = 15.dp)
+                        )
+
+                        Text(
+                            text = "By $chef",
+                            style = AppTextStyles.smallerTextRegular.copy(
+                                color = AppColors.white,
+                                fontSize = 8.sp
+                            )
+                        )
+                    }
+                }
             }
+
 
             // Right (Rating + Time + Bookmark)
             Column(
@@ -181,5 +192,6 @@ private fun RecipeCardPreview() {
         rating = 4.0,
         isBookmarked = true,
         onBookmarkClick = {},
+        onClick = {}
     )
 }

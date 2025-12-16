@@ -6,7 +6,8 @@ import kotlinx.serialization.Serializable
 data class Recipe(
     val id: Int,
     val title: String,
-    val chef: String,
+    val chefId: Int,
+    val chefName: String,
     val time: String,
     val rating: Double,
     val imageUrls: String,
