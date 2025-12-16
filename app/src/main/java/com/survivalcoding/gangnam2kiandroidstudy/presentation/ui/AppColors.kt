@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.ui
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.ui
 
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
