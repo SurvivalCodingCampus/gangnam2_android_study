@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.core.rounting
+package com.survivalcoding.gangnam2kiandroidstudy.core.routing
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator

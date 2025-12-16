@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.core.rounting
+package com.survivalcoding.gangnam2kiandroidstudy.core.routing
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
