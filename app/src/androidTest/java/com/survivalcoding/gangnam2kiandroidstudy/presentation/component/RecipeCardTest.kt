@@ -16,6 +16,7 @@ class RecipeCardTest {
     @Test
     fun testRecipeCard() {
         val recipe = Recipe(
+            id = 1,
             name = "spice roasted chicken with flavored rice",
             imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
             chef = "Chef John",

@@ -1,8 +1,9 @@
+@file:OptIn(FlowPreview::class)
+
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -25,7 +26,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-@FlowPreview
 class HomeViewModel(
     private val recipeRepository: RecipeRepository,
     homeUiState: HomeUiState = HomeUiState(),
@@ -91,10 +91,9 @@ class HomeViewModel(
     companion object {
         const val DEBOUNCE_TIMEOUT_MILLIS = 500L
 
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
+        fun factory(application: AppApplication): ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val repository = (this[APPLICATION_KEY] as AppApplication).recipeRepository
-                HomeViewModel(repository)
+                HomeViewModel(application.recipeRepository)
             }
         }
     }

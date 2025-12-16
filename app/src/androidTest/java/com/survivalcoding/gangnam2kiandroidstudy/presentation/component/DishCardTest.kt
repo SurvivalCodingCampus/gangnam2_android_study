@@ -16,6 +16,7 @@ class DishCardTest {
     @Test
     fun testDishCard() {
         val recipe = Recipe(
+            id = 1,
             name = "Vegetable and Chicken",
             imageUrl = "",
             chef = "Laura Goodman",

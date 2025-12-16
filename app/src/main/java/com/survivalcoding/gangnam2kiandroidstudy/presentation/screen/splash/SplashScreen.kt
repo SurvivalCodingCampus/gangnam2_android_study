@@ -27,7 +27,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun SplashScreen(modifier: Modifier = Modifier) {
+fun SplashScreen(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+) {
     Image(
         painter = painterResource(R.drawable.splash_background),
         contentDescription = "splash background",
@@ -93,7 +96,8 @@ fun SplashScreen(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .padding(top = 64.dp)
                 .padding(horizontal = 66.dp),
-        ) {}
+            onClick = onClick,
+        )
     }
 }
 

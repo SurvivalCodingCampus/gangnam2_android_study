@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.savedrecipes
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult
@@ -15,7 +17,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class SavedRecipesViewModelTest {
 
     @get:Rule
@@ -36,6 +37,7 @@ class SavedRecipesViewModelTest {
         coGiven { repository.getSavedRecipes() } returns AppResult.Success(
             listOf(
                 Recipe(
+                    id = 1,
                     name = "Test Recipe",
                     imageUrl = "imageUrl",
                     chef = "chef",
@@ -43,6 +45,7 @@ class SavedRecipesViewModelTest {
                     rating = 4.5,
                 ),
                 Recipe(
+                    id = 2,
                     name = "Test Recipe2",
                     imageUrl = "imageUrl",
                     chef = "chef",

@@ -1,3 +1,5 @@
+@file:OptIn(FlowPreview::class)
+
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes
 
 import androidx.lifecycle.ViewModel
@@ -24,7 +26,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-@FlowPreview
 class SearchRecipesViewModel(
     private val repository: RecipeRepository,
     state: SearchRecipesUiState = SearchRecipesUiState(),
