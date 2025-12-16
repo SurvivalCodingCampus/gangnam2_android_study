@@ -94,6 +94,10 @@ class ProcedureDataSourceImpl : ProcedureDataSource {
     }
   ]
 }"""
-        return Json.decodeFromString(file)
+        return try {
+            Json.decodeFromString(file)
+        } catch (e: Exception) {
+            Procedures(emptyList())
+        }
     }
 }
