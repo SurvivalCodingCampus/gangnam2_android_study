@@ -4,7 +4,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedures
 import kotlinx.serialization.json.Json
 
 class ProcedureDataSourceImpl : ProcedureDataSource {
-    override fun getAllProcedure(): Procedures {
+    override suspend fun getAllProcedures(): Procedures {
         val file = """{
   "procedures": [
     {

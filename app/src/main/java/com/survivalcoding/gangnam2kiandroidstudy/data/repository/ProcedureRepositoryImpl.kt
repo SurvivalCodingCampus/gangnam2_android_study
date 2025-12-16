@@ -7,7 +7,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepo
 class ProcedureRepositoryImpl(
     private val procedureDataSource: ProcedureDataSource
 ) : ProcedureRepository {
-    override fun getProcedureByRecipeId(id: Int): List<Procedure> {
-        return procedureDataSource.getAllProcedure().procedures.filter { it.recipeId == id }
+    override suspend fun getProcedureByRecipeId(id: Int): List<Procedure> {
+        return procedureDataSource.getAllProcedures().procedures.filter { it.recipeId == id }
     }
 }
