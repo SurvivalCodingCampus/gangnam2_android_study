@@ -9,11 +9,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
+import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.FilterRecipesUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchState
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 
 class SearchRecipesViewModel(
     private val recipeRepository: RecipeRepository,
+    private val filterRecipesUsecase: FilterRecipesUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SearchRecipesState())
@@ -54,13 +55,22 @@ class SearchRecipesViewModel(
     }
 
     private fun filterRecipes(query: String) {
-        _state.update {
-            it.copy(
-                filteredRecipes = it.recipes.filter { recipe ->
-                    recipe.title.lowercase().contains(query.lowercase())
+
+        viewModelScope.launch {
+            when (val result = filterRecipesUsecase.execute(query)) {
+                is Result.Failure -> {
+                    // 에러메시지 다이얼로그 띄우기 등등
                 }
-            )
+                is Result.Success -> {
+                    _state.update {
+                        it.copy(
+                            filteredRecipes = result.data,
+                        )
+                    }
+                }
+            }
         }
+
     }
 
     fun searchRecipes(query: String) {
@@ -91,9 +101,11 @@ class SearchRecipesViewModel(
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val repository =
-                    (this[APPLICATION_KEY] as AppApplication).recipeRepository
-                SearchRecipesViewModel(repository)
+                val application = (this[APPLICATION_KEY] as AppApplication)
+                SearchRecipesViewModel(
+                    application.recipeRepository,
+                    application.filterRecipesUseCase,
+                )
             }
         }
     }

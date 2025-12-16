@@ -22,6 +22,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -74,6 +75,8 @@ class MainActivity : ComponentActivity() {
 
         val name = Hero("", 10)
         println("Hero: ${name.hashCode()}")
+
+        this.applicationContext
 
         // 매직
         val viewModel: MainViewModel by viewModels {

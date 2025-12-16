@@ -6,8 +6,13 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.repository.DataRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.DataRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.FilterRecipesUseCase
 
 class AppApplication : Application() {
+
+    val filterRecipesUseCase: FilterRecipesUseCase by lazy {
+        FilterRecipesUseCase(recipeRepository)
+    }
 
     val recipeRepository: RecipeRepository by lazy {
         RecipeRepositoryImpl(MockRecipeDataSourceImpl())
