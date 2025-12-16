@@ -64,7 +64,8 @@ class RecipeRepositoryImpl(
 
             val recipes = response.body?.toModel() ?: throw IllegalStateException("응답 데이터가 비어있습니다")
 
-            recipes.first { it.id == recipeId }
+            recipes.firstOrNull { it.id == recipeId }
+                ?: throw IllegalStateException("Recipe with id $recipeId not found")
         }
     }
 

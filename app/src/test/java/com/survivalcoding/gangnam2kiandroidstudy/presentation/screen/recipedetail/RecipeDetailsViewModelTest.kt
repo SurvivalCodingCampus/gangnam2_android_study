@@ -57,6 +57,8 @@ class RecipeDetailsViewModelTest {
         )
 
         val recipeId = 1L
+        assertFalse(viewModel.uiState.value.isLoading)
+
         viewModel.fetchRecipeDetails(recipeId)
 
         assertTrue(viewModel.uiState.value.isLoading)

@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -21,7 +22,9 @@ fun RecipeDetailsRoot(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    viewModel.fetchRecipeDetails(id)
+    LaunchedEffect(id) {
+        viewModel.fetchRecipeDetails(id)
+    }
 
     RecipeDetailsScreen(
         modifier = modifier,

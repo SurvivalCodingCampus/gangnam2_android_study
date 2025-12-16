@@ -75,7 +75,7 @@ fun IngredientItem(
 @Composable
 fun IngredientItemPreview() {
     val ingredient = Ingredient(
-        name = "Tomatos",
+        name = "Tomatoes",
         imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
         amount = "500g",
     )
@@ -86,7 +86,7 @@ fun IngredientItemPreview() {
 @Composable
 fun LongNameIngredientItemPreview() {
     val ingredient = Ingredient(
-        name = "Tomatos".repeat(10),
+        name = "Tomatoes".repeat(10),
         imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
         amount = "500g",
     )

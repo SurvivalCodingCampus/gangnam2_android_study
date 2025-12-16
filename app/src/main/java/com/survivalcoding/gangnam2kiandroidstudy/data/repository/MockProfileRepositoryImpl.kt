@@ -119,6 +119,7 @@ object MockProfileRepositoryImpl : ProfileRepository {
     )
 
     override suspend fun getProfileByRecipeId(recipeId: Long): Profile {
-        return mockProfiles.first { it.id == recipeId }
+        return mockProfiles.firstOrNull { it.id == recipeId }
+            ?: throw IllegalStateException("Profile not found for recipeId: $recipeId")
     }
 }
