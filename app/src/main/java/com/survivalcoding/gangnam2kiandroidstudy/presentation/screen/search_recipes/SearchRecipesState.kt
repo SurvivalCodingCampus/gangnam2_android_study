@@ -1,6 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipes
 
-import com.survivalcoding.gangnam2kiandroidstudy.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 
 data class SearchRecipesState(
     val searchInputText: String = "",
