@@ -30,6 +30,7 @@ fun MainScreen(
                     onClick = {
                         backStack.clear()
                         backStack.add(Route.Home)
+
                     },
                     icon = {
                         Icon(painter = painterResource(R.drawable.outline_home), "홈화면")
