@@ -18,7 +18,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.rounting.Route
 
 @Composable
 fun MainScreen(
-    modifier: Modifier,
     backStack: NavBackStack<NavKey>,
     body: @Composable () -> Unit
 ) {
