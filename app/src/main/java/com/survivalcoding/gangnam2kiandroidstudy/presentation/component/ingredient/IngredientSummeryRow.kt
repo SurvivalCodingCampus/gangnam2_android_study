@@ -22,13 +22,13 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 @Composable
 fun IngredientSummaryRow(
     serveCount: Int = 1,
-    ingredientCount: Int,
+    rightLabel: String,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 22.dp),
+            .padding(top = 22.dp, bottom = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -55,9 +55,9 @@ fun IngredientSummaryRow(
             )
         }
 
-        // Ingredient count
+        // Right text (Items / Steps)
         Text(
-            text = "$ingredientCount Items",
+            text = rightLabel,
             style = AppTextStyles.smallerTextRegular.copy(
                 color = AppColors.gray3
             )

@@ -3,7 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.data_source
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.ProcedureDto
 
 class MockProcedureDataSourceImpl : ProcedureDataSource {
-    
+
     private val procedures = listOf(
         // Recipe 1
         ProcedureDto(1, 1, "Preheat the oven to 350°F (175°C)."),
@@ -28,13 +28,29 @@ class MockProcedureDataSourceImpl : ProcedureDataSource {
         ),
 
         // Recipe 2
-        ProcedureDto(2, 1, "Marinate the chicken with spices and let it sit for 30 minutes."),
+        ProcedureDto(
+            2,
+            1,
+            "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?"
+        ),
         ProcedureDto(
             2,
             2,
+            "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?\n" +
+                    "Tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?"
+        ),
+        ProcedureDto(
+            2,
+            3,
+            "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?"
+        ),
+        ProcedureDto(2, 4, "Marinate the chicken with spices and let it sit for 30 minutes."),
+        ProcedureDto(
+            2,
+            5,
             "Preheat the oven to 375°F (190°C) and roast the chicken for 45 minutes."
         ),
-        ProcedureDto(2, 3, "Cook the rice with chicken broth and add vegetables for flavor."),
+        ProcedureDto(2, 6, "Cook the rice with chicken broth and add vegetables for flavor."),
 
         // Recipe 3
         ProcedureDto(3, 1, "Cook the rice and let it cool."),
@@ -51,7 +67,7 @@ class MockProcedureDataSourceImpl : ProcedureDataSource {
         ProcedureDto(4, 3, "Add rice cakes and fish cakes, cook until the sauce thickens.")
     )
 
-    override suspend fun getProcedures(recipeId: Int): List<ProcedureDto> {
+    override suspend fun getProceduresByRecipeId(recipeId: Int): List<ProcedureDto> {
         return procedures
             .filter { it.recipeId == recipeId }
             .sortedBy { it.step }   // step 순서 보장

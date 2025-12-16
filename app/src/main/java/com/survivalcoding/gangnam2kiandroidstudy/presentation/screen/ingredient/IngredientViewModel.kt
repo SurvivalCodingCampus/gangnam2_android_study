@@ -6,36 +6,26 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ChefRepository
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetRecipeDetailUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class IngredientViewModel(
-    private val recipeRepository: RecipeRepository,
-    private val ingredientRepository: IngredientRepository,
-    private val chefRepository: ChefRepository
-    // private val procedureRepository: ProcedureRepository
+    private val getRecipeDetailUseCase: GetRecipeDetailUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(IngredientState())
     val state = _state.asStateFlow()
 
+
     fun loadIngredients(recipeId: Int) {
         viewModelScope.launch {
-            val recipe = recipeRepository.getRecipeById(recipeId)
-            val ingredients = ingredientRepository.getIngredientsByRecipeId(recipeId)
-            val chef = recipe?.chefId?.let { chefId ->
-                chefRepository.getChefById(chefId)
-            }
+            val detail = getRecipeDetailUseCase.execute(recipeId) ?: return@launch
 
             _state.update {
                 it.copy(
-                    recipe = recipe,
-                    author = chef,
-                    ingredients = ingredients
+                    recipeDetail = detail
                 )
             }
         }
@@ -52,9 +42,7 @@ class IngredientViewModel(
             viewModelFactory {
                 initializer {
                     IngredientViewModel(
-                        recipeRepository = application.recipeRepository,
-                        ingredientRepository = application.ingredientRepository,
-                        chefRepository = application.chefRepository
+                        getRecipeDetailUseCase = application.getRecipeDetailUseCase
                     )
                 }
             }
