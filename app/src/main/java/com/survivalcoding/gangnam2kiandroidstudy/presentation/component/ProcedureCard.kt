@@ -26,14 +26,16 @@ fun ProcedureCard(procedure: Procedure, modifier: Modifier = Modifier) {
         ) {
             Text(
                 "Step ${procedure.step}",
-                fontWeight = FontWeight.SemiBold,
-                style = AppTextStyles.normalTextRegular
+                style = AppTextStyles.smallerTextRegular.copy(
+                    fontWeight = FontWeight.SemiBold
+                )
             )
             Text(
                 procedure.content,
                 modifier = Modifier.padding(top = 5.dp),
-                color = AppColors.gray3,
-                style = AppTextStyles.smallTextRegular
+                style = AppTextStyles.smallerTextRegular.copy(
+                    color = AppColors.gray3
+                )
             )
         }
     }
