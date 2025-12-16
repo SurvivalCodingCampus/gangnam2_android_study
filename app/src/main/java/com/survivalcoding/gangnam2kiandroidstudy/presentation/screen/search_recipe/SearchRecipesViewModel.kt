@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
-import com.survivalcoding.gangnam2kiandroidstudy.data.core.Result
+import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchState
 import kotlinx.coroutines.FlowPreview
@@ -174,5 +174,15 @@ class SearchRecipesViewModel(
                 )
             }
         }
+
+        fun factory(application: AppApplication): ViewModelProvider.Factory =
+            viewModelFactory {
+                initializer {
+                    SearchRecipesViewModel(
+                        recipeRepository = application.recipeRepository,
+                        savedStateHandle = createSavedStateHandle(),
+                    )
+                }
+            }
     }
 }

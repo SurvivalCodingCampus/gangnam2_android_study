@@ -1,6 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
-import com.survivalcoding.gangnam2kiandroidstudy.data.core.Result
+import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 

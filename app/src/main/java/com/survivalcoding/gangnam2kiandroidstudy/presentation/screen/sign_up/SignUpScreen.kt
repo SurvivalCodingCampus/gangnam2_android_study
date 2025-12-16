@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_up
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,7 +51,8 @@ fun SignUpScreen(
 ) {
     Box(
         modifier = modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(color = AppColors.white),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -101,6 +103,7 @@ fun SignUpScreen(
                 modifier = Modifier
                     .padding(vertical = 20.dp),
                 onValueChange = onPasswordChange,
+                isPassword = true,
             )
 
             // 비밀번호 확인
@@ -109,6 +112,7 @@ fun SignUpScreen(
                 placeholder = "Retype Password",
                 value = confirmPassword,
                 onValueChange = onConfirmPasswordChange,
+                isPassword = true,
             )
 
             // 이용약관 동의
