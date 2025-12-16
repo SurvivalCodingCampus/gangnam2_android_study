@@ -12,5 +12,6 @@ fun RecipeDto.toRecipe(): Recipe {
         time = time ?: "",
         rating = rating ?: 0.0,
         category = category ?: "",
+
     )
 }

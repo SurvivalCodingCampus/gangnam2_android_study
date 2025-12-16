@@ -8,4 +8,7 @@ data class Recipe(
     val time: String,
     val rating: Double,
     val category: String,
+    //val reviewCount: Int,
+    //val ingredients: List<Ingredient>,
+    //val procedures: List<Procedure>,
 )

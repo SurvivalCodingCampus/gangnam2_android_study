@@ -30,16 +30,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun RecipeCard(
-    name: String,
-    imageUrl: String,
-    chef: String,
-    time: String,
-    rating: Double,
+    recipe: Recipe,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
@@ -51,14 +48,12 @@ fun RecipeCard(
             .clickable(onClick = onClick),
 
 
-
-
-    ) {
+        ) {
 
         // Background Image
         AsyncImage(
-            model = imageUrl,
-            contentDescription = name,
+            model = recipe.image,
+            contentDescription = recipe.name,
             contentScale = ContentScale.Crop,
             modifier = Modifier.matchParentSize(),
         )
@@ -92,14 +87,14 @@ fun RecipeCard(
                 verticalArrangement = Arrangement.Bottom
             ) {
                 Text(
-                    text = name,
+                    text = recipe.name,
                     style = AppTextStyles.smallTextBold.copy(color = AppColors.white),
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(end = 15.dp)
                 )
                 Text(
-                    text = "By $chef",
+                    text = "By ${recipe.chef}",
                     style = AppTextStyles.smallerTextRegular.copy(
                         color = AppColors.white,
                         fontSize = 8.sp
@@ -136,7 +131,7 @@ fun RecipeCard(
                         Spacer(Modifier.width(2.dp))
 
                         Text(
-                            text = rating.toString(),
+                            text = recipe.rating.toString(),
                             style = AppTextStyles.smallerTextRegular.copy(fontSize = 8.sp),
                             modifier = Modifier.size(12.dp),
                         )
@@ -156,7 +151,7 @@ fun RecipeCard(
                     )
                     Spacer(Modifier.width(5.dp))
                     Text(
-                        text = time,
+                        text = recipe.time,
                         style = AppTextStyles.smallerTextRegular.copy(color = AppColors.white)
                     )
                     Spacer(Modifier.width(10.dp))
@@ -187,10 +182,18 @@ fun RecipeCard(
 @Composable
 private fun RecipeCardPreview() {
     RecipeCard(
-        name = "Traditional spare ribs baked",
-        imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
+        recipe = getRecipe()
+    )
+}
+
+private fun getRecipe(): Recipe {
+    return Recipe(
+        id = 1,
+        name = "Kimchi Fried Rice",
+        image = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
         chef = "Chef John",
         time = "20 min",
-        rating = 4.0
+        rating = 4.0,
+        category = "Korean",
     )
 }

@@ -13,7 +13,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.notifications.NotificationsScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.profile.ProfileScreen
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetails.RecipeDetailsScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetails.RecipeDetailsRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes.SavedRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.signin.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.signup.SignUpScreen
@@ -89,16 +89,7 @@ fun NavigationRoot(
                 HomeRoot()
             }
 
-            entry<Route.SavedRecipes> {
-                SavedRecipesRoot(
-                    onItemClick = { recipeId ->
-                        Log.d("NavigationRoot", "SavedRecipes -> RecipeDetails: $recipeId")
-                        topLevelBackStack.add(Route.RecipeDetail(recipeId))
-                    }
-                )
-            }
-
-            entry<Route.RecipeDetail> { RecipeDetailsScreen(it.recipeId) }
+            entry<Route.RecipeDetails> { RecipeDetailsRoot(it.recipeId) }
 
             entry<Route.Main> {
                 val backStack = rememberNavBackStack(Route.Home)
