@@ -15,10 +15,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_up.Sig
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashScreen
 
 @Composable
-fun NavigationRoot(modifier: Modifier = Modifier) {
+fun NavigationRoot() {
     val topLevelBackStack = rememberNavBackStack(Route.Splash)
     NavDisplay(
-        modifier = modifier,
+        modifier = Modifier,
         backStack = topLevelBackStack,
         entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),
@@ -60,7 +60,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                     backStack = backStack,
                     body = {
                         NavDisplay(
-                            modifier = modifier,
+                            modifier = Modifier,
                             backStack = backStack,
                             entryProvider = entryProvider {
                                 entry<Route.Home> { HomeRoot() }
