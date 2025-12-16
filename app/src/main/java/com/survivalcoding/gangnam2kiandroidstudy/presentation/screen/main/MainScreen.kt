@@ -15,7 +15,7 @@ import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.core.routing.Route
-import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppColors
 
 @Composable
 fun MainScreen(
@@ -34,16 +34,22 @@ fun MainScreen(
 
                     },
                     icon = {
-                        if(currentBackStack== Route.Home){
+                        if (currentBackStack == Route.Home) {
 
-                            Icon(painter = painterResource(R.drawable.outline_home), "홈화면", tint = AppColors.primary100)
-                        }
-                        else{
-                            Icon(painter = painterResource(R.drawable.outline_home), "홈화면", tint = AppColors.gray4)
+                            Icon(
+                                painter = painterResource(R.drawable.outline_home),
+                                "홈화면",
+                                tint = AppColors.primary100
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(R.drawable.outline_home),
+                                "홈화면",
+                                tint = AppColors.gray4
+                            )
 
                         }
                     },
-
                     )
                 NavigationBarItem(
                     selected = currentBackStack == Route.SavedRecipes,
@@ -52,14 +58,13 @@ fun MainScreen(
                         backStack.add(Route.SavedRecipes)
                     },
                     icon = {
-                        if(currentBackStack==Route.SavedRecipes){
+                        if (currentBackStack == Route.SavedRecipes) {
                             Icon(
                                 painter = painterResource(R.drawable.outline_bookmark_inactive),
                                 "저장된 레시피 화면",
                                 tint = AppColors.primary100
                             )
-                        }
-                        else{
+                        } else {
                             Icon(
                                 painter = painterResource(R.drawable.outline_bookmark_inactive),
                                 "저장된 레시피 화면",
@@ -68,6 +73,7 @@ fun MainScreen(
                         }
 
                     },
+
 
                     )
                 NavigationBarItem(
@@ -100,9 +106,11 @@ fun MainScreen(
 
         }
     ) { paddingValues ->
-        Column(modifier = Modifier
-            .padding(paddingValues)
-            .fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+        ) {
             body() // MainScreen의 주 내용을 호출합니다.
         }
 
