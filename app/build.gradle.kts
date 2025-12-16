@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     //직렬화
     alias(libs.plugins.kotlin.serialization)
+
 }
 
 android {
@@ -74,4 +75,11 @@ dependencies {
 
     //runTest
     testImplementation(libs.kotlinx.coroutines.test)
+
+    //nav3
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.androidx.material3.adaptive.navigation3)
+    implementation(libs.kotlinx.serialization.core)
 }
