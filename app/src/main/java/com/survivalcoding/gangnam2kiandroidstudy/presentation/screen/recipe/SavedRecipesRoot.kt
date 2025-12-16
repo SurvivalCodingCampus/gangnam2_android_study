@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipe
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,32 +11,26 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
-import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 
 @Composable
-fun HomeRoot(
+fun SavedRecipesRoot(
     modifier: Modifier = Modifier,
     application: AppApplication =
-        LocalContext.current.applicationContext as AppApplication,
-    onNavigateToSearch: () -> Unit,
+        LocalContext.current.applicationContext as AppApplication
 ) {
-    val viewModel: HomeViewModel = viewModel(
-        factory = HomeViewModel.Factory(application)
+    val viewModel: SavedRecipesViewModel = viewModel(
+        factory = SavedRecipesViewModel.factory(application)
     )
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    Scaffold(
-        containerColor = AppColors.white
-    ) { innerPadding ->
-        HomeScreen(
+    Scaffold { innerpadding ->
+        SavedRecipesScreen(
             modifier = modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .padding(innerpadding)
                 .padding(horizontal = 30.dp),
             state = state,
-            onSelectCategory = viewModel::onSelectCategory,
-            onSearchClick = onNavigateToSearch
         )
     }
 }

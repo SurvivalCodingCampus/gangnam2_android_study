@@ -13,7 +13,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,19 +34,28 @@ fun SearchRecipesScreen(
     state: SearchRecipesState,
     onKeywordChange: (String) -> Unit,
     onFilterClick: () -> Unit,
+    onBackClick: () -> Unit,
 ) {
+    val focusRequester = remember { FocusRequester() }
+
+    // 화면 진입 시 포커스 요청
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = AppColors.white,
         topBar = {
             CustomAppTopBar(
-                text = stringResource(R.string.search_recipes_title), showBackButton = true
+                text = stringResource(R.string.search_recipes_title),
+                showBackButton = true,
+                onBackClick = onBackClick
             )
         }) { innerPadding ->
 
         LazyColumn(
-            modifier = Modifier
+            modifier = modifier
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
@@ -57,6 +69,7 @@ fun SearchRecipesScreen(
                     value = state.searchKeyword,
                     onValueChange = onKeywordChange,
                     onFilterClick = onFilterClick,
+                    focusRequester = focusRequester
                 )
             }
 

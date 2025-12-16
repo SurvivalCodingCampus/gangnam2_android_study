@@ -19,9 +19,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
@@ -33,7 +34,9 @@ fun SearchBar(
     modifier: Modifier = Modifier,
     value: String,
     placeholderText: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    enabled: Boolean = true,
+    focusRequester: FocusRequester? = null,
 ) {
     var isFocused by rememberSaveable { mutableStateOf(false) }
 
@@ -68,7 +71,15 @@ fun SearchBar(
             BasicTextField(
                 value = value,
                 onValueChange = onValueChange,
-                modifier = focusModifier.weight(1f),
+                enabled = enabled,
+                modifier = modifier
+                    .then(
+                        if (focusRequester != null) {
+                            Modifier.focusRequester(focusRequester)
+                        } else {
+                            Modifier
+                        }
+                    ),
                 singleLine = true,
                 textStyle = AppTextStyles.smallerTextRegular.copy(
                     color = AppColors.black

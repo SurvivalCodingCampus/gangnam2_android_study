@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_up
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,11 +13,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -43,13 +39,15 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
+    state: SignUpState,
+    onNameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onConfirmPasswordChange: (String) -> Unit,
+    onTermsCheckedChange: (Boolean) -> Unit,
+    onSignUpClick: () -> Unit,
+    onNavigateToSignIn: () -> Unit,
 ) {
-    var nameInput by rememberSaveable { mutableStateOf("") }
-    var emailInput by rememberSaveable { mutableStateOf("") }
-    var passwordInput by rememberSaveable { mutableStateOf("") }
-    var confirmPasswordInput by rememberSaveable { mutableStateOf("") }
-    var checked by rememberSaveable { mutableStateOf(false) }
-
     val emailFocusRequester = remember { FocusRequester() }
     val passwordFocusRequester = remember { FocusRequester() }
     val confirmPasswordFocusRequester = remember { FocusRequester() }
@@ -83,9 +81,9 @@ fun SignUpScreen(
 
         item {
             InputField(
-                value = nameInput,
+                value = state.name,
                 label = stringResource(R.string.label_name),
-                onValueChange = { nameInput = it },
+                onValueChange = onNameChange,
                 placeholderText = stringResource(R.string.placeholder_name),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next
@@ -102,9 +100,9 @@ fun SignUpScreen(
 
         item {
             InputField(
-                value = emailInput,
+                value = state.email,
                 label = stringResource(R.string.label_email),
-                onValueChange = { emailInput = it },
+                onValueChange = onEmailChange,
                 placeholderText = stringResource(R.string.placeholder_email),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
@@ -123,9 +121,9 @@ fun SignUpScreen(
 
         item {
             InputField(
-                value = passwordInput,
+                value = state.password,
                 label = stringResource(R.string.label_password),
-                onValueChange = { passwordInput = it },
+                onValueChange = onPasswordChange,
                 placeholderText = stringResource(R.string.placeholder_password),
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
@@ -145,9 +143,9 @@ fun SignUpScreen(
 
         item {
             InputField(
-                value = confirmPasswordInput,
+                value = state.confirmPassword,
                 label = stringResource(R.string.label_confirm_password),
-                onValueChange = { confirmPasswordInput = it },
+                onValueChange = onConfirmPasswordChange,
                 placeholderText = stringResource(R.string.placeholder_confirm_password),
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
@@ -169,8 +167,8 @@ fun SignUpScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 AppCheckBox(
-                    checked = checked,
-                    onCheckedChange = { checked = it }
+                    checked = state.isTermsChecked,
+                    onCheckedChange = onTermsCheckedChange,
                 )
 
                 Spacer(modifier = Modifier.width(5.dp))
@@ -185,6 +183,8 @@ fun SignUpScreen(
         item {
             BigButton(
                 text = stringResource(R.string.button_sign_up),
+                enabled = state.isSignUpEnabled,
+                onClick = onSignUpClick
             )
         }
 
@@ -202,7 +202,7 @@ fun SignUpScreen(
             AuthBottomText(
                 promptText = stringResource(R.string.prompt_already_member),
                 actionText = stringResource(R.string.action_sign_in_again),
-                onActionClick = { /* Navigate to SignIn */ }
+                onActionClick = onNavigateToSignIn
             )
         }
     }
@@ -211,6 +211,23 @@ fun SignUpScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpScreenPreview(modifier: Modifier = Modifier.padding(horizontal = 30.dp)) {
-    SignUpScreen(modifier = modifier.fillMaxSize())
+fun SignUpScreenEnabledPreview() {
+    SignUpScreen(
+        modifier = Modifier.padding(horizontal = 30.dp),
+        state = SignUpState(
+            name = "홍길동",
+            email = "a@a.com",
+            password = "1234",
+            confirmPassword = "1234",
+            isTermsChecked = true,
+            isSignUpEnabled = true
+        ),
+        onNameChange = {},
+        onEmailChange = {},
+        onPasswordChange = {},
+        onConfirmPasswordChange = {},
+        onTermsCheckedChange = {},
+        onSignUpClick = {},
+        onNavigateToSignIn = {}
+    )
 }

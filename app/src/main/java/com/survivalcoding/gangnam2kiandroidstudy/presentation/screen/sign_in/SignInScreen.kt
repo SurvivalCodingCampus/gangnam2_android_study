@@ -10,11 +10,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -38,10 +34,12 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 @Composable
 fun SignInScreen(
     modifier: Modifier = Modifier,
+    state: SignInState,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onSignInClick: () -> Unit,
+    onSignUpClick: () -> Unit,
 ) {
-    var emailInput by rememberSaveable { mutableStateOf("") }
-    var passwordInput by rememberSaveable { mutableStateOf("") }
-
     val passwordFocusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
 
@@ -68,9 +66,9 @@ fun SignInScreen(
 
         item {
             InputField(
-                value = emailInput,
+                value = state.email,
                 label = stringResource(R.string.label_email),
-                onValueChange = { emailInput = it },
+                onValueChange = onEmailChange,
                 placeholderText = stringResource(R.string.placeholder_email),
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Email,
@@ -88,9 +86,9 @@ fun SignInScreen(
 
         item {
             InputField(
-                value = passwordInput,
+                value = state.password,
                 label = stringResource(R.string.label_password),
-                onValueChange = { passwordInput = it },
+                onValueChange = onPasswordChange,
                 placeholderText = stringResource(R.string.placeholder_password),
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -100,7 +98,6 @@ fun SignInScreen(
                 keyboardActions = KeyboardActions(
                     onDone = {
                         focusManager.clearFocus()
-                        // TODO: 비즈니스 로직 구현 후 로그인까지 되도록 
                     }
                 ),
                 modifier = Modifier.focusRequester(passwordFocusRequester)
@@ -118,6 +115,8 @@ fun SignInScreen(
         item {
             BigButton(
                 text = stringResource(R.string.button_sign_in),
+                enabled = state.isSignInEnabled,
+                onClick = onSignInClick,
             )
         }
 
@@ -135,7 +134,7 @@ fun SignInScreen(
             AuthBottomText(
                 promptText = stringResource(R.string.prompt_no_account),
                 actionText = stringResource(R.string.action_sign_up),
-                onActionClick = { /* Navigate to SignUp */ }
+                onActionClick = onSignUpClick
             )
         }
     }
@@ -144,6 +143,19 @@ fun SignInScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SignInScreenPreview(modifier: Modifier = Modifier.padding(horizontal = 30.dp)) {
-    SignInScreen(modifier = modifier.fillMaxSize())
+fun SignInScreenPreview() {
+    SignInScreen(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 30.dp),
+        state = SignInState(
+            email = "test@email.com",
+            password = "1234",
+            isSignInEnabled = true
+        ),
+        onEmailChange = {},
+        onPasswordChange = {},
+        onSignInClick = {},
+        onSignUpClick = {}
+    )
 }

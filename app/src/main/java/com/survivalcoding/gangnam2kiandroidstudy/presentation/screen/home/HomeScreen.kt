@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,94 +34,88 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 fun HomeScreen(
     state: HomeState,
     onSelectCategory: (HomeCategory) -> Unit,
+    onSearchClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = AppColors.white,
-    ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-
-        ) {
-
-            item {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        item {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column(
+                    modifier = Modifier.padding(top = 10.dp),
+                    horizontalAlignment = Alignment.Start,
                 ) {
-                    Column(
-                        modifier = Modifier.padding(top = 10.dp),
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        Text(
-                            text = stringResource(R.string.home_title),
-                            style = AppTextStyles.largeTextBold,
-                        )
-                        Spacer(Modifier.height(5.dp))
-                        Text(
-                            text = stringResource(R.string.home_subtitle),
-                            style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray3),
-                            lineHeight = 17.sp,
-                            modifier = Modifier.size(195.dp, 17.dp)
-                        )
-                    }
-
-                    Image(
-                        painter = painterResource(id = R.drawable.src_profile),
-                        contentDescription = null,
-                        modifier = Modifier.size(40.dp)
+                    Text(
+                        text = stringResource(R.string.home_title),
+                        style = AppTextStyles.largeTextBold,
+                    )
+                    Spacer(Modifier.height(5.dp))
+                    Text(
+                        text = stringResource(R.string.home_subtitle),
+                        style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray3),
+                        lineHeight = 17.sp,
+                        modifier = Modifier.size(195.dp, 17.dp)
                     )
                 }
 
-            }
-
-            // Search bar + filter button - TODO: 검색창이나 필터 선택시 검색 화면으로 이동 후 기능 동작
-            item {
-                SearchBarContainer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 30.dp),
-                    value = "",
-                    onValueChange = {},
-                    onFilterClick = {},
+                Image(
+                    painter = painterResource(id = R.drawable.src_profile),
+                    contentDescription = null,
+                    modifier = Modifier.size(40.dp)
                 )
             }
 
-            // Recipe category selector
-            item {
-                RecipeCategorySelector(
-                    modifier = Modifier.padding(vertical = 25.dp),
-                    selected = state.selectedCategory,
-                    onSelectCategory = onSelectCategory
-                )
+        }
 
-            }
+        // Search bar + filter button - TODO: 검색창이나 필터 선택시 검색 화면으로 이동 후 기능 동작
+        item {
+            SearchBarContainer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 30.dp),
+                value = "",
+                onValueChange = {},
+                onFilterClick = {},
+                onClick = onSearchClick
+            )
+        }
 
-            item {
-                LazyRow(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    items(state.filteredRecipes) { recipe ->
-                        HomeRecipeCard(
-                            recipe = recipe,
-                            modifier = Modifier.padding(horizontal = 15.dp)
-                        )
-                    }
+        // Recipe category selector
+        item {
+            RecipeCategorySelector(
+                modifier = Modifier.padding(vertical = 25.dp),
+                selected = state.selectedCategory,
+                onSelectCategory = onSelectCategory
+            )
+
+        }
+
+        item {
+            LazyRow(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                items(state.filteredRecipes) { recipe ->
+                    HomeRecipeCard(
+                        recipe = recipe,
+                        modifier = Modifier.padding(end = 15.dp)
+                    )
                 }
             }
-
         }
 
     }
 
 }
+
 
 @Preview(showBackground = true)
 @Composable
@@ -134,5 +127,6 @@ fun RecipeCategorySelectorPreview() {
     HomeScreen(
         state = fakeState,
         onSelectCategory = {},
+        onSearchClick = {}
     )
 }

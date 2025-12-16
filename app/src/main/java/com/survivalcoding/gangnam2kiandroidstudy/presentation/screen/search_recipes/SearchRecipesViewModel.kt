@@ -2,7 +2,6 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_rec
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -148,12 +147,13 @@ class SearchRecipesViewModel(
 
 
     companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val repository =
-                    (this[APPLICATION_KEY] as AppApplication).recipeRepository
-                SearchRecipesViewModel(repository)
+        fun factory(application: AppApplication): ViewModelProvider.Factory =
+            viewModelFactory {
+                initializer {
+                    SearchRecipesViewModel(
+                        recipeRepository = application.recipeRepository
+                    )
+                }
             }
-        }
     }
 }
