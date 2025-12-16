@@ -24,11 +24,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeCategory
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSettingButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCategorySelector
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Search
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
@@ -139,35 +139,7 @@ fun RecipeHomeScreen(
 @Composable
 private fun RecipeHomeScreenPreview() {
     val state = RecipeHomeState(
-        recipes = listOf(
-            Recipe(
-                1,
-                "Indian",
-                "Classic Greek Salad",
-                "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-                "Chef John",
-                "20 min",
-                5.0
-            ),
-            Recipe(
-                2,
-                "Indian",
-                "Classic Greek Salad",
-                "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-                "Jason Bourne",
-                "20 min",
-                2.0
-            ),
-            Recipe(
-                3,
-                "Indian",
-                "Classic Greek Salad",
-                "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-                "ABCDEFG",
-                "20 min",
-                3.0
-            )
-        ),
+        recipes = MockRecipeData.recipeListThree,
         isLoading = false
     )
 

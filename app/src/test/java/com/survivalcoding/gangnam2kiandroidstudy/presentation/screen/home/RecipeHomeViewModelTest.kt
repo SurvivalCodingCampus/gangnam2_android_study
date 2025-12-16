@@ -2,9 +2,9 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.MainDispatcherRule
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeCategory
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.temp.MockRecipeData
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -27,7 +27,7 @@ class RecipeHomeViewModelTest {
     private lateinit var mockRepository: RecipeRepository
     private lateinit var viewModel: RecipeHomeViewModel
 
-    private val dummyRecipes = MockRecipeData.recipes
+    private val dummyRecipes = MockRecipeData.recipeListThree
 
     @Before
     fun setUp() = runTest(testDispatcher) {

@@ -28,13 +28,13 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
@@ -144,17 +144,12 @@ fun RecipeHomeCard(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun RecipeHomeCardPreview() {
-    val recipe = Recipe(
-        1,
-        "Indian",
-        "Classic Greek Salad",
-        "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-        "Chef John",
-        "20 min",
-        4.0
-    )
+    val recipe = MockRecipeData.recipeListOne
 
     Scaffold { innerPadding ->
-        RecipeHomeCard(recipe = recipe, modifier = Modifier.padding(innerPadding))
+        RecipeHomeCard(
+            recipe = recipe,
+            modifier = Modifier.padding(innerPadding)
+        )
     }
 }

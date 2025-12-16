@@ -1,0 +1,114 @@
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata
+
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingrident
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+
+object MockRecipeData {
+    val recipeListOne = Recipe(
+        1,
+        "Indian",
+        "Steak with tomato sauce and bulgur rice.",
+        "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
+        "James Milner",
+        "20 min",
+        4.0,
+        ingridents = listOf(
+            Ingrident(
+                1,
+                "Tomatos",
+                "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
+                "500g",
+                1
+            )
+        ),
+        procedures = listOf(
+            Procedure(
+                step = 1,
+                content = "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?",
+                recipeId = 1
+            )
+        )
+    )
+
+    val recipeListThree = listOf(
+        Recipe(
+            1,
+            "Indian",
+            "Classic Greek Salad",
+            "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
+            "Chef John",
+            "20 min",
+            4.0,
+            ingridents = listOf(
+                Ingrident(
+                    1,
+                    "Tomatos",
+                    "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
+                    "500g",
+                    1
+                )
+            ),
+            procedures = listOf(
+                Procedure(
+                    step = 1,
+                    content = "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?",
+                    recipeId = 1
+                )
+            )
+        ),
+        Recipe(
+            2,
+            "Indian",
+            "Classic Greek Salad",
+            "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
+            "Chef John",
+            "20 min",
+            4.0,
+            ingridents = listOf(
+                Ingrident(
+                    1,
+                    "Tomatos",
+                    "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
+                    "500g",
+                    1
+                )
+            ),
+            procedures = listOf(
+                Procedure(
+                    step = 1,
+                    content = """
+                        Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?
+                        Tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?
+                    """.trimIndent(),
+                    recipeId = 1
+                )
+            )
+        ),
+        Recipe(
+            3,
+            "Indian",
+            "Classic Greek Salad",
+            "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
+            "Chef John",
+            "20 min",
+            4.0,
+            ingridents = listOf(
+                Ingrident(
+                    1,
+                    "Tomatos",
+                    "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
+                    "500g",
+                    1
+                )
+            ),
+            procedures = listOf(
+                Procedure(
+                    step = 1,
+                    content = "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?",
+                    recipeId = 1
+                )
+            )
+        )
+    )
+}

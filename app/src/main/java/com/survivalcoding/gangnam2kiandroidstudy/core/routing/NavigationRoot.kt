@@ -11,6 +11,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.RecipeHomeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.notication.NotificationRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.profile.ProfileRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipe.detail.RecipeDetailRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved.SavedRecipeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.signin.SignInRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.signup.SignUpRoot
@@ -59,7 +60,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
 
                 MainScreen(
                     backStack = backStack,
-                    body = {
+                    body = { it ->
                         NavDisplay(
                             modifier = it,
                             backStack = backStack,
@@ -68,7 +69,14 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                     RecipeHomeRoot()
                                 }
                                 entry<Route.SavedRecipes> {
-                                    SavedRecipeRoot()
+                                    SavedRecipeRoot(
+                                        navigateToDetail = { recipeId ->
+                                            topLevelBackStack.removeIf { navKey ->
+                                                navKey is Route.RecipeDetail
+                                            }
+                                            topLevelBackStack.add(Route.RecipeDetail(recipeId))
+                                        }
+                                    )
                                 }
                                 entry<Route.Notifications> {
                                     NotificationRoot()
@@ -80,6 +88,9 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         )
                     }
                 )
+            }
+            entry<Route.RecipeDetail> { key ->
+                RecipeDetailRoot(key.recipeId)
             }
         }
     )

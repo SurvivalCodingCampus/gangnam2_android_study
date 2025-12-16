@@ -10,11 +10,17 @@ import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 @Composable
 fun SavedRecipeRoot(
     modifier: Modifier = Modifier,
+    navigateToDetail: (recipeId: Int) -> Unit = {},
     viewModel: SavedRecipeViewModel = viewModel(
         factory = SavedRecipeViewModel.factory(LocalContext.current.applicationContext as AppApplication)
     ),
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
-    SavedRecipeScreen(uiState = uiState.value)
+    SavedRecipeScreen(
+        uiState = uiState.value,
+        modifier = modifier,
+        onUnBookmark = viewModel::unBookmark,
+        navigateToDetail = navigateToDetail
+    )
 }

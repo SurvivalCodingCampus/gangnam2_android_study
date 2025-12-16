@@ -74,7 +74,7 @@ fun MainScreen(
                         colors = NavigationBarItemDefaults.colors(
                             indicatorColor = Color.Transparent
                         ),
-                        label = { Text("Home") },
+                        label = {},
                         alwaysShowLabel = false
                     )
                     NavigationBarItem(
@@ -93,7 +93,7 @@ fun MainScreen(
                         colors = NavigationBarItemDefaults.colors(
                             indicatorColor = Color.Transparent
                         ),
-                        label = { Text("Saved Recipes") },
+                        label = {},
                         alwaysShowLabel = false
                     )
 
@@ -131,7 +131,7 @@ fun MainScreen(
                         colors = NavigationBarItemDefaults.colors(
                             indicatorColor = Color.Transparent
                         ),
-                        label = { Text("Notification") },
+                        label = {},
                         alwaysShowLabel = false
                     )
                     NavigationBarItem(
@@ -150,7 +150,7 @@ fun MainScreen(
                         colors = NavigationBarItemDefaults.colors(
                             indicatorColor = Color.Transparent
                         ),
-                        label = { Text("Profile") },
+                        label = {},
                         alwaysShowLabel = false
                     )
                 }

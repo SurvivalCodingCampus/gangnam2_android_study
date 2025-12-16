@@ -1,21 +1,18 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SavedRecipeViewModel(private val repository: RecipeRepository) : ViewModel() {
+class SavedRecipeViewModel(private val getRecipesUseCase: GetRecipesUseCase) : ViewModel() {
     private val _uiState = MutableStateFlow(SavedRecipeState())
     val uiState = _uiState.asStateFlow()
 
@@ -23,18 +20,36 @@ class SavedRecipeViewModel(private val repository: RecipeRepository) : ViewModel
         fetchRecipes()
     }
 
+    fun unBookmark(id: Int) {
+        val recipes = _uiState.value.data.filter() {
+            it.id != id
+        }
+
+        _uiState.update {
+            it.copy(data = recipes)
+        }
+
+//        TODO 나중에 Repository에 Bookmark 삭제하는 기능 구현
+    }
+
     private fun fetchRecipes() {
         viewModelScope.launch {
-            val result = repository.findAll()
+            val result = getRecipesUseCase.invoke()
 
             when (result) {
                 is Result.Success -> _uiState.update {
-                    it.copy(data = result.data)
+                    it.copy(
+                        data = result.data,
+                        isLoading = false
+                    )
                 }
 
                 is Result.Failure -> {
                     _uiState.update {
-                        it.copy(error = result.error.toString())
+                        it.copy(
+                            error = result.error.toString(),
+                            isLoading = false
+                        )
                     }
                 }
             }
@@ -42,16 +57,16 @@ class SavedRecipeViewModel(private val repository: RecipeRepository) : ViewModel
     }
 
     companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
+        /*val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val recipeRepository = (this[APPLICATION_KEY] as AppApplication).recipeRepository
                 SavedRecipeViewModel(recipeRepository)
             }
-        }
+        }*/
 
         fun factory(application: AppApplication) = viewModelFactory {
             initializer {
-                SavedRecipeViewModel(application.recipeRepository)
+                SavedRecipeViewModel(application.getRecipesUseCase)
             }
         }
     }

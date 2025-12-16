@@ -1,6 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.filter
 
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeCategory
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 
 data class FilterSearchState(
     val time: String = "All",

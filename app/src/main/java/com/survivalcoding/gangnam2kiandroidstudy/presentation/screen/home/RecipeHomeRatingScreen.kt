@@ -14,8 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RatingHomeCard
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
 
 @Composable
 fun RecipeHomeRatingScreen(
@@ -40,35 +41,7 @@ fun RecipeHomeRatingScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun RecipeHomeRatingScreenPreview() {
-    val recipes = listOf(
-        Recipe(
-            1,
-            "Indian",
-            "Classic Greek Salad",
-            "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-            "Chef John",
-            "20 min",
-            4.0
-        ),
-        Recipe(
-            2,
-            "Indian",
-            "Classic Greek Salad",
-            "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-            "Chef John",
-            "20 min",
-            4.0
-        ),
-        Recipe(
-            3,
-            "Indian",
-            "Classic Greek Salad",
-            "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-            "Chef John",
-            "20 min",
-            4.0
-        )
-    )
+    val recipes = MockRecipeData.recipeListThree
 
     Scaffold { innerPadding ->
         RecipeHomeRatingScreen(
