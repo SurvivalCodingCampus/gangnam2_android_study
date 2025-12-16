@@ -58,7 +58,7 @@ fun Profile(name: String, region: String, imageUrl: String) {
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(name, style = AppTextStyles.smallTextBold.copy(fontWeight = FontWeight.SemiBold))
-            Spacer(modifier = Modifier.width(2.dp))
+            Spacer(modifier = Modifier.height(2.dp))
             Row(modifier = Modifier) {
                 Icon(
                     painter = painterResource(R.drawable.bold_location),
