@@ -1,12 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -94,21 +89,5 @@ class SearchRecipesViewModel(
 
     companion object {
         const val DEBOUNCE_TIMEOUT_MILLIS = 500L
-
-        /**
-         * SearchRecipesViewModel 인스턴스를 생성하는 ViewModelProvider.Factory 입니다.
-         */
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-
-                // Application 인스턴스를 가져와서 recipeRepository를 얻습니다.
-                val recipeRepository = (this[APPLICATION_KEY] as AppApplication).recipeRepository
-                // SearchRecipesViewModel 인스턴스를 생성하여 반환합니다.
-                SearchRecipesViewModel(
-                    recipeRepository,
-
-                    )
-            }
-        }
     }
 }

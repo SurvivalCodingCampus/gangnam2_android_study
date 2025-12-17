@@ -3,11 +3,11 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.viewmodel.compose.viewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SearchRecipesRoot(
-    viewModel: SearchRecipesViewModel = viewModel(factory = SearchRecipesViewModel.Factory),
+    viewModel: SearchRecipesViewModel = koinViewModel(),
 ) {
     val state by viewModel.uiState.collectAsState()
 
