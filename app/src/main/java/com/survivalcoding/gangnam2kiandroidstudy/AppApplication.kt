@@ -1,30 +1,32 @@
 package com.survivalcoding.gangnam2kiandroidstudy
 
 import android.app.Application
-import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.MockRecipeDataSourceImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.DataRepository
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.DataRepositoryImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
-import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.FilterRecipesUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.appModule
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.dataSourceModule
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.repositoryModule
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.useCaseModule
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.viewModelModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 class AppApplication : Application() {
-
-    val filterRecipesUseCase: FilterRecipesUseCase by lazy {
-        FilterRecipesUseCase(recipeRepository)
-    }
-
-    val recipeRepository: RecipeRepository by lazy {
-        RecipeRepositoryImpl(MockRecipeDataSourceImpl())
-    }
-
-    val dataRepository: DataRepository by lazy {
-        DataRepositoryImpl()
-    }
 
     override fun onCreate() {
         super.onCreate()
 
         println("AppApplication created")
+
+        startKoin {
+            androidLogger()
+            androidContext(this@AppApplication)
+            modules(
+                appModule,
+                repositoryModule,
+                dataSourceModule,
+                useCaseModule,
+                viewModelModule,
+            )
+        }
     }
 }

@@ -3,12 +3,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.FilterRecipesUseCase
@@ -98,15 +93,4 @@ class SearchRecipesViewModel(
         }
     }
 
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = (this[APPLICATION_KEY] as AppApplication)
-                SearchRecipesViewModel(
-                    application.recipeRepository,
-                    application.filterRecipesUseCase,
-                )
-            }
-        }
-    }
 }

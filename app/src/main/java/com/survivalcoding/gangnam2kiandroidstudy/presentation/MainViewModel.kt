@@ -1,12 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.Hero
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.DataRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    val repository: DataRepository,
+    private val repository: DataRepository,
 ) : ViewModel() {
     private val _state = MutableStateFlow(Hero("홍길동", 10))
     val state = _state.asStateFlow()
@@ -44,13 +39,4 @@ class MainViewModel(
         super.onCleared()
     }
 
-    companion object {
-
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val repository = (this[APPLICATION_KEY] as AppApplication).dataRepository
-                MainViewModel(repository)
-            }
-        }
-    }
 }
