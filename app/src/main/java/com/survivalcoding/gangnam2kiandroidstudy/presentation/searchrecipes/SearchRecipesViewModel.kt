@@ -3,16 +3,12 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.FilterRecipesUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,8 +16,10 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchRecipesViewModel(
+@HiltViewModel
+class SearchRecipesViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository,
     private val filterRecipesUsecase: FilterRecipesUseCase,
 ) : ViewModel() {
@@ -95,18 +93,6 @@ class SearchRecipesViewModel(
                 filterSearchState = filterSearchState,
                 showBottomSheet = false,
             )
-        }
-    }
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = (this[APPLICATION_KEY] as AppApplication)
-                SearchRecipesViewModel(
-                    application.recipeRepository,
-                    application.filterRecipesUseCase,
-                )
-            }
         }
     }
 }

@@ -34,6 +34,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.CounterScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.MainViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.BigButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RatingDialog
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.Serializable
 import kotlin.jvm.java
 
@@ -47,6 +48,7 @@ data class Hero(val name: String, val age: Int): Parcelable {
     }
 }
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     // 상태
 
@@ -79,21 +81,21 @@ class MainActivity : ComponentActivity() {
         this.applicationContext
 
         // 매직
-        val viewModel: MainViewModel by viewModels {
-            MainViewModel.Factory
-        }
-        println("MainViewModel1: ${viewModel.hashCode()}")
+//        val viewModel: MainViewModel by viewModels {
+//            MainViewModel.Factory
+//        }
+//        println("MainViewModel1: ${viewModel.hashCode()}")
 
         println("MainActivity: onCreate")
         enableEdgeToEdge()
         setContent {
-            // 컴포즈 전용
-            val viewModel2: MainViewModel = viewModel(
-                factory = MainViewModel.Factory
-            )
-            println("MainViewModel2: ${viewModel2.hashCode()}")
-
-            viewModel.state.collectAsStateWithLifecycle()
+//            // 컴포즈 전용
+//            val viewModel2: MainViewModel = viewModel(
+//                factory = MainViewModel.Factory
+//            )
+//            println("MainViewModel2: ${viewModel2.hashCode()}")
+//
+//            viewModel.state.collectAsStateWithLifecycle()
 
             var rating by rememberSaveable { mutableStateOf(0) }
 

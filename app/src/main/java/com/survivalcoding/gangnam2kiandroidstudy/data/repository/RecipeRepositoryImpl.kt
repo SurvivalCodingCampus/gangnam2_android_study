@@ -3,8 +3,9 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.mapper.toModel
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import javax.inject.Inject
 
-class RecipeRepositoryImpl(
+class RecipeRepositoryImpl @Inject constructor(
     private val recipeDataSource: RecipeDataSource,
 ) : RecipeRepository {
 

@@ -44,13 +44,4 @@ class MainViewModel(
         super.onCleared()
     }
 
-    companion object {
-
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val repository = (this[APPLICATION_KEY] as AppApplication).dataRepository
-                MainViewModel(repository)
-            }
-        }
-    }
 }

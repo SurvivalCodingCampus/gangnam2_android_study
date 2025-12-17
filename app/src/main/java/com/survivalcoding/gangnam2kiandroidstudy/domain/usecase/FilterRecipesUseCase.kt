@@ -3,8 +3,9 @@ package com.survivalcoding.gangnam2kiandroidstudy.domain.usecase
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
+import javax.inject.Inject
 
-class FilterRecipesUseCase(
+class FilterRecipesUseCase @Inject constructor(
     private val recipeRepository: RecipeRepository,
 ) {
 

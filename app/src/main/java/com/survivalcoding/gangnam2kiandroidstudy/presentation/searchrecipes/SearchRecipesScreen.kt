@@ -23,9 +23,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.InputFie
 @Composable
 fun SearchRecipesScreen(
     modifier: Modifier = Modifier,
-    viewModel: SearchRecipesViewModel = viewModel(
-        factory = SearchRecipesViewModel.Factory
-    ),
+    viewModel: SearchRecipesViewModel = viewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
