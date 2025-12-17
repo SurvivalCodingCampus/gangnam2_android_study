@@ -10,12 +10,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun IngredientRoot(
     recipeId: Int,
     onBack: () -> Unit,
-    viewModel: IngredientViewModel = koinViewModel()
+    viewModel: IngredientViewModel = koinViewModel(parameters = { parametersOf(recipeId)})
 ) {
     val recipe by viewModel.recipe.collectAsStateWithLifecycle()
     val procedures by viewModel.procedures.collectAsStateWithLifecycle()
