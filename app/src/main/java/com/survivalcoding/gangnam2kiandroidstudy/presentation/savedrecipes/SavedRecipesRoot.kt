@@ -11,9 +11,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.di.DependencyContainer
 fun SavedRecipesRoot(
     viewModel: SavedRecipesViewModel = viewModel(
         factory = DependencyContainer.provideSavedRecipesViewModelFactory(LocalContext.current)
-    )
+    ),
+    onRecipeClick: (Int) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    SavedRecipesScreen(uiState)
+    SavedRecipesScreen(uiState, onRecipeClick, viewModel::removeBookmark)
 }

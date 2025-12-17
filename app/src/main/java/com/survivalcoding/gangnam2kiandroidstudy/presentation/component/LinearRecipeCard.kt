@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
@@ -28,6 +29,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun LinearRecipeCard(
     recipe: Recipe,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+    onBookmarkClick: () -> Unit = {},
     imageLoader: @Composable (Modifier) -> Unit = { modifier ->
         AsyncImage(
             model = recipe.image,
@@ -41,6 +44,7 @@ fun LinearRecipeCard(
         modifier = modifier
             .height(150.dp)
             .clip(RoundedCornerShape(10.dp))
+            .clickable(onClick = onClick)
     ) {
         imageLoader(Modifier)
         Row(
@@ -74,28 +78,30 @@ fun LinearRecipeCard(
                     )
                 )
         )
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(start = 10.dp, bottom = 10.dp)
-                .height(54.dp),
-            verticalArrangement = Arrangement.Bottom
-        ) {
-            Text(
-                recipe.name,
-                modifier = Modifier,
-                color = AppColors.white,
-                fontWeight = FontWeight.SemiBold,
-                style = AppTextStyles.smallTextRegular,
-                maxLines = 2
-            )
-            Text(
-                "By ${recipe.chef}",
-                modifier = Modifier,
-                color = AppColors.white,
-                style = AppTextStyles.smallerTextRegular,
-                maxLines = 1
-            )
+        if (!recipe.name.isEmpty() && !recipe.chef.isEmpty()) {
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(start = 10.dp, bottom = 10.dp)
+                    .height(54.dp),
+                verticalArrangement = Arrangement.Bottom
+            ) {
+                Text(
+                    text = recipe.name,
+                    modifier = Modifier,
+                    color = AppColors.white,
+                    fontWeight = FontWeight.SemiBold,
+                    style = AppTextStyles.smallTextRegular,
+                    maxLines = 2
+                )
+                Text(
+                    text = "By ${recipe.chef}",
+                    modifier = Modifier,
+                    color = AppColors.white,
+                    style = AppTextStyles.smallerTextRegular,
+                    maxLines = 1
+                )
+            }
         }
         Row(
             modifier = Modifier
@@ -123,12 +129,12 @@ fun LinearRecipeCard(
                 .size(24.dp)
                 .background(color = AppColors.white, shape = CircleShape)
                 .align(Alignment.BottomEnd)
+                .clickable(onClick = onBookmarkClick)
         ) {
             Icon(
                 painter = painterResource(R.drawable.bookmark),
                 contentDescription = null,
-                modifier = Modifier
-                    .align(Alignment.Center),
+                modifier = Modifier.align(Alignment.Center),
                 tint = AppColors.primary100
             )
         }

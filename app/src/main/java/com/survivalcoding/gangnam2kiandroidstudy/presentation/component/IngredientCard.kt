@@ -17,13 +17,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeIngredientUI
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeIngredient
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun IngredientCard(
-    ingredient: RecipeIngredientUI,
+    ingredient: RecipeIngredient,
     modifier: Modifier = Modifier,
     imageLoader: @Composable (modifier: Modifier) -> Unit = { modifier ->
         AsyncImage(
@@ -64,7 +64,7 @@ fun IngredientCard(
 @Preview(showBackground = true)
 @Composable
 fun IngredientCardPreview() {
-    val ingredient = RecipeIngredientUI("Tomatos", 500, "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg")
+    val ingredient = RecipeIngredient("Tomatos", 500, "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg")
 
     IngredientCard(ingredient) { modifier ->
         Image(

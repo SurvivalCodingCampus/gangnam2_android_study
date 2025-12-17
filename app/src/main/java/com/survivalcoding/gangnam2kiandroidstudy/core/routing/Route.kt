@@ -33,5 +33,5 @@ sealed interface Route : NavKey {
     data object Profile : Route
 
     @Serializable
-    data class RecipeDetails(val recipeId: Long) : Route
+    data class RecipeDetails(val recipeId: Int) : Route
 }
