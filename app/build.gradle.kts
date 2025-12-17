@@ -7,6 +7,9 @@ plugins {
     // Optional, provides the @Serialize annotation for autogeneration of Serializers.
     alias(libs.plugins.jetbrains.kotlin.serialization)
 
+    alias(libs.plugins.google.hilt.android)
+    alias(libs.plugins.google.devtools.ksp)
+
 }
 
 android {
@@ -82,9 +85,10 @@ dependencies {
     implementation(libs.androidx.material3.adaptive.navigation3)
     implementation(libs.kotlinx.serialization.core)
 
-    implementation(platform(libs.koin.bom))
-    implementation(libs.koin.core)
-    implementation(platform("io.insert-koin:koin-bom:4.1.1"))
-    implementation("io.insert-koin:koin-android")
+    implementation(libs.kotlinx.datetime)
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
 }

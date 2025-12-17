@@ -3,16 +3,19 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usercase.GetSavedRecipesUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * 저장된 레시피 화면의 ViewModel입니다.
  *
  * @property recipeRepository 레시피 데이터를 가져오는 리포지토리
  */
-class SavedRecipesViewModel(
+@HiltViewModel
+class SavedRecipesViewModel @Inject constructor(
     private val getSavedRecipesUseCase: GetSavedRecipesUseCase,
 ) : ViewModel() {
 

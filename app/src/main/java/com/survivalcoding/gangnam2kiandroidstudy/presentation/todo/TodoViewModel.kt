@@ -2,17 +2,13 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.todo
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * Todo 목록 화면의 UI 상태를 나타내는 데이터 클래스
@@ -33,7 +29,8 @@ data class TodoUiState(
  * @param savedStateHandle 프로세스 종료 시에도 상태를 보존하는 핸들
  *                         (예: 백그라운드에서 앱이 종료되었다가 복원될 때)
  */
-class TodoViewModel(
+@HiltViewModel
+class TodoViewModel @Inject constructor(
     private val todoRepository: TodoRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -71,38 +68,4 @@ class TodoViewModel(
         }
     }
 
-
-    companion object {
-
-        /**
-         * ViewModel 생성을 위한 Factory
-         *
-         * ViewModel은 기본 생성자만 지원하므로, 파라미터가 있는 경우
-         * Factory를 통해 의존성을 주입해야 함
-         *
-         * 사용법:
-         * val viewModel: TodoViewModel by viewModels { TodoViewModel.Factory }
-         */
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-
-            // initializer: ViewModel 인스턴스를 생성하는 람다
-            initializer {
-
-                // SavedStateHandle 생성
-                // 화면 회전, 프로세스 종료 등의 상황에서 상태 복원에 사용
-                val savedStateHandle = createSavedStateHandle()
-
-                // Application 인스턴스에서 Repository 가져오기
-                // this[APPLICATION_KEY]: ViewModelProvider.CreationExtras에서 Application 객체 접근
-                // AppApplication으로 캐스팅하여 todoRepository 프로퍼티 접근
-                val todoRepository = (this[APPLICATION_KEY] as AppApplication).todoRepository
-
-                // 의존성을 주입하여 TodoViewModel 인스턴스 생성 및 반환
-                TodoViewModel(
-                    todoRepository,
-                    savedStateHandle = savedStateHandle,
-                )
-            }
-        }
-    }
 }

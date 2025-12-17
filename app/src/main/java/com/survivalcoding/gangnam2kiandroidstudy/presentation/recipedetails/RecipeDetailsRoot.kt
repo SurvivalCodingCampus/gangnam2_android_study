@@ -4,10 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 
 /**
  * 레시피 상세 정보 화면의 루트 컴포저블
@@ -21,11 +19,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 fun RecipeDetailsRoot(
     id: Long,
     modifier: Modifier = Modifier,
-    viewModel: RecipeDetailsViewModel = viewModel(
-        factory = RecipeDetailsViewModel.factory(
-            LocalContext.current.applicationContext as AppApplication,
-        ),
-    ),
+    viewModel: RecipeDetailsViewModel = hiltViewModel(),
     onBackClick: () -> Unit = {},
 ) {
     // UI 상태를 수집
