@@ -11,12 +11,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
+import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 
 @Composable
 fun SavedRecipesRoot(
     modifier: Modifier = Modifier,
     application: AppApplication =
-        LocalContext.current.applicationContext as AppApplication
+        LocalContext.current.applicationContext as AppApplication,
+    onNavigateToRecipeDetail: (Int) -> Unit
 ) {
     val viewModel: SavedRecipesViewModel = viewModel(
         factory = SavedRecipesViewModel.factory(application)
@@ -24,13 +26,17 @@ fun SavedRecipesRoot(
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    Scaffold { innerpadding ->
+    Scaffold(
+        containerColor = AppColors.white
+    ) { innerPadding ->
         SavedRecipesScreen(
             modifier = modifier
                 .fillMaxSize()
-                .padding(innerpadding)
+                .padding(innerPadding)
                 .padding(horizontal = 30.dp),
             state = state,
+            onBookmarkClick = viewModel::onBookmarkClick,
+            onRecipeClick = onNavigateToRecipeDetail
         )
     }
 }

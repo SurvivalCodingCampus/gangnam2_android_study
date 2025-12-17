@@ -12,6 +12,7 @@ import androidx.navigation3.ui.NavDisplay
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.navigation.BottomNavBar
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.navigation.bottomNavItemList
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.ingredient.IngredientRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.notifications.NotificationsScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.profile.ProfileScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipe.SavedRecipesRoot
@@ -65,7 +66,11 @@ fun MainRoot() {
                 }
 
                 entry<Route.SavedRecipes> {
-                    SavedRecipesRoot()
+                    SavedRecipesRoot(
+                        onNavigateToRecipeDetail = { recipeId ->
+                            mainBackStack.add(Route.RecipeDetail(recipeId))
+                        }
+                    )
                 }
 
                 entry<Route.Profile> {
@@ -78,6 +83,16 @@ fun MainRoot() {
 
                 entry<Route.SearchRecipes> {
                     SearchRecipesRoot(
+                        onBack = {
+                            if (mainBackStack.size > 1) {
+                                mainBackStack.removeAt(mainBackStack.lastIndex)
+                            }
+                        }
+                    )
+                }
+                entry<Route.RecipeDetail> { route ->
+                    IngredientRoot(
+                        recipeId = route.recipeId,
                         onBack = {
                             if (mainBackStack.size > 1) {
                                 mainBackStack.removeAt(mainBackStack.lastIndex)

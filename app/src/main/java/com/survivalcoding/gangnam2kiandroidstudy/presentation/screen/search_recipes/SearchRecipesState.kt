@@ -1,7 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipes
 
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.FilterSearchState
 
 data class SearchRecipesState(

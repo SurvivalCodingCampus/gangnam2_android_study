@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
-import com.survivalcoding.gangnam2kiandroidstudy.data.Repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.FilterSearchState
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.filter.CategoryFilter
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.filter.RateFilter

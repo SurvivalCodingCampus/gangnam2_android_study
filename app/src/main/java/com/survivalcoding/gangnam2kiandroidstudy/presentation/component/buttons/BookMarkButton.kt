@@ -21,10 +21,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 
 @Composable
 fun BookMarkButton(
+    isBookmarked: Boolean,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var isBookmarked by remember { mutableStateOf(false) }
-
     Box(
         modifier = modifier
             .size(24.dp)
@@ -32,9 +32,7 @@ fun BookMarkButton(
                 color = AppColors.white,
                 shape = RoundedCornerShape(12.dp)
             )
-            .clickable {
-                isBookmarked = !isBookmarked
-            },
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Icon(
@@ -51,10 +49,13 @@ fun BookMarkButton(
     }
 }
 
+
 @Preview(showBackground = true)
 @Composable
 private fun BookMarkButtonPreview() {
-    BookMarkButton()
+    BookMarkButton(
+        isBookmarked = true,
+        onClick = {}
+    )
 }
-
 

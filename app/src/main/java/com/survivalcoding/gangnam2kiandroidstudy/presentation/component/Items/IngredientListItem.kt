@@ -23,7 +23,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 
 @Composable
-fun IngredientItem(
+fun IngredientListItem(
     modifier: Modifier = Modifier,
     name: String,
     imageUrl: String,
@@ -71,8 +71,8 @@ fun IngredientItem(
 
 @Preview
 @Composable
-private fun IngredientItemPreview() {
-    IngredientItem(
+private fun IngredientListItemPreview() {
+    IngredientListItem(
         name = "Tomatos",
         imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
         amount = 500

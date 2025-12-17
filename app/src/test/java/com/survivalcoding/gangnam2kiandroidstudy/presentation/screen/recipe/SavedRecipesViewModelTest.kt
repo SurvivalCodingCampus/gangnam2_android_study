@@ -1,8 +1,8 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipe
 
-import com.survivalcoding.gangnam2kiandroidstudy.data.Repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.HomeImage
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.HomeImage
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals

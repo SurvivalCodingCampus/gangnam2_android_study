@@ -17,10 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.buttons.BookMarkButton
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 
@@ -44,16 +41,19 @@ fun RecipeCard(
     chef: String,
     time: String,
     rating: Double,
+    isBookmarked: Boolean,
+    onBookmarkClick: () -> Unit,
+    onClick: () -> Unit,
+    showTitleAndChef: Boolean = true,
     modifier: Modifier = Modifier
 ) {
-    var isBookmarked by remember { mutableStateOf(false) }
-
 
     Box(
         modifier = modifier
             .height(150.dp)
             .fillMaxWidth()
             .clip(RoundedCornerShape(10.dp))
+            .clickable { onClick() }
     ) {
 
         // Background Image
@@ -87,26 +87,34 @@ fun RecipeCard(
             verticalAlignment = Alignment.Bottom
         ) {
 
-            // Left
-            Column(
-                modifier = Modifier.width(200.dp),
-                verticalArrangement = Arrangement.Bottom
+            // Left (조건부 렌더링)
+            Box(
+                modifier = Modifier
+                    .weight(1f)
             ) {
-                Text(
-                    text = name,
-                    style = AppTextStyles.smallTextBold.copy(color = AppColors.white),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(end = 15.dp)
-                )
-                Text(
-                    text = "By $chef",
-                    style = AppTextStyles.smallerTextRegular.copy(
-                        color = AppColors.white,
-                        fontSize = 8.sp
-                    )
-                )
+                if (showTitleAndChef) {
+                    Column(
+                        verticalArrangement = Arrangement.Bottom
+                    ) {
+                        Text(
+                            text = name,
+                            style = AppTextStyles.smallTextBold.copy(color = AppColors.white),
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.padding(end = 15.dp)
+                        )
+
+                        Text(
+                            text = "By $chef",
+                            style = AppTextStyles.smallerTextRegular.copy(
+                                color = AppColors.white,
+                                fontSize = 8.sp
+                            )
+                        )
+                    }
+                }
             }
+
 
             // Right (Rating + Time + Bookmark)
             Column(
@@ -161,30 +169,11 @@ fun RecipeCard(
                         style = AppTextStyles.smallerTextRegular.copy(color = AppColors.white)
                     )
                     Spacer(Modifier.width(10.dp))
-                    Box(
-                        modifier = Modifier
-                            .size(24.dp)
-                            .background(
-                                AppColors.white,
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .clickable {
-                                isBookmarked = !isBookmarked
-                            },
-                        contentAlignment = Alignment.Center,
 
-                    ) {
-                        Icon(
-                            painter = painterResource( if (isBookmarked)
-                                R.drawable.ic_bookmark
-                            else
-                                R.drawable.ic_bookmark_outline
-                            ),
-                            contentDescription = "book mark",
-                            tint = AppColors.primary80,
-                            modifier = Modifier.size(16.dp)
-                        )
-                    }
+                    BookMarkButton(
+                        isBookmarked = isBookmarked,
+                        onClick = onBookmarkClick
+                    )
                 }
             }
         }
@@ -200,6 +189,9 @@ private fun RecipeCardPreview() {
         imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
         chef = "Chef John",
         time = "20 min",
-        rating = 4.0
+        rating = 4.0,
+        isBookmarked = true,
+        onBookmarkClick = {},
+        onClick = {}
     )
 }

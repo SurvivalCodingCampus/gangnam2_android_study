@@ -25,8 +25,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.HomeImage
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.HomeImage
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.buttons.AverageRatingButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.buttons.BookMarkButton
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
@@ -35,6 +35,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 @Composable
 fun HomeRecipeCard(
     recipe: Recipe,
+    isBookmarked: Boolean,
+    onBookmarkClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -91,7 +93,10 @@ fun HomeRecipeCard(
                         )
                     }
 
-                    BookMarkButton()
+                    BookMarkButton(
+                        isBookmarked = isBookmarked,
+                        onClick = onBookmarkClick
+                    )
                 }
             }
         }
@@ -121,8 +126,10 @@ fun HomeRecipeCard(
 @Composable
 private fun HomeRecipeCardPreview() {
     val sample = Recipe(
+        id = 1,
         title = "Sample Salad",
-        chef = "Chef",
+        chefId = 1,
+        chefName = "Chef",
         time = "15 min",
         rating = 4.5,
         imageUrls = "",
@@ -130,5 +137,9 @@ private fun HomeRecipeCardPreview() {
         category = "Cereal",
         homeImage = HomeImage.FOOD5
     )
-    HomeRecipeCard(recipe = sample)
+    HomeRecipeCard(
+        recipe = sample,
+        isBookmarked = true,
+        onBookmarkClick = {}
+    )
 }

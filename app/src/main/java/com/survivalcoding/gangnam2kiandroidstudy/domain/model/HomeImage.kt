@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.data.model
+package com.survivalcoding.gangnam2kiandroidstudy.domain.model
 
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import kotlinx.serialization.Serializable

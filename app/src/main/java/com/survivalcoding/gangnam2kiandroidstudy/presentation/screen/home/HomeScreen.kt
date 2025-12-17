@@ -35,6 +35,7 @@ fun HomeScreen(
     state: HomeState,
     onSelectCategory: (HomeCategory) -> Unit,
     onSearchClick: () -> Unit,
+    onBookmarkClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -104,8 +105,14 @@ fun HomeScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 items(state.filteredRecipes) { recipe ->
+                    val isBookmarked = recipe.id in state.bookmarkedIds
+
                     HomeRecipeCard(
                         recipe = recipe,
+                        isBookmarked = isBookmarked,
+                        onBookmarkClick = {
+                            onBookmarkClick(recipe.id)
+                        },
                         modifier = Modifier.padding(end = 15.dp)
                     )
                 }
@@ -127,6 +134,7 @@ fun RecipeCategorySelectorPreview() {
     HomeScreen(
         state = fakeState,
         onSelectCategory = {},
-        onSearchClick = {}
+        onSearchClick = {},
+        onBookmarkClick = {},
     )
 }

@@ -6,7 +6,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
-import com.survivalcoding.gangnam2kiandroidstudy.data.Repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.core.Result
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.ToggleBookmarkUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.selector.HomeCategory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +18,9 @@ import kotlinx.coroutines.launch
 
 
 class HomeViewModel(
-    private val repository: RecipeRepository
+    private val recipeRepository: RecipeRepository,
+    private val bookmarkRepository: BookmarkRepository,
+    private val toggleBookmarkUseCase: ToggleBookmarkUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
@@ -27,7 +32,12 @@ class HomeViewModel(
     // 전체 로드
     private fun loadRecipes() {
         viewModelScope.launch {
-            val recipes = repository.getRecipes()
+            val recipes = recipeRepository.getRecipes()
+
+            val bookmarkedIds = bookmarkRepository
+                .getSavedRecipeIds()
+                .toSet()
+
             _state.update { current ->
                 // 현재 선택된 카테고리를 유지하면서 셀렉터 다시 계산
                 val filtered =
@@ -39,7 +49,8 @@ class HomeViewModel(
 
                 current.copy(
                     recipes = recipes,
-                    filteredRecipes = filtered  // 현재 선택 상태 기반으로 셀렉터 재적용
+                    filteredRecipes = filtered,  // 현재 선택 상태 기반으로 셀렉터 재적용
+                    bookmarkedIds = bookmarkedIds
                 )
 
 
@@ -64,13 +75,38 @@ class HomeViewModel(
         }
     }
 
+    // 북마크
+    fun onBookmarkClick(recipeId: Int) {
+        viewModelScope.launch {
+            when (val result = toggleBookmarkUseCase.execute(recipeId)) {
+                is Result.Success -> {
+                    val isBookmarked = result.data
+                    _state.update { state ->
+                        state.copy(
+                            bookmarkedIds = if (isBookmarked) {
+                                state.bookmarkedIds + recipeId
+                            } else {
+                                state.bookmarkedIds - recipeId
+                            }
+                        )
+                    }
+                }
+
+                is Result.Error -> { /* 에러 처리 */
+                }
+            }
+        }
+    }
+
 
     companion object {
         fun Factory(application: AppApplication): ViewModelProvider.Factory =
             viewModelFactory {
                 initializer {
                     HomeViewModel(
-                        repository = application.recipeRepository
+                        recipeRepository = application.recipeRepository,
+                        bookmarkRepository = application.bookmarkRepository,
+                        toggleBookmarkUseCase = application.toggleBookmarkUseCase
                     )
                 }
             }

@@ -115,7 +115,7 @@ fun SearchRecipesScreen(
                                 .height(150.dp),
                             name = recipe.title,
                             imageUrl = recipe.imageUrls,
-                            chef = recipe.chef,
+                            chef = recipe.chefName,
                             rating = recipe.rating
                         )
                     }
