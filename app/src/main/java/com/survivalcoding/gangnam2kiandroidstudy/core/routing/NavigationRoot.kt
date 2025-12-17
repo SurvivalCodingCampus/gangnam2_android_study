@@ -8,6 +8,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.ingredient.IngredientRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipe.SavedRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipe.SearchRecipesRoot
@@ -112,7 +113,7 @@ fun NavigationRoot(
                 )
             }
             entry<Route.RecipeDetail> { key ->
-
+                IngredientRoot(key.recipeId)
             }
         }
     )
