@@ -4,10 +4,10 @@ import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
 @Composable
-fun SearchRecipesRoot(viewModel: SearchRecipesViewModel = viewModel(factory = SearchRecipesViewModel.Factory)) {
+fun SearchRecipesRoot(viewModel: SearchRecipesViewModel = hiltViewModel()) {
     val searchRecipes by viewModel.state.collectAsState(SearchRecipesState())
     Log.d("SearchRecipesRoot", "searchRecipes: $searchRecipes")
     SearchRecipesScreen(
