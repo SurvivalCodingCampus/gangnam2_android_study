@@ -3,12 +3,12 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchreci
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SearchRecipesRoot(
-    viewModel: SearchRecipesViewModel = viewModel(factory = SearchRecipesViewModel.Factory),
+    viewModel: SearchRecipesViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
