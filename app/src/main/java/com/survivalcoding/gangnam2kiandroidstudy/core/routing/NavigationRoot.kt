@@ -8,7 +8,9 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.ingredient.IngredientRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main.MainScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipe.SavedRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipe.SearchRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_in.SignInRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_up.SignUpRoot
@@ -77,13 +79,17 @@ fun NavigationRoot(
                                             topLevelBackStack.add(Route.SearchRecipes)
                                         },
                                         onProfileClick = {
-                                            mainBackStack.clear()
-                                            mainBackStack.add(Route.Profile)
+                                            topLevelBackStack.clear()
+                                            topLevelBackStack.add(Route.Profile)
                                         },
                                     )
                                 }
                                 entry<Route.SavedRecipes> {
-
+                                    SavedRecipesRoot(
+                                        onCardClick = { recipeId ->
+                                            topLevelBackStack.add(Route.RecipeDetail(recipeId))
+                                        },
+                                    )
                                 }
                                 entry<Route.Notifications> {
 
@@ -100,10 +106,13 @@ fun NavigationRoot(
                 SearchRecipesRoot(
                     onBackClick = {
                         if (topLevelBackStack.size > 1) {
-                            topLevelBackStack.removeLast()
+                            topLevelBackStack.removeAt(topLevelBackStack.lastIndex)
                         }
                     }
                 )
+            }
+            entry<Route.RecipeDetail> { key ->
+                IngredientRoot(key.recipeId)
             }
         }
     )
