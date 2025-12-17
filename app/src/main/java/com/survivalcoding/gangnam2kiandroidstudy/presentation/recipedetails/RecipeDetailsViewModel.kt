@@ -14,10 +14,9 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipeDetailsViewModel @Inject constructor(
     private val getRecipeDetailsUseCase: GetRecipeDetailsUseCase,
-    recipeDetailsState: RecipeDetailsState = RecipeDetailsState(),
 ) : ViewModel() {
     private val _uiState: MutableStateFlow<RecipeDetailsState> =
-        MutableStateFlow(recipeDetailsState)
+        MutableStateFlow(RecipeDetailsState())
     val uiState: StateFlow<RecipeDetailsState> = _uiState.asStateFlow()
 
     fun fetchRecipeDetails(recipeId: Long) {
