@@ -1,9 +1,10 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.data_source
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.ChefDto
+import javax.inject.Inject
 
-class MockChefDataSourceImpl : ChefDataSource {
-    
+class MockChefDataSourceImpl @Inject constructor() : ChefDataSource {
+
     private val chefs = listOf(
         ChefDto(
             id = 1,

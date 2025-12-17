@@ -1,8 +1,9 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.data_source
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.ProcedureDto
+import javax.inject.Inject
 
-class MockProcedureDataSourceImpl : ProcedureDataSource {
+class MockProcedureDataSourceImpl @Inject constructor() : ProcedureDataSource {
 
     private val procedures = listOf(
         // Recipe 1

@@ -5,8 +5,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ChefRepositor
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import javax.inject.Inject
 
-class GetRecipeDetailUseCase(
+class GetRecipeDetailUseCase @Inject constructor(
     private val recipeRepository: RecipeRepository,
     private val ingredientRepository: IngredientRepository,
     private val chefRepository: ChefRepository,

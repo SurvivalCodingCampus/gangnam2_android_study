@@ -2,9 +2,10 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.data_source
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.RecipeDto
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.HomeImage
+import javax.inject.Inject
 
 
-class MockRecipeDataSourceImpl : RecipeDataSource {
+class MockRecipeDataSourceImpl @Inject constructor() : RecipeDataSource {
 
     private val mockRecipeDtoList = listOf(
         RecipeDto(

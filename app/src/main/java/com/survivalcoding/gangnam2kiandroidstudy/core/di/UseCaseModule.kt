@@ -12,11 +12,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
     @Provides
+    @Singleton
     fun provideGetRecipeDetailUseCase(
         recipeRepository: RecipeRepository,
         ingredientRepository: IngredientRepository,
@@ -33,6 +35,7 @@ object UseCaseModule {
     }
 
     @Provides
+    @Singleton
     fun provideGetSavedRecipeUseCase(
         bookmarkRepository: BookmarkRepository,
         recipeRepository: RecipeRepository
@@ -44,6 +47,7 @@ object UseCaseModule {
     }
 
     @Provides
+    @Singleton
     fun provideToggleBookmarkUseCase(
         bookmarkRepository: BookmarkRepository
     ): ToggleBookmarkUseCase {
