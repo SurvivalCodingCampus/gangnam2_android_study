@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.data.model
+package com.survivalcoding.gangnam2kiandroidstudy.domain.model
 
 enum class UnitType(val label: String) {
     GRAM("g"),
@@ -18,5 +18,5 @@ data class Ingredient(
     val id: Long,
     val name: String,
     val image: String,
-    val amount: IngredientAmount
+    val amount: IngredientAmount = IngredientAmount(0.0, UnitType.PIECE),
 )

@@ -63,11 +63,7 @@ fun SavedRecipesScreen(
                 ) {
                     items(uiState.recipes) { recipe ->
                         RecipeCard(
-                            name = recipe.name,
-                            imageUrl = recipe.image,
-                            chef = recipe.chef,
-                            time = recipe.time,
-                            rating = recipe.rating,
+                            recipe = recipe,
                             onClick = { onClick(recipe.id) },
                         )
 

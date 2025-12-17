@@ -13,7 +13,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.notifications.NotificationsScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.profile.ProfileScreen
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetails.RecipeDetailsScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetails.RecipeDetailsRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes.SavedRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.signin.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.signup.SignUpScreen
@@ -89,9 +89,7 @@ fun NavigationRoot(
                 HomeRoot()
             }
 
-            entry<Route.SavedRecipes> { SavedRecipesRoot() }
-
-            entry<Route.RecipeDetail> { RecipeDetailsScreen(it.recipeId) }
+            entry<Route.RecipeDetails> { RecipeDetailsRoot(it.recipeId) }
 
             entry<Route.Main> {
                 val backStack = rememberNavBackStack(Route.Home)
@@ -108,7 +106,14 @@ fun NavigationRoot(
                             ),
                             entryProvider = entryProvider {
                                 entry<Route.Home> { HomeRoot() }
-                                entry<Route.SavedRecipes> { SavedRecipesRoot() }
+                                entry<Route.SavedRecipes> {
+                                    SavedRecipesRoot(
+                                        onItemClick = { recipeId ->
+                                            topLevelBackStack.removeIf { it is Route.RecipeDetails }
+                                            topLevelBackStack.add(Route.RecipeDetails(recipeId))
+                                        },
+                                    )
+                                }
                                 entry<Route.Notifications> { NotificationsScreen() }
                                 entry<Route.Profile> { ProfileScreen() }
                             }
