@@ -8,12 +8,15 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeDetailsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class IngridentViewModel(
+@HiltViewModel
+class IngridentViewModel @Inject constructor(
     private val getRecipeDetailsUseCase: GetRecipeDetailsUseCase,
 ) : ViewModel() {
 
@@ -46,14 +49,4 @@ class IngridentViewModel(
         }
     }
 
-
-    companion object {
-
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = (this[APPLICATION_KEY] as AppApplication)
-                IngridentViewModel(application.getRecipeDetailsUseCase)
-            }
-        }
-    }
 }

@@ -14,43 +14,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngridentRepo
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeDetailsUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetSavedRecipesUseCase
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class AppApplication : Application() {
-
-    val recipeRepository: RecipeRepository by lazy {
-        RecipeRepositoryImpl(
-            recipeDataSource = MockRecipeDataSourceImpl()
-        )
-    }
-    val bookmarkRepository: BookmarkRepository by lazy {
-        BookmarkRepositoryImpl(
-            userDataSource = MockUserDataSourceImpl()
-        )
-    }
-    val procedureRepository: ProcedureRepository by lazy {
-        ProcedureRepositoryImpl(
-            procedureDataSource = ProcedureDataSoureImpl()
-        )
-    }
-
-    val ingridentRepository: IngridentRepository by lazy {
-        IngridentRepositoryImpl(
-            recipeDataSource = MockRecipeDataSourceImpl()
-        )
-    }
-    val getSavedRecipesUseCase: GetSavedRecipesUseCase by lazy {
-        GetSavedRecipesUseCase(
-            recipeRepository = recipeRepository,
-            bookmarkRepository = bookmarkRepository
-        )
-    }
-
-    val getRecipeDetailsUseCase: GetRecipeDetailsUseCase by lazy {
-        GetRecipeDetailsUseCase(
-            recipeRepository = recipeRepository,
-            procedureRepository = procedureRepository,
-            ingridentRepository = ingridentRepository
-        )
-    }
 
 }
