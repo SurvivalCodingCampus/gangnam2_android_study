@@ -1,21 +1,20 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipe
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetSavedRecipesUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.ToggleBookmarkUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SavedRecipesViewModel(
+@HiltViewModel
+class SavedRecipesViewModel @Inject constructor(
     private val getSavedRecipesUseCase: GetSavedRecipesUseCase,
     private val toggleBookmarkUseCase: ToggleBookmarkUseCase
 ) : ViewModel() {
@@ -70,17 +69,5 @@ class SavedRecipesViewModel(
                 }
             }
         }
-    }
-
-    companion object {
-        fun factory(application: AppApplication): ViewModelProvider.Factory =
-            viewModelFactory {
-                initializer {
-                    SavedRecipesViewModel(
-                        getSavedRecipesUseCase = application.getSavedRecipesUseCase,
-                        toggleBookmarkUseCase = application.toggleBookmarkUseCase
-                    )
-                }
-            }
     }
 }

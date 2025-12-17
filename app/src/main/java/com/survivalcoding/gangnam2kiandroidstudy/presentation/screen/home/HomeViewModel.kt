@@ -1,23 +1,21 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.ToggleBookmarkUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.selector.HomeCategory
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository,
     private val bookmarkRepository: BookmarkRepository,
     private val toggleBookmarkUseCase: ToggleBookmarkUseCase
@@ -96,19 +94,5 @@ class HomeViewModel(
                 }
             }
         }
-    }
-
-
-    companion object {
-        fun Factory(application: AppApplication): ViewModelProvider.Factory =
-            viewModelFactory {
-                initializer {
-                    HomeViewModel(
-                        recipeRepository = application.recipeRepository,
-                        bookmarkRepository = application.bookmarkRepository,
-                        toggleBookmarkUseCase = application.toggleBookmarkUseCase
-                    )
-                }
-            }
     }
 }
