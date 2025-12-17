@@ -32,7 +32,6 @@ fun IngredientItem(
         modifier = Modifier
             .fillMaxWidth()
             .height(76.dp)
-            .padding(horizontal = 30.dp)
             .background(color = AppColors.gray4, shape = RoundedCornerShape(12.dp)),
     ) {
         AsyncImage(

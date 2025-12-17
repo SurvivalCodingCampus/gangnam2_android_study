@@ -9,5 +9,5 @@ data class IngredientListDto(
     @SerialName("amount")
     val amount: Int?,
     @SerialName("ingredient")
-    val ingredient: IngredientDto?
+    val ingredient: IngridentDto?
 )

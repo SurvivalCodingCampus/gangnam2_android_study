@@ -1,6 +1,8 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipe
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,35 +12,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.MutableCreationExtras
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
+import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun SavedRecipesScreen(
-    viewModel: SavedRecipesViewModel = viewModel(
-        factory = SavedRecipesViewModel.Factory,
-        extras = MutableCreationExtras().apply {
-            set(
-                ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY,
-                LocalContext.current.applicationContext as AppApplication
-            )
-        }
-    )
+    modifier: Modifier = Modifier,
+    state: SavedRecipesState = SavedRecipesState(),
+    onBookmarkClick: (Int) -> Unit = {},
+    onCardClick: (Int) -> Unit = {}
 ) {
-    val recipes = viewModel.recipes.collectAsState()
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .background(AppColors.white),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(54.dp))
@@ -52,11 +45,20 @@ fun SavedRecipesScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 30.dp),
+            contentPadding = PaddingValues(
+                bottom = 120.dp
+            )
         ) {
-            items(recipes.value) { recipe ->
+            items(state.recipes) { recipe ->
                 RecipeCard(
                     recipe = recipe,
-                    modifier = Modifier.padding(vertical = 10.dp)
+                    modifier = Modifier.padding(vertical = 10.dp),
+                    onBookmarkClick = {
+                        onBookmarkClick(it)
+                    },
+                    onCardClick = {
+                        onCardClick(it)
+                    }
                 )
             }
         }

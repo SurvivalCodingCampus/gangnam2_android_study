@@ -7,27 +7,38 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetSavedRecipesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SavedRecipesViewModel(
-    val repository: RecipeRepository
+    private val getSavedRecipesUseCase: GetSavedRecipesUseCase,
 ) : ViewModel() {
-    private val _recipes = MutableStateFlow<List<Recipe>>(emptyList())
-    val recipes: StateFlow<List<Recipe>> = _recipes.asStateFlow()
+
+    private val _state = MutableStateFlow(SavedRecipesState())
+    val state = _state.asStateFlow()
 
     init {
-        getRecipes()
+        getRecipes(0)
     }
 
-    fun getRecipes() {
+    fun getRecipes(id: Int) {
         viewModelScope.launch {
-            val result = repository.getRecipes()
-            _recipes.value = result
+            _state.update {
+                it.copy(
+                    isLoading = true
+                )
+            }
+            val recipes = getSavedRecipesUseCase.execute(id)
+
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    recipes = recipes
+                )
+            }
         }
     }
 
@@ -35,8 +46,8 @@ class SavedRecipesViewModel(
 
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val repository = (this[APPLICATION_KEY] as AppApplication).recipeRepository
-                SavedRecipesViewModel(repository)
+                val application = (this[APPLICATION_KEY] as AppApplication)
+                SavedRecipesViewModel(application.getSavedRecipesUseCase)
             }
         }
     }

@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class IngredientDto(
+data class IngridentDto(
     @SerialName("id")
     val id: Int?,
     @SerialName("image")

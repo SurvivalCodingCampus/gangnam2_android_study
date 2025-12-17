@@ -8,8 +8,11 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeScreenRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.ingredient.IngredientScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.ingredient.IngredientScreenRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipe.SavedRecipesScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipe.SavedRecipesScreenRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_up.SignUpScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.splash.SplashScreen
@@ -76,7 +79,11 @@ fun NavigationRoot(
                                     HomeScreenRoot()
                                 }
                                 entry<Route.SavedRecipes> {
-                                    SavedRecipesScreen()
+                                    SavedRecipesScreenRoot(
+                                        onCardClick = { recipeId ->
+                                            topLevelBackStack.add(Route.Ingrident(recipeId = recipeId))
+                                        }
+                                    )
                                 }
                                 entry<Route.Notifications> {
 
@@ -88,6 +95,9 @@ fun NavigationRoot(
                         )
                     }
                 )
+            }
+            entry<Route.Ingrident> { route ->
+                IngredientScreenRoot(recipeId = route.recipeId)
             }
 
         }

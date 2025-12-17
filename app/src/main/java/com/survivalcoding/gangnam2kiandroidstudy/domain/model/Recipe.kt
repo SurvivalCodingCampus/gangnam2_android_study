@@ -1,6 +1,7 @@
-package com.survivalcoding.gangnam2kiandroidstudy.data.model
+package com.survivalcoding.gangnam2kiandroidstudy.domain.model
 
 data class Recipe(
+    val id: Int,
     val title: String,
     val chef: String,
     val time: String,
@@ -8,4 +9,5 @@ data class Recipe(
     val rating: Double,
     val imageUrls: String,
     val createdAt: Long,
+    val address: String
 )

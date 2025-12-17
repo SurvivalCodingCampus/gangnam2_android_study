@@ -22,5 +22,7 @@ data class RecipeDto(
     @SerialName("time")
     val time: String?,
     @SerialName("createdAt")
-    val createdAt: Long?
+    val createdAt: Long?,
+    @SerialName("address")
+    val address: String?,
 )

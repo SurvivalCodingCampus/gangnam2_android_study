@@ -1,6 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.datasource
 
-import com.survivalcoding.gangnam2kiandroidstudy.data.dto.IngredientDto
+import com.survivalcoding.gangnam2kiandroidstudy.data.dto.IngridentDto
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.IngredientListDto
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.RecipeDto
 import com.survivalcoding.gangnam2kiandroidstudy.data.util.date
@@ -15,12 +15,13 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             image = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
             name = "Traditional spare ribs baked",
             rating = 4.0,
+            address = "Seoul",
             time = "20 min",
             createdAt = date("2025-12-10"),
             ingredients = listOf(
                 IngredientListDto(
                     amount = 500,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 3,
                         name = "Pork",
                         image = "https://cdn.pixabay.com/photo/2019/12/20/14/44/meat-4708596_1280.jpg"
@@ -28,7 +29,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 ),
                 IngredientListDto(
                     amount = 50,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 9,
                         name = "Onion",
                         image = "https://cdn.pixabay.com/photo/2013/02/21/19/14/onion-bulbs-84722_1280.jpg"
@@ -36,7 +37,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 ),
                 IngredientListDto(
                     amount = 10,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 8,
                         name = "Pepper",
                         image = "https://cdn.pixabay.com/photo/2016/03/05/22/31/pepper-1239308_1280.jpg"
@@ -44,7 +45,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 ),
                 IngredientListDto(
                     amount = 100,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 1,
                         name = "Tomato",
                         image = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg"
@@ -61,10 +62,11 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             rating = 4.0,
             time = "20 min",
             createdAt = date("2000-03-10"),
+            address = "Seoul",
             ingredients = listOf(
                 IngredientListDto(
                     amount = 300,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 6,
                         name = "Chicken",
                         image = "https://cdn.pixabay.com/photo/2010/12/10/08/chicken-1140_1280.jpg"
@@ -72,7 +74,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 ),
                 IngredientListDto(
                     amount = 200,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 4,
                         name = "Rice",
                         image = "https://cdn.pixabay.com/photo/2016/02/29/05/46/brown-rice-1228099_1280.jpg"
@@ -80,7 +82,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 ),
                 IngredientListDto(
                     amount = 5,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 8,
                         name = "Pepper",
                         image = "https://cdn.pixabay.com/photo/2016/03/05/22/31/pepper-1239308_1280.jpg"
@@ -88,7 +90,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 ),
                 IngredientListDto(
                     amount = 500,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 3,
                         name = "Pork",
                         image = "https://cdn.pixabay.com/photo/2019/12/20/14/44/meat-4708596_1280.jpg"
@@ -105,10 +107,11 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             rating = 4.0,
             time = "20 min",
             createdAt = date("2020-01-10"),
+            address = "Seoul",
             ingredients = listOf(
                 IngredientListDto(
                     amount = 200,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 6,
                         name = "Chicken",
                         image = "https://cdn.pixabay.com/photo/2010/12/10/08/chicken-1140_1280.jpg"
@@ -116,7 +119,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 ),
                 IngredientListDto(
                     amount = 150,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 4,
                         name = "Rice",
                         image = "https://cdn.pixabay.com/photo/2016/02/29/05/46/brown-rice-1228099_1280.jpg"
@@ -124,7 +127,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 ),
                 IngredientListDto(
                     amount = 100,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 1,
                         name = "Tomato",
                         image = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg"
@@ -141,6 +144,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             rating = 5.0,
             time = "30 min",
             ingredients = emptyList(),
+            address = "Seoul",
             createdAt = date("2025-12-06"),
         ),
         RecipeDto(
@@ -152,10 +156,11 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             rating = 4.5,
             time = "25 min",
             createdAt = date("2020-01-01"),
+            address = "Seoul",
             ingredients = listOf(
                 IngredientListDto(
                     amount = 150,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 5,
                         name = "Avocado",
                         image = "https://cdn.pixabay.com/photo/2020/01/02/01/43/avocado-4734786_1280.jpg"
@@ -163,7 +168,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 ),
                 IngredientListDto(
                     amount = 5,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 8,
                         name = "Pepper",
                         image = "https://cdn.pixabay.com/photo/2016/03/05/22/31/pepper-1239308_1280.jpg"
@@ -180,10 +185,11 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             rating = 5.0,
             time = "45 min",
             createdAt = date("2023-02-10"),
+            address = "Seoul",
             ingredients = listOf(
                 IngredientListDto(
                     amount = 500,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 2,
                         name = "Beef",
                         image = "https://cdn.pixabay.com/photo/2016/01/21/18/08/meet-1154341_1280.png"
@@ -191,7 +197,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 ),
                 IngredientListDto(
                     amount = 100,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 9,
                         name = "Onion",
                         image = "https://cdn.pixabay.com/photo/2013/02/21/19/14/onion-bulbs-84722_1280.jpg"
@@ -208,10 +214,11 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             rating = 4.3,
             time = "15 min",
             createdAt = date("2025-09-12"),
+            address = "Seoul",
             ingredients = listOf(
                 IngredientListDto(
                     amount = 200,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 1,
                         name = "Tomato",
                         image = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg"
@@ -228,10 +235,11 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             rating = 4.8,
             time = "60 min",
             createdAt = date("2025-12-11"),
+            address = "Seoul",
             ingredients = listOf(
                 IngredientListDto(
                     amount = 200,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 6,
                         name = "Chicken",
                         image = "https://cdn.pixabay.com/photo/2010/12/10/08/chicken-1140_1280.jpg"
@@ -239,7 +247,7 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
                 ),
                 IngredientListDto(
                     amount = 100,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 4,
                         name = "Rice",
                         image = "https://cdn.pixabay.com/photo/2016/02/29/05/46/brown-rice-1228099_1280.jpg"
@@ -256,10 +264,11 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             rating = 4.6,
             time = "40 min",
             createdAt = date("2025-12-09"),
+            address = "Seoul",
             ingredients = listOf(
                 IngredientListDto(
                     amount = 300,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 9,
                         name = "Onion",
                         image = "https://cdn.pixabay.com/photo/2013/02/21/19/14/onion-bulbs-84722_1280.jpg"
@@ -276,10 +285,11 @@ class MockRecipeDataSourceImpl : RecipeDataSource {
             rating = 4.9,
             time = "30 min",
             createdAt = date("2025-05-10"),
+            address = "Seoul",
             ingredients = listOf(
                 IngredientListDto(
                     amount = 100,
-                    ingredient = IngredientDto(
+                    ingredient = IngridentDto(
                         id = 7,
                         name = "Sugar",
                         image = "https://cdn.pixabay.com/photo/2014/11/28/19/10/lump-sugar-549096_1280.jpg"

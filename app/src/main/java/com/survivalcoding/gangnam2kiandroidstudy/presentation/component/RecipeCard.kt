@@ -3,6 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 import android.graphics.Color.YELLOW
 import android.graphics.drawable.ColorDrawable
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,20 +36,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun RecipeCard(
-    recipe: Recipe,
-    modifier: Modifier = Modifier
+    recipe: Recipe?,
+    modifier: Modifier = Modifier,
+    onBookmarkClick: (Int) -> Unit = {},
+    onCardClick: (Int) -> Unit = {}
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .aspectRatio(315 / 150f)
             .clip(RoundedCornerShape(10.dp))
+            .clickable {
+                onCardClick(recipe?.id ?: 0)
+            }
     ) {
         //이미지
         AsyncImage(
@@ -58,9 +64,9 @@ fun RecipeCard(
             model = if (LocalInspectionMode.current) {
                 ColorDrawable(YELLOW)
             } else {
-                recipe.imageUrls
+                recipe?.imageUrls
             },
-            contentDescription = recipe.title,
+            contentDescription = recipe?.title,
             contentScale = ContentScale.Crop,
         )
 
@@ -102,7 +108,7 @@ fun RecipeCard(
             )
             Spacer(modifier = Modifier.width(3.dp))
             Text(
-                text = recipe.rating.toString(),
+                text = recipe?.rating.toString(),
                 style = AppTextStyles.smallerTextRegular.copy(fontSize = 8.sp),
                 modifier = Modifier.size(12.dp)
             )
@@ -120,13 +126,13 @@ fun RecipeCard(
             ) {
                 Text(
                     modifier = Modifier.aspectRatio(190 / 41f),
-                    text = recipe.title,
+                    text = recipe?.title ?: "",
                     style = AppTextStyles.smallTextBold.copy(
                         color = AppColors.white
                     ),
                 )
                 Text(
-                    text = "By ${recipe.chef}",
+                    text = "By ${recipe?.chef}",
                     style = AppTextStyles.smallerTextRegular.copy(
                         fontSize = 8.sp,
                         color = AppColors.gray4
@@ -150,7 +156,7 @@ fun RecipeCard(
                 )
 
                 Text(
-                    text = recipe.time,
+                    text = recipe?.time ?: "",
                     style = AppTextStyles.smallerTextRegular.copy(
                         color = AppColors.white
                     ),
@@ -162,7 +168,10 @@ fun RecipeCard(
                     modifier = Modifier
                         .size(24.dp)
                         .clip(CircleShape)
-                        .background(AppColors.primary20),
+                        .background(AppColors.primary20)
+                        .clickable {
+                            onBookmarkClick(recipe?.id ?: 0)
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -195,7 +204,9 @@ private fun RecipeCardPreview() {
                 category = "Chinese",
                 rating = 4.0,
                 time = "20 min",
-                createdAt = System.currentTimeMillis()
+                createdAt = System.currentTimeMillis(),
+                id = 0,
+                address = "Seoul",
             )
         )
     }
