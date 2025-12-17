@@ -9,7 +9,7 @@ data class RecipeDetailsState(
     val recipe: Recipe? = null,
     val isLoading: Boolean = false,
     val profile: Profile? = null,
-    val selectedTabIndex: Int = 0, // 0: ingredients, 1: procedures
+    var selectedTabIndex: Int = 0, // 0: ingredients, 1: procedures
     val reviewCount: Int = 0,
     val ingredients: List<Ingredient> = emptyList(),
     val procedures: List<Procedure> = emptyList(),
