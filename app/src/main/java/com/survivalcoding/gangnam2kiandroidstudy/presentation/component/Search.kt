@@ -16,8 +16,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
-import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppColors
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 
 @Composable
 fun Search(onValueChange: (String) -> Unit) {

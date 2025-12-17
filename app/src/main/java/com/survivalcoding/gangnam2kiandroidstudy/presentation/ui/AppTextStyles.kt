@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.ui
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.ui
 
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight

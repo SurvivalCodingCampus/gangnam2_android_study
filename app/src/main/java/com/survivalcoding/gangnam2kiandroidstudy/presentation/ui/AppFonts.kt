@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.ui
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.ui
 
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -10,6 +10,6 @@ object AppFonts {
         Font(R.font.poppins_regular, weight = FontWeight.Normal),
         Font(R.font.poppins_bold, weight = FontWeight.Bold),
         Font(R.font.poppins_semibold, weight = FontWeight.SemiBold)
-        )
+    )
 
 }

@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,12 +30,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.model.Recipe
-import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
-import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppColors
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 
 @Composable
-fun RecipeCard(recipe: Recipe) {
+fun RecipeCard(
+    recipe: Recipe,
+    isSaved: Boolean,
+    onBookMarkClick: () -> Unit,
+    onRecipeClick: (Recipe) -> Unit = {},
+) {
     Row(modifier = Modifier.height(150.dp)) {
 
         Box(
@@ -42,7 +48,9 @@ fun RecipeCard(recipe: Recipe) {
                 .weight(1f)
                 .fillMaxHeight()
                 .clip(RoundedCornerShape(12.dp))
-        ) { // Main Box, clip 추가
+                .clickable(onClick = { onRecipeClick(recipe) }),
+
+            ) { // Main Box, clip 추가
             // 배경 이미지
             AsyncImage(
                 model = recipe.image,
@@ -101,12 +109,12 @@ fun RecipeCard(recipe: Recipe) {
                         verticalArrangement = Arrangement.Bottom // 하단 정렬
                     ) {
                         Text(
-                            recipe.name, // 실제 레시피 이름 사용
+                            recipe.name.ifEmpty { "" },
                             modifier = Modifier.width(200.dp),
                             style = AppTextStyles.smallTextBold.copy(color = AppColors.white)
                         )
                         Text(
-                            "By ${recipe.chef}", // 실제 셰프 이름 사용
+                            if(recipe.chef.isNotEmpty()) "By ${recipe.chef}" else "",
                             modifier = Modifier,
                             style = AppTextStyles.smallerTextRegular.copy(color = AppColors.white)
                         )
@@ -121,7 +129,10 @@ fun RecipeCard(recipe: Recipe) {
                     modifier = Modifier.padding(bottom = 10.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) { // 여기에 bottom padding 추가
-                    Image(painter = painterResource(R.drawable.timer), contentDescription = "알람")
+                    Image(
+                        painter = painterResource(R.drawable.timer),
+                        contentDescription = "알람"
+                    )
                     Spacer(modifier = Modifier.width(5.dp)) // 이미지와 텍스트 사이 간격
                     Text(
                         text = recipe.time,
@@ -133,11 +144,15 @@ fun RecipeCard(recipe: Recipe) {
                         modifier = Modifier
                             .size(24.dp) // 24dp 크기
                             .clip(CircleShape) // 원형으로 자르기
-                            .background(Color.White), // 흰색 배경
-                        contentAlignment = Alignment.Center
-                    ) {
+                            .background(Color.White)
+                            .clickable(onClick = { onBookMarkClick() }),
+                        contentAlignment = Alignment.Center,
+
+                        ) {
                         Image(
-                            painter = painterResource(R.drawable.inactive),
+                            painter = if (isSaved) painterResource(R.drawable.inactive) else painterResource(
+                                R.drawable.outline_bookmark_inactive
+                            ),
                             contentDescription = ""
                         )
 
@@ -156,14 +171,14 @@ fun RecipeCard(recipe: Recipe) {
 @Preview(showBackground = true)
 @Composable
 fun RecipeCardPreview() {
-    val recipeDto = Recipe(
-        category = "Test",
-        chef = "Chef John",
-        id = 1,
-        image = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-        name = "Grilled Steak",
-        rating = 4.5,
-        time = "30 min" // 예시 시간 추가
-    )
-    RecipeCard(recipeDto)
+//    val recipeDto = Recipe(
+//        category = "Test",
+//        chef = "Chef John",
+//        id = 1,
+//        image = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
+//        name = "Grilled Steak",
+//        rating = 4.5,
+//        time = "30 min" // 예시 시간 추가
+//    )
+//    RecipeCard(recipeDto,true,{})
 }

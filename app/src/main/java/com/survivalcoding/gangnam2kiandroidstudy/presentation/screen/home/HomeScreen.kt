@@ -28,12 +28,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.CustomSearchField
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.MediumRecipeCard
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Search
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SettingButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallButton2
-import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
-import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppColors
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 
 @Composable
 fun HomeScreen(
@@ -76,8 +76,11 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(30.dp))
         Row(modifier = Modifier.padding(horizontal = 30.dp)) {
             Box(modifier = Modifier.weight(1f)) {
-                Search() {
-                    //TODO 디자인 완성 후 콜백 구현
+//                Search() {
+//                    //TODO 디자인 완성 후 콜백 구현
+//                }
+                CustomSearchField {
+
                 }
             }
             Spacer(modifier = Modifier.width(20.dp))

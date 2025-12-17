@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,41 +18,51 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
-import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
-import androidx.compose.ui.draw.clip // clip import 추가
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppColors
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 
 @Composable
 fun IngredientItem(imageUrl: String, foodName: String, foodGram: Int) {
     Row(modifier = Modifier.height(76.dp)) {
-        Spacer(modifier = Modifier.width(30.dp))
         Box(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxHeight()
-                .background(color = AppColors.gray4, shape = RoundedCornerShape(12.dp)),
+                .background(
+                    color = AppColors.gray4.copy(alpha = .5f),
+                    shape = RoundedCornerShape(12.dp)
+                ),
             contentAlignment = Alignment.Center
 
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Spacer(modifier = Modifier.width(15.dp))
-                AsyncImage(
-                    contentScale = ContentScale.Crop,
-
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(15.dp)
+            ) {
+                Box(
                     modifier = Modifier
                         .size(52.dp)
-                        .clip(RoundedCornerShape(10.dp)),
-                    model = imageUrl,
-                    contentDescription = "음식"
-                )
-                Spacer(modifier = Modifier.width(15.dp))
+                        .background(color = AppColors.white, shape = RoundedCornerShape(10.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    AsyncImage(
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(40.dp),
+                        model = imageUrl,
+                        contentDescription = "음식"
+                    )
+                }
+                Spacer(modifier = Modifier.width(16.dp))
 
                 Text(
                     text = foodName,
-                    modifier = Modifier.weight(1f), style = AppTextStyles.normalTextBold
+                    modifier = Modifier.weight(1f),
+                    style = AppTextStyles.normalTextBold.copy(fontWeight = FontWeight.SemiBold)
                 )
 
                 Text(
@@ -63,9 +74,6 @@ fun IngredientItem(imageUrl: String, foodName: String, foodGram: Int) {
 
             }
         }
-        Spacer(modifier = Modifier.width(30.dp))
-
-
     }
 
 }

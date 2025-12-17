@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.routing
 
 import androidx.navigation3.runtime.NavKey
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import kotlinx.serialization.Serializable
 
 sealed interface Route : NavKey {
@@ -27,6 +28,9 @@ sealed interface Route : NavKey {
 
     @Serializable
     data object Profile : Route
+
+    @Serializable
+    data class RecipeItem(val recipe: Recipe) : Route
 
 
 }

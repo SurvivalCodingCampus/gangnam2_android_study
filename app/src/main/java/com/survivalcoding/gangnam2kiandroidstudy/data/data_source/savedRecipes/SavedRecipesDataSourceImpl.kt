@@ -1,10 +1,10 @@
-package com.survivalcoding.gangnam2kiandroidstudy.data_source
+package com.survivalcoding.gangnam2kiandroidstudy.data.data_source.savedRecipes
 
-import com.survivalcoding.gangnam2kiandroidstudy.model.RecipeDto
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipes
 import kotlinx.serialization.json.Json
 
 class SavedRecipesDataSourceImpl : SavedRecipesDataSource {
-    override fun getSavedRecipes(): RecipeDto {
+    override fun getSavedRecipes(): Recipes {
         val file = """{
   "recipes": [
     {
@@ -273,11 +273,52 @@ class SavedRecipesDataSourceImpl : SavedRecipesDataSource {
             "image": "https://cdn.pixabay.com/photo/2014/11/28/19/10/lump-sugar-549096_1280.jpg"
           },
           "amount": 100
+        },
+        {
+          "ingredient": {
+            "id": 11,
+            "name": "Dark Chocolate",
+            "image": "https://cdn.pixabay.com/photo/2015/06/24/13/32/chocolate-820127_1280.jpg"
+          },
+          "amount": 150
+        },
+        {
+          "ingredient": {
+            "id": 12,
+            "name": "Butter",
+            "image": "https://cdn.pixabay.com/photo/2016/01/21/18/01/butter-1154298_1280.jpg"
+          },
+          "amount": 110
+        },
+        {
+          "ingredient": {
+            "id": 13,
+            "name": "Egg",
+            "image": "https://cdn.pixabay.com/photo/2017/02/19/15/22/eggs-2080072_1280.jpg"
+          },
+          "amount": 150
+        },
+        {
+          "ingredient": {
+            "id": 14,
+            "name": "Flour",
+            "image": "https://cdn.pixabay.com/photo/2016/09/13/08/58/wheat-1666701_1280.jpg"
+          },
+          "amount": 50
+        },
+        {
+          "ingredient": {
+            "id": 15,
+            "name": "Vanilla Extract",
+            "image": "https://cdn.pixabay.com/photo/2017/11/12/12/58/vanilla-2942417_1280.jpg"
+          },
+          "amount": 5
         }
       ]
     }
   ]
 }"""
+
         val json = Json {
             ignoreUnknownKeys = true
         }

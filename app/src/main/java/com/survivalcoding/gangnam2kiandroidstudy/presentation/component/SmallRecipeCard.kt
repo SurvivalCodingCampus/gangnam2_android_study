@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,9 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.model.Recipe
-import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
-import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppColors
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 
 @Composable
 fun SmallRecipeCard(recipe: Recipe) {
@@ -124,14 +123,14 @@ fun SmallRecipeCard(recipe: Recipe) {
 @Preview(showBackground = true)
 @Composable
 fun SmallRecipeCardPreview() {
-    val recipeDto = Recipe(
-        category = "Test",
-        chef = "Chef John",
-        id = 1,
-        image = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-        name = "Grilled Steak",
-        rating = 4.5,
-        time = "30 min" // 예시 시간 추가
-    )
-    SmallRecipeCard(recipeDto)
+//    val recipeDto = Recipe(
+//        category = "Test",
+//        chef = "Chef John",
+//        id = 1,
+//        image = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
+//        name = "Grilled Steak",
+//        rating = 4.5,
+//        time = "30 min" // 예시 시간 추가
+//    )
+//    SmallRecipeCard(recipeDto)
 }

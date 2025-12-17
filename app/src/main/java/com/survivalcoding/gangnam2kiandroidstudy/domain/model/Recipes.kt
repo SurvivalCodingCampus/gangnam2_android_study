@@ -1,8 +1,8 @@
-package com.survivalcoding.gangnam2kiandroidstudy.model
+package com.survivalcoding.gangnam2kiandroidstudy.domain.model
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RecipeDto(
+data class Recipes(
     val recipes: List<Recipe>
 )
