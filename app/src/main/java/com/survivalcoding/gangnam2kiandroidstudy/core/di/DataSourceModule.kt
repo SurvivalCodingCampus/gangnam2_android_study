@@ -4,6 +4,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSour
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSourceImpl
 import org.koin.dsl.module
 
-val databaseMoudle = module {
+val dataSourceModule = module {
     single<RecipeDataSource> { RecipeDataSourceImpl() }
 }
