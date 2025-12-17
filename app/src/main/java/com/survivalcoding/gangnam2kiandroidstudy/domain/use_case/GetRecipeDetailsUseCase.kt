@@ -6,13 +6,14 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import jakarta.inject.Inject
 
-class GetRecipeDetailsUseCase(
+class GetRecipeDetailsUseCase @Inject constructor(
     private val recipeRepository: RecipeRepository,
     private val ingredientRepository: IngredientRepository,
     private val procedureRepository: ProcedureRepository
 ) {
-    suspend fun execute(recipeId: Int): RecipeDetails {
+    suspend fun execute(recipeId: Int?): RecipeDetails {
         val recipe = recipeRepository.getRecipe(recipeId)
         val ingredients = ingredientRepository.getIngredients(recipeId)
         val procedures = procedureRepository.getProcedures()

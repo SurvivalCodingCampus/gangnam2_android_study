@@ -2,8 +2,9 @@ package com.survivalcoding.gangnam2kiandroidstudy.domain.use_case
 
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
+import jakarta.inject.Inject
 
-class GetSavedRecipesUseCase(
+class GetSavedRecipesUseCase @Inject constructor(
     private val repository: BookmarkRepository
 ) {
     suspend fun execute(): List<Recipe> {

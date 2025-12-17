@@ -2,8 +2,9 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
+import jakarta.inject.Inject
 
-class ProcedureRepositoryImpl : ProcedureRepository {
+class ProcedureRepositoryImpl @Inject constructor(): ProcedureRepository {
 
     private val mockProcedures = listOf(
         Procedure(id = 1, step = 1, description = "First, chop the onions and garlic."),
