@@ -8,7 +8,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSe
 
 @Composable
 fun SearchRecipesRoot(
-    viewModel: SearchRecipesViewModel = viewModel(factory = SearchRecipesViewModel.Factory),
+    viewModel: SearchRecipesViewModel = viewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

@@ -3,16 +3,12 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeSearchCondition
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeSearchFilter
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,12 +21,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchRecipesViewModel(
+@HiltViewModel
+class SearchRecipesViewModel @Inject constructor(
     private val repository: RecipeRepository,
-    state: SearchRecipesUiState = SearchRecipesUiState(),
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(state)
+    private val _uiState = MutableStateFlow(SearchRecipesUiState())
     val uiState: StateFlow<SearchRecipesUiState> = _uiState.asStateFlow()
 
     private val searchTextFlow: Flow<String> = uiState.map { it.searchText }
@@ -117,12 +114,5 @@ class SearchRecipesViewModel(
 
     companion object {
         const val DEBOUNCE_TIMEOUT_MILLIS = 500L
-
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val repository = (this[APPLICATION_KEY] as AppApplication).recipeRepository
-                SearchRecipesViewModel(repository, SearchRecipesUiState())
-            }
-        }
     }
 }

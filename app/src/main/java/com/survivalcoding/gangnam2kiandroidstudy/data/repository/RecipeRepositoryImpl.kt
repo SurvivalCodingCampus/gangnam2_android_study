@@ -16,8 +16,9 @@ import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerializationException
 import java.io.IOException
+import javax.inject.Inject
 
-class RecipeRepositoryImpl(
+class RecipeRepositoryImpl @Inject constructor(
     private val dataSource: RecipeDataSource,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : RecipeRepository {

@@ -4,20 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 
 @Composable
 fun RecipeDetailsRoot(
     id: Long,
     modifier: Modifier = Modifier,
-    viewModel: RecipeDetailsViewModel = viewModel(
-        factory = RecipeDetailsViewModel.factory(
-            LocalContext.current.applicationContext as AppApplication,
-        ),
-    ),
+    viewModel: RecipeDetailsViewModel = hiltViewModel(),
     onBackClick: () -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()

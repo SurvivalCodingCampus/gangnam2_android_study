@@ -3,17 +3,14 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.CategoryFilterType
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeSearchCondition
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeSearchFilter
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,12 +22,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository,
-    homeUiState: HomeUiState = HomeUiState(),
 ) : ViewModel() {
-    private val _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(homeUiState)
+    private val _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     private val queryFlow = uiState.map { it.query }
@@ -90,11 +88,5 @@ class HomeViewModel(
 
     companion object {
         const val DEBOUNCE_TIMEOUT_MILLIS = 500L
-
-        fun factory(application: AppApplication): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                HomeViewModel(application.recipeRepository)
-            }
-        }
     }
 }
