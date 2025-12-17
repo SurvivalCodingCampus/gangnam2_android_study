@@ -11,7 +11,10 @@ class GetSavedRecipesUseCase(
 ) {
     suspend fun execute(): Result<List<Recipe>, String> {
         try {
-            val all = recipeRepository.findRecipes()
+            val all = when (val result = recipeRepository.findRecipes()){
+                is Result.Success -> result.data
+                is Result.Error -> emptyList()
+            }
             val saved = bookmarkRepository.getBookmarkedRecipeIds()
 
             val savedRecipes = all.filter { saved.contains(it.id) }

@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetSavedRecipesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 class SavedRecipesViewModel(
     private val recipeRepository: RecipeRepository,
     private val savedStateHandle: SavedStateHandle,
+    private val getSavedRecipesUseCase: GetSavedRecipesUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SavedRecipesState())
@@ -66,23 +68,16 @@ class SavedRecipesViewModel(
     }
 
     companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val savedStateHandle = createSavedStateHandle()
-                val recipeRepository = (this[APPLICATION_KEY] as AppApplication).recipeRepository
-                SavedRecipesViewModel(
-                    recipeRepository = recipeRepository,
-                    savedStateHandle = savedStateHandle,
-                )
-            }
-        }
-
-        fun factory(application: AppApplication): ViewModelProvider.Factory =
+        fun factory(
+            application: AppApplication,
+            useCase: GetSavedRecipesUseCase
+        ): ViewModelProvider.Factory =
             viewModelFactory {
                 initializer {
                     SavedRecipesViewModel(
                         recipeRepository = application.recipeRepository,
                         savedStateHandle = createSavedStateHandle(),
+                        getSavedRecipesUseCase = useCase,
                     )
                 }
             }
