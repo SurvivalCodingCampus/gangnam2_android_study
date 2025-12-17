@@ -27,10 +27,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSettingButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeSearchCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Search
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.filter.FilterSearchBottomSheet
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.filter.FilterSearchState
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -132,37 +132,8 @@ fun SearchRecipeScreen(
 @Composable
 private fun SearchRecipeScreenPreview() {
     val state = SearchRecipeState(
-        recipes = listOf(
-            Recipe(
-                1,
-                "Indian",
-                "Classic Greek Salad",
-                "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-                "Chef John",
-                "20 min",
-                4.0
-            ),
-            Recipe(
-                2,
-                "Indian",
-                "Classic Greek Salad",
-                "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-                "Chef John",
-                "20 min",
-                4.0
-            )
-        ),
-        filterRecipes = listOf(
-            Recipe(
-                1,
-                "Indian",
-                "Classic Greek Salad",
-                "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-                "Chef John",
-                "20 min",
-                4.0
-            )
-        )
+        recipes = MockRecipeData.recipeListThree,
+        filterRecipes = MockRecipeData.recipeListThree
     )
 
     Scaffold { innerPadding ->

@@ -1,12 +1,12 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
-import android.util.Log
+import com.survivalcoding.gangnam2kiandroidstudy.core.NetworkError
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.core.isFailure
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.mapper.toModel
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
-import com.survivalcoding.gangnam2kiandroidstudy.exception.NetworkError
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.serialization.SerializationException
 import okio.IOException
@@ -49,8 +49,6 @@ class RecipeRepositoryImpl(private val dataSource: RecipeDataSource) : RecipeRep
 
             val recipes = response.body?.recipes ?: emptyList()
 
-            Log.d("RecipeRepositoryImpl search: ", "$query : $time : $rate : $category")
-
             recipes.filter { recipe ->
                 val queryMatch = if (query.isBlank()) {
                     true
@@ -80,6 +78,49 @@ class RecipeRepositoryImpl(private val dataSource: RecipeDataSource) : RecipeRep
             Result.Failure(NetworkError.ParseError)
         } catch (e: Exception) {
             Result.Failure(NetworkError.Unknown(e.message ?: "오류가 발생했습니다."))
+        }
+    }
+
+    override suspend fun getRecipes(): List<Recipe> {
+        return try {
+            val response = dataSource.findAll()
+            if (response.isFailure()) {
+                throw NetworkError.HttpError(response.statusCode)
+            }
+
+            response.body?.recipes
+                ?.filter { it.id != null }
+                ?.map { it.toModel() }
+                ?: emptyList()
+        } catch (_: IOException) {
+            throw NetworkError.NetworkUnavailable
+        } catch (_: TimeoutCancellationException) {
+            throw NetworkError.Timeout
+        } catch (_: SerializationException) {
+            throw NetworkError.ParseError
+        } catch (e: Exception) {
+            throw NetworkError.Unknown(e.message ?: "오류가 발생했습니다.")
+        }
+    }
+
+    override suspend fun getRecipeById(recipeId: Int): Recipe? {
+        return try {
+            val response = dataSource.findAll()
+            if (response.isFailure()) {
+                throw NetworkError.HttpError(response.statusCode)
+            }
+
+            response.body?.recipes
+                ?.firstOrNull() { it.id == recipeId }
+                    ?.toModel()
+        } catch (_: IOException) {
+            throw NetworkError.NetworkUnavailable
+        } catch (_: TimeoutCancellationException) {
+            throw NetworkError.Timeout
+        } catch (_: SerializationException) {
+            throw NetworkError.ParseError
+        } catch (e: Exception) {
+            throw NetworkError.Unknown(e.message ?: "오류가 발생했습니다.")
         }
     }
 }

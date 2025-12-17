@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeCategory
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterItemButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RatingButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallButton

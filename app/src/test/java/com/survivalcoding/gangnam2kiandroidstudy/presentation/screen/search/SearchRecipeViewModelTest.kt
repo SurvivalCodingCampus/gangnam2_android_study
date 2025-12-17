@@ -1,9 +1,9 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.exception.NetworkError
-import com.survivalcoding.gangnam2kiandroidstudy.temp.MockRecipeData
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.core.NetworkError
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -28,7 +28,7 @@ class SearchRecipeViewModelTest {
     private lateinit var recipeRepository: RecipeRepository
     private val testDispatcher = StandardTestDispatcher()
 
-    private val mockRecipes = MockRecipeData.recipes
+    private val mockRecipes = MockRecipeData.recipeListThree
 
     @Before
     fun setup() {

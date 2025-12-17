@@ -30,7 +30,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
@@ -105,16 +106,12 @@ fun RecipeSearchCard(recipe: Recipe, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun RecipeSearchCardPreview() {
-    val recipe = Recipe(
-        1,
-        "Indian",
-        "Traditional spare ribs baked",
-        "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-        "Chef John",
-        "20 min",
-        4.0
-    )
+    val recipe = MockRecipeData.recipeListOne
+
     Scaffold {
-        RecipeSearchCard(modifier = Modifier.padding(it), recipe = recipe)
+        RecipeSearchCard(
+            modifier = Modifier.padding(it),
+            recipe = recipe
+        )
     }
 }

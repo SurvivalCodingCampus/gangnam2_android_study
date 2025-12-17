@@ -10,7 +10,9 @@ data class RecipeDto(
     val image: String? = "",
     val chef: String? = "",
     val time: String? = "",
-    val rating: Double? = null
+    val rating: Double? = null,
+    val ingredients: List<IngredientDto>? = null,
+    val procedures: List<ProcedureDto>? = null
 )
 
 @Serializable

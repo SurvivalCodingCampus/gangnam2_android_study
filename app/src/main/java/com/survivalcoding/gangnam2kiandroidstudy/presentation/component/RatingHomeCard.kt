@@ -34,7 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
@@ -120,7 +121,11 @@ fun RatingHomeCard(recipe: Recipe, modifier: Modifier = Modifier) {
                             tint = AppColors.gray3
                         )
                         Spacer(Modifier.width(5.dp))
-                        Text(text = "${recipe.time}s", style = AppTextStyles.smallerTextRegular, color = AppColors.gray3)
+                        Text(
+                            text = "${recipe.time}s",
+                            style = AppTextStyles.smallerTextRegular,
+                            color = AppColors.gray3
+                        )
                     }
                 }
             }
@@ -155,15 +160,7 @@ fun RatingHomeCard(recipe: Recipe, modifier: Modifier = Modifier) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun RateHomeCardPreview() {
-    val recipe = Recipe(
-        1,
-        "Indian",
-        "Steak with tomato sauce and bulgur rice.",
-        "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-        "James Milner",
-        "20 min",
-        4.0
-    )
+    val recipe = MockRecipeData.recipeListOne
 
     Scaffold { innerPadding ->
         RatingHomeCard(

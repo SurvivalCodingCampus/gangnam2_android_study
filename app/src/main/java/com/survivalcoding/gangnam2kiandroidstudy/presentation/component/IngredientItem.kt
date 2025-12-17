@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -17,15 +18,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Ingredient
+import coil.compose.rememberAsyncImagePainter
+import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun IngredientItem(modifier: Modifier = Modifier, ingredient: Ingredient) {
+fun IngredientItem(
+    ingredient: Ingredient,
+    modifier: Modifier = Modifier
+) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -35,8 +42,14 @@ fun IngredientItem(modifier: Modifier = Modifier, ingredient: Ingredient) {
         contentAlignment = Alignment.Center
     ) {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            AsyncImage(
-                model = ingredient.image,
+            val painter = if (LocalInspectionMode.current) {
+                painterResource(R.drawable.tomato)
+            } else {
+                rememberAsyncImagePainter(ingredient.image)
+            }
+
+            Image(
+                painter = painter,
                 contentDescription = "${ingredient.name} image",
                 modifier = Modifier
                     .size(52.dp)
@@ -65,8 +78,10 @@ private fun IngredientItemPreview() {
         1,
         "Tomatos",
         "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
-        "500g"
+        "500g",
+        1
     )
+
     Scaffold {
         IngredientItem(modifier = Modifier.padding(it), ingredient = ingredient)
     }

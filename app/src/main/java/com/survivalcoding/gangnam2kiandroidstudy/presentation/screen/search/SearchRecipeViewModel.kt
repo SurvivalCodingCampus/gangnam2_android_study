@@ -9,7 +9,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.filter.FilterSearchState
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow

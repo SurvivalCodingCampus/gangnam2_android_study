@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,10 +29,9 @@ fun Tabs(
     onValueChange: (Int) -> Unit = {},
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .size(375.dp, 58.dp)
-            .background(color = AppColors.white),
+            .height(58.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -40,11 +40,11 @@ fun Tabs(
                 Column(
                     modifier = Modifier
                         .size(150.dp, 33.dp)
+                        .clickable { onValueChange(index) }
                         .background(
                             color = if (index == selectedIndex) AppColors.primary100 else AppColors.white,
                             shape = RoundedCornerShape(10.dp)
-                        )
-                        .clickable { onValueChange(index) },
+                        ),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
