@@ -4,7 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Ingredient
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import org.junit.Rule
 import org.junit.Test
 
@@ -16,7 +16,7 @@ class IngredientItemTest {
     @Test
     fun testIngredientItem() {
         val ingredient = Ingredient(
-            name = "Tomatos",
+            name = "Tomatoes",
             imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
             amount = "500g",
         )
@@ -25,7 +25,7 @@ class IngredientItemTest {
             IngredientItem(ingredient = ingredient)
         }
 
-        composeTestRule.onNodeWithText("Tomatos").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Tomatoes").assertIsDisplayed()
         composeTestRule.onNodeWithText("500g").assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription("image").assertIsDisplayed()
     }

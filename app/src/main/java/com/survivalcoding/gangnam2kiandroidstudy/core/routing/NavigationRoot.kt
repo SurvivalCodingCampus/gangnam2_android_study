@@ -11,8 +11,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeRo
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.notification.NotificationScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.profile.ProfileScreen
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail.RecipeDetailsScreen
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.savedrecipes.SavedRecipesScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail.RecipeDetailsRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.savedrecipes.SavedRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.signin.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.signup.SignUpScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashScreen
@@ -65,7 +65,6 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                 val backStack = rememberNavBackStack(Route.Home)
 
                 MainScreen(
-                    backStack = backStack,
                     body = { modifier ->
                         NavDisplay(
                             modifier = modifier,
@@ -84,7 +83,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                     )
                                 }
                                 entry<Route.SavedRecipes> {
-                                    SavedRecipesScreen(
+                                    SavedRecipesRoot(
                                         onCardClick = { recipeId ->
                                             topLevelBackStack.removeIf { it is Route.RecipeDetails }
                                             topLevelBackStack.add(Route.RecipeDetails(recipeId))
@@ -96,10 +95,22 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             },
                         )
                     },
+                    onNavigate = {
+                        backStack.clear()
+                        backStack.add(it)
+                    },
+                    isSelectedRoute = {
+                        val currentRoute = backStack.lastOrNull()
+
+                        it == currentRoute
+                    },
                 )
             }
             entry<Route.RecipeDetails> { key ->
-                RecipeDetailsScreen(key.recipeId)
+                RecipeDetailsRoot(
+                    id = key.recipeId,
+                    onBackClick = { topLevelBackStack.remove(key) },
+                )
             }
         },
     )

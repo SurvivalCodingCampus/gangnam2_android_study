@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Ingredient
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 import com.survivalcoding.gangnam2kiandroidstudy.util.orPreview
@@ -75,7 +75,7 @@ fun IngredientItem(
 @Composable
 fun IngredientItemPreview() {
     val ingredient = Ingredient(
-        name = "Tomatos",
+        name = "Tomatoes",
         imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
         amount = "500g",
     )
@@ -86,7 +86,7 @@ fun IngredientItemPreview() {
 @Composable
 fun LongNameIngredientItemPreview() {
     val ingredient = Ingredient(
-        name = "Tomatos".repeat(10),
+        name = "Tomatoes".repeat(10),
         imageUrl = "https://cdn.pixabay.com/photo/2017/10/06/17/17/tomato-2823826_1280.jpg",
         amount = "500g",
     )

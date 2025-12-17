@@ -12,15 +12,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockRecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -29,15 +24,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun SavedRecipesScreen(
     modifier: Modifier = Modifier,
-    viewModel: SavedRecipesViewModel = viewModel(
-        factory = SavedRecipesViewModel.factory(
-            LocalContext.current.applicationContext as AppApplication,
-        ),
-    ),
+    uiState: SavedRecipesUiState = SavedRecipesUiState(),
     onCardClick: (Long) -> Unit = {},
+    onBookmarkClick: (Long) -> Unit = {},
 ) {
-    val recipes by viewModel.recipes.collectAsStateWithLifecycle()
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -59,10 +49,14 @@ fun SavedRecipesScreen(
                 .padding(vertical = 10.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
-            items(items = recipes) {
+            items(
+                items = uiState.recipes,
+                key = { it.id },
+            ) {
                 RecipeCard(
                     recipe = it,
                     onClick = onCardClick,
+                    onBookmarkClick = onBookmarkClick,
                 )
             }
         }
@@ -74,8 +68,8 @@ fun SavedRecipesScreen(
 @Composable
 fun SavedRecipesScreenPreview() {
     SavedRecipesScreen(
-        viewModel = SavedRecipesViewModel(
-            repository = MockRecipeRepositoryImpl,
+        uiState = SavedRecipesUiState(
+            recipes = MockRecipeRepositoryImpl.mockRecipes,
         ),
     )
 }

@@ -2,8 +2,9 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult
 import com.survivalcoding.gangnam2kiandroidstudy.core.NetworkError
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeSearchCondition
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeSearchCondition
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 
 object MockRecipeRepositoryImpl : RecipeRepository {
 
@@ -95,4 +96,8 @@ object MockRecipeRepositoryImpl : RecipeRepository {
 
     override suspend fun getRecipes(searchCondition: RecipeSearchCondition): AppResult<List<Recipe>, NetworkError> =
         AppResult.Success(mockRecipes)
+
+    override suspend fun getRecipe(recipeId: Long): Recipe {
+        return mockRecipes.first()
+    }
 }
