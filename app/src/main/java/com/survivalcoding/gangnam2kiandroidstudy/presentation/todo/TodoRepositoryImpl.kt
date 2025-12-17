@@ -1,6 +1,8 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.todo
 
-class TodoRepositoryImpl(private val dataSource: TodoDataSource) : TodoRepository {
+import javax.inject.Inject
+
+class TodoRepositoryImpl @Inject constructor(private val dataSource: TodoDataSource) : TodoRepository {
     override suspend fun getTodos(): List<Todo> {
         return dataSource.getTodos()
     }
