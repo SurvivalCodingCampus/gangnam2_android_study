@@ -1,11 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipes
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetSavedRecipesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,17 +42,6 @@ class SavedRecipesViewModel(
         viewModelScope.launch {
             bookmarkRepository.removeSavedRecipeId(id)
             loadSavedRecipes()
-        }
-    }
-
-    companion object {
-        fun factory(application: AppApplication): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                SavedRecipesViewModel(
-                    getSavedRecipesUseCase = application.getSavedRecipesUseCase,
-                    bookmarkRepository = application.bookmarkRepository,
-                )
-            }
         }
     }
 }

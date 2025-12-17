@@ -3,24 +3,16 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_rec
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.*
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.FilterSearchBottomSheet
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchRecipeRoot(
     onBackClick: () -> Unit,
 ) {
-    val app = LocalContext.current.applicationContext as? AppApplication
-        ?: throw IllegalStateException("Application must be AppApplication")
-
-    val viewModel: SearchRecipeViewModel = viewModel(
-        factory = SearchRecipeViewModel.factory(app)
-    )
-
+    val viewModel: SearchRecipeViewModel = koinViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     var isBottomSheetOpen by remember { mutableStateOf(false) }

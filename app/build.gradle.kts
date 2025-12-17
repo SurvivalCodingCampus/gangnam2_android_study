@@ -3,8 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("com.google.dagger.hilt.android")
-    id("com.google.devtools.ksp")
 }
 
 android {
@@ -61,10 +59,6 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
 
-    // --- Hilt (의존성 주입) ---
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    ksp("com.google.dagger:hilt-android-compiler:2.51.1")
-
     // --- 테스트 ---
     testImplementation(libs.junit)
     testImplementation("io.mockk:mockk:1.13.9")
@@ -78,4 +72,18 @@ dependencies {
     // --- 디버그용 ---
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    implementation("io.insert-koin:koin-android:3.5.6")
+    implementation("io.insert-koin:koin-androidx-compose:3.5.6")
+// Navigation 3 (필수)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+
+// ViewModel 연동
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+// Material3 adaptive (선택)
+    implementation(libs.androidx.material3.adaptive.navigation3)
+
 }
