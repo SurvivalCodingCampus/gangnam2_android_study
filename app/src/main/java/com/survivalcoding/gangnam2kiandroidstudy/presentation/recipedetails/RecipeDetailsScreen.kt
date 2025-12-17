@@ -28,8 +28,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.IngredientAmount
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Profile
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.UnitType
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.IngredientItem
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.ProcedureItem
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
@@ -260,11 +264,30 @@ fun RecipeDetailsScreenPreview() {
         email = "lee@naver.com",
     )
 
+    val ingredients = listOf(
+        Ingredient(
+            id = 1,
+            name = "Tomato",
+            image = "",
+            amount = IngredientAmount(1.0, UnitType.PIECE),
+        ),
+    )
+
+    val procedures = listOf(
+        Procedure(
+            recipeId = 1,
+            step = 1,
+            content = "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?",
+        ),
+    )
+
     RecipeDetailsScreen(
         uiState = RecipeDetailsState(
             recipe = recipe,
             profile = profile,
             reviewCount = 1,
+            ingredients = ingredients,
+            procedures = procedures,
         )
     )
 }
