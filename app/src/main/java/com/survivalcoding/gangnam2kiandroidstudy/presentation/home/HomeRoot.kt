@@ -9,11 +9,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 
 @Composable
 fun HomeRoot(
-    viewModel: HomeViewModel = viewModel(
-        factory = HomeViewModel.factory(
-            LocalContext.current.applicationContext as AppApplication
-        )
-    ),
+    viewModel: HomeViewModel = viewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 

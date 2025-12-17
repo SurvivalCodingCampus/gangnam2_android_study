@@ -10,11 +10,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 @Composable
 fun SavedRecipesRoot(
     onRecipeClick: (Int) -> Unit,
-    viewModel: SavedRecipesViewModel = viewModel(
-        factory = SavedRecipesViewModel.factory(
-            LocalContext.current.applicationContext as AppApplication
-        )
-    )
+    viewModel: SavedRecipesViewModel = viewModel()
 ) {
     val recipes by viewModel.recipes.collectAsState()
 
