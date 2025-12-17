@@ -85,14 +85,9 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
 
-    // Android Koin
-    implementation(platform("io.insert-koin:koin-bom:4.1.1"))
-    implementation("io.insert-koin:koin-android")
+    implementation("io.insert-koin:koin-android")   // Android Koin
+    implementation("io.insert-koin:koin-androidx-compose")  // Compose Koin
 
-    // Compose Koin
-    implementation(platform("io.insert-koin:koin-bom:4.1.1"))
-    implementation("io.insert-koin:koin-androidx-compose")
-
-    // Navigation 3 support (alpha)
+    // Navigation 3 support (beta)
     implementation("io.insert-koin:koin-compose-navigation3:4.2.0-beta2")
 }

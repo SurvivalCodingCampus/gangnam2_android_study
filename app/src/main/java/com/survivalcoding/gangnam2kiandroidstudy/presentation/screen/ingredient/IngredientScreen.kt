@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -65,7 +66,8 @@ fun IngredientScreen(
             Spacer(modifier = Modifier.weight(1f))
             Icon(
                 painter = painterResource(R.drawable.outline_more),
-                contentDescription = "더보기 아이콘"
+                contentDescription = "더보기 아이콘",
+                modifier = Modifier.clickable { onMoreClick() },
             )
         }
 
@@ -74,6 +76,7 @@ fun IngredientScreen(
             modifier = Modifier.padding(vertical = 10.dp),
             recipe = state.recipe,
             isDetail = true,
+            onBookmarkClick = onBookmarkClick,
         )
 
         // 타이틀
@@ -156,7 +159,7 @@ fun IngredientScreen(
         Tab(
             labels = listOf("Ingredient", "Procedure"),
             modifier = Modifier.fillMaxWidth(),
-            selectedIndex = state.tapIndex,
+            selectedIndex = state.tabIndex,
             onValueChange = { onTapClick(it) }
         )
 
@@ -181,7 +184,7 @@ fun IngredientScreen(
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = if (state.tapIndex == 0) "${state.recipe.ingredients.size} Items"
+                text = if (state.tabIndex == 0) "${state.recipe.ingredients.size} Items"
                 else "${state.procedures.size} Items",
                 style = AppTextStyles.smallerTextRegular,
                 color = AppColors.gray3,
@@ -189,7 +192,7 @@ fun IngredientScreen(
         }
 
         LazyColumn {
-            if (state.tapIndex == 0) {
+            if (state.tabIndex == 0) {
                 items(state.recipe.ingredients) { ingredientAmount ->
                     IngredientItem(
                         ingredient = ingredientAmount.ingredient,
@@ -198,9 +201,9 @@ fun IngredientScreen(
                     )
                 }
             } else {
-                items(state.procedures) { procedure ->
+                itemsIndexed(state.procedures) { index, procedure ->
                     ProcedureItem(
-                        procedureIndex = state.procedures.indexOf(procedure),
+                        procedureIndex = index,
                         procedureContext = procedure,
                         modifier = Modifier.padding(bottom = 10.dp),
                     )

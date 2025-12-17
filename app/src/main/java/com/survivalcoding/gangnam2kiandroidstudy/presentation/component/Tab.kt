@@ -83,7 +83,7 @@ fun tabs2Label(
     ) {
         Text(
             text = text,
-            style = AppTextStyles.smallerTextBold.copy(color = AppColors.white),
+            style = AppTextStyles.smallerTextBold,
             color = if (isSelected) AppColors.white else AppColors.primary80
         )
     }

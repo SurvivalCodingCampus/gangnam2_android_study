@@ -35,7 +35,7 @@ class IngredientViewModel(
 
     // tap 클릭마다 index 업데이트
     fun updateTabIndex(index: Int) {
-        _state.update { it.copy(tapIndex = index) }
+        _state.update { it.copy(tabIndex = index) }
     }
 
     // 과정 로드
