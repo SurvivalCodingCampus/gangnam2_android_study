@@ -1,12 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.ingredient
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeDetailsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -43,17 +38,6 @@ class IngridentViewModel(
     fun toggleTab(selectedIndex: Int) {
         _state.update {
             it.copy(selectedIndex = if (selectedIndex == 0) 0 else 1)
-        }
-    }
-
-
-    companion object {
-
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = (this[APPLICATION_KEY] as AppApplication)
-                IngridentViewModel(application.getRecipeDetailsUseCase)
-            }
         }
     }
 }

@@ -3,7 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.jetbrains.kotlin.serialization)
-
+//    id("com.google.devtools.ksp")
+//    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -71,4 +72,21 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.androidx.material3.adaptive.navigation3)
     implementation(libs.kotlinx.serialization.core)
+
+    // Koin
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+
+    implementation(platform("io.insert-koin:koin-bom:4.1.1"))
+    implementation("io.insert-koin:koin-android")
+
+    implementation(platform("io.insert-koin:koin-bom:4.1.1"))
+    implementation("io.insert-koin:koin-androidx-compose")
+
+    implementation("io.insert-koin:koin-compose-navigation3:4.2.0-beta2")
+
+//    // Hilt
+//    implementation("com.google.dagger:hilt-android:2.57.1")
+//    ksp("com.google.dagger:hilt-android-compiler:2.57.1")
+
 }
