@@ -33,9 +33,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 @Composable
 fun HomeScreen(
     state: HomeState,
-    onSelectCategory: (HomeCategory) -> Unit,
-    onSearchClick: () -> Unit,
-    onBookmarkClick: (Int) -> Unit,
+    onAction: (HomeAction) -> Unit = {},
+    onNavigateToSearch: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -86,7 +85,7 @@ fun HomeScreen(
                 value = "",
                 onValueChange = {},
                 onFilterClick = {},
-                onClick = onSearchClick
+                onClick = onNavigateToSearch
             )
         }
 
@@ -95,7 +94,9 @@ fun HomeScreen(
             RecipeCategorySelector(
                 modifier = Modifier.padding(vertical = 25.dp),
                 selected = state.selectedCategory,
-                onSelectCategory = onSelectCategory
+                onSelectCategory = {
+                    onAction(HomeAction.SelectCategory(it))
+                }
             )
 
         }
@@ -111,7 +112,7 @@ fun HomeScreen(
                         recipe = recipe,
                         isBookmarked = isBookmarked,
                         onBookmarkClick = {
-                            onBookmarkClick(recipe.id)
+                            onAction(HomeAction.ToggleBookmark(recipe.id))
                         },
                         modifier = Modifier.padding(end = 15.dp)
                     )
@@ -133,8 +134,7 @@ fun RecipeCategorySelectorPreview() {
 
     HomeScreen(
         state = fakeState,
-        onSelectCategory = {},
-        onSearchClick = {},
-        onBookmarkClick = {},
+        onAction = {},
+        onNavigateToSearch = {}
     )
 }

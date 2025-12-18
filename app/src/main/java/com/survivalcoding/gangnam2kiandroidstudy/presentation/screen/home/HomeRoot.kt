@@ -28,9 +28,8 @@ fun HomeRoot(
                 .padding(innerPadding)
                 .padding(horizontal = 30.dp),
             state = state,
-            onSelectCategory = viewModel::onSelectCategory,
-            onBookmarkClick = viewModel::onBookmarkClick,
-            onSearchClick = onNavigateToSearch
+            onAction = viewModel::onAction,
+            onNavigateToSearch = onNavigateToSearch
         )
     }
 }

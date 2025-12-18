@@ -56,9 +56,21 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun onAction(action: HomeAction) {
+        when (action) {
+            is HomeAction.SelectCategory -> {
+                onSelectCategory(action.category)
+            }
+            
+            is HomeAction.ToggleBookmark -> {
+                onBookmarkClick(action.recipeId)
+            }
+        }
+    }
+
 
     // 카테고리 선택
-    fun onSelectCategory(category: HomeCategory) {
+    private fun onSelectCategory(category: HomeCategory) {
         _state.update { current ->
             val filtered = if (category == HomeCategory.ALL) {
                 current.recipes
@@ -74,7 +86,7 @@ class HomeViewModel @Inject constructor(
     }
 
     // 북마크
-    fun onBookmarkClick(recipeId: Int) {
+    private fun onBookmarkClick(recipeId: Int) {
         viewModelScope.launch {
             when (val result = toggleBookmarkUseCase.execute(recipeId)) {
                 is Result.Success -> {
