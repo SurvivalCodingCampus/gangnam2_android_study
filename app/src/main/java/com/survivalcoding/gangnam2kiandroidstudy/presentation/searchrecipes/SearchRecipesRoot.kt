@@ -14,8 +14,6 @@ fun SearchRecipesRoot(
 
     SearchRecipesScreen(
         state = state,
-        onSearchRecipes = { query -> viewModel.searchRecipes(query) },
-        onTapFilterButton = viewModel::tapFilterButton,
-        onUpdateFilterSearchState = viewModel::updateFilterSearchState,
+        onAction = viewModel::onAction,
     )
 }

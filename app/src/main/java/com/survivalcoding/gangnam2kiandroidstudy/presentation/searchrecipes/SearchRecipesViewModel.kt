@@ -68,7 +68,15 @@ class SearchRecipesViewModel(
 
     }
 
-    fun searchRecipes(query: String) {
+    fun onAction(action: SearchRecipesAction) {
+        when (action) {
+            is SearchRecipesAction.OnSearchRecipes -> searchRecipes(action.query)
+            SearchRecipesAction.OnTapFilterButton -> tapFilterButton()
+            is SearchRecipesAction.OnUpdateFilterSearchState -> updateFilterSearchState(action.filterState)
+        }
+    }
+
+    private fun searchRecipes(query: String) {
         _state.update {
             it.copy(
                 searchKeyword = query,
@@ -76,7 +84,7 @@ class SearchRecipesViewModel(
         }
     }
 
-    fun tapFilterButton() {
+    private fun tapFilterButton() {
         _state.update {
             it.copy(
                 showBottomSheet = !it.showBottomSheet,
@@ -84,7 +92,7 @@ class SearchRecipesViewModel(
         }
     }
 
-    fun updateFilterSearchState(filterSearchState: FilterSearchState) {
+    private fun updateFilterSearchState(filterSearchState: FilterSearchState) {
         _state.update {
             it.copy(
                 filterSearchState = filterSearchState,

@@ -12,16 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchState
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.InputField
 
 @Composable
 fun SearchRecipesScreen(
     modifier: Modifier = Modifier,
     state: SearchRecipesState,
-    onSearchRecipes: (String) -> Unit = {},
-    onTapFilterButton: () -> Unit = {},
-    onUpdateFilterSearchState: (FilterSearchState) -> Unit = {},
+    onAction: (SearchRecipesAction) -> Unit = {},
 ) {
     Column(
         modifier = modifier
@@ -33,10 +30,10 @@ fun SearchRecipesScreen(
                 modifier = Modifier.weight(1f),
                 value = state.searchKeyword,
             ) { query ->
-                onSearchRecipes(query)
+                onAction(SearchRecipesAction.OnSearchRecipes(query))
             }
             ElevatedButton(onClick = {
-                onTapFilterButton()
+                onAction(SearchRecipesAction.OnTapFilterButton)
             }) {
                 Text("필터")
             }
@@ -54,7 +51,7 @@ fun SearchRecipesScreen(
             FilterSearchBottomSheet(
                 state = state.filterSearchState,
             ) {
-                onUpdateFilterSearchState(it)
+                onAction(SearchRecipesAction.OnUpdateFilterSearchState(it))
             }
         }
     }

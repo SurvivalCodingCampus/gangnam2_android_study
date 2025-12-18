@@ -4,16 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes.SearchRecipesScreen
-import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.Gangnam2kiAndroidStudyTheme
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes.SearchRecipesRoot
 import org.koin.android.ext.android.inject
 
 class SearchRecipesActivity : ComponentActivity() {
@@ -27,7 +19,7 @@ class SearchRecipesActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            SearchRecipesScreen()
+            SearchRecipesRoot()
         }
     }
 }
