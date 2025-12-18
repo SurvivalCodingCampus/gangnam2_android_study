@@ -9,15 +9,19 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreenRoot(
-    viewModel: HomeViewModel = koinViewModel()
+    viewModel: HomeViewModel = koinViewModel(),
+    onSearchClick: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     HomeScreen(
         state = state,
-        onSelectCategory = {
-            viewModel.onSelectCategory(it)
-        },
-        profilePainter = painterResource(R.drawable.profile)
+        onAction = { action ->
+            if (action == HomeAction.SearchRecipe) {
+                onSearchClick()
+            } else {
+                viewModel.onAction(action)
+            }
+        }
     )
 
 }

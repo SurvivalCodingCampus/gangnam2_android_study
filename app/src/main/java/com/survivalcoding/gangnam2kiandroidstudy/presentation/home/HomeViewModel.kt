@@ -19,6 +19,16 @@ class HomeViewModel(
         getAllRecipes()
     }
 
+
+    fun onAction(action: HomeAction) {
+        when(action) {
+            is HomeAction.SearchRecipe -> {
+                //navigate Search
+            }
+            is HomeAction.SelectCategory -> onSelectCategory(action.category)
+        }
+    }
+
     fun onSelectCategory(category: String) {
         _state.update {
             it.copy(
@@ -54,4 +64,5 @@ class HomeViewModel(
 
         }
     }
+
 }

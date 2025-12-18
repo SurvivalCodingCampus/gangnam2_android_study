@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.MyApp
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.search.SearchRecipesRoot
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,7 +12,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApp()
-//            SearchRecipesRoot()
         }
     }
 }
