@@ -17,7 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun TodoScreen(
     modifier: Modifier = Modifier,
-    viewModel: TodoViewModel = viewModel(factory = TodoViewModel.Factory)
+    viewModel: TodoViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

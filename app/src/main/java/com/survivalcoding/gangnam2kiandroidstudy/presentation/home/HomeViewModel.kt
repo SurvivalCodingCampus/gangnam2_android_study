@@ -1,11 +1,8 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.home
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +21,6 @@ class HomeViewModel(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeState())
     val uiState = _uiState.asStateFlow()
-
 
     init {
         // ViewModel이 생성될 때 레시피 목록을 가져옵니다.
@@ -97,17 +93,5 @@ class HomeViewModel(
 
     companion object {
         const val DEBOUNCE_TIMEOUT_MILLIS = 500L
-    }
-}
-
-class HomeViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-            // 전달받은 application을 안전하게 캐스팅하여 repository 생성
-            val recipeRepository = (application as AppApplication).recipeRepository
-            @Suppress("UNCHECKED_CAST")
-            return HomeViewModel(recipeRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
