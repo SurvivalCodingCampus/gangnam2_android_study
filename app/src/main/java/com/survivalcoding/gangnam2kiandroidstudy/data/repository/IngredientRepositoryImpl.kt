@@ -3,8 +3,9 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
+import javax.inject.Inject
 
-class IngredientRepositoryImpl(
+class IngredientRepositoryImpl @Inject constructor(
     private val recipeDataSource: RecipeDataSource
 ): IngredientRepository {
     override suspend fun getIngredients(recipeId: Int): List<Ingredient> {

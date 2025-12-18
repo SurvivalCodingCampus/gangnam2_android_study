@@ -9,6 +9,8 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,8 +23,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@HiltViewModel
 @OptIn(FlowPreview::class)
-class SearchRecipesViewModel(private val recipeRepository: RecipeRepository) : ViewModel() {
+class SearchRecipesViewModel @Inject constructor(private val recipeRepository: RecipeRepository) : ViewModel() {
 
     private val _state = MutableStateFlow(SearchRecipesState())
     val state = _state.asStateFlow()
@@ -95,16 +98,6 @@ class SearchRecipesViewModel(private val recipeRepository: RecipeRepository) : V
 
     fun onFilterChanged(filterState: FilterSearchState) {
         _state.update { it.copy(appliedFilters = filterState) }
-    }
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = this[APPLICATION_KEY] as AppApplication
-                val recipeRepository = application.recipeRepository
-                SearchRecipesViewModel(recipeRepository)
-            }
-        }
     }
 }
 

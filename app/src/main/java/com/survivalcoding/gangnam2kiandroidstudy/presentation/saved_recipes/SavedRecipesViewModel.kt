@@ -8,12 +8,15 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetSavedRecipesUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class SavedRecipesViewModel(
+@HiltViewModel
+class SavedRecipesViewModel @Inject constructor(
     private val getSavedRecipesUseCase: GetSavedRecipesUseCase
 ) : ViewModel() {
 
@@ -50,15 +53,6 @@ class SavedRecipesViewModel(
         viewModelScope.launch {
             getSavedRecipesUseCase.toggleBookmark(recipe)
             _recipes.value = getSavedRecipesUseCase.execute()
-        }
-    }
-
-    companion object {
-        fun factory(application: AppApplication): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val getSavedRecipesUseCase = GetSavedRecipesUseCase(application.bookmarkRepository)
-                SavedRecipesViewModel(getSavedRecipesUseCase)
-            }
         }
     }
 }

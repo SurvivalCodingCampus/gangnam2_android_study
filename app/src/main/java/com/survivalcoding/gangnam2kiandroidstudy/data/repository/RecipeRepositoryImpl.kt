@@ -4,10 +4,11 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSour
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RecipeRepositoryImpl(
+class RecipeRepositoryImpl @Inject constructor(
     private val dataSource: RecipeDataSource
 ) : RecipeRepository {
 

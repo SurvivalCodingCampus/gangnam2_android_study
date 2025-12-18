@@ -7,6 +7,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,8 +17,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 @OptIn(FlowPreview::class)
-class HomeViewModel(
+class HomeViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository
 ) : ViewModel() {
 
@@ -85,14 +88,6 @@ class HomeViewModel(
             currentState.copy(
                 recipes = finalFilteredList
             )
-        }
-    }
-
-    companion object {
-        fun factory(application: AppApplication): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                HomeViewModel(application.recipeRepository)
-            }
         }
     }
 }
