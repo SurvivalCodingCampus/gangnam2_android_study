@@ -16,13 +16,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
 
-    @Provides
     @Singleton
     fun provideGetSavedRecipesUseCase(bookmarkRepository: BookmarkRepository): GetSavedRecipesUseCase {
         return GetSavedRecipesUseCase(bookmarkRepository)
     }
 
-    @Provides
     @Singleton
     fun provideGetRecipeDetailsUseCase(
         recipeRepository: RecipeRepository,
