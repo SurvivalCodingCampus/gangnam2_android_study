@@ -14,7 +14,7 @@ object MockRecipeData {
         "Kim Dahee",
         "30 min",
         5.0,
-        ingredients = listOf(
+        ingredients = persistentListOf(
             Ingredient(
                 1,
                 "Tomatos",
@@ -23,7 +23,7 @@ object MockRecipeData {
                 1
             )
         ),
-        procedures = listOf(
+        procedures = persistentListOf(
             Procedure(
                 step = 1,
                 content = "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?",
@@ -41,7 +41,7 @@ object MockRecipeData {
             "Chef John",
             "20 min",
             4.0,
-            ingredients = listOf(
+            ingredients = persistentListOf(
                 Ingredient(
                     1,
                     "Tomatos",
@@ -50,7 +50,7 @@ object MockRecipeData {
                     1
                 )
             ),
-            procedures = listOf(
+            procedures = persistentListOf(
                 Procedure(
                     step = 1,
                     content = "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?",
@@ -66,7 +66,7 @@ object MockRecipeData {
             "Chef John",
             "20 min",
             4.0,
-            ingredients = listOf(
+            ingredients = persistentListOf(
                 Ingredient(
                     1,
                     "Tomatos",
@@ -75,7 +75,7 @@ object MockRecipeData {
                     1
                 )
             ),
-            procedures = listOf(
+            procedures = persistentListOf(
                 Procedure(
                     step = 1,
                     content = """
@@ -94,7 +94,7 @@ object MockRecipeData {
             "Chef John",
             "20 min",
             4.0,
-            ingredients = listOf(
+            ingredients = persistentListOf(
                 Ingredient(
                     1,
                     "Tomatos",
@@ -103,7 +103,7 @@ object MockRecipeData {
                     1
                 )
             ),
-            procedures = listOf(
+            procedures = persistentListOf(
                 Procedure(
                     step = 1,
                     content = "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?",

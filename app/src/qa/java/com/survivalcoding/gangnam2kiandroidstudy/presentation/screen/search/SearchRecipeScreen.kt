@@ -123,8 +123,7 @@ fun SearchRecipeScreen(
             FilterSearchBottomSheet(
                 state = state.filterSearchState,
                 showBottomSheet = state.showBottomSheet,
-                onDismiss = { onAction(SearchRecipeAction.OnFilterSettingClick) },
-                onClickFilter = { onAction(SearchRecipeAction.UpdateFilterSearch(it)) },
+                onAction = onAction,
             )
         }
     }

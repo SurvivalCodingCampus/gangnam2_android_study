@@ -1,8 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.domain.model
 
-import androidx.compose.runtime.Immutable
+import kotlinx.collections.immutable.ImmutableList
 
-@Immutable
 data class Recipe(
     val id: Int,
     val category: String,
@@ -11,6 +10,6 @@ data class Recipe(
     val chef: String,
     val time: String,
     val rating: Double,
-    val ingredients: List<Ingredient>,
-    val procedures: List<Procedure>,
+    val ingredients: ImmutableList<Ingredient>,
+    val procedures: ImmutableList<Procedure>,
 )
