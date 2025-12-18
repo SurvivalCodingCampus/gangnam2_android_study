@@ -1,6 +1,7 @@
-package com.survivalcoding.gangnam2kiandroidstudy.core.recipes
+package com.survivalcoding.gangnam2kiandroidstudy.core
 
-const val MOCK =  """{
+
+const val MOCK = """{
   "recipes": [
     {
       "category": "Indian",
