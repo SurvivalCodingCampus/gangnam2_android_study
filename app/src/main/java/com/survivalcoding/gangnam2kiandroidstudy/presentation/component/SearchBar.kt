@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,6 +32,7 @@ fun SearchBar(
     query: String,
     onQueryChange: (String) -> Unit,
     onFilterClick: () -> Unit,
+    onClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -39,34 +41,53 @@ fun SearchBar(
             .height(46.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        OutlinedTextField(
-            value = query,
+
+        Box(
             modifier = Modifier
                 .weight(1f)
-                .clip(RoundedCornerShape(10.dp))
-                .background(color = AppColors.white),
-            placeholder = {
-                Text(
-                    text = "Search recipe",
-                    color = AppColors.gray4,
-                    style = AppTextStyles.smallerTextRegular
-                )
-            },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = AppColors.gray4,
-                unfocusedBorderColor = AppColors.gray4,
-            ),
-            shape = RoundedCornerShape(10.dp),
-            onValueChange = onQueryChange,
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(R.drawable.outline_search_normal),
-                    contentDescription = "검색 아이콘",
-                    modifier = Modifier.size(20.dp),
-                    tint = AppColors.gray4,
-                )
-            },
-        )
+        ) {
+            OutlinedTextField(
+                value = query,
+                modifier = Modifier
+                    .fillMaxWidth() // Box가 weight를 가지므로 fillMaxWidth로 채웁니다.
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(color = AppColors.white),
+                placeholder = {
+                    Text(
+                        text = "Search recipe",
+                        color = AppColors.gray4,
+                        style = AppTextStyles.smallerTextRegular
+                    )
+                },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = AppColors.gray4,
+                    unfocusedBorderColor = AppColors.gray4,
+                ),
+                shape = RoundedCornerShape(10.dp),
+                onValueChange = onQueryChange,
+
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(R.drawable.outline_search_normal),
+                        contentDescription = "검색 아이콘",
+                        modifier = Modifier.size(20.dp),
+                        tint = AppColors.gray4,
+                    )
+                },
+
+                // 읽기 전용으로 만들어 키보드가 올라오지 않게 합니다.
+                readOnly = true,
+                // 터치 이벤트를 막아 하위 Box가 이벤트를 받을 수 있게 합니다.
+                enabled = false,
+            )
+
+            // OutlinedTextField 위에 투명한 Box를 덮어 클릭 이벤트를 가로챕니다.
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable { onClick() }
+            )
+        }
 
         Spacer(Modifier.width(20.dp))
 

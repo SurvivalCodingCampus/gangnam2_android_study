@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -21,6 +23,11 @@ class HomeViewModel(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeState())
     val uiState = _uiState.asStateFlow()
+
+    // eventFlow 속성 추가 (이것이 핵심입니다!)
+    // 이 코드를 추가하면 HomeRoot.kt의 빨간 줄이 사라집니다.
+    private val _eventFlow = MutableSharedFlow<HomeEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     init {
         // ViewModel이 생성될 때 레시피 목록을 가져옵니다.
@@ -55,6 +62,13 @@ class HomeViewModel(
             .launchIn(viewModelScope)
     }
 
+    fun onAction(action: HomeAction) {
+        when (action) {
+            is HomeAction.OnCategoryClick -> changeCategory(action.category)
+            is HomeAction.OnSearchClick -> searchClick()
+            is HomeAction.OnSearchQueryChange -> changeSearchText(action.query)
+        }
+    }
 
     private fun fetchRecipes() {
         val currentState = _uiState.value
@@ -85,13 +99,27 @@ class HomeViewModel(
     }
 
     fun changeSearchText(searchText: String) {
-        _uiState.update {
-            it.copy(searchText = searchText)
-        }
+        //_uiState.update {
+        //    it.copy(searchText = searchText)
+        //}
+
         // Flow에서 debounce 처리하므로 여기서는 상태만 업데이트
     }
+
+    fun searchClick() {
+        // 검색 버튼 클릭 시 SearchRecipesRoot 페이지로 이동
+        viewModelScope.launch {
+            _eventFlow.emit(HomeEvent.NavigateToSearch)
+        }
+    }
+
 
     companion object {
         const val DEBOUNCE_TIMEOUT_MILLIS = 500L
     }
+}
+
+
+sealed interface HomeEvent {
+    data object NavigateToSearch : HomeEvent
 }

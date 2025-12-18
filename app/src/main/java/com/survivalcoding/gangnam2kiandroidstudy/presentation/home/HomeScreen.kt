@@ -32,8 +32,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun HomeScreen(
     state: HomeState = HomeState(),
-    onCategoryClick: (String) -> Unit = {},
-    onSearchQueryChange: (String) -> Unit = {},
+    onAction: (HomeAction) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -81,17 +80,16 @@ fun HomeScreen(
         SearchBar(
             modifier = Modifier.padding(horizontal = 30.dp),
             query = state.searchText,
-            onQueryChange = onSearchQueryChange,
-            onFilterClick = {
-
-            }
+            onClick = { onAction(HomeAction.OnSearchClick) },
+            onQueryChange = { },
+            onFilterClick = { },
         )
 
         // 카테고리 선택바
         RecipeCategorySelector(
             modifier = Modifier.padding(vertical = 15.dp),
             selectedCategory = state.selectedCategory,
-            onCategoryClick = onCategoryClick,
+            onCategoryClick = { onAction(HomeAction.OnCategoryClick(it)) },
         )
 
         // dish cards
