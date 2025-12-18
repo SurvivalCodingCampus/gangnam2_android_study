@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
@@ -47,7 +48,7 @@ fun SearchRecipesScreen(
             .padding(horizontal = 20.dp)
     ) {
         Text(
-            text = "Search recipes",
+            text = stringResource(R.string.search_recipes_title),
             style = AppTextStyles.mediumTextBold,
             modifier = Modifier.padding(top = 10.dp, bottom = 17.dp),
         )
