@@ -84,7 +84,7 @@ fun NavigationRoot(
             entry<Route.RecipeDetail> { navKey ->
                 IngredientRoot(
                     recipeId = navKey.recipeId,
-                    onBack = { topLevelBackStack.removeLast() }
+                    onBack = { topLevelBackStack.removeAt(topLevelBackStack.lastIndex) }
                 )
             }
         }
