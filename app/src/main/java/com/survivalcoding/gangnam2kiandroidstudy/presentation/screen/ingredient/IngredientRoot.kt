@@ -1,25 +1,27 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.ingredient
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun IngredientRoot(
     recipeId: Long,
-    viewModel: IngredientViewModel = viewModel(
-        factory = IngredientViewModel.factory(
-            LocalContext.current.applicationContext as AppApplication
-        )
-    ),
+    onBackClick: () -> Unit,
+    viewModel: IngredientViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    viewModel.loadRecipeDetail(recipeId)
+    LaunchedEffect(recipeId) {
+        viewModel.loadRecipeDetail(recipeId)
+        viewModel.loadProcedure(recipeId)
+    }
 
-    IngredientScreen(state = state)
+    IngredientScreen(
+        state = state,
+        onBackClick = onBackClick,
+        onTapClick = { index -> viewModel.updateTabIndex(index) }
+    )
 }

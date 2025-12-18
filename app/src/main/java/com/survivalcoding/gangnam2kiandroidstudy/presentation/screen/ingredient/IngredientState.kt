@@ -14,4 +14,6 @@ data class IngredientState(
         rating = 0.0,
         ingredients = emptyList(),
     ),
+    val tabIndex: Int = 0,
+    val procedures: List<String> = emptyList(),
 )
