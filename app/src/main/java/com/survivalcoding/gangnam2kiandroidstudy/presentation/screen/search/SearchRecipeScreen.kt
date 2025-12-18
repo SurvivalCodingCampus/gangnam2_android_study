@@ -35,113 +35,113 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.filt
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
-@Composable
-fun SearchRecipeScreen(
-    state: SearchRecipeState,
-    modifier: Modifier = Modifier,
-    navigateToDetail: (recipeId: Int) -> Unit = {},
-    onAction: (SearchRecipeAction) -> Unit = {},
-) {
-    Box(modifier = modifier.fillMaxSize()) {
-        Column(modifier = Modifier.padding(horizontal = 30.dp)) {
-            Spacer(Modifier.height(54.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(27.dp),
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Arrow Back Icon",
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(Modifier.width(69.dp))
-                Text(
-                    text = "Search recipe",
-                    style = AppTextStyles.mediumTextBold.copy(fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
-                )
-            }
-            Spacer(Modifier.height(17.dp))
-
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Search(
-                    modifier = Modifier.weight(1f),
-                    placeholder = "Search recipe",
-                    value = state.query,
-                    isSearchEnabled = state.isSearchEnabled,
-                    onClick = { onAction(SearchRecipeAction.OnSearchDone) },
-                    onValueChange = { onAction(SearchRecipeAction.UpdateQuery(it)) }
-                )
-                Spacer(Modifier.width(20.dp))
-
-                FilterSettingButton { onAction(SearchRecipeAction.OnFilterSettingClick) }
-            }
-            Spacer(Modifier.height(20.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = if (state.filterRecipes.isNotEmpty()) "Search Result" else "Recent Search",
-                    modifier = Modifier
-                        .weight(1f),
-                    style = AppTextStyles.normalTextBold
-                )
-
-                Text(
-                    text = if (state.filterRecipes.isNotEmpty()) "${state.filterRecipes.size} results" else "",
-                    style = AppTextStyles.smallerTextRegular,
-                    color = AppColors.gray3
-                )
-            }
-            Spacer(Modifier.height(20.dp))
-
-            if (state.isLoading) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
-                }
-            } else {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalArrangement = Arrangement.spacedBy(15.dp),
-                    verticalArrangement = Arrangement.spacedBy(15.dp)
-                ) {
-                    val recipes = state.filterRecipes.ifEmpty { state.recipes }
-
-                    items(recipes) { recipe ->
-                        RecipeSearchCard(
-                            recipe = recipe,
-                            navigateToDetail = navigateToDetail
-                        )
-                    }
-                }
-            }
-
-            FilterSearchBottomSheet(
-                state = state.filterSearchState,
-                showBottomSheet = state.showBottomSheet,
-                onDismiss = { onAction(SearchRecipeAction.OnFilterSettingClick) },
-                onClickFilter = { onAction(SearchRecipeAction.UpdateFilterSearch(it)) },
-            )
-        }
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun SearchRecipeScreenPreview() {
-    val state = SearchRecipeState(
-        recipes = MockRecipeData.recipeListThree,
-        filterRecipes = MockRecipeData.recipeListThree
-    )
-
-    Scaffold { innerPadding ->
-        SearchRecipeScreen(
-            state = state,
-            modifier = Modifier.padding(innerPadding)
-        )
-    }
-}
+//@Composable
+//fun SearchRecipeScreen(
+//    state: SearchRecipeState,
+//    modifier: Modifier = Modifier,
+//    navigateToDetail: (recipeId: Int) -> Unit = {},
+//    onAction: (SearchRecipeAction) -> Unit = {},
+//) {
+//    Box(modifier = modifier.fillMaxSize()) {
+//        Column(modifier = Modifier.padding(horizontal = 30.dp)) {
+//            Spacer(Modifier.height(54.dp))
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(27.dp),
+//            ) {
+//                Icon(
+//                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+//                    contentDescription = "Arrow Back Icon",
+//                    modifier = Modifier.size(20.dp)
+//                )
+//                Spacer(Modifier.width(69.dp))
+//                Text(
+//                    text = "Search recipe",
+//                    style = AppTextStyles.mediumTextBold.copy(fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+//                )
+//            }
+//            Spacer(Modifier.height(17.dp))
+//
+//            Row(modifier = Modifier.fillMaxWidth()) {
+//                Search(
+//                    modifier = Modifier.weight(1f),
+//                    placeholder = "Search recipe",
+//                    value = state.query,
+//                    isSearchEnabled = state.isSearchEnabled,
+//                    onClick = { onAction(SearchRecipeAction.OnSearchDone) },
+//                    onValueChange = { onAction(SearchRecipeAction.UpdateQuery(it)) }
+//                )
+//                Spacer(Modifier.width(20.dp))
+//
+//                FilterSettingButton { onAction(SearchRecipeAction.OnFilterSettingClick) }
+//            }
+//            Spacer(Modifier.height(20.dp))
+//
+//            Row(
+//                modifier = Modifier.fillMaxWidth(),
+//                horizontalArrangement = Arrangement.Center,
+//                verticalAlignment = Alignment.CenterVertically
+//            ) {
+//                Text(
+//                    text = if (state.filterRecipes.isNotEmpty()) "Search Result" else "Recent Search",
+//                    modifier = Modifier
+//                        .weight(1f),
+//                    style = AppTextStyles.normalTextBold
+//                )
+//
+//                Text(
+//                    text = if (state.filterRecipes.isNotEmpty()) "${state.filterRecipes.size} results" else "",
+//                    style = AppTextStyles.smallerTextRegular,
+//                    color = AppColors.gray3
+//                )
+//            }
+//            Spacer(Modifier.height(20.dp))
+//
+//            if (state.isLoading) {
+//                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+//                    CircularProgressIndicator()
+//                }
+//            } else {
+//                LazyVerticalGrid(
+//                    columns = GridCells.Fixed(2),
+//                    modifier = Modifier.fillMaxSize(),
+//                    horizontalArrangement = Arrangement.spacedBy(15.dp),
+//                    verticalArrangement = Arrangement.spacedBy(15.dp)
+//                ) {
+//                    val recipes = state.filterRecipes.ifEmpty { state.recipes }
+//
+//                    items(recipes) { recipe ->
+//                        RecipeSearchCard(
+//                            recipe = recipe,
+//                            navigateToDetail = navigateToDetail
+//                        )
+//                    }
+//                }
+//            }
+//
+//            FilterSearchBottomSheet(
+//                state = state.filterSearchState,
+//                showBottomSheet = state.showBottomSheet,
+//                onDismiss = { onAction(SearchRecipeAction.OnFilterSettingClick) },
+//                onClickFilter = { onAction(SearchRecipeAction.UpdateFilterSearch(it)) },
+//            )
+//        }
+//    }
+//}
+//
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//private fun SearchRecipeScreenPreview() {
+//    val state = SearchRecipeState(
+//        recipes = MockRecipeData.recipeListThree,
+//        filterRecipes = MockRecipeData.recipeListThree
+//    )
+//
+//    Scaffold { innerPadding ->
+//        SearchRecipeScreen(
+//            state = state,
+//            modifier = Modifier.padding(innerPadding)
+//        )
+//    }
+//}
