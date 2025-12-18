@@ -1,8 +1,9 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.data_source
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.IngredientDto
+import javax.inject.Inject
 
-class MockIngredientDataSourceImpl : IngredientDataSource {
+class MockIngredientDataSourceImpl @Inject constructor() : IngredientDataSource {
     private val ingredients = listOf(
         IngredientDto(
             id = 1,

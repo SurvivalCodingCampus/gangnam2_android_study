@@ -1,26 +1,25 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipes
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.FilterSearchState
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.filter.CategoryFilter
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.filter.RateFilter
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.filter.TimeFilter
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@HiltViewModel
 @OptIn(FlowPreview::class)
-class SearchRecipesViewModel(
+class SearchRecipesViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository
 ) : ViewModel() {
     private val _state = MutableStateFlow(SearchRecipesState())
@@ -143,17 +142,5 @@ class SearchRecipesViewModel(
         ) return false
 
         return true
-    }
-
-
-    companion object {
-        fun factory(application: AppApplication): ViewModelProvider.Factory =
-            viewModelFactory {
-                initializer {
-                    SearchRecipesViewModel(
-                        recipeRepository = application.recipeRepository
-                    )
-                }
-            }
     }
 }

@@ -2,8 +2,9 @@ package com.survivalcoding.gangnam2kiandroidstudy.domain.use_case
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
+import javax.inject.Inject
 
-class ToggleBookmarkUseCase(
+class ToggleBookmarkUseCase @Inject constructor(
     private val bookmarkRepository: BookmarkRepository
 ) {
     suspend fun execute(recipeId: Int): Result<Boolean, String> {

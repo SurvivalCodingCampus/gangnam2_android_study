@@ -8,10 +8,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.appbar.CustomAppTopBar
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 
@@ -20,13 +18,9 @@ fun IngredientRoot(
     recipeId: Int,
     modifier: Modifier = Modifier,
     onBack: () -> Unit,
-    application: AppApplication =
-        LocalContext.current.applicationContext as AppApplication
-) {
-    val viewModel: IngredientViewModel = viewModel(
-        factory = IngredientViewModel.factory(application)
-    )
+    viewModel: IngredientViewModel = hiltViewModel()
 
+) {
     val state by viewModel.state.collectAsState()
 
     // 최초 진입 시 로드

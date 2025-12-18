@@ -6,8 +6,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.dto.IngredientItemDto
 import com.survivalcoding.gangnam2kiandroidstudy.data.mapper.toModel
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.IngredientItem
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
+import javax.inject.Inject
 
-class IngredientRepositoryImpl(
+class IngredientRepositoryImpl @Inject constructor(
     private val ingredientDataSource: IngredientDataSource,
     private val recipeIngredientDataSource: RecipeIngredientDataSource
 ) : IngredientRepository {

@@ -4,8 +4,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSour
 import com.survivalcoding.gangnam2kiandroidstudy.data.mapper.toModel
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import javax.inject.Inject
 
-class RecipeRepositoryImpl(
+class RecipeRepositoryImpl @Inject constructor(
     private val recipeDataSource: RecipeDataSource
 ) : RecipeRepository {
     override suspend fun getRecipes(): List<Recipe> {

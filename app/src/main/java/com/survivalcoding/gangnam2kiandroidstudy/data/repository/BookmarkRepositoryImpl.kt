@@ -1,8 +1,9 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
+import javax.inject.Inject
 
-class BookmarkRepositoryImpl : BookmarkRepository {
+class BookmarkRepositoryImpl @Inject constructor() : BookmarkRepository {
     // 첫 로드 시 10개 띄우기 위함
     private val bookmarkedIds = mutableSetOf(
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10

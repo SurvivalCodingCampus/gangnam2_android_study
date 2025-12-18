@@ -4,8 +4,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import javax.inject.Inject
 
-class GetSavedRecipesUseCase(
+class GetSavedRecipesUseCase @Inject constructor(
     private val bookmarkRepository: BookmarkRepository,
     private val recipeRepository: RecipeRepository
 ) {
