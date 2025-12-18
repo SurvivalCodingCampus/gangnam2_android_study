@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
@@ -23,7 +24,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.InputFie
 @Composable
 fun SearchRecipesScreen(
     modifier: Modifier = Modifier,
-    viewModel: SearchRecipesViewModel = viewModel(),
+    viewModel: SearchRecipesViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
