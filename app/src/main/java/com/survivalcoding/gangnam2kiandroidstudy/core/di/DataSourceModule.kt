@@ -1,6 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.di
 
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
+import android.content.Context
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.todo.TodoDataSource
@@ -8,6 +8,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.todo.TodoDataSourc
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -18,9 +19,11 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideRecipeDataSource(): RecipeDataSource {
+    fun provideRecipeDataSource(
+        @ApplicationContext context: Context
+    ): RecipeDataSource {
         return RecipeDataSourceImpl(
-            context = AppApplication(),
+            context = context,
         )
     }
 
