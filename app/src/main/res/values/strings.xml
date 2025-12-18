@@ -74,6 +74,7 @@
     <string name="home_title">Hello Jega</string>
     <string name="home_subtitle">What are you cooking today?</string>
     <string name="home_recipe_card_time">Time</string>
+    <string name="home_new_recipes_title">New Recipes</string>
 
 
     <!-- AverageRatingButton -->

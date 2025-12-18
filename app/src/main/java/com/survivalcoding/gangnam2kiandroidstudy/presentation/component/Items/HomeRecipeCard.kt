@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.HomeImage
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
@@ -106,8 +107,8 @@ fun HomeRecipeCard(
             }
         }
 
-        Image(
-            painter = painterResource(recipe.homeImage.resId),
+        AsyncImage(
+            model = recipe.imageUrls,
             contentDescription = null,
             modifier = Modifier
                 .size(110.dp)

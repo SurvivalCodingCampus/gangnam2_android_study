@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetNewRecipesUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.ToggleBookmarkUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.selector.HomeCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,23 +19,28 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository,
     private val bookmarkRepository: BookmarkRepository,
-    private val toggleBookmarkUseCase: ToggleBookmarkUseCase
+    private val toggleBookmarkUseCase: ToggleBookmarkUseCase,
+    private val getNewRecipesUseCase: GetNewRecipesUseCase,
 ) : ViewModel() {
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
 
     init {
-        loadRecipes()
+        loadHome()
     }
 
     // 전체 로드
-    private fun loadRecipes() {
+    private fun loadHome() {
+        // 전체
         viewModelScope.launch {
             val recipes = recipeRepository.getRecipes()
 
             val bookmarkedIds = bookmarkRepository
                 .getSavedRecipeIds()
                 .toSet()
+
+            // new
+            val newRecipes = getNewRecipesUseCase.execute()
 
             _state.update { current ->
                 // 현재 선택된 카테고리를 유지하면서 셀렉터 다시 계산
@@ -48,10 +54,21 @@ class HomeViewModel @Inject constructor(
                 current.copy(
                     recipes = recipes,
                     filteredRecipes = filtered,  // 현재 선택 상태 기반으로 셀렉터 재적용
-                    bookmarkedIds = bookmarkedIds
+                    bookmarkedIds = bookmarkedIds,
+                    newRecipes = newRecipes,
                 )
+            }
+        }
+    }
 
+    private fun loadNewRecipes() {
+        viewModelScope.launch {
+            val newRecipes = getNewRecipesUseCase.execute()
 
+            _state.update {
+                it.copy(
+                    newRecipes = newRecipes
+                )
             }
         }
     }
@@ -61,7 +78,7 @@ class HomeViewModel @Inject constructor(
             is HomeAction.SelectCategory -> {
                 onSelectCategory(action.category)
             }
-            
+
             is HomeAction.ToggleBookmark -> {
                 onBookmarkClick(action.recipeId)
             }

@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Items.HomeRecipeCard
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Items.NewRecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.searchbar.SearchBarContainer
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.selector.HomeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.selector.RecipeCategorySelector
@@ -104,7 +105,9 @@ fun HomeScreen(
 
         item {
             LazyRow(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .padding(bottom = 15.dp)
+                    .fillMaxWidth()
             ) {
                 items(state.filteredRecipes) { recipe ->
                     val isBookmarked = recipe.id in state.bookmarkedIds
@@ -119,6 +122,31 @@ fun HomeScreen(
                             onRecipeClick(recipe.id)
                         },
                         modifier = Modifier.padding(end = 15.dp)
+                    )
+                }
+            }
+        }
+
+        item {
+            Text(
+                modifier = Modifier.padding(vertical = 5.dp),
+                text = stringResource(R.string.home_new_recipes_title),
+                style = AppTextStyles.normalTextBold
+            )
+        }
+
+        item { Spacer(Modifier.height(5.dp)) }
+
+
+        item {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(15.dp),
+            ) {
+                items(state.newRecipes) { newRecipe ->
+                    NewRecipeCard(
+                        newRecipe = newRecipe,
+                        modifier = Modifier,
+                        onClick = { onRecipeClick(newRecipe.recipeId) }
                     )
                 }
             }

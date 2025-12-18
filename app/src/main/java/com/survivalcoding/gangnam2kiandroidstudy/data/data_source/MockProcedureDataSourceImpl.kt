@@ -65,8 +65,60 @@ class MockProcedureDataSourceImpl @Inject constructor() : ProcedureDataSource {
         // Recipe 4
         ProcedureDto(4, 1, "Soak rice cakes in water for 20 minutes."),
         ProcedureDto(4, 2, "Boil water and add gochujang (Korean red chili paste)."),
-        ProcedureDto(4, 3, "Add rice cakes and fish cakes, cook until the sauce thickens.")
-    )
+        ProcedureDto(4, 3, "Add rice cakes and fish cakes, cook until the sauce thickens."),
+
+        // Recipe 11
+        ProcedureDto(
+            11,
+            1,
+            "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?"
+        ),
+        ProcedureDto(
+            11,
+            2,
+            "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?\n" +
+                    "Tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?"
+        ),
+        ProcedureDto(
+            11,
+            3,
+            "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?"
+        ),
+        ProcedureDto(11, 4, "Marinate the chicken with spices and let it sit for 30 minutes."),
+        ProcedureDto(
+            11,
+            5,
+            "Preheat the oven to 375°F (190°C) and roast the chicken for 45 minutes."
+        ),
+        ProcedureDto(11, 6, "Cook the rice with chicken broth and add vegetables for flavor."),
+
+
+        // Recipe 12
+        ProcedureDto(
+            12,
+            1,
+            "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?"
+        ),
+        ProcedureDto(
+            12,
+            2,
+            "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?\n" +
+                    "Tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?"
+        ),
+        ProcedureDto(
+            12,
+            3,
+            "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?"
+        ),
+        ProcedureDto(12, 4, "Marinate the chicken with spices and let it sit for 30 minutes."),
+        ProcedureDto(
+            12,
+            5,
+            "Preheat the oven to 375°F (190°C) and roast the chicken for 45 minutes."
+        ),
+        ProcedureDto(12, 6, "Cook the rice with chicken broth and add vegetables for flavor."),
+
+        )
 
     override suspend fun getProceduresByRecipeId(recipeId: Int): List<ProcedureDto> {
         return procedures

@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.survivalcoding.gangnam2kiandroidstudy.core.routing.NavigationRoot
+import com.survivalcoding.gangnam2kiandroidstudy.core.routing.MainRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.util.KeyboardVisibilityHandler
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,10 +28,7 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .windowInsetsPadding(WindowInsets.safeDrawing)
                 ) {
-                    NavigationRoot(
-                        modifier = Modifier
-                            .fillMaxSize()
-                    )
+                    MainRoot()
                 }
             }
         }
