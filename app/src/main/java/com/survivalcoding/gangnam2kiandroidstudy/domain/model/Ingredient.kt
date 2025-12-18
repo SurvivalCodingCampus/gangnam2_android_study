@@ -15,7 +15,7 @@ data class IngredientAmount(
 )
 
 data class Ingredient(
-    val id: Long,
+    val id: Long, // 재료 id
     val name: String,
     val imageUrl: String,
     val amount: IngredientAmount = IngredientAmount(0.0, UnitType.PIECE),

@@ -28,6 +28,6 @@ class IngredientRepositoryImpl : IngredientRepository {
     )
 
     override suspend fun getIngredientsByRecipeId(recipeId: Long): List<Ingredient> {
-        return mockIngredients.filter { it.id == recipeId }
+        return mockIngredients.toList()
     }
 }
