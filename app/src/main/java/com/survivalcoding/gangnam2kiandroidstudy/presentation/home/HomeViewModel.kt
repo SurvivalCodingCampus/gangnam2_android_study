@@ -1,74 +1,72 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.home
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetHomeRecipesUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.ToggleBookmarkUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-@OptIn(FlowPreview::class)
 class HomeViewModel @Inject constructor(
-    private val recipeRepository: RecipeRepository
+    private val getHomeRecipesUseCase: GetHomeRecipesUseCase,
+    private val toggleBookmarkUseCase: ToggleBookmarkUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
 
     fun onAction(action: HomeAction) {
-        when(action) {
-            is HomeAction.SearchClicked -> {}
+        when (action) {
             is HomeAction.CategorySelected -> onSelectCategory(action.category)
-            is HomeAction.RecipeClicked -> {}
-            is HomeAction.RecipeBookmarked -> {}
+            is HomeAction.RecipeBookmarked -> onRecipeBookmarked(action.recipe)
         }
     }
 
     init {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            val allRecipes = recipeRepository.getRecipes()
+            val homeRecipes = getHomeRecipesUseCase.execute()
             _state.update {
                 it.copy(
-                    recipes = allRecipes,
-                    allRecipes = allRecipes,
+                    homeRecipes = homeRecipes,
+                    filteredHomeRecipes = homeRecipes,
                     isLoading = false
                 )
             }
         }
     }
 
-    fun onClickSearch(){
-
+    private fun onRecipeBookmarked(recipe: Recipe) {
+        viewModelScope.launch {
+            toggleBookmarkUseCase.execute(recipe)
+            _state.update { currentState ->
+                val newHomeRecipes = currentState.homeRecipes.map {
+                    if (it.recipe.id == recipe.id) it.copy(isBookmarked = !it.isBookmarked) else it
+                }
+                currentState.copy(homeRecipes = newHomeRecipes)
+            }
+            onSelectCategory(_state.value.selectedCategory)
+        }
     }
-    fun onSelectCategory(category: String) {
-        _state.update { currentState ->
-            val query = currentState.searchQuery
 
+    private fun onSelectCategory(category: String) {
+        _state.update { currentState ->
             val categoryFilteredList = if (category.equals("All", ignoreCase = true)) {
-                currentState.allRecipes
+                currentState.homeRecipes
             } else {
-                currentState.allRecipes.filter { it.category.equals(category, ignoreCase = true) }
+                currentState.homeRecipes.filter { it.recipe.category.equals(category, ignoreCase = true) }
             }
 
-            val finalFilteredList = categoryFilteredList.filter { it.name.contains(query, ignoreCase = true) }
-
             currentState.copy(
-                recipes = finalFilteredList,
+                filteredHomeRecipes = categoryFilteredList,
                 selectedCategory = category
             )
         }
     }
-
 }

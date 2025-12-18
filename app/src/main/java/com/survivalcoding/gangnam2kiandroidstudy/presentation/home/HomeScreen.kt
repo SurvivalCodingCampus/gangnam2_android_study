@@ -41,7 +41,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun HomeScreen(
     state: HomeState,
-    onAction: (HomeAction) -> Unit
+    onAction: (HomeAction) -> Unit,
+    onSearchClick: () -> Unit,
+    onRecipeClick: (Int) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -99,7 +101,7 @@ fun HomeScreen(
                 text = "",
                 onTextChanged = {},
                 enabled = false,
-                onClick = { onAction(HomeAction.SearchClicked) }
+                onClick = onSearchClick
             )
             Spacer(modifier = Modifier.width(20.dp))
             FilterButton(
@@ -122,14 +124,14 @@ fun HomeScreen(
             contentPadding = PaddingValues(horizontal = 30.dp),
             horizontalArrangement = Arrangement.spacedBy(15.dp)
         ) {
-            items(state.recipes) { recipe ->
+            items(state.filteredHomeRecipes) { homeRecipe ->
                 RecipeCard2(
-                    recipeName = recipe.name,
-                    time = recipe.time,
-                    rating = recipe.rating,
-                    imageUrl = recipe.image,
-                    onCardClick = { onAction(HomeAction.RecipeClicked(recipe.id)) },
-                    onBookmarkClick = { onAction(HomeAction.RecipeBookmarked(recipe.id)) }
+                    recipeName = homeRecipe.recipe.name,
+                    time = homeRecipe.recipe.time,
+                    rating = homeRecipe.recipe.rating,
+                    imageUrl = homeRecipe.recipe.image,
+                    onCardClick = { onRecipeClick(homeRecipe.recipe.id) },
+                    onBookmarkClick = { onAction(HomeAction.RecipeBookmarked(homeRecipe.recipe)) }
                 )
             }
         }
@@ -150,15 +152,15 @@ fun HomeScreen(
             contentPadding = PaddingValues(horizontal = 30.dp),
             horizontalArrangement = Arrangement.spacedBy(15.dp)
         ) {
-            items(state.recipes) { recipe ->
+            items(state.homeRecipes) { homeRecipe ->
                 RecipeCard3(
-                    recipeName = recipe.name,
-                    rating = recipe.rating,
-                    chefImageUrl = "",
-                    chefName = recipe.chef,
-                    time = recipe.time,
-                    recipeImageUrl = recipe.image,
-                    onClick = { onAction(HomeAction.RecipeClicked(recipe.id)) }
+                    recipeName = homeRecipe.recipe.name,
+                    rating = homeRecipe.recipe.rating,
+                    chefImageUrl = homeRecipe.chefImageUrl,
+                    chefName = homeRecipe.recipe.chef,
+                    time = homeRecipe.recipe.time,
+                    recipeImageUrl = homeRecipe.recipe.image,
+                    onClick = { onRecipeClick(homeRecipe.recipe.id) }
                 )
             }
         }

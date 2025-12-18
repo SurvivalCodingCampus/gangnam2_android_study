@@ -7,12 +7,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun HomeRoot(
+    onSearchClick: () -> Unit,
+    onRecipeClick: (Int) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     HomeScreen(
         state = state,
-        onAction = viewModel::onAction
+        onAction = viewModel::onAction,
+        onSearchClick = onSearchClick,
+        onRecipeClick = onRecipeClick
     )
 }

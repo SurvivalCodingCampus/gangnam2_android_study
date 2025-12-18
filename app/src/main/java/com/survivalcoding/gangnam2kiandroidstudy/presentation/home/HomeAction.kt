@@ -1,8 +1,8 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.home
 
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+
 sealed interface HomeAction {
-    data object SearchClicked : HomeAction
     data class CategorySelected(val category: String) : HomeAction
-    data class RecipeClicked(val recipeId: Int) : HomeAction
-    data class RecipeBookmarked(val recipeId: Int) : HomeAction
+    data class RecipeBookmarked(val recipe: Recipe) : HomeAction
 }
