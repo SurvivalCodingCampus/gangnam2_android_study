@@ -75,13 +75,16 @@ fun NavigationRoot(
                             entryProvider = entryProvider {
                                 entry<Route.Home> {
                                     HomeRoot(
-                                        onSearchClick = {
+                                        navigateToSearch = {
                                             topLevelBackStack.add(Route.SearchRecipes)
                                         },
-                                        onProfileClick = {
+                                        navigateToProfile = {
                                             mainBackStack.clear()
                                             mainBackStack.add(Route.Profile)
                                         },
+                                        navigateToRecipeDetail = { recipeId ->
+                                            topLevelBackStack.add(Route.RecipeDetail(recipeId))
+                                        }
                                     )
                                 }
                                 entry<Route.SavedRecipes> {
@@ -104,10 +107,13 @@ fun NavigationRoot(
             }
             entry<Route.SearchRecipes> {
                 SearchRecipesRoot(
-                    onBackClick = {
+                    navigateToBack = {
                         if (topLevelBackStack.size > 1) {
                             topLevelBackStack.removeAt(topLevelBackStack.lastIndex)
                         }
+                    },
+                    navigateToRecipeDetail = { recipeId ->
+                        topLevelBackStack.add(Route.RecipeDetail(recipeId))
                     }
                 )
             }
