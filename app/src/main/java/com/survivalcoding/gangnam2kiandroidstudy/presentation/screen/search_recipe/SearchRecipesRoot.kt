@@ -11,32 +11,21 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun SearchRecipesRoot(
-    onBackClick: () -> Unit,
+    navigateToBack: () -> Unit,
+    navigateToRecipeDetail: (Long) -> Unit,
     viewModel: SearchRecipesViewModel = koinViewModel(),
 ) {
     // UI 상태
     val state by viewModel.state.collectAsStateWithLifecycle()
-    // 바텀시트에서 선택한 필터 상태
-    val filterState by viewModel.filterState.collectAsStateWithLifecycle()
-    // 필터 시트 출력 여부
-    var showFilterSheet by remember { mutableStateOf(false) }
 
     SearchRecipesScreen(
         state = state,
-        onSearchTermChange = { viewModel.updateSearchTerm(it) },
-        onBackClick = onBackClick,
-        onFilterClick = { showFilterSheet = true }
+        onAction = {action ->
+            viewModel.onAction(
+                action = action,
+                navigateToBack = navigateToBack,
+                navigateToRecipeDetail = navigateToRecipeDetail,
+            )
+        },
     )
-
-    // 필터 시트
-    if (showFilterSheet) {
-        FilterSearchBottomSheet(
-            onApplyFilter = { filter ->
-                viewModel.applyFilter(filter)
-                showFilterSheet = false
-            },
-            onDismiss = { showFilterSheet = false },
-            initialFilter = filterState,
-        )
-    }
 }

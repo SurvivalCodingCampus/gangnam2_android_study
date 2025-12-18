@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.toFormatString
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchState
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,10 +23,6 @@ class SearchRecipesViewModel(
     private val _state = MutableStateFlow(SearchRecipesState())
     val state: StateFlow<SearchRecipesState> = _state.asStateFlow()
 
-    // 바텀시트 필터 담는 flow
-    private val _filterState = MutableStateFlow(FilterSearchState())
-    val filterState = _filterState.asStateFlow()
-
     // 검색어만 담는 flow
     private val searchTermFlow = MutableStateFlow("")
 
@@ -35,6 +30,19 @@ class SearchRecipesViewModel(
         println("MainViewModel init")
         loadRecipes()
         observeSearchTerm()
+    }
+
+    fun onAction(
+        action: SearchRecipesAction,
+        navigateToBack: () -> Unit,
+        navigateToRecipeDetail: (Long) -> Unit,
+    ) {
+        when (action) {
+            SearchRecipesAction.OnBackClick -> navigateToBack()
+            is SearchRecipesAction.OnFilterClick -> { applyFilter(action.filter) }
+            is SearchRecipesAction.OnRecipeCardClick -> { navigateToRecipeDetail(action.recipeId) }
+            is SearchRecipesAction.OnSearchTermChange -> { updateSearchTerm(action.searchTerm) }
+        }
     }
 
     // 검색어 변화 구독 → debounce → 필터링 호출
@@ -73,7 +81,7 @@ class SearchRecipesViewModel(
     }
 
     // 검색어 입력 시 호출되는 메서드
-    fun updateSearchTerm(term: String) {
+    private fun updateSearchTerm(term: String) {
         _state.update { it.copy(searchTerm = term) }
         searchTermFlow.value = term
     }
@@ -99,8 +107,8 @@ class SearchRecipesViewModel(
     }
 
     // 바텀시트 필터 적용
-    fun applyFilter(filter: FilterSearchState) {
-        _filterState.value = filter
+    private fun applyFilter(filter: FilterSearchState) {
+        _state.update { it.copy(filterSearchState = filter) }
 
         val all = state.value.allRecipes
 
