@@ -3,6 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -50,6 +51,15 @@ fun SocialButton(
             ),
         contentAlignment = Alignment.Center
     ) {
+        Box(
+            modifier = modifier
+                .size(44.dp)
+                .background(
+                    color = AppColors.white,
+                    shape = RoundedCornerShape(10.dp)
+                )
+        )
+
         Icon(
             painter = painterResource(iconId),
             modifier = Modifier.size(24.dp),

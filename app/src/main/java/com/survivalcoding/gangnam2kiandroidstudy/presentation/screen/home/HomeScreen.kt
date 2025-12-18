@@ -27,6 +27,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.DishCard
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.NewRecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCategorySelector
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchBar
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipe.SearchRecipesState
@@ -105,7 +106,7 @@ fun HomeScreen(
         )
 
         // dish cards
-        LazyRow() {
+        LazyRow {
             item {
                 Spacer(modifier = Modifier.width(30.dp))
             }
@@ -134,6 +135,18 @@ fun HomeScreen(
         )
 
         // New Recipe Cards
+        LazyRow {
+            item {
+                Spacer(modifier = Modifier.width(22.5.dp))
+            }
+
+            items(state.selectedRecipes) { selected ->
+                NewRecipeCard(
+                    recipe = selected,
+                    onNewRecipeClick = {onAction(HomeAction.OnNewRecipeClick(selected.id))},
+                )
+            }
+        }
 
     }
 }
