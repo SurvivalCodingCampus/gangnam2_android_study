@@ -88,7 +88,7 @@ fun NewRecipeCard(
                     repeat(5 - recipe.rating.toInt()) {
                         Icon(
                             Icons.Outlined.StarOutline,
-                            contentDescription = "Filled Star",
+                            contentDescription = "Outlined Star",
                             tint = AppColors.rating,
                             modifier = Modifier.size(11.16.dp, 12.dp)
                         )
