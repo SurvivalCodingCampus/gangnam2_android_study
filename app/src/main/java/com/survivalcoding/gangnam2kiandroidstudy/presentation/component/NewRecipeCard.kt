@@ -101,14 +101,15 @@ fun NewRecipeCard(
                     Row(
                         modifier = Modifier.padding(top = 5.dp, end = 10.dp)
                     ) {
-                        repeat(5) {
+                        repeat(5) { index ->
                             Icon(
                                 painter = painterResource(R.drawable.bold_star),
                                 contentDescription = "별점 아이콘",
                                 modifier = Modifier
                                     .padding(end = 2.dp)
                                     .size(12.dp),
-                                tint = AppColors.rating,
+                                tint = if (index < recipe.rating.toInt()) AppColors.rating
+                                else AppColors.gray4,
                             )
                         }
                     }
@@ -134,7 +135,7 @@ fun NewRecipeCard(
                     Spacer(modifier = Modifier.width(8.dp))
                     // 유저 이름
                     Text(
-                        text = "By UserName",
+                        text = "By ${recipe.chef}",
                         style = AppTextStyles.smallerTextRegular,
                         color = AppColors.gray3,
                     )

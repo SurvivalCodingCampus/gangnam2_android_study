@@ -27,13 +27,23 @@ class HomeViewModel(
         navigateToRecipeDetail: (Long) -> Unit,
     ) {
         when (action) {
-            is HomeAction.OnBookmarkClick -> { toggleBookmark(action.recipeId) }
-            is HomeAction.OnCategoryClick -> { onSelectCategory(action.category) }
+            is HomeAction.OnBookmarkClick -> {
+                toggleBookmark(action.recipeId)
+            }
+
+            is HomeAction.OnCategoryClick -> {
+                onSelectCategory(action.category)
+            }
 
             HomeAction.OnProfileClick -> navigateToProfile()
             HomeAction.OnSearchClick -> navigateToSearch()
-            is HomeAction.OnDishClick -> { navigateToRecipeDetail(action.recipeId) }
-            is HomeAction.OnNewRecipeClick -> { navigateToRecipeDetail(action.recipeId) }
+            is HomeAction.OnDishClick -> {
+                navigateToRecipeDetail(action.recipeId)
+            }
+
+            is HomeAction.OnNewRecipeClick -> {
+                navigateToRecipeDetail(action.recipeId)
+            }
         }
     }
 
@@ -98,6 +108,8 @@ class HomeViewModel(
                     _state.update { it.copy(isLoading = false) }
                 }
             }
+
+            getNewRecipesTop5()
         }
     }
 
@@ -111,6 +123,17 @@ class HomeViewModel(
             }
 
             state.copy(savedRecipeIds = newBookmarks)
+        }
+    }
+
+    // 최신 레시피 상위 5개 저장
+    private fun getNewRecipesTop5() {
+        val all = state.value.allRecipes
+
+        _state.update {
+            it.copy(
+                newRecipes = all.sortedByDescending { it.id }.take(5)
+            )
         }
     }
 

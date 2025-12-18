@@ -144,10 +144,10 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.width(22.5.dp))
             }
 
-            items(state.selectedRecipes) { selected ->
+            items(state.newRecipes) { recipe ->
                 NewRecipeCard(
-                    recipe = selected,
-                    onNewRecipeClick = { onAction(HomeAction.OnNewRecipeClick(selected.id)) },
+                    recipe = recipe,
+                    onNewRecipeClick = { onAction(HomeAction.OnNewRecipeClick(recipe.id)) },
                 )
             }
         }
