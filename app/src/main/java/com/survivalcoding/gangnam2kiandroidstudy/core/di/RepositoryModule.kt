@@ -11,7 +11,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRep
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProfileRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.todo.TodoDataSourceImpl
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.todo.TodoDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.todo.TodoRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.todo.TodoRepositoryImpl
 import dagger.Module
@@ -59,9 +59,9 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideTodoRepository(): TodoRepository {
-        return TodoRepositoryImpl(
-            TodoDataSourceImpl()
-        )
+    fun provideTodoRepository(
+        todoDataSource: TodoDataSource
+    ): TodoRepository {
+        return TodoRepositoryImpl(todoDataSource)
     }
 }
