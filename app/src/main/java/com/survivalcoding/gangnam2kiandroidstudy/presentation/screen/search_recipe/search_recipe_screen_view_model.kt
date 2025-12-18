@@ -1,11 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipe
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.CategoryFilter
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.TimeFilter
@@ -51,13 +47,15 @@ class SearchRecipeViewModel(
 
         var filtered = current.allRecipes
 
-        // SearchKeyword
+        // 검색어
         val keyword = current.searchKeyword.trim()
         if (keyword.isNotEmpty()) {
-            filtered = filtered.filter { it.name.contains(keyword, ignoreCase = true) }
+            filtered = filtered.filter {
+                it.name.contains(keyword, ignoreCase = true)
+            }
         }
 
-        // TimeFilter
+        // 시간 필터
         filtered = when (filter.time) {
             TimeFilter.NEWEST -> filtered.sortedByDescending { it.createdAt }
             TimeFilter.OLDEST -> filtered.sortedBy { it.createdAt }
@@ -65,18 +63,17 @@ class SearchRecipeViewModel(
             else -> filtered
         }
 
-        // RateFilter (label이 숫자일 때만)
-        filter.rate?.let { rateFilter ->
-            val minRating = rateFilter.label.toFloatOrNull()
-            if (minRating != null) {
-                filtered = filtered.filter { it.rating >= minRating }
-            }
+        // 평점 필터
+        filter.rate?.label?.toFloatOrNull()?.let { min ->
+            filtered = filtered.filter { it.rating >= min }
         }
 
-        // CategoryFilter
-        filter.category?.let { categoryFilter ->
-            if (categoryFilter != CategoryFilter.ALL) {
-                filtered = filtered.filter { it.category == categoryFilter.label }
+        // 카테고리 필터
+        filter.category?.let {
+            if (it != CategoryFilter.ALL) {
+                filtered = filtered.filter { recipe ->
+                    recipe.category == it.label
+                }
             }
         }
 
@@ -84,13 +81,5 @@ class SearchRecipeViewModel(
             filteredRecipes = filtered,
             filteredRecipesText = "${filtered.size} results"
         )
-    }
-
-    companion object {
-        fun factory(application: AppApplication): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                SearchRecipeViewModel(application.recipeRepository)
-            }
-        }
     }
 }

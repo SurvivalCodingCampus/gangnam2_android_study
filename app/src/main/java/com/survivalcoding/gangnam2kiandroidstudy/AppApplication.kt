@@ -1,15 +1,21 @@
 package com.survivalcoding.gangnam2kiandroidstudy
 
 import android.app.Application
-import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.datasource.RecipeDataSourceImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.RecipeRepositoryImpl
+
+import com.survivalcoding.gangnam2kiandroidstudy.di.appModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 class AppApplication : Application() {
 
-    val recipeRepository: RecipeRepository by lazy {
-        RecipeRepositoryImpl(
-            dataSource = RecipeDataSourceImpl()
-        )
+    override fun onCreate() {
+        super.onCreate()
+
+        startKoin {
+            androidLogger()
+            androidContext(this@AppApplication)
+            modules(appModule)
+        }
     }
 }

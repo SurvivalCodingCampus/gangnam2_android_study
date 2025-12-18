@@ -8,6 +8,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeRo
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipes.SavedRecipesRoot
 
+
 @Composable
 fun MainRoot(
     onOpenSearch: () -> Unit,
