@@ -86,4 +86,6 @@ dependencies {
 
     // Navigation 3 support (alpha)
     implementation("io.insert-koin:koin-compose-navigation3:4.2.0-beta2")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.4.0")
 }

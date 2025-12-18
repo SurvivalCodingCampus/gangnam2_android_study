@@ -9,22 +9,20 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchState
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.InputField
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun SearchRecipesScreen(
     modifier: Modifier = Modifier,
-    viewModel: SearchRecipesViewModel = koinViewModel(),
+    state: SearchRecipesState,
+    onSearchRecipes: (String) -> Unit = {},
+    onTapFilterButton: () -> Unit = {},
+    onUpdateFilterSearchState: (FilterSearchState) -> Unit = {},
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-
-
     Column(
         modifier = modifier
             .safeContentPadding()
@@ -35,10 +33,10 @@ fun SearchRecipesScreen(
                 modifier = Modifier.weight(1f),
                 value = state.searchKeyword,
             ) { query ->
-                viewModel.searchRecipes(query)
+                onSearchRecipes(query)
             }
             ElevatedButton(onClick = {
-                viewModel.tapFilterButton()
+                onTapFilterButton()
             }) {
                 Text("필터")
             }
@@ -56,7 +54,7 @@ fun SearchRecipesScreen(
             FilterSearchBottomSheet(
                 state = state.filterSearchState,
             ) {
-                viewModel.updateFilterSearchState(it)
+                onUpdateFilterSearchState(it)
             }
         }
     }
@@ -65,5 +63,5 @@ fun SearchRecipesScreen(
 @Preview(showBackground = true)
 @Composable
 private fun SearchRecipesScreenPreview() {
-    SearchRecipesScreen()
+//    SearchRecipesScreen()
 }
