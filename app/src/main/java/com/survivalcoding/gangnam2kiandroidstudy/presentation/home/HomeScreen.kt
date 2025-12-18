@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard2
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard3
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCategorySelector
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchInputField
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -40,6 +41,7 @@ fun HomeScreen(
     state: HomeState,
     onSelectCategory: (String) -> Unit,
     onQueryChanged: (String) -> Unit,
+    onRecipeClick: (Int) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -120,7 +122,35 @@ fun HomeScreen(
                     recipeName = recipe.name,
                     time = recipe.time,
                     rating = recipe.rating,
-                    imageUrl = recipe.image
+                    imageUrl = recipe.image,
+                    onClick = { onRecipeClick(recipe.id) }
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Text(
+            modifier = Modifier
+                .padding(horizontal = 30.dp),
+            text = "New Recipes",
+            style = AppTextStyles.normalTextBold.copy(
+                color = AppColors.black
+            )
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(horizontal = 30.dp),
+            horizontalArrangement = Arrangement.spacedBy(15.dp)
+        ) {
+            items(state.recipes.reversed()) { recipe -> // 임시로 reversed()를 사용하여 다른 데이터를 보여줍니다.
+                RecipeCard3(
+                    recipeName = recipe.name,
+                    rating = recipe.rating,
+                    chefImageUrl = "", // chef 정보는 현재 Recipe 모델에 없으므로 비워둡니다.
+                    chefName = recipe.chef,
+                    time = recipe.time,
+                    recipeImageUrl = recipe.image,
+                    onClick = { onRecipeClick(recipe.id) }
                 )
             }
         }
