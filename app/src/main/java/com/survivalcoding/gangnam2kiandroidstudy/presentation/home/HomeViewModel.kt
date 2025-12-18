@@ -64,9 +64,21 @@ class HomeViewModel(
 
     fun onAction(action: HomeAction) {
         when (action) {
-            is HomeAction.OnCategoryClick -> changeCategory(action.category)
-            is HomeAction.OnSearchClick -> searchClick()
-            is HomeAction.OnSearchQueryChange -> changeSearchText(action.query)
+            is HomeAction.OnCategoryClick -> {
+                changeCategory(action.category)
+            }
+
+            is HomeAction.OnSearchClick -> {
+                searchClick()
+            }
+
+            is HomeAction.OnSearchQueryChange -> {
+                changeSearchText(action.query)
+            }
+
+            is HomeAction.OnRecipeClick -> {
+                recipeClick(action.recipeId)
+            }
         }
     }
 
@@ -113,6 +125,11 @@ class HomeViewModel(
         }
     }
 
+    fun recipeClick(recipeId: Long) {
+        viewModelScope.launch {
+            _eventFlow.emit(HomeEvent.NavigateToRecipeDetails(recipeId))
+        }
+    }
 
     companion object {
         const val DEBOUNCE_TIMEOUT_MILLIS = 500L
@@ -122,4 +139,5 @@ class HomeViewModel(
 
 sealed interface HomeEvent {
     data object NavigateToSearch : HomeEvent
+    data class NavigateToRecipeDetails(val recipeId: Long) : HomeEvent
 }

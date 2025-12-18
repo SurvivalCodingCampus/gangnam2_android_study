@@ -10,4 +10,5 @@ data class HomeState(
     val selectedCategory: String = "All",
     val newRecipes: List<Recipe> = emptyList(),
     val errorMessages: String? = "",
+    val isNewRecipesLoading: Boolean = false,
 )

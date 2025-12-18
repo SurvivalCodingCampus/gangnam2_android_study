@@ -26,6 +26,7 @@ import org.koin.androidx.compose.koinViewModel
 fun HomeRoot(
     modifier: Modifier = Modifier,
     onSearchClick: () -> Unit,
+    onRecipeClick: (Long) -> Unit,
     viewModel: HomeViewModel = koinViewModel(),
 ) {
     // viewModel.uiState는 ViewModel이 가지고 있는 화면의 상태(State) 정보입니다.
@@ -43,6 +44,9 @@ fun HomeRoot(
                 // ViewModel로부터 NavigateToSearch 이벤트가 오면,
                 // 파라미터로 받은 onSearchClick 콜백 함수를 실행합니다.
                 HomeEvent.NavigateToSearch -> onSearchClick()
+                is HomeEvent.NavigateToRecipeDetails -> {
+                    onRecipeClick(event.recipeId)
+                }
             }
         }
     }

@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.DishCard
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.NewRecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCategorySelector
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchBar
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -119,6 +121,46 @@ fun HomeScreen(
         )
 
 
+        if (state.isNewRecipesLoading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(127.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text("Loading...")
+            }
+        } else if (state.newRecipes.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(127.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text("데이터가 없습니다.")
+            }
+        } else {
+
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 30.dp),
+                horizontalArrangement = Arrangement.spacedBy(15.dp),
+            ) {
+                items(
+                    items = state.newRecipes,
+                    key = { it.id },
+                ) {
+                    NewRecipeCard(
+                        recipe = it,
+                        onClick = { recipeId ->
+                            onAction(HomeAction.OnRecipeClick(recipeId))
+                        },
+                    )
+                }
+            }
+
+        }
 
     }
 }

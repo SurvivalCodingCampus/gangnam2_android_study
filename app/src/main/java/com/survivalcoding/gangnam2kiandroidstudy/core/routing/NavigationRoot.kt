@@ -95,7 +95,7 @@ fun NavigationRoot(
                 RecipeDetailsRoot(
                     id = it.recipeId,
                     onBackClick = { topLevelBackStack.remove(it) },
-                    )
+                )
             }
 
             entry<Route.Main> {
@@ -115,9 +115,13 @@ fun NavigationRoot(
                                 entry<Route.Home> {
                                     HomeRoot(
                                         onSearchClick = {
-                                            Log.d("NavigationRoot", "Main -> SearchRecipes 2")
+                                            Log.d("NavigationRoot", "Main -> SearchRecipes")
                                             topLevelBackStack.add(Route.SearchRecipes)
                                         },
+                                        onRecipeClick = { recipeId ->
+                                            Log.d("NavigationRoot", "Main -> RecipeDetails")
+                                            topLevelBackStack.add(Route.RecipeDetails(recipeId))
+                                        }
                                     )
                                 }
                                 entry<Route.SavedRecipes> {
