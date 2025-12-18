@@ -168,12 +168,13 @@ class HomeViewModelTest {
         coGiven { getRecipesUseCase(any()) } returns AppResult.Success(emptyList())
         coGiven { getNewRecipesUseCase() } returns AppResult.Success(emptyList())
 
+        coVerify(exactly = 0) { getRecipesUseCase(any()) }
+
         viewModel = HomeViewModel(
             getRecipesUseCase,
             getNewRecipesUseCase,
             toggleBookmarkUseCase,
         )
-        coVerify(exactly = 0) { getRecipesUseCase(any()) }
 
         viewModel.onAction(HomeAction.ChangeQuery("test1"))
         advanceTimeBy(HomeViewModel.DEBOUNCE_TIMEOUT_MILLIS - 100L)

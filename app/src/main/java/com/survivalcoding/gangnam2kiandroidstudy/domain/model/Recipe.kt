@@ -8,5 +8,5 @@ data class Recipe(
     val time: Int,
     val rating: Double,
     val serve: Int = 1,
-    val chefImageUrl: String = "",
+    val chefImageUrl: String = "https://cdn.pixabay.com/photo/2022/10/19/01/02/woman-7531315_1280.png",
 )

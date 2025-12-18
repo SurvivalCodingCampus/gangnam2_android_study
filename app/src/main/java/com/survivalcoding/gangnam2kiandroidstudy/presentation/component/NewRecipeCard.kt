@@ -64,7 +64,7 @@ fun NewRecipeCard(
                 ) {
                     val rating = recipe.rating
                     val filledStars = rating.toInt()
-                    val hasHalfStar = rating % 1 != 0.0
+                    val hasEmptyStar = rating % 1 != 0.0
 
                     repeat(filledStars) {
                         Image(
@@ -75,7 +75,7 @@ fun NewRecipeCard(
                         )
                     }
 
-                    if (hasHalfStar) {
+                    if (hasEmptyStar) {
                         Image(
                             painter = painterResource(R.drawable.outline_star),
                             contentDescription = "empty star",
