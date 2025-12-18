@@ -5,5 +5,5 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 sealed interface RecipeHomeAction {
 
     data class SelectedCategory(val selectedCategory: RecipeCategory) : RecipeHomeAction
-    data class UnBookmark(val recipeId: Int) : RecipeHomeAction
+    data class ToggleBookmark(val recipeId: Int) : RecipeHomeAction
 }

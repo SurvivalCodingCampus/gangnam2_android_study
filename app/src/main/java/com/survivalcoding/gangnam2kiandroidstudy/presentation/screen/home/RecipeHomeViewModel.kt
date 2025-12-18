@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -40,7 +41,7 @@ class RecipeHomeViewModel(
     fun onAction(action: RecipeHomeAction) {
         when (action) {
             is RecipeHomeAction.SelectedCategory -> updateSelectedCategory(action.selectedCategory)
-            is RecipeHomeAction.UnBookmark -> unBookmark(action.recipeId)
+            is RecipeHomeAction.ToggleBookmark -> toggleBookmark(action.recipeId)
         }
     }
 
@@ -56,7 +57,7 @@ class RecipeHomeViewModel(
 
                 when (response) {
                     is Result.Success -> _state.update {
-                        it.copy(recipes = response.data, isLoading = false)
+                        it.copy(recipes = response.data.toPersistentList(), isLoading = false)
                     }
 
                     is Result.Failure -> {
@@ -81,11 +82,12 @@ class RecipeHomeViewModel(
         fetchSearchRecipes(_state.value.query)
     }
 
-    private fun unBookmark(recipeId: Int) {
+    private fun toggleBookmark(recipeId: Int) {
         // TODO 레시피 데이터에서 삭제할게 아니라 사용자의 레시피 아이디를 삭제해야 함 현재 보류
         val recipes = _state.value
             .recipes
             .filter { it.id != recipeId }
+            .toPersistentList()
 
         _state.update {
             it.copy(recipes = recipes)

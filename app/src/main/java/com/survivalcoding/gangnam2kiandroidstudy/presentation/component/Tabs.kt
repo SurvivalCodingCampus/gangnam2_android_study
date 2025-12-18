@@ -20,11 +20,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun Tabs(
     modifier: Modifier = Modifier,
-    labels: List<String>,
+    labels: ImmutableList<String>,
     selectedIndex: Int = 0,
     onValueChange: (Int) -> Unit = {},
 ) {
@@ -40,11 +42,11 @@ fun Tabs(
                 Column(
                     modifier = Modifier
                         .size(150.dp, 33.dp)
+                        .clickable { onValueChange(index) }
                         .background(
                             color = if (index == selectedIndex) AppColors.primary100 else AppColors.white,
                             shape = RoundedCornerShape(10.dp)
-                        )
-                        .clickable { onValueChange(index) },
+                        ),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -65,11 +67,11 @@ fun Tabs(
 @Preview(showBackground = true)
 @Composable
 private fun TabsPreview1() {
-    Tabs(labels = listOf("Label", "Label"))
+    Tabs(labels = persistentListOf("Label", "Label"))
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun TabsPreview2() {
-    Tabs(labels = listOf("Label", "Label"), selectedIndex = 1)
+    Tabs(labels = persistentListOf("Label", "Label"), selectedIndex = 1)
 }

@@ -47,11 +47,11 @@ fun RecipeHomeRatingScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun RecipeHomeRatingScreenPreview() {
-    val recipes = MockRecipeData.recipeListThree
+    val recipes = MockRecipeData.recipeListThree.toPersistentList()
 
     Scaffold { innerPadding ->
         RecipeHomeRatingScreen(
-            recipes = recipes.toPersistentList(),
+            recipes = recipes,
             modifier = Modifier.padding(innerPadding)
         )
     }

@@ -1,12 +1,12 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
-import androidx.compose.runtime.Immutable
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
-@Immutable
 data class RecipeHomeState(
-    val recipes: List<Recipe> = emptyList(),
+    val recipes: ImmutableList<Recipe> = persistentListOf(),
     val isLoading: Boolean = true,
     val error: String? = null,
     val query: String = "",

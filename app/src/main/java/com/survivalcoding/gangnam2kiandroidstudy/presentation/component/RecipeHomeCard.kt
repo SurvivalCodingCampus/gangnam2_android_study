@@ -99,7 +99,7 @@ fun RecipeHomeCard(
                     Box(
                         modifier = Modifier
                             .size(24.dp)
-                            .clickable { onAction(RecipeHomeAction.UnBookmark(recipe.id)) }
+                            .clickable { onAction(RecipeHomeAction.ToggleBookmark(recipe.id)) }
                             .background(color = AppColors.white, shape = CircleShape),
                         contentAlignment = Alignment.Center
                     ) {

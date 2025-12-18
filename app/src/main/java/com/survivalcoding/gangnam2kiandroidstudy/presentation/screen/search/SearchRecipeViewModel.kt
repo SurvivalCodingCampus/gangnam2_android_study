@@ -1,11 +1,11 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.filter.FilterSearchState
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -85,7 +85,7 @@ class SearchRecipeViewModel(
 
                 when (response) {
                     is Result.Success -> _uiState.update {
-                        it.copy(recipes = response.data, isLoading = false)
+                        it.copy(recipes = response.data.toPersistentList(), isLoading = false)
                     }
 
                     is Result.Failure -> {
@@ -111,11 +111,10 @@ class SearchRecipeViewModel(
                     _uiState.value.filterSearchState.rate,
                     _uiState.value.filterSearchState.category.displayName
                 )
-                Log.d("SearchRecipeViewModel fetchSearchRecipes", "$response")
 
                 when (response) {
                     is Result.Success -> _uiState.update {
-                        it.copy(filterRecipes = response.data, isLoading = false)
+                        it.copy(filterRecipes = response.data.toPersistentList(), isLoading = false)
                     }
 
                     is Result.Failure -> {

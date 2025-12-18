@@ -31,7 +31,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Search
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
-import kotlinx.collections.immutable.toPersistentList
 
 @Composable
 fun RecipeHomeScreen(
@@ -128,7 +127,7 @@ fun RecipeHomeScreen(
             }
 
             else -> RecipeHomeCardScreen(
-                recipes = state.recipes.toPersistentList(),
+                recipes = state.recipes,
                 modifier = Modifier.padding(top = 15.dp),
                 navigateToDetail = navigateToDetail,
                 onAction = onAction
@@ -144,7 +143,7 @@ fun RecipeHomeScreen(
 
         Spacer(Modifier.height(5.dp))
         RecipeHomeRatingScreen(
-            recipes = state.recipes.toPersistentList(),
+            recipes = state.recipes,
             modifier = Modifier,
             navigateToDetail = navigateToDetail
         )

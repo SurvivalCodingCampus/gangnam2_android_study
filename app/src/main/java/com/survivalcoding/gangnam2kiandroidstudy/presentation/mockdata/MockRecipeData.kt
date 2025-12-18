@@ -3,6 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import kotlinx.collections.immutable.persistentListOf
 
 object MockRecipeData {
     val recipeListOne = Recipe(
@@ -31,7 +32,7 @@ object MockRecipeData {
         )
     )
 
-    val recipeListThree = listOf(
+    val recipeListThree = persistentListOf(
         Recipe(
             1,
             "Indian",

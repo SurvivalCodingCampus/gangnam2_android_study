@@ -81,7 +81,6 @@ fun RatingHomeCard(
                     modifier = Modifier.width(139.44.dp),
                     style = AppTextStyles.smallTextBold.copy(fontWeight = FontWeight.SemiBold),
                     color = AppColors.gray1,
-//                    textAlign = TextAlign.Center,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
