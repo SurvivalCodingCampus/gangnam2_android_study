@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Items
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,6 +38,7 @@ fun HomeRecipeCard(
     recipe: Recipe,
     isBookmarked: Boolean,
     onBookmarkClick: () -> Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -51,7 +53,9 @@ fun HomeRecipeCard(
                 .background(
                     color = AppColors.gray4,
                     shape = RoundedCornerShape(12.dp)
-                ),
+                )
+                .clickable{ onClick() }
+            ,
             contentAlignment = Alignment.BottomStart
         ) {
             Column(
@@ -60,7 +64,8 @@ fun HomeRecipeCard(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 // 제목
-                Box(modifier = Modifier.height(42.dp)) {
+                Box(
+                    modifier = Modifier.height(42.dp)) {
                     Text(
                         text = recipe.title,
                         style = AppTextStyles.smallTextBold.copy(
@@ -140,6 +145,7 @@ private fun HomeRecipeCardPreview() {
     HomeRecipeCard(
         recipe = sample,
         isBookmarked = true,
-        onBookmarkClick = {}
+        onBookmarkClick = {},
+        onClick = {}
     )
 }

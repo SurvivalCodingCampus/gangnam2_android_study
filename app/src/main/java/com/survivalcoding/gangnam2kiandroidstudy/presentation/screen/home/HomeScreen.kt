@@ -35,6 +35,7 @@ fun HomeScreen(
     state: HomeState,
     onAction: (HomeAction) -> Unit = {},
     onNavigateToSearch: () -> Unit,
+    onRecipeClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -114,6 +115,9 @@ fun HomeScreen(
                         onBookmarkClick = {
                             onAction(HomeAction.ToggleBookmark(recipe.id))
                         },
+                        onClick = {
+                            onRecipeClick(recipe.id)
+                        },
                         modifier = Modifier.padding(end = 15.dp)
                     )
                 }
@@ -135,6 +139,7 @@ fun RecipeCategorySelectorPreview() {
     HomeScreen(
         state = fakeState,
         onAction = {},
-        onNavigateToSearch = {}
+        onNavigateToSearch = {},
+        onRecipeClick = {}
     )
 }

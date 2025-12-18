@@ -16,6 +16,7 @@ fun HomeRoot(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToSearch: () -> Unit,
+    onNavigateToRecipeDetail: (Int) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -29,7 +30,8 @@ fun HomeRoot(
                 .padding(horizontal = 30.dp),
             state = state,
             onAction = viewModel::onAction,
-            onNavigateToSearch = onNavigateToSearch
+            onNavigateToSearch = onNavigateToSearch,
+            onRecipeClick = onNavigateToRecipeDetail
         )
     }
 }

@@ -61,6 +61,9 @@ fun MainRoot() {
                     HomeRoot(
                         onNavigateToSearch = {
                             mainBackStack.add(Route.SearchRecipes)
+                        },
+                        onNavigateToRecipeDetail = { recipeId ->
+                            mainBackStack.add(Route.RecipeDetail(recipeId))
                         }
                     )
                 }
