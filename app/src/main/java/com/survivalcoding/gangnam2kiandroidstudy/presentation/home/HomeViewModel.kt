@@ -3,6 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -53,6 +54,8 @@ class HomeViewModel(
             }
         }
 
+        fetchNewRecipes()
+
         // 검색어 변경 시 debounce 적용하여 필터링
         uiState
             .map { it.searchText }
@@ -102,6 +105,20 @@ class HomeViewModel(
         }
     }
 
+
+    private fun fetchNewRecipes() {
+        viewModelScope.launch {
+            setNewRecipeLoading(true)
+            try {
+                val recipes = recipeRepository.getRecipes().take(2)
+                changeNewRecipes(recipes)
+            } finally {
+                setNewRecipeLoading(false)
+            }
+        }
+    }
+
+
     fun changeCategory(category: String) {
         _uiState.update {
             it.copy(selectedCategory = category)
@@ -130,6 +147,15 @@ class HomeViewModel(
             _eventFlow.emit(HomeEvent.NavigateToRecipeDetails(recipeId))
         }
     }
+
+    private fun changeNewRecipes(recipes: List<Recipe>) {
+        _uiState.update { it.copy(newRecipes = recipes) }
+    }
+
+    private fun setNewRecipeLoading(isLoading: Boolean) {
+        _uiState.update { it.copy(isNewRecipesLoading = isLoading) }
+    }
+
 
     companion object {
         const val DEBOUNCE_TIMEOUT_MILLIS = 500L

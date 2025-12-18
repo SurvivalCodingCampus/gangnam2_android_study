@@ -99,13 +99,15 @@ fun HomeScreen(
             items(state.filteredRecipes) { item ->
                 DishCard(
                     recipe = item,
-                    onDishClick = {},
+                    onDishClick = { recipe ->
+                        onAction(HomeAction.OnRecipeClick(recipe.id))
+                    },
                     onBookmarkClick = {},
                     isSaved = false,
                     modifier = Modifier
                         .padding(end = 15.dp)
                         .width(150.dp)
-                    )
+                )
             }
         }
 
