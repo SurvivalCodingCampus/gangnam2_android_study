@@ -13,6 +13,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.notication.
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.profile.ProfileRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipe.detail.RecipeDetailRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved.SavedRecipeRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.SearchRecipeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.signin.SignInRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.signup.SignUpRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashScreen
@@ -66,7 +67,17 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             backStack = backStack,
                             entryProvider = entryProvider {
                                 entry<Route.Home> {
-                                    RecipeHomeRoot()
+                                    RecipeHomeRoot(
+                                        navigateToSearchRecipe = {
+                                            topLevelBackStack.add(Route.SearchRecipe)
+                                        },
+                                        navigateToDetail = { recipeId ->
+                                            topLevelBackStack.removeIf { navKey ->
+                                                navKey is Route.RecipeDetail
+                                            }
+                                            topLevelBackStack.add(Route.RecipeDetail(recipeId))
+                                        },
+                                    )
                                 }
                                 entry<Route.SavedRecipes> {
                                     SavedRecipeRoot(
@@ -86,6 +97,16 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 }
                             }
                         )
+                    }
+                )
+            }
+            entry<Route.SearchRecipe> {
+                SearchRecipeRoot(
+                    navigateToDetail = { recipeId ->
+                        topLevelBackStack.removeIf { navKey ->
+                            navKey is Route.RecipeDetail
+                        }
+                        topLevelBackStack.add(Route.RecipeDetail(recipeId))
                     }
                 )
             }

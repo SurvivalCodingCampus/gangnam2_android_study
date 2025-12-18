@@ -7,12 +7,12 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 object MockRecipeData {
     val recipeListOne = Recipe(
         1,
-        "Indian",
-        "Steak with tomato sauce and bulgur rice.",
-        "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-        "James Milner",
-        "20 min",
-        4.0,
+        "Japanese",
+        "Ttekbokki",
+        "https://cdn.pixabay.com/photo/2017/07/27/16/48/toppokki-2545943_1280.jpg",
+        "Kim Dahee",
+        "30 min",
+        5.0,
         ingredients = listOf(
             Ingredient(
                 1,

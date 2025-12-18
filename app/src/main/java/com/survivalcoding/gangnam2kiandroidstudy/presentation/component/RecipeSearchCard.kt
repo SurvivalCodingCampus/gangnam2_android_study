@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,11 +37,16 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun RecipeSearchCard(recipe: Recipe, modifier: Modifier = Modifier) {
+fun RecipeSearchCard(
+    recipe: Recipe,
+    modifier: Modifier = Modifier,
+    navigateToDetail: (recipeId: Int) -> Unit = {},
+) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .aspectRatio(1f)
+            .clickable { navigateToDetail(recipe.id) }
     ) {
         val painter = if (LocalInspectionMode.current) {
             painterResource(R.drawable.recipe_main)

@@ -18,7 +18,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
-class SearchRecipeViewModel(private val recipeRepository: RecipeRepository) : ViewModel() {
+class SearchRecipeViewModel(
+    private val recipeRepository: RecipeRepository
+) : ViewModel() {
     private val _uiState = MutableStateFlow(SearchRecipeState())
     val uiState: StateFlow<SearchRecipeState> = _uiState.asStateFlow()
 
@@ -40,13 +42,26 @@ class SearchRecipeViewModel(private val recipeRepository: RecipeRepository) : Vi
         }
     }
 
-    fun updateSearch(query: String) {
-        _uiState.update {
-            it.copy(query = query)
+    fun onAction(action: SearchRecipeAction) {
+        when (action) {
+            SearchRecipeAction.OnFilterSettingClick -> toggleFilterSetting()
+            SearchRecipeAction.OnSearchDone -> performSearch()
+            is SearchRecipeAction.UpdateFilterSearch -> updateFilterSearchState(action.filterSearch)
+            is SearchRecipeAction.UpdateQuery -> updateSearch(action.query)
         }
     }
 
-    fun updateFilterSearchState(filterSearchState: FilterSearchState) {
+    private fun toggleFilterSetting() {
+        _uiState.update {
+            it.copy(showBottomSheet = !it.showBottomSheet)
+        }
+    }
+
+    private fun performSearch() {
+        fetchSearchRecipes(_uiState.value.query)
+    }
+
+    private fun updateFilterSearchState(filterSearchState: FilterSearchState) {
         _uiState.update {
             it.copy(
                 filterSearchState = filterSearchState,
@@ -57,13 +72,9 @@ class SearchRecipeViewModel(private val recipeRepository: RecipeRepository) : Vi
         fetchSearchRecipes(_uiState.value.query)
     }
 
-    fun performSearch() {
-        fetchSearchRecipes(_uiState.value.query)
-    }
-
-    fun toggleFilterSetting() {
+    private fun updateSearch(query: String) {
         _uiState.update {
-            it.copy(showBottomSheet = !it.showBottomSheet)
+            it.copy(query = query)
         }
     }
 

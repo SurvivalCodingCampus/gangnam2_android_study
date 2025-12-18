@@ -16,7 +16,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
-class RecipeHomeViewModel(private val recipeRepository: RecipeRepository) : ViewModel() {
+class RecipeHomeViewModel(
+    private val recipeRepository: RecipeRepository
+) : ViewModel() {
     private val _state = MutableStateFlow(RecipeHomeState())
     val state = _state.asStateFlow()
 
@@ -35,12 +37,11 @@ class RecipeHomeViewModel(private val recipeRepository: RecipeRepository) : View
         }
     }
 
-    fun updateSelectedCategory(selectedCategory: RecipeCategory) {
-        _state.update {
-            it.copy(selectedCategory = selectedCategory)
+    fun onAction(action: RecipeHomeAction) {
+        when (action) {
+            is RecipeHomeAction.SelectedCategory -> updateSelectedCategory(action.selectedCategory)
+            is RecipeHomeAction.UnBookmark -> unBookmark(action.recipeId)
         }
-
-        fetchSearchRecipes(_state.value.query)
     }
 
     private fun fetchSearchRecipes(query: String) {
@@ -69,6 +70,25 @@ class RecipeHomeViewModel(private val recipeRepository: RecipeRepository) : View
             _state.update {
                 it.copy(isLoading = false, error = "Error fetching ${e.message}")
             }
+        }
+    }
+
+    private fun updateSelectedCategory(selectedCategory: RecipeCategory) {
+        _state.update {
+            it.copy(selectedCategory = selectedCategory)
+        }
+
+        fetchSearchRecipes(_state.value.query)
+    }
+
+    private fun unBookmark(recipeId: Int) {
+        // TODO 레시피 데이터에서 삭제할게 아니라 사용자의 레시피 아이디를 삭제해야 함 현재 보류
+        val recipes = _state.value
+            .recipes
+            .filter { it.id != recipeId }
+
+        _state.update {
+            it.copy(recipes = recipes)
         }
     }
 }

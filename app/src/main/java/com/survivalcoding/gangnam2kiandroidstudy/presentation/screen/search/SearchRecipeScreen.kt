@@ -32,7 +32,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeSe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Search
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.filter.FilterSearchBottomSheet
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.filter.FilterSearchState
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
@@ -40,13 +39,12 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun SearchRecipeScreen(
     state: SearchRecipeState,
     modifier: Modifier = Modifier,
-    onClickSearch: () -> Unit = {},
-    onUpdateSearch: (String) -> Unit = {},
-    toggleFilterSetting: () -> Unit = {},
-    onUpdateFilterSearch: (FilterSearchState) -> Unit = {},
+    navigateToDetail: (recipeId: Int) -> Unit = {},
+    onAction: (SearchRecipeAction) -> Unit = {},
 ) {
     Box(modifier = modifier.fillMaxSize()) {
-        Column(modifier = Modifier.padding(horizontal = 30.dp, vertical = 10.dp)) {
+        Column(modifier = Modifier.padding(horizontal = 30.dp)) {
+            Spacer(Modifier.height(54.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -70,12 +68,13 @@ fun SearchRecipeScreen(
                     modifier = Modifier.weight(1f),
                     placeholder = "Search recipe",
                     value = state.query,
-                    onClick = { onClickSearch() },
-                    onValueChange = { onUpdateSearch(it) }
+                    isSearchEnabled = state.isSearchEnabled,
+                    onClick = { onAction(SearchRecipeAction.OnSearchDone) },
+                    onValueChange = { onAction(SearchRecipeAction.UpdateQuery(it)) }
                 )
                 Spacer(Modifier.width(20.dp))
 
-                FilterSettingButton { toggleFilterSetting() }
+                FilterSettingButton { onAction(SearchRecipeAction.OnFilterSettingClick) }
             }
             Spacer(Modifier.height(20.dp))
 
@@ -113,7 +112,10 @@ fun SearchRecipeScreen(
                     val recipes = state.filterRecipes.ifEmpty { state.recipes }
 
                     items(recipes) { recipe ->
-                        RecipeSearchCard(recipe = recipe)
+                        RecipeSearchCard(
+                            recipe = recipe,
+                            navigateToDetail = navigateToDetail
+                        )
                     }
                 }
             }
@@ -121,8 +123,8 @@ fun SearchRecipeScreen(
             FilterSearchBottomSheet(
                 state = state.filterSearchState,
                 showBottomSheet = state.showBottomSheet,
-                onDismiss = { toggleFilterSetting() },
-                onClickFilter = { onUpdateFilterSearch(it) },
+                onDismiss = { onAction(SearchRecipeAction.OnFilterSettingClick) },
+                onClickFilter = { onAction(SearchRecipeAction.UpdateFilterSearch(it)) },
             )
         }
     }

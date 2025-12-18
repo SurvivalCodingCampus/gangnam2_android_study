@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.RecipeHomeAction
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
@@ -43,8 +45,14 @@ fun RecipeHomeCard(
     recipe: Recipe,
     modifier: Modifier = Modifier,
     isSaved: Boolean = false,
+    navigateToDetail: (recipeId: Int) -> Unit = {},
+    onAction: (RecipeHomeAction) -> Unit = {},
 ) {
-    Box(modifier = modifier.width(150.dp)) {
+    Box(
+        modifier = modifier
+            .width(150.dp)
+            .clickable { navigateToDetail(recipe.id) }
+    ) {
         val painter = if (LocalInspectionMode.current) {
             painterResource(R.drawable.recipe)
         } else {
@@ -91,6 +99,7 @@ fun RecipeHomeCard(
                     Box(
                         modifier = Modifier
                             .size(24.dp)
+                            .clickable { onAction(RecipeHomeAction.UnBookmark(recipe.id)) }
                             .background(color = AppColors.white, shape = CircleShape),
                         contentAlignment = Alignment.Center
                     ) {
@@ -98,7 +107,9 @@ fun RecipeHomeCard(
                             painter = painterResource(R.drawable.union),
                             contentDescription = "union icon",
                             modifier = Modifier.size(16.dp),
-                            tint = if (isSaved) AppColors.primary80 else AppColors.gray3
+                            // TODO 사용자 데이터에 저장된 레시피가 있어야 함 현재 보류
+//                            tint = if (isSaved) AppColors.primary80 else AppColors.gray3
+                            tint = AppColors.primary80
                         )
                     }
                 }

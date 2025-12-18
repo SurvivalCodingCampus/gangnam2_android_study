@@ -1,5 +1,8 @@
 package com.survivalcoding.gangnam2kiandroidstudy.domain.model
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class Recipe(
     val id: Int,
     val category: String,
