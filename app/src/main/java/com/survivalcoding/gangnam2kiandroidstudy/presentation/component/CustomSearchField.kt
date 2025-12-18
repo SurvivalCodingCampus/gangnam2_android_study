@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppColors
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 
 @Composable
 fun CustomSearchField(onValueChange: (String) -> Unit) {
@@ -49,7 +50,8 @@ fun CustomSearchField(onValueChange: (String) -> Unit) {
                 onValueChange = {
                     onValueChange(it)
                     inputText = it
-                }
+                },
+                textStyle = AppTextStyles.smallerTextRegular
             )
         }
     }
