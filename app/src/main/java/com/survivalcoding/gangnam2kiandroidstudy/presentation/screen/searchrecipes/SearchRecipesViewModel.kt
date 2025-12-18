@@ -3,12 +3,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeSearchCondition
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeSearchFilter
@@ -117,12 +112,5 @@ class SearchRecipesViewModel(
 
     companion object {
         const val DEBOUNCE_TIMEOUT_MILLIS = 500L
-
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val repository = (this[APPLICATION_KEY] as AppApplication).recipeRepository
-                SearchRecipesViewModel(repository, SearchRecipesUiState())
-            }
-        }
     }
 }

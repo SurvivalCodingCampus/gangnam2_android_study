@@ -1,44 +1,30 @@
 package com.survivalcoding.gangnam2kiandroidstudy
 
 import android.app.Application
-import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSource
-import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RemoteRecipeDataSourceImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockBookmarkRepositoryImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockIngredientRepositoryImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockProcedureRepositoryImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockProfileRepositoryImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProfileRepository
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeDetailsUseCase
-import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetSavedRecipesUseCase
-import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.ToggleBookmarkUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.appModule
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.dataSourceModule
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.repositoryModule
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.useCaseModule
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.viewModelModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 class AppApplication : Application() {
 
-    val recipeDataSource: RecipeDataSource by lazy { RemoteRecipeDataSourceImpl() }
+    override fun onCreate() {
+        super.onCreate()
 
-    val recipeRepository: RecipeRepository by lazy { RecipeRepositoryImpl(recipeDataSource) }
-    val bookmarkRepository: BookmarkRepository by lazy { MockBookmarkRepositoryImpl }
-    val profileRepository: ProfileRepository by lazy { MockProfileRepositoryImpl }
-    val ingredientRepository: IngredientRepository by lazy { MockIngredientRepositoryImpl }
-    val procedureRepository: ProcedureRepository by lazy { MockProcedureRepositoryImpl }
-
-    val getSavedRecipesUseCase: GetSavedRecipesUseCase by lazy {
-        GetSavedRecipesUseCase(recipeRepository)
-    }
-    val toggleBookmarkUseCase: ToggleBookmarkUseCase by lazy {
-        ToggleBookmarkUseCase(bookmarkRepository)
-    }
-    val getRecipeDetailsUseCase: GetRecipeDetailsUseCase by lazy {
-        GetRecipeDetailsUseCase(
-            recipeRepository,
-            profileRepository,
-            ingredientRepository,
-            procedureRepository,
-        )
+        startKoin {
+            androidLogger()
+            androidContext(this@AppApplication)
+            modules(
+                appModule,
+                dataSourceModule,
+                repositoryModule,
+                useCaseModule,
+                viewModelModule,
+            )
+        }
     }
 }

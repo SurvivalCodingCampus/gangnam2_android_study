@@ -3,11 +3,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.CategoryFilterType
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
@@ -90,11 +86,5 @@ class HomeViewModel(
 
     companion object {
         const val DEBOUNCE_TIMEOUT_MILLIS = 500L
-
-        fun factory(application: AppApplication): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                HomeViewModel(application.recipeRepository)
-            }
-        }
     }
 }
