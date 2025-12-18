@@ -14,6 +14,23 @@ android {
         version = release(36)
     }
 
+    flavorDimensions += "environment"
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+        }
+        create("prod") {
+            dimension = "environment"
+        }
+        create("qa") {
+            dimension = "environment"
+            applicationIdSuffix = ".qa"
+            versionNameSuffix = "-qa"
+        }
+    }
+
     defaultConfig {
         applicationId = "com.survivalcoding.gangnam2kiandroidstudy"
         minSdk = 24
@@ -42,6 +59,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
