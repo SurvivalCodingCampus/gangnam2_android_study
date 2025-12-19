@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
@@ -69,6 +70,48 @@ class SearchRecipesViewModel(
             is SearchRecipesAction.OnSearchQueryChange -> {
                 changeSearchText(action.query)
             }
+
+            is SearchRecipesAction.OnFilterClick -> {
+                applyFilter(action.filter)
+            }
+        }
+    }
+
+    fun applyFilter(filter: FilterSearchState) {
+        Log.d("SearchRecipesViewModel", "applyFilter: $filter")
+
+        _uiState.update { it.copy(filterSearchState = filter) }
+
+        val all = uiState.value.recipes
+        val filtered = all
+            // name 필터
+            .filter { recipe ->
+                recipe.name.contains(uiState.value.searchText, ignoreCase = true)
+            }
+
+            // time 필터
+            .let { recipes ->
+                when (filter.time) {
+                    "All" -> recipes
+                    "Newest" -> recipes.sortedByDescending { it.id }
+                    "Oldest" -> recipes.sortedBy { it.id }
+                    "Popularity" -> recipes.sortedByDescending { it.rating }
+                    else -> recipes
+                }
+
+                    // rating 필터
+                    .let { recipes ->
+                        if (filter.rating != null) {
+                            recipes.filter { it.rating >= filter.rating }
+                        } else {
+                            recipes
+                        }
+                    }
+            }
+
+        // ui 업데이트
+        _uiState.update {
+            it.copy(filteredRecipes = filtered)
         }
     }
 

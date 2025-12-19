@@ -21,8 +21,14 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,10 +38,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCardMedium
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchField
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -43,6 +51,12 @@ fun SearchRecipesScreen(
     state: SearchRecipesState = SearchRecipesState(),
     onAction: (SearchRecipesAction) -> Unit,
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    // 필터 시트 출력 여부
+    var showFilterSheet by remember { mutableStateOf(false) }
+
     val recipes = state.filteredRecipes
 
     Column(
@@ -104,6 +118,15 @@ fun SearchRecipesScreen(
                     .clip(RoundedCornerShape(10.dp))
                     .clickable {
                         // viewModel.showBottomSheet()
+                        showFilterSheet = true
+
+                        scope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = "필터 적용되었습니다",
+                                actionLabel = "확인",
+                                withDismissAction = true
+                            )
+                        }
                     }
                     .background(
                         color = AppColors.primary100,
@@ -132,6 +155,8 @@ fun SearchRecipesScreen(
             )
         }
 
+
+        // recipe items
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -149,6 +174,20 @@ fun SearchRecipesScreen(
                     )
                 }
             }
+        }
+
+
+
+        // 필터 시트
+        if (showFilterSheet) {
+            FilterSearchBottomSheet(
+                onApplyFilter = { filter ->
+                    onAction(SearchRecipesAction.OnFilterClick(filter))
+                    showFilterSheet = false
+                },
+                onDismiss = { showFilterSheet = false },
+                initialFilter = state.filterSearchState,
+            )
         }
     }
 }
