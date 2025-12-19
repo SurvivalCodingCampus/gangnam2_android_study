@@ -26,7 +26,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 
 @Composable
-fun SplashScreen(onStartButtonClick: () -> Unit) {
+fun SplashScreen(onStartButtonClick: () -> Unit,isEnable: Boolean ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -85,10 +85,9 @@ fun SplashScreen(onStartButtonClick: () -> Unit) {
             )
             Spacer(modifier = Modifier.height(64.dp))
             Box(modifier = Modifier.padding(horizontal = 16.dp)) {
-                MediumButton("Start Cooking") {
-                    onStartButtonClick()
+                MediumButton("Start Cooking", onClick = { onStartButtonClick() },isEnable)
 
-                }
+
             }
             Spacer(modifier = Modifier.height(84.dp))
 
@@ -103,5 +102,5 @@ fun SplashScreen(onStartButtonClick: () -> Unit) {
 @Preview(showBackground = true, heightDp = 812)
 @Composable
 fun SplashScreenPreview() {
-    SplashScreen({})
+//    SplashScreen({})
 }
