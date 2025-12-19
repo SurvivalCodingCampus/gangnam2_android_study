@@ -76,35 +76,35 @@ fun NewRecipesCard(recipe: Recipe) {
                             painter = if (recipe.rating >= 1.0) painterResource(R.drawable.star) else painterResource(
                                 R.drawable.star_5
                             ),
-                            contentDescription = "벌점",
+                            contentDescription = "별점",
                             modifier = Modifier.size(width = 10.46.dp, height = 10.5.dp),
                         )
                         Image(
                             painter = if (recipe.rating >= 2.0) painterResource(R.drawable.star) else painterResource(
                                 R.drawable.star_5
                             ),
-                            contentDescription = "벌점",
+                            contentDescription = "별점",
                             modifier = Modifier.size(width = 10.46.dp, height = 10.5.dp),
                         )
                         Image(
                             painter = if (recipe.rating >= 3.0) painterResource(R.drawable.star) else painterResource(
                                 R.drawable.star_5
                             ),
-                            contentDescription = "벌점",
+                            contentDescription = "별점",
                             modifier = Modifier.size(width = 10.46.dp, height = 10.5.dp),
                         )
                         Image(
                             painter = if (recipe.rating >= 4.0) painterResource(R.drawable.star) else painterResource(
                                 R.drawable.star_5
                             ),
-                            contentDescription = "벌점",
+                            contentDescription = "별점",
                             modifier = Modifier.size(width = 10.46.dp, height = 10.5.dp),
                         )
                         Image(
                             painter = if (recipe.rating >= 5.0) painterResource(R.drawable.star) else painterResource(
                                 R.drawable.star_5
                             ),
-                            contentDescription = "벌점",
+                            contentDescription = "별점",
                             modifier = Modifier.size(width = 10.46.dp, height = 10.5.dp),
                         )
 
