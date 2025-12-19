@@ -101,7 +101,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .weight(1f)
                     .clip(RoundedCornerShape(10.dp))
-                    .clickable { onNavigate(HomeNavigation.OnSearchInputClick) },
+                    .clickable { onNavigate(HomeNavigation.SearchRecipes) },
             ) {
                 SearchInputField(
                     value = uiState.query,
@@ -170,7 +170,7 @@ fun HomeScreen(
                     DishCard(
                         recipe = it,
                         onClick = { recipeId ->
-                            onNavigate(HomeNavigation.OnRecipeClick(recipeId))
+                            onNavigate(HomeNavigation.RecipeDetails(recipeId))
                         },
                         onBookmarkClick = { recipeId ->
                             onAction(HomeAction.ToggleBookmark(recipeId))
@@ -220,7 +220,7 @@ fun HomeScreen(
                     NewRecipeCard(
                         recipe = it,
                         onClick = { recipeId ->
-                            onNavigate(HomeNavigation.OnRecipeClick(recipeId))
+                            onNavigate(HomeNavigation.RecipeDetails(recipeId))
                         },
                     )
                 }

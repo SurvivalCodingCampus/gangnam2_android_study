@@ -7,6 +7,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeNavigation
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.notification.NotificationScreen
@@ -77,13 +78,21 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             entryProvider = entryProvider {
                                 entry<Route.Home> {
                                     HomeRoot(
-                                        onRecipeClick = { recipeId ->
-                                            topLevelBackStack.removeIf { it is Route.RecipeDetails }
-                                            topLevelBackStack.add(Route.RecipeDetails(recipeId))
-                                        },
-                                        onSearchInputClick = {
-                                            topLevelBackStack.removeIf { it is Route.SearchRecipes }
-                                            topLevelBackStack.add(Route.SearchRecipes)
+                                        onNavigate = { navigation ->
+                                            when (navigation) {
+                                                HomeNavigation.SearchRecipes -> {
+                                                    topLevelBackStack.removeIf { it is Route.SearchRecipes }
+                                                    topLevelBackStack.add(Route.SearchRecipes)
+                                                }
+                                                is HomeNavigation.RecipeDetails -> {
+                                                    topLevelBackStack.removeIf { it is Route.RecipeDetails }
+                                                    topLevelBackStack.add(
+                                                        Route.RecipeDetails(
+                                                            navigation.recipeId,
+                                                        ),
+                                                    )
+                                                }
+                                            }
                                         },
                                     )
                                 }
