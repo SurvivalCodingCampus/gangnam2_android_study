@@ -31,8 +31,8 @@ class HomeViewModel(
 
     fun onAction(action: HomeAction) {
         when (action) {
-            is HomeAction.OnViewmodelCalled -> onSelectedCategory(action.recipeName)
-            else -> Unit
+            is HomeAction.OnSelectedCategory -> onSelectedCategory(action.recipeName)
+            else -> {}
         }
 
     }

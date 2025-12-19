@@ -18,7 +18,7 @@ fun HomeRoot(
         onAction = { action ->
             when (action) {
                 is HomeAction.OnSearchClicked -> onSearchClicked()
-                is HomeAction.OnViewmodelCalled -> viewModel.onAction(action)
+                is HomeAction.OnSelectedCategory -> viewModel.onAction(action)
                 is HomeAction.OnRecipeItemClicked -> onRecipeItemClicked(action.recipe)//onAction(HomeAction.OnRecipeItemClicked(action.recipe))
             }
         },
