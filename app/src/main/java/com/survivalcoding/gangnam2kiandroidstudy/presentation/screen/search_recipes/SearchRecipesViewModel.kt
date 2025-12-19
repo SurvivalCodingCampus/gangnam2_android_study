@@ -45,7 +45,44 @@ class SearchRecipesViewModel @Inject constructor(
         }
     }
 
-    // 화면 최초 진입시 모든 레시피
+    // action
+    fun onAction(action: SearchRecipesAction) {
+        when (action) {
+
+            is SearchRecipesAction.KeywordChanged -> {
+                updateSearchKeyword(action.keyword)
+            }
+
+            SearchRecipesAction.FilterClicked -> {
+                showBottomSheet(true)
+            }
+
+            SearchRecipesAction.FilterDismissed -> {
+                showBottomSheet(false)
+            }
+
+            is SearchRecipesAction.FilterApplied -> {
+                applyFilters(action.filter)
+                showBottomSheet(false)
+            }
+
+            is SearchRecipesAction.RecipeClicked -> {
+                onRecipeClick(action.recipeId)
+            }
+        }
+    }
+
+    // navigation event
+    private fun onRecipeClick(recipeId: Int) {
+        viewModelScope.launch {
+            _event.emit(
+                SearchRecipesEvent.NavigateToRecipeDetail(recipeId)
+            )
+        }
+    }
+
+
+    // 데이터 로딩
     private fun loadAllRecipes() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
@@ -62,59 +99,6 @@ class SearchRecipesViewModel @Inject constructor(
 
         }
     }
-
-    fun onAction(action: SearchRecipesAction) {
-        when (action) {
-
-            is SearchRecipesAction.KeywordChanged -> {
-                updateSearchKeyword(action.keyword)
-            }
-
-            SearchRecipesAction.FilterClicked -> {
-                showBottomSheet(true)
-            }
-
-            SearchRecipesAction.FilterDismissed -> {
-                showBottomSheet(false)
-                emitFilterCanceledEvent()
-            }
-
-            is SearchRecipesAction.FilterApplied -> {
-                applyFilters(action.filter)
-                showBottomSheet(false)
-                emitFilterAppliedEvent()
-            }
-
-            is SearchRecipesAction.RecipeClicked -> {
-                onRecipeClick(action.recipeId)
-            }
-        }
-    }
-
-    private fun onRecipeClick(recipeId: Int) {
-        viewModelScope.launch {
-            _event.emit(
-                SearchRecipesEvent.NavigateToRecipeDetail(recipeId)
-            )
-        }
-    }
-
-    private fun emitFilterAppliedEvent() {
-        viewModelScope.launch {
-            _event.emit(
-                SearchRecipesEvent.ShowSnackBar("필터가 적용되었습니다.")
-            )
-        }
-    }
-
-    private fun emitFilterCanceledEvent() {
-        viewModelScope.launch {
-            _event.emit(
-                SearchRecipesEvent.ShowSnackBar("필터가 취소되었습니다.")
-            )
-        }
-    }
-
 
     // 검색어
     private fun updateSearchKeyword(keyword: String) {
@@ -148,41 +132,56 @@ class SearchRecipesViewModel @Inject constructor(
         }
     }
 
-    // bottom sheet 올리기
-    private fun showBottomSheet(show: Boolean) {
-        _state.update { it.copy(showBottomSheet = show) }
-    }
-
-    // 검색어 결과
+    // 필터
     private fun applyFilters(filter: FilterSearchState) {
+        val current = _state.value
 
-        _state.update { current ->
+        val wasFilterActive = !current.filterState.isDefault()
+        val isNowDefault = filter.isDefault()
 
-            var result: List<Recipe> = current.recipes
+        var result: List<Recipe> = current.recipes
 
-            // 검색어
-            result = result.filter { recipe ->
-                recipe.title.contains(current.searchKeyword, ignoreCase = true)
-            }
+        // 검색어
+        result = result.filter {
+            it.title.contains(current.searchKeyword, ignoreCase = true)
+        }
 
-            // Category / Rate
-            result = result.filter { recipe ->
-                filterMatches(recipe, filter)
-            }
+        // 필터
+        result = result.filter { recipe ->
+            filterMatches(recipe, filter)
+        }
 
-            // 3) TimeFilter 정렬
-            result = when (filter.time) {
-                TimeFilter.ALL -> result
-                TimeFilter.NEWEST -> result.sortedByDescending { it.createdAt }
-                TimeFilter.OLDEST -> result.sortedBy { it.createdAt }
-                TimeFilter.POPULARITY -> result.sortedByDescending { it.rating }
-            }
+        // 정렬
+        result = when (filter.time) {
+            TimeFilter.ALL -> result
+            TimeFilter.NEWEST -> result.sortedByDescending { it.createdAt }
+            TimeFilter.OLDEST -> result.sortedBy { it.createdAt }
+            TimeFilter.POPULARITY -> result.sortedByDescending { it.rating }
+        }
 
-
-            current.copy(
+        //  상태 업데이트
+        _state.update {
+            it.copy(
                 filteredRecipes = result,
                 filterState = filter
             )
+        }
+
+        // 이벤트
+        viewModelScope.launch {
+            when {
+                wasFilterActive && isNowDefault -> {
+                    _event.emit(
+                        SearchRecipesEvent.ShowSnackBar("필터가 취소되었습니다.")
+                    )
+                }
+
+                !wasFilterActive && !isNowDefault -> {
+                    _event.emit(
+                        SearchRecipesEvent.ShowSnackBar("필터가 적용되었습니다.")
+                    )
+                }
+            }
         }
     }
 
@@ -200,4 +199,10 @@ class SearchRecipesViewModel @Inject constructor(
 
         return true
     }
+
+    // bottom sheet 올리기
+    private fun showBottomSheet(show: Boolean) {
+        _state.update { it.copy(showBottomSheet = show) }
+    }
+
 }
