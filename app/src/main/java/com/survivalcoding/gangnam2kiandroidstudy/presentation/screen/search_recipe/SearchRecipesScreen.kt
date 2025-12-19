@@ -16,15 +16,21 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchBar
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallRecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -34,11 +40,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun SearchRecipesScreen(
     state: SearchRecipesState,
-
-    onSearchTermChange: (String) -> Unit = {},
-    onBackClick: () -> Unit = {},
-    onFilterClick: () -> Unit = {},
+    onAction: (SearchRecipesAction) -> Unit,
 ) {
+    // 필터 시트 출력 여부
+    var showFilterSheet by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -61,11 +66,11 @@ fun SearchRecipesScreen(
                     .size(20.dp)
                     .rotate(180f)
                     .align(Alignment.CenterStart)
-                    .clickable { onBackClick() }
+                    .clickable { onAction(SearchRecipesAction.OnBackClick) }
             )
 
             Text(
-                text = "Search recipes",
+                text = stringResource(R.string.search_recipes_title),
                 style = AppTextStyles.mediumTextBold,
                 modifier = Modifier.align(Alignment.Center)
             )
@@ -74,8 +79,10 @@ fun SearchRecipesScreen(
         // 검색란
         SearchBar(
             state = state,
-            onSearchTermChange = onSearchTermChange,
-            onFilterClick = onFilterClick,
+            onSearchTermChange = { term ->
+                onAction(SearchRecipesAction.OnSearchTermChange(term))
+            },
+            onFilterClick = { showFilterSheet = true },
         )
 
         // Search 타이틀
@@ -107,16 +114,28 @@ fun SearchRecipesScreen(
             horizontalArrangement = Arrangement.spacedBy(15.dp),
             verticalArrangement = Arrangement.spacedBy(15.dp),
         ) {
-            if (state.searchTerm.isNotEmpty()) {
-                items(state.filteredRecipes) { recipe ->
-                    SmallRecipeCard(recipe = recipe)
-                }
-            } else {
-                items(state.allRecipes) { recipe ->
-                    SmallRecipeCard(recipe = recipe)
-                }
+            items(
+                if (state.searchTerm.isNotEmpty()) state.filteredRecipes
+                else state.allRecipes
+            ) { recipe ->
+                SmallRecipeCard(
+                    recipe = recipe,
+                    onClick = { onAction(SearchRecipesAction.OnRecipeCardClick(recipe.id)) }
+                )
             }
         }
+    }
+
+    // 필터 시트
+    if (showFilterSheet) {
+        FilterSearchBottomSheet(
+            onApplyFilter = { filter ->
+                onAction(SearchRecipesAction.OnFilterClick(filter))
+                showFilterSheet = false
+            },
+            onDismiss = { showFilterSheet = false },
+            initialFilter = state.filterSearchState,
+        )
     }
 }
 
@@ -153,6 +172,7 @@ private fun PreviewSearchRecipesScreen() {
                     ingredients = listOf()
                 ),
             )
-        )
+        ),
+        onAction = {},
     )
 }

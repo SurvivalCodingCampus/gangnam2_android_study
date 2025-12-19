@@ -30,8 +30,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun SearchBar(
     modifier: Modifier = Modifier,
     state: SearchRecipesState,
+    onInputFieldClick: () -> Unit = {},
     onSearchTermChange: (String) -> Unit = {},
     onFilterClick: () -> Unit = {},
+    isClickInputField: Boolean = false,
 ) {
     Row(
         modifier = modifier
@@ -39,34 +41,47 @@ fun SearchBar(
             .height(46.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        OutlinedTextField(
-            value = state.searchTerm,
-            modifier = Modifier
-                .weight(1f)
-                .clip(RoundedCornerShape(10.dp))
-                .background(color = AppColors.white),
-            placeholder = {
-                Text(
-                    text = "Search recipe",
-                    color = AppColors.gray4,
-                    style = AppTextStyles.smallerTextRegular
+        Box(
+            modifier = Modifier.weight(1f)
+        ) {
+            OutlinedTextField(
+                value = state.searchTerm,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(color = AppColors.white),
+                placeholder = {
+                    Text(
+                        text = "Search recipe",
+                        color = AppColors.gray4,
+                        style = AppTextStyles.smallerTextRegular
+                    )
+                },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = AppColors.gray4,
+                    unfocusedBorderColor = AppColors.gray4,
+                ),
+                shape = RoundedCornerShape(10.dp),
+                onValueChange = onSearchTermChange,
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(R.drawable.outline_search_normal),
+                        contentDescription = "검색 아이콘",
+                        modifier = Modifier.size(20.dp),
+                        tint = AppColors.gray4,
+                    )
+                },
+            )
+
+            if (isClickInputField) {
+                Box(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .clickable {
+                            onInputFieldClick()
+                        }
                 )
-            },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = AppColors.gray4,
-                unfocusedBorderColor = AppColors.gray4,
-            ),
-            shape = RoundedCornerShape(10.dp),
-            onValueChange = onSearchTermChange,
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(R.drawable.outline_search_normal),
-                    contentDescription = "검색 아이콘",
-                    modifier = Modifier.size(20.dp),
-                    tint = AppColors.gray4,
-                )
-            },
-        )
+            }
+        }
 
         Spacer(Modifier.width(20.dp))
 

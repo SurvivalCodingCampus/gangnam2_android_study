@@ -20,6 +20,32 @@ class HomeViewModel(
     private val _state = MutableStateFlow(HomeState())
     val state: StateFlow<HomeState> = _state.asStateFlow()
 
+    fun onAction(
+        action: HomeAction,
+        navigateToSearch: () -> Unit,
+        navigateToProfile: () -> Unit,
+        navigateToRecipeDetail: (Long) -> Unit,
+    ) {
+        when (action) {
+            is HomeAction.OnBookmarkClick -> {
+                toggleBookmark(action.recipeId)
+            }
+
+            is HomeAction.OnCategoryClick -> {
+                onSelectCategory(action.category)
+            }
+
+            HomeAction.OnProfileClick -> navigateToProfile()
+            HomeAction.OnSearchClick -> navigateToSearch()
+            is HomeAction.OnDishClick -> {
+                navigateToRecipeDetail(action.recipeId)
+            }
+
+            is HomeAction.OnNewRecipeClick -> {
+                navigateToRecipeDetail(action.recipeId)
+            }
+        }
+    }
 
     init {
         println("MainViewModel init")
@@ -27,7 +53,7 @@ class HomeViewModel(
     }
 
     // 카테고리 선택에 따라 선택된 레시피 리스트 업데이트
-    fun onSelectCategory(category: String) {
+    private fun onSelectCategory(category: String) {
         _state.update { it.copy(selectedCategory = category) }
         filterRecipesByCategory(category.toCategory())
     }
@@ -53,7 +79,7 @@ class HomeViewModel(
     // 모든 레시피 읽어오기
     // race condition 방지
     private var loadJob: Job? = null
-    fun loadRecipes() {
+    private fun loadRecipes() {
         loadJob?.cancel()
         loadJob = viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
@@ -82,11 +108,13 @@ class HomeViewModel(
                     _state.update { it.copy(isLoading = false) }
                 }
             }
+
+            getNewRecipesTop5()
         }
     }
 
     // 레시피 저장
-    fun toggleBookmark(recipeId: Long) {
+    private fun toggleBookmark(recipeId: Long) {
         _state.update { state ->
             val newBookmarks = if (recipeId in state.savedRecipeIds) {
                 state.savedRecipeIds - recipeId  // 제거
@@ -95,6 +123,17 @@ class HomeViewModel(
             }
 
             state.copy(savedRecipeIds = newBookmarks)
+        }
+    }
+
+    // 최신 레시피 상위 5개 저장
+    private fun getNewRecipesTop5() {
+        val all = state.value.allRecipes
+
+        _state.update {
+            it.copy(
+                newRecipes = all.sortedByDescending { it.id }.take(5)
+            )
         }
     }
 

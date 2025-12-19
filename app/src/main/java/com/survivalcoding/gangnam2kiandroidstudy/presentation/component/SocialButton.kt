@@ -3,6 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -37,16 +38,16 @@ fun SocialButton(
     Box(
         modifier = modifier
             .size(44.dp)
-            .background(
-                color = AppColors.white,
-                shape = RoundedCornerShape(10.dp)
-            )
             .shadow(
                 elevation = shadowElevation,
                 shape = shape,
                 // 스팟 색상을 사용하여 그림자 색상과 투명도를 지정합니다.
                 spotColor = shadowColor,
 //                ambientColor = shadowColor,
+            )
+            .background(
+                color = AppColors.white,
+                shape = RoundedCornerShape(10.dp)
             ),
         contentAlignment = Alignment.Center
     ) {
