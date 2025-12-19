@@ -18,7 +18,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecip
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes.SearchRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.signin.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.signup.SignUpScreen
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashNavigation
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashRoot
 
 @Composable
 fun NavigationRoot(modifier: Modifier = Modifier) {
@@ -33,10 +34,14 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
         ),
         entryProvider = entryProvider {
             entry<Route.Splash> {
-                SplashScreen(
-                    onClick = {
-                        topLevelBackStack.clear()
-                        topLevelBackStack.add(Route.SignIn)
+                SplashRoot(
+                    onNavigate = { navigation ->
+                        when (navigation) {
+                            SplashNavigation.SignIn -> {
+                                topLevelBackStack.clear()
+                                topLevelBackStack.add(Route.SignIn)
+                            }
+                        }
                     },
                 )
             }

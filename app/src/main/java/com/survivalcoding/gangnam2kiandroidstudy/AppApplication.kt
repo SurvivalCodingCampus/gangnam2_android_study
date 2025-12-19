@@ -5,6 +5,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.di.appModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.dataSourceModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.repositoryModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.useCaseModule
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.versionModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -20,6 +21,7 @@ class AppApplication : Application() {
             androidContext(this@AppApplication)
             modules(
                 appModule,
+                versionModule,
                 dataSourceModule,
                 repositoryModule,
                 useCaseModule,
