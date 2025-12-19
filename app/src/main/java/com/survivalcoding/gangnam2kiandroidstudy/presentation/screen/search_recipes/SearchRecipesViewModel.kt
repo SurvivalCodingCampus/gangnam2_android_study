@@ -10,7 +10,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsh
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.filter.TimeFilter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.update
@@ -25,8 +27,10 @@ class SearchRecipesViewModel @Inject constructor(
     private val _state = MutableStateFlow(SearchRecipesState())
     val state = _state.asStateFlow()
 
-    private val searchKeywordFlow = MutableStateFlow("")
+    private val _event = MutableSharedFlow<SearchRecipesEvent>()
+    val event = _event.asSharedFlow()
 
+    private val searchKeywordFlow = MutableStateFlow("")
 
     init {
         loadAllRecipes()
@@ -72,14 +76,41 @@ class SearchRecipesViewModel @Inject constructor(
 
             SearchRecipesAction.FilterDismissed -> {
                 showBottomSheet(false)
+                emitFilterCanceledEvent()
             }
 
             is SearchRecipesAction.FilterApplied -> {
                 applyFilters(action.filter)
                 showBottomSheet(false)
+                emitFilterAppliedEvent()
             }
         }
     }
+
+    fun onRecipeClick(recipeId: Int) {
+        viewModelScope.launch {
+            _event.emit(
+                SearchRecipesEvent.NavigateToRecipeDetail(recipeId)
+            )
+        }
+    }
+
+    private fun emitFilterAppliedEvent() {
+        viewModelScope.launch {
+            _event.emit(
+                SearchRecipesEvent.ShowSnackBar("필터가 적용되었습니다.")
+            )
+        }
+    }
+
+    private fun emitFilterCanceledEvent() {
+        viewModelScope.launch {
+            _event.emit(
+                SearchRecipesEvent.ShowSnackBar("필터가 취소되었습니다.")
+            )
+        }
+    }
+
 
     // 검색어
     private fun updateSearchKeyword(keyword: String) {
@@ -114,7 +145,7 @@ class SearchRecipesViewModel @Inject constructor(
     }
 
     // bottom sheet 올리기
-    fun showBottomSheet(show: Boolean) {
+    private fun showBottomSheet(show: Boolean) {
         _state.update { it.copy(showBottomSheet = show) }
     }
 
