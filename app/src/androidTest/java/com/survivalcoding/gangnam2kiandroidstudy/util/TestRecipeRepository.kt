@@ -13,7 +13,7 @@ class TestRecipeRepository(private val initialRecipes: List<Recipe>) : RecipeRep
         return emptyList()  // 또는 테스트용 저장된 레시피 목록 반환
     }
 
-    override suspend fun getRecipeById(recipeId: Long): Recipe? {
+    override suspend fun getRecipe(recipeId: Long): Recipe? {
         return initialRecipes.find { it.id == recipeId }
     }
 

@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -22,6 +24,10 @@ class SearchRecipesViewModel(
     ) : ViewModel() {
     private val _uiState = MutableStateFlow(SearchRecipesState())
     val uiState = _uiState.asStateFlow()
+
+    private val _event = MutableSharedFlow<SearchRecipesEvent>()
+    val event = _event.asSharedFlow()
+
     private val searchTextFlow: Flow<String> = uiState.map { it.searchText }
 
     init {
