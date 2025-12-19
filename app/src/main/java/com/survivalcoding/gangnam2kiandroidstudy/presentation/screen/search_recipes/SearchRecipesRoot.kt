@@ -12,17 +12,19 @@ fun SearchRecipesRoot(viewModel: SearchRecipesViewModel = koinViewModel()) {
     Log.d("SearchRecipesRoot", "searchRecipes: $searchRecipes")
     SearchRecipesScreen(
         state = searchRecipes,
-        onViewmodelCalled = { searchText, time, rate, category, enableBottomSheet ->
-            if (enableBottomSheet) {
-                viewModel.toggleBottomSheet()
+        onAction = { action ->
+            when (action) {
+                is SearchRecipesAction.FilterRecipes -> {
+                    viewModel.filterRecipes(
+                        action.searchText,
+                        action.time,
+                        action.rate,
+                        action.category
+                    )
+                }
+
+                SearchRecipesAction.ToggleBottomSheet -> viewModel.toggleBottomSheet()
             }
-            viewModel.filterRecipes(searchText, time, rate, category)
-
-            Log.d(
-                "SearchRecipesRoot",
-                "searchText: $searchText, time: $time, rate: $rate, category: $category"
-            )
-
         }
     )
 }

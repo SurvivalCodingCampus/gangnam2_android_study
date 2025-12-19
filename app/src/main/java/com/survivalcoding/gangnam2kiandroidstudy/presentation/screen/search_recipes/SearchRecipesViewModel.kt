@@ -69,7 +69,8 @@ class SearchRecipesViewModel(
                 selectedTime = time,
                 selectedRate = rate,
                 selectedCategory = category,
-                resultRecipes = filteredList
+                resultRecipes = filteredList,
+                enableBottomSheet = false
             )
             Log.d("SearchRecipesViewModel", "result: ${_state.value}")
         }

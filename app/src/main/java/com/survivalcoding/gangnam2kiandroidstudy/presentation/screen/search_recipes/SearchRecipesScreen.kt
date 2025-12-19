@@ -34,7 +34,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 @Composable
 fun SearchRecipesScreen(
     state: SearchRecipesState,
-    onViewmodelCalled: (searchText: String, time: String, rate: String, category: String, enableBottomSheet: Boolean) -> Unit
+    onAction: (SearchRecipesAction) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -52,25 +52,22 @@ fun SearchRecipesScreen(
         Row {
             Box(modifier = Modifier.weight(1f)) {
                 CustomSearchField(onValueChange = {
-                    onViewmodelCalled(
-                        it,
-                        state.selectedTime,
-                        state.selectedRate,
-                        state.selectedCategory,
-                        false
+
+                    onAction(
+                        SearchRecipesAction.FilterRecipes(
+                            it,
+                            state.selectedTime,
+                            state.selectedRate,
+                            state.selectedCategory,
+                            false
+                        )
                     )
                 })
             }
             Spacer(modifier = Modifier.width(20.dp))
-            SettingButton {
-                onViewmodelCalled(
-                    state.searchInputText,
-                    state.selectedTime,
-                    state.selectedRate,
-                    state.selectedCategory,
-                    true
-                )
-            }
+            SettingButton(onClick = {
+                onAction(SearchRecipesAction.ToggleBottomSheet)
+            })
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
@@ -110,8 +107,14 @@ fun SearchRecipesScreen(
                     "inputText: $inputText, time: $time, rate: $rate, category: $category"
                 )
 
-                onViewmodelCalled(
-                    inputText ?: "", time ?: "", rate ?: "", category ?: "", !enableBottomSheet
+                onAction(
+                    SearchRecipesAction.FilterRecipes(
+                        inputText ?: "",
+                        time ?: "",
+                        rate ?: "",
+                        category ?: "",
+                        enableBottomSheet = false
+                    )
                 )
             })
     }
@@ -120,5 +123,5 @@ fun SearchRecipesScreen(
 @Preview(showBackground = true)
 @Composable
 fun SearchRecipesScreenPreview() {
-    SearchRecipesScreen(state = SearchRecipesState(), onViewmodelCalled = { _, _, _, _, _ -> })
+    SearchRecipesScreen(state = SearchRecipesState(), {})
 }
