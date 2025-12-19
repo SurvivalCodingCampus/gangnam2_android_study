@@ -14,16 +14,31 @@ class HomeViewModel(
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
 
-    init {
-        loadRecipes()
+    fun onAction(action: HomeAction) {
+        when (action) {
+            HomeAction.LoadHome -> {
+                loadRecipes()
+            }
+
+            is HomeAction.ClickCategory -> {
+                onSelectCategory(action.category)
+            }
+
+            else -> Unit
+        }
     }
+
 
     private fun loadRecipes() {
         viewModelScope.launch {
             val recipes = repository.getRecipes()
             _state.value = _state.value.copy(
                 allRecipes = recipes,
-                filteredRecipes = recipes
+                filteredRecipes = recipes,
+
+                newRecipes = recipes
+                    .sortedByDescending { it.createdAt }
+                    .take(5)
             )
         }
     }

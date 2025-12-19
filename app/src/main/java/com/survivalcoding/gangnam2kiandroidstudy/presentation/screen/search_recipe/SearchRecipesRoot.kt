@@ -10,23 +10,37 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchRecipeRoot(
-    onBackClick: () -> Unit,
+    onBack: () -> Unit,
+    viewModel: SearchRecipeViewModel = koinViewModel()
 ) {
-    val viewModel: SearchRecipeViewModel = koinViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     var isBottomSheetOpen by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    // 메인 화면
+    LaunchedEffect(Unit) {
+        viewModel.onAction(SearchRecipeAction.Load)
+    }
+
     SearchRecipeScreen(
         state = state,
-        onSearchKeywordChange = viewModel::updateSearchQuery,
-        onFilterClick = { isBottomSheetOpen = true },
-        onBackClick = onBackClick,
+        onAction = { action ->
+            when (action) {
+                SearchRecipeAction.ClickBack -> {
+                    onBack()
+                }
+
+                SearchRecipeAction.ClickFilter -> {
+                    isBottomSheetOpen = true
+                }
+
+                else -> {
+                    viewModel.onAction(action)
+                }
+            }
+        }
     )
 
-    // 바텀시트
     if (isBottomSheetOpen) {
         FilterSearchBottomSheet(
             sheetState = sheetState,
@@ -34,7 +48,7 @@ fun SearchRecipeRoot(
             onChange = viewModel::updateFilterSearchState,
             onDismiss = { isBottomSheetOpen = false },
             onApplyFilter = {
-                viewModel.applyFilter()
+                viewModel.onAction(SearchRecipeAction.ApplyFilter)
                 isBottomSheetOpen = false
             }
         )

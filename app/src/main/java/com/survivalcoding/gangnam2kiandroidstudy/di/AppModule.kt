@@ -9,7 +9,11 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.SavedRec
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.SavedRecipesRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetSavedRecipesUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeViewModel
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipes.SavedRecipesViewModel
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipe.SearchRecipeViewModel
 import org.koin.dsl.module
+import org.koin.androidx.viewmodel.dsl.viewModel
 
 val appModule = module {
 
@@ -17,23 +21,9 @@ val appModule = module {
     single<RecipeDataSource> { RecipeDataSourceImpl() }
 
     // Repository
-    single<RecipeRepository> {
-        RecipeRepositoryImpl(
-            dataSource = get()
-        )
-    }
-
-    single<BookmarkRepository> {
-        BookmarkRepositoryImpl(
-            recipeRepository = get()
-        )
-    }
-
-    single<SavedRecipesRepository> {
-        SavedRecipesRepositoryImpl(
-            recipeRepository = get()
-        )
-    }
+    single<RecipeRepository> { RecipeRepositoryImpl(get()) }
+    single<BookmarkRepository> { BookmarkRepositoryImpl(get()) }
+    single<SavedRecipesRepository> { SavedRecipesRepositoryImpl(get()) }
 
     // UseCase
     single {
@@ -42,4 +32,25 @@ val appModule = module {
             savedRecipesRepository = get()
         )
     }
+
+    // ViewModel
+    viewModel {
+        HomeViewModel(
+            repository = get()
+        )
+    }
+
+    viewModel {
+        SearchRecipeViewModel(
+            repository = get()
+        )
+    }
+
+    viewModel {
+        SavedRecipesViewModel(
+            getSavedRecipesUseCase = get(),
+            bookmarkRepository = get()
+        )
+    }
 }
+

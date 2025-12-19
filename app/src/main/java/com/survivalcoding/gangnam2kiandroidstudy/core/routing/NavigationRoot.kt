@@ -72,7 +72,7 @@ fun NavigationRoot(
             // top-level로 올렸다가 pop으로 내림
             entry<Route.SearchRecipes> {
                 SearchRecipeRoot(
-                    onBackClick = { pop() }
+                    onBack = { pop() }
                 )
             }
         }

@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.component.card
 
 import android.graphics.Color.BLUE
 import android.graphics.drawable.ColorDrawable

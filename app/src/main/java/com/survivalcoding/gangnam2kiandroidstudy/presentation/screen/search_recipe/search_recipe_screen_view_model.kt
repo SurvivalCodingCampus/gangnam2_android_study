@@ -17,8 +17,24 @@ class SearchRecipeViewModel(
     private val _state = MutableStateFlow(SearchRecipeState())
     val state: StateFlow<SearchRecipeState> = _state.asStateFlow()
 
-    init {
-        loadRecipes()
+
+    fun onAction(action: SearchRecipeAction) {
+        when (action) {
+
+            SearchRecipeAction.Load -> {
+                loadRecipes()
+            }
+
+            is SearchRecipeAction.InputKeyword -> {
+                updateSearchQuery(action.keyword)
+            }
+
+            SearchRecipeAction.ApplyFilter -> {
+                applyFilter()
+            }
+
+            else -> Unit
+        }
     }
 
     private fun loadRecipes() {
