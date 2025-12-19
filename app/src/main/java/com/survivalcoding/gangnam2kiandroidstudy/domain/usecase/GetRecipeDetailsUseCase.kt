@@ -2,12 +2,12 @@ package com.survivalcoding.gangnam2kiandroidstudy.domain.usecase
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult
 import com.survivalcoding.gangnam2kiandroidstudy.core.NetworkError
+import com.survivalcoding.gangnam2kiandroidstudy.core.util.NetworkErrorHandler
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeDetails
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProfileRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.util.NetworkErrorHandler
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 

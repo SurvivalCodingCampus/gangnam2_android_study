@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.util
+package com.survivalcoding.gangnam2kiandroidstudy.core.util
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.Response
 import io.ktor.client.call.body

@@ -1,9 +1,9 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.datasource
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.Response
+import com.survivalcoding.gangnam2kiandroidstudy.core.util.json
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.RecipesDto
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeSearchCondition
-import com.survivalcoding.gangnam2kiandroidstudy.util.json
 
 class MockRecipeDataSourceImpl : RecipeDataSource {
 

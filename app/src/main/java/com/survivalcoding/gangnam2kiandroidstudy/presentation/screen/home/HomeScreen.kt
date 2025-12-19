@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.core.util.orPreview
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockRecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Profile
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.DishCard
@@ -38,7 +39,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCa
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchInputField
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
-import com.survivalcoding.gangnam2kiandroidstudy.util.orPreview
 
 @Composable
 fun HomeScreen(

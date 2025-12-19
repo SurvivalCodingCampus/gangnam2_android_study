@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.util
+package com.survivalcoding.gangnam2kiandroidstudy.core.util
 
 import android.content.Context
 import android.net.ConnectivityManager

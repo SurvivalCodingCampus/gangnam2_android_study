@@ -2,8 +2,8 @@
 
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash
 
+import com.survivalcoding.gangnam2kiandroidstudy.core.util.NetworkMonitor
 import com.survivalcoding.gangnam2kiandroidstudy.test.MainDispatcherRule
-import com.survivalcoding.gangnam2kiandroidstudy.util.NetworkMonitor
 import io.mockk.MockKAnnotations
 import io.mockk.bdd.coGiven
 import io.mockk.impl.annotations.MockK

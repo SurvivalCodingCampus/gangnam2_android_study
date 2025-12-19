@@ -2,7 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.survivalcoding.gangnam2kiandroidstudy.util.NetworkMonitor
+import com.survivalcoding.gangnam2kiandroidstudy.core.util.NetworkMonitor
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
