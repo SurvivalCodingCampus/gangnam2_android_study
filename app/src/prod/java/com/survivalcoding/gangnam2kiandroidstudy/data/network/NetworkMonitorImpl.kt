@@ -46,7 +46,7 @@ class NetworkMonitorImpl(
             // 재연결시 onAvailable -> 연결 스낵바
             var lastConnected = true
 
-            fun handleConnection(connected: Boolean) {
+            fun emit(connected: Boolean) {
                 trySend(connected)
 
                 if (connected != lastConnected) {
@@ -61,11 +61,11 @@ class NetworkMonitorImpl(
             // 👇 1. 전통적인 콜백
             val callback = object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
-                    handleConnection(true)
+                    emit(true)
                 }
 
                 override fun onLost(network: Network) {
-                    handleConnection(false)
+                    emit(false)
                 }
             }
 
@@ -82,7 +82,7 @@ class NetworkMonitorImpl(
                     connectivityManager.getNetworkCapabilities(active)
                         ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
 
-            handleConnection(connected)     // 초기 진입시 연결 상태
+            emit(connected)     // 초기 진입시 연결 상태
 
             // 👇 3. Flow 종료 시 정리
             awaitClose {
@@ -93,7 +93,7 @@ class NetworkMonitorImpl(
             .distinctUntilChanged()
             .stateIn(
                 scope,
-                SharingStarted.WhileSubscribed(5_000),
+                SharingStarted.Companion.WhileSubscribed(5_000),
                 true, // State 초기값도 ON
             )
 }
