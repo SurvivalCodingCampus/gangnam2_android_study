@@ -61,7 +61,7 @@ class SearchRecipesViewModel(
             }
 
             is SearchRecipesAction.OnSearchQueryChange -> {
-
+                changeSearchText(action.query)
             }
         }
     }

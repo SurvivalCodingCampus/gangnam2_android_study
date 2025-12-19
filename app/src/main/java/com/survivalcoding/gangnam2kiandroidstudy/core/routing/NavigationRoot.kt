@@ -89,7 +89,7 @@ fun NavigationRoot(
 
             entry<Route.SearchRecipes> {
                 SearchRecipesRoot(
-                    navigateBack = {
+                    onBackClick = {
                         Log.d("NavigationRoot", "SearchRecipes -> Main")
                         topLevelBackStack.remove(it)
                     }

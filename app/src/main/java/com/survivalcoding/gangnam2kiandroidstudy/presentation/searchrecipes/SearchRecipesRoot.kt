@@ -7,7 +7,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SearchRecipesRoot(
-    navigateBack: () -> Unit,
+    onBackClick: () -> Unit,
     viewModel: SearchRecipesViewModel = koinViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -17,7 +17,7 @@ fun SearchRecipesRoot(
         onAction = { action ->
             viewModel.onAction(
                 action = action,
-                navigateBack = navigateBack,
+                navigateBack = onBackClick,
             )
         },
     )
