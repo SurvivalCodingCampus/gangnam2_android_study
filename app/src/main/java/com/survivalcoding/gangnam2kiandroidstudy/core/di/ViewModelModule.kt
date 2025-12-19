@@ -28,6 +28,6 @@ val viewModelModule = module {
         )
     }
     viewModel {
-        SplashViewModel()
+        SplashViewModel(get())
     }
 }

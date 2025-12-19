@@ -23,7 +23,6 @@ fun SplashRoot(
             when (event) {
                 SplashEvent.NavigateToSignIn -> onNavigateToSignIn()
                 SplashEvent.SnackBarNetworkConnected -> {
-
                     snackbarHostState.showSnackbar(
                         message = "네트워크가 정상적으로 연결되었습니다.",
                         duration = SnackbarDuration.Short
@@ -31,7 +30,6 @@ fun SplashRoot(
                 }
 
                 SplashEvent.SnackBarNetworkDisconnected -> {
-
                     snackbarHostState.showSnackbar(
                         message = "네트워크가 연결되어 있지 않습니다.",
                         duration = SnackbarDuration.Short
@@ -44,5 +42,6 @@ fun SplashRoot(
     SplashScreen(
         state = state,
         onAction = { action -> viewModel.onAction(action) },
+        snackbarHostState = snackbarHostState,
     )
 }

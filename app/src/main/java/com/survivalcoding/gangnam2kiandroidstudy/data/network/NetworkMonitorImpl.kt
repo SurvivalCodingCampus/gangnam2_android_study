@@ -40,16 +40,32 @@ class NetworkMonitorImpl(
 
     override val isConnected: StateFlow<Boolean> =
         callbackFlow {
+
+            // 초기 상태를 ON으로 가정
+            // 비연결시 onLost -> 비연결 스낵바
+            // 재연결시 onAvailable -> 연결 스낵바
+            var lastConnected = true
+
+            fun handleConnection(connected: Boolean) {
+                trySend(connected)
+
+                if (connected != lastConnected) {
+                    _events.tryEmit(
+                        if (connected) NetworkEvent.Connected
+                        else NetworkEvent.Disconnected
+                    )
+                    lastConnected = connected
+                }
+            }
+
             // 👇 1. 전통적인 콜백
             val callback = object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
-                    trySend(true)
-                    _events.tryEmit(NetworkEvent.Connected)
+                    handleConnection(true)
                 }
 
                 override fun onLost(network: Network) {
-                    trySend(false)
-                    _events.tryEmit(NetworkEvent.Disconnected)
+                    handleConnection(false)
                 }
             }
 
@@ -60,24 +76,24 @@ class NetworkMonitorImpl(
 
             connectivityManager.registerNetworkCallback(request, callback)
 
-            // 초기 상태
+            // 초기 상태 판단
             val active = connectivityManager.activeNetwork
             val connected = active != null &&
-                connectivityManager.getNetworkCapabilities(active)
-                    ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+                    connectivityManager.getNetworkCapabilities(active)
+                        ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
 
-            trySend(connected)
+            handleConnection(connected)     // 초기 진입시 연결 상태
 
             // 👇 3. Flow 종료 시 정리
             awaitClose {
                 connectivityManager.unregisterNetworkCallback(callback)
             }
         }
-        // 👇 4. Flow → StateFlow (Singleton 공유)
-        .distinctUntilChanged()
-        .stateIn(
-            scope,
-            SharingStarted.WhileSubscribed(5_000),
-            false,
-        )
+            // 👇 4. Flow → StateFlow (Singleton 공유)
+            .distinctUntilChanged()
+            .stateIn(
+                scope,
+                SharingStarted.WhileSubscribed(5_000),
+                true, // State 초기값도 ON
+            )
 }
