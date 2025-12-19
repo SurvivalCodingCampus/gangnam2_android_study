@@ -63,7 +63,13 @@ fun NavigationRoot() {
                                                 Route.Search
                                             )
                                         },
-                                        onRecipeItemClicked = { Route.RecipeItem(it) })
+                                        onRecipeItemClicked = {
+                                            topLevelBackStack.add(
+                                                Route.RecipeItem(
+                                                    it
+                                                )
+                                            )
+                                        })
                                 }
                                 entry<Route.SavedRecipes> {
                                     SavedRecipesRoot(onRecipeClick = {
