@@ -23,7 +23,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             entry<Route.Splash> {
                 SplashRoot(
                     onNavigateToSignIn = {
-                        topLevelBackStack.replaceAll { Route.SignIn }
+                        topLevelBackStack.add(Route.SignIn)
                     }
                 )
             }

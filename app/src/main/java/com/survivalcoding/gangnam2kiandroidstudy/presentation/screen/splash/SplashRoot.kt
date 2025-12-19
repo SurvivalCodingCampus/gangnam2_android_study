@@ -1,18 +1,28 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
 @Composable
 fun SplashRoot(
     modifier: Modifier = Modifier,
-    viewModel: SplashViewModel,
-    onNavigateToSignIn: () -> Unit
+    onNavigateToSignIn: () -> Unit,
+    viewModel: SplashViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    LaunchedEffect(Unit) {
+        viewModel.event.collect { event ->
+            when (event) {
+                is SplashEvent.NavigateToSignIn -> {
+                    onNavigateToSignIn()
+                }
+
+                is SplashEvent.ShowSnackBar -> {}
+            }
+
+        }
+    }
 
     SplashScreen(
         modifier = modifier,
