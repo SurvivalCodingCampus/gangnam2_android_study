@@ -82,16 +82,8 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                             topLevelBackStack.add(Route.RecipeDetails(recipeId))
                                         },
                                         onSearchInputClick = {
-                                            backStack.removeIf { it is Route.SearchRecipes }
-                                            backStack.add(Route.SearchRecipes)
-                                        },
-                                    )
-                                }
-                                entry<Route.SearchRecipes> {
-                                    SearchRecipesRoot(
-                                        onRecipeClick = { recipeId ->
-                                            topLevelBackStack.removeIf { it is Route.RecipeDetails }
-                                            topLevelBackStack.add(Route.RecipeDetails(recipeId))
+                                            topLevelBackStack.removeIf { it is Route.SearchRecipes }
+                                            topLevelBackStack.add(Route.SearchRecipes)
                                         },
                                     )
                                 }
@@ -117,6 +109,15 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
 
                         it == currentRoute
                     },
+                )
+            }
+            entry<Route.SearchRecipes> { key ->
+                SearchRecipesRoot(
+                    onRecipeClick = { recipeId ->
+                        topLevelBackStack.removeIf { it is Route.RecipeDetails }
+                        topLevelBackStack.add(Route.RecipeDetails(recipeId))
+                    },
+                    onBackClick = { topLevelBackStack.remove(key) },
                 )
             }
             entry<Route.RecipeDetails> { key ->
