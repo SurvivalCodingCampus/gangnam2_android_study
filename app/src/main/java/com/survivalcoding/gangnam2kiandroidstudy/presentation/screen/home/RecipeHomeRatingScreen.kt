@@ -24,7 +24,7 @@ import kotlinx.collections.immutable.toPersistentList
 fun RecipeHomeRatingScreen(
     recipes: ImmutableList<Recipe>,
     modifier: Modifier = Modifier,
-    navigateToDetail: (recipeId: Int) -> Unit = {},
+    onAction: (RecipeHomeAction) -> Unit = {},
 ) {
     Box(modifier = modifier.fillMaxWidth()) {
         Row(modifier = Modifier.fillMaxWidth()) {
@@ -34,7 +34,7 @@ fun RecipeHomeRatingScreen(
                 items(recipes) { recipe ->
                     RatingHomeCard(
                         recipe = recipe,
-                        navigateToDetail = navigateToDetail
+                        onAction = onAction
                     )
                     Spacer(Modifier.width(15.dp))
                 }

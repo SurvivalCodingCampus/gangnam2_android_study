@@ -33,6 +33,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.SearchRecipeAction
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
@@ -40,13 +41,13 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun RecipeSearchCard(
     recipe: Recipe,
     modifier: Modifier = Modifier,
-    navigateToDetail: (recipeId: Int) -> Unit = {},
+    onAction: (SearchRecipeAction) -> Unit = {},
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .aspectRatio(1f)
-            .clickable { navigateToDetail(recipe.id) }
+            .clickable { onAction(SearchRecipeAction.OnRecipeClick(recipe.id)) }
     ) {
         val painter = if (LocalInspectionMode.current) {
             painterResource(R.drawable.recipe_main)

@@ -4,11 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.SearchRecipeEvent.NavigateToDetail
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.filter.FilterSearchState
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -23,6 +26,9 @@ class SearchRecipeViewModel(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SearchRecipeState())
     val uiState: StateFlow<SearchRecipeState> = _uiState.asStateFlow()
+
+    private val _uiEvent = MutableSharedFlow<SearchRecipeEvent>()
+    val uiEvent = _uiEvent.asSharedFlow()
 
     private val _searchQuery = _uiState
         .map { it.query }
@@ -44,10 +50,26 @@ class SearchRecipeViewModel(
 
     fun onAction(action: SearchRecipeAction) {
         when (action) {
-            SearchRecipeAction.OnFilterSettingClick -> toggleFilterSetting()
+            is SearchRecipeAction.OnRecipeClick -> {
+                viewModelScope.launch {
+                    _uiEvent.emit(NavigateToDetail(action.recipeId))
+                }
+            }
             SearchRecipeAction.OnSearchDone -> performSearch()
-            is SearchRecipeAction.UpdateFilterSearch -> updateFilterSearchState(action.filterSearch)
             is SearchRecipeAction.UpdateQuery -> updateSearch(action.query)
+            SearchRecipeAction.OnFilterSettingClick -> toggleFilterSetting()
+            is SearchRecipeAction.ApplyFilter -> applyFilter(action.filter)
+            SearchRecipeAction.CancelFilter -> cancelFilter()
+        }
+    }
+
+    private fun performSearch() {
+        fetchSearchRecipes(_uiState.value.query)
+    }
+
+    private fun updateSearch(query: String) {
+        _uiState.update {
+            it.copy(query = query)
         }
     }
 
@@ -57,24 +79,30 @@ class SearchRecipeViewModel(
         }
     }
 
-    private fun performSearch() {
-        fetchSearchRecipes(_uiState.value.query)
-    }
-
-    private fun updateFilterSearchState(filterSearchState: FilterSearchState) {
+    private fun applyFilter(filter: FilterSearchState) {
         _uiState.update {
             it.copy(
-                filterSearchState = filterSearchState,
+                filterSearchState = filter,
                 showBottomSheet = false
             )
         }
 
+        sendSnackbarEvent("필터가 적용되었습니다.")
+
         fetchSearchRecipes(_uiState.value.query)
     }
 
-    private fun updateSearch(query: String) {
+    private fun cancelFilter() {
         _uiState.update {
-            it.copy(query = query)
+            it.copy(showBottomSheet = false)
+        }
+
+        sendSnackbarEvent("필터가 취소되었습니다.")
+    }
+
+    private fun sendSnackbarEvent(message: String) {
+        viewModelScope.launch {
+            _uiEvent.emit(SearchRecipeEvent.ShowSnackbar(message))
         }
     }
 

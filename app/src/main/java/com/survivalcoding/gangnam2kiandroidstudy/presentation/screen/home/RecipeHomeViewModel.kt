@@ -7,7 +7,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -22,6 +24,9 @@ class RecipeHomeViewModel(
 ) : ViewModel() {
     private val _state = MutableStateFlow(RecipeHomeState())
     val state = _state.asStateFlow()
+
+    private val _uiEvent = MutableSharedFlow<RecipeHomeEvent>()
+    val uiEvent = _uiEvent.asSharedFlow()
 
     private val _searchQuery = _state.map { it.query }
         .debounce(1000)
@@ -40,6 +45,16 @@ class RecipeHomeViewModel(
 
     fun onAction(action: RecipeHomeAction) {
         when (action) {
+            RecipeHomeAction.OnSearchClick -> {
+                viewModelScope.launch {
+                    _uiEvent.emit(RecipeHomeEvent.NavigateToSearchRecipe)
+                }
+            }
+            is RecipeHomeAction.OnRecipeClick -> {
+                viewModelScope.launch {
+                    _uiEvent.emit(RecipeHomeEvent.NavigateToDetail(action.recipeId))
+                }
+            }
             is RecipeHomeAction.SelectedCategory -> updateSelectedCategory(action.selectedCategory)
             is RecipeHomeAction.ToggleBookmark -> toggleBookmark(action.recipeId)
         }

@@ -68,10 +68,10 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             entryProvider = entryProvider {
                                 entry<Route.Home> {
                                     RecipeHomeRoot(
-                                        navigateToSearchRecipe = {
+                                        onNavigateToSearchRecipe = {
                                             topLevelBackStack.add(Route.SearchRecipe)
                                         },
-                                        navigateToDetail = { recipeId ->
+                                        onNavigateToDetail = { recipeId ->
                                             topLevelBackStack.removeIf { navKey ->
                                                 navKey is Route.RecipeDetail
                                             }
@@ -102,7 +102,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             }
             entry<Route.SearchRecipe> {
                 SearchRecipeRoot(
-                    navigateToDetail = { recipeId ->
+                    onNavigateToDetail = { recipeId ->
                         topLevelBackStack.removeIf { navKey ->
                             navKey is Route.RecipeDetail
                         }

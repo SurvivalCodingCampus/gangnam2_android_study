@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.filter
 
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -28,23 +31,21 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.Sear
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterSearchBottomSheet(
     state: FilterSearchState,
     showBottomSheet: Boolean,
+    sheetState: SheetState,
     modifier: Modifier = Modifier,
     onAction: (SearchRecipeAction) -> Unit = {},
 ) {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-
     val time = remember { mutableStateOf(state.time) }
     val rate = remember { mutableStateOf(state.rate) }
     val category = remember { mutableStateOf(state.category) }
 
     if (showBottomSheet) {
         ModalBottomSheet(
-            onDismissRequest = { onAction(SearchRecipeAction.OnFilterSettingClick) },
+            onDismissRequest = { onAction(SearchRecipeAction.CancelFilter) },
             sheetState = sheetState,
             shape = RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp, bottomStart = 0.dp, bottomEnd = 0.dp),
             containerColor = AppColors.white
@@ -118,7 +119,7 @@ fun FilterSearchBottomSheet(
 
                 SmallButton(modifier = Modifier.padding(horizontal = 70.dp), text = "Filter") {
                     onAction(
-                        SearchRecipeAction.UpdateFilterSearch(
+                        SearchRecipeAction.ApplyFilter(
                             FilterSearchState(
                                 time = time.value,
                                 rate = rate.value,
@@ -136,11 +137,13 @@ fun FilterSearchBottomSheet(
 @Composable
 private fun FilterSearchBottomSheetPreview() {
     val state = FilterSearchState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     Scaffold { innerPadding ->
         FilterSearchBottomSheet(
             state = state,
-            true,
+            showBottomSheet = true,
+            sheetState = sheetState,
             modifier = Modifier.padding(innerPadding)
         )
     }

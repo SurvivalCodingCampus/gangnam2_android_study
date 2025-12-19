@@ -29,7 +29,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,6 +36,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.RecipeHomeAction
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
@@ -44,12 +44,12 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun RatingHomeCard(
     recipe: Recipe,
     modifier: Modifier = Modifier,
-    navigateToDetail: (recipeId: Int) -> Unit = {},
+    onAction: (RecipeHomeAction) -> Unit = {},
 ) {
     Box(
         modifier = modifier
             .size(251.dp, 127.dp)
-            .clickable { navigateToDetail(recipe.id) }
+            .clickable { onAction(RecipeHomeAction.OnRecipeClick(recipe.id)) }
     ) {
         val painter = if (LocalInspectionMode.current) {
             painterResource(R.drawable.recipe_rate)

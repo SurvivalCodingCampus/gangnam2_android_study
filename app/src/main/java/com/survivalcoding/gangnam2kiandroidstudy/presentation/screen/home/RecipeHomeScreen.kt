@@ -36,8 +36,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun RecipeHomeScreen(
     state: RecipeHomeState,
     modifier: Modifier = Modifier,
-    navigateToSearchRecipe: () -> Unit = {},
-    navigateToDetail: (recipeId: Int) -> Unit = {},
     onAction: (RecipeHomeAction) -> Unit = {},
 ) {
     Column(modifier = modifier) {
@@ -86,7 +84,7 @@ fun RecipeHomeScreen(
             Search(
                 modifier = Modifier
                     .weight(1f)
-                    .clickable { navigateToSearchRecipe() },
+                    .clickable { onAction(RecipeHomeAction.OnSearchClick) },
                 placeholder = "Search recipe"
             )
             Spacer(Modifier.width(20.dp))
@@ -129,7 +127,6 @@ fun RecipeHomeScreen(
             else -> RecipeHomeCardScreen(
                 recipes = state.recipes,
                 modifier = Modifier.padding(top = 15.dp),
-                navigateToDetail = navigateToDetail,
                 onAction = onAction
             )
         }
@@ -145,7 +142,7 @@ fun RecipeHomeScreen(
         RecipeHomeRatingScreen(
             recipes = state.recipes,
             modifier = Modifier,
-            navigateToDetail = navigateToDetail
+            onAction = onAction
         )
 
         Spacer(Modifier.height(6.dp))

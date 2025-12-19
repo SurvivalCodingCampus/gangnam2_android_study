@@ -45,13 +45,12 @@ fun RecipeHomeCard(
     recipe: Recipe,
     modifier: Modifier = Modifier,
     isSaved: Boolean = false,
-    navigateToDetail: (recipeId: Int) -> Unit = {},
     onAction: (RecipeHomeAction) -> Unit = {},
 ) {
     Box(
         modifier = modifier
             .width(150.dp)
-            .clickable { navigateToDetail(recipe.id) }
+            .clickable { onAction(RecipeHomeAction.OnRecipeClick(recipe.id)) }
     ) {
         val painter = if (LocalInspectionMode.current) {
             painterResource(R.drawable.recipe)
