@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.DishCard
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.NewRecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCategorySelector
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchBar
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -32,8 +34,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun HomeScreen(
     state: HomeState = HomeState(),
-    onCategoryClick: (String) -> Unit = {},
-    onSearchQueryChange: (String) -> Unit = {},
+    onAction: (HomeAction) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -81,17 +82,16 @@ fun HomeScreen(
         SearchBar(
             modifier = Modifier.padding(horizontal = 30.dp),
             query = state.searchText,
-            onQueryChange = onSearchQueryChange,
-            onFilterClick = {
-
-            }
+            onClick = { onAction(HomeAction.OnSearchClick) },
+            onQueryChange = { },
+            onFilterClick = { },
         )
 
         // 카테고리 선택바
         RecipeCategorySelector(
             modifier = Modifier.padding(vertical = 15.dp),
             selectedCategory = state.selectedCategory,
-            onCategoryClick = onCategoryClick,
+            onCategoryClick = { onAction(HomeAction.OnCategoryClick(it)) },
         )
 
         // dish cards
@@ -99,13 +99,15 @@ fun HomeScreen(
             items(state.filteredRecipes) { item ->
                 DishCard(
                     recipe = item,
-                    onDishClick = {},
+                    onDishClick = { recipe ->
+                        onAction(HomeAction.OnRecipeClick(recipe.id))
+                    },
                     onBookmarkClick = {},
                     isSaved = false,
                     modifier = Modifier
                         .padding(end = 15.dp)
                         .width(150.dp)
-                    )
+                )
             }
         }
 
@@ -121,6 +123,46 @@ fun HomeScreen(
         )
 
 
+        if (state.isNewRecipesLoading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(127.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text("Loading...")
+            }
+        } else if (state.newRecipes.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(127.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text("데이터가 없습니다.")
+            }
+        } else {
+
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 30.dp),
+                horizontalArrangement = Arrangement.spacedBy(15.dp),
+            ) {
+                items(
+                    items = state.newRecipes,
+                    key = { it.id },
+                ) {
+                    NewRecipeCard(
+                        recipe = it,
+                        onClick = { recipeId ->
+                            onAction(HomeAction.OnRecipeClick(recipeId))
+                        },
+                    )
+                }
+            }
+
+        }
 
     }
 }

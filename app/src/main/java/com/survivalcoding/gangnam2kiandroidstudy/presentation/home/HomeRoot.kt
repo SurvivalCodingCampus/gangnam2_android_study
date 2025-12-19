@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.home
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,6 +25,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeRoot(
     modifier: Modifier = Modifier,
+    onSearchClick: () -> Unit,
+    onRecipeClick: (Long) -> Unit,
     viewModel: HomeViewModel = koinViewModel(),
 ) {
     // viewModel.uiState는 ViewModel이 가지고 있는 화면의 상태(State) 정보입니다.
@@ -32,12 +35,27 @@ fun HomeRoot(
     // 'by' 키워드를 사용하면 .value 없이 state 변수를 직접 HomeState 타입처럼 사용할 수 있습니다.
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
+    // ViewModel에서 발생하는 이벤트를 감지하고 처리합니다.
+    // LaunchedEffect는 HomeRoot가 화면에 처음 표시될 때 한 번 실행됩니다.
+    // 그 후 eventFlow를 계속 구독하며 새로운 이벤트가 올 때마다 반응합니다.
+    LaunchedEffect(Unit) {
+        viewModel.eventFlow.collect { event ->
+            when (event) {
+                // ViewModel로부터 NavigateToSearch 이벤트가 오면,
+                // 파라미터로 받은 onSearchClick 콜백 함수를 실행합니다.
+                HomeEvent.NavigateToSearch -> onSearchClick()
+                is HomeEvent.NavigateToRecipeDetails -> {
+                    onRecipeClick(event.recipeId)
+                }
+            }
+        }
+    }
+
     // HomeScreen Composable을 호출하여 실제 UI를 그립니다.
     // 화면을 구성하는 데 필요한 모든 데이터(state)와 사용자 이벤트 핸들러(람다 함수)를 전달합니다.
     HomeScreen(
         state = state, // 화면에 표시할 데이터 (레시피 목록, 카테고리 등)
-        onCategoryClick = viewModel::changeCategory, // 카테고리 버튼 클릭 시 호출될 함수
-        onSearchQueryChange = viewModel::changeSearchText, // 검색어 변경 시 호출될 함수
+        onAction = viewModel::onAction, // 사용자 이벤트 핸들러 (카테고리 클릭, 검색어 변경 등)
     )
 }
 
@@ -55,7 +73,6 @@ fun HomeRootPreview() {
     // 비어있는 동작({ })을 HomeScreen에 전달합니다.
     HomeScreen(
         state = HomeState(), // 비어있는 기본 상태로 미리보기를 생성합니다.
-        onCategoryClick = {}, // 카테고리 클릭 이벤트는 미리보기에서 아무 동작도 하지 않습니다.
-        onSearchQueryChange = {}, // 검색어 변경 이벤트는 미리보기에서 아무 동작도 하지 않습니다.
+        onAction = { }, // 비어있는 동작을 전달합니다.
     )
 }

@@ -4,11 +4,11 @@
 
     <!-- Splash-->
     <string name="splash_description">100K+ Premium Recipe</string>
-    <string name="splash_title">Get Cooking</string>
+    <string name="splash_title">Get Cooking QA</string>
     <string name="splash_subtitle">Simple way to find Tasty Recipe</string>
     <string name="splash_button">Start Cooking</string>
 
     <!-- Search recipes -->
-    <string name="search_recipes_title">Search Recipes (dev)</string>
+    <string name="search_recipes_title">Search Recipes (qa)</string>
 
 </resources>

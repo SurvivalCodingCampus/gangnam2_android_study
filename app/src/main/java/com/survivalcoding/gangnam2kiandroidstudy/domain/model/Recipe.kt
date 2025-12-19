@@ -9,6 +9,8 @@ data class Recipe(
     val rating: Double,
     val category: String,
     val serve: Int = 0,
+    val chefImageUrl: String = "",
+    //val description: String,
     //val reviewCount: Int,
     //val ingredients: List<Ingredient>,
     //val procedures: List<Procedure>,

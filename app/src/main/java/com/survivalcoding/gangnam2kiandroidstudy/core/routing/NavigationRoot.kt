@@ -15,6 +15,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.notifications.Noti
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.profile.ProfileScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetails.RecipeDetailsRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes.SavedRecipesRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes.SearchRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.signin.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.signup.SignUpScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.splash.SplashScreen
@@ -86,15 +87,20 @@ fun NavigationRoot(
                 )
             }
 
-            entry<Route.Home> {
-                HomeRoot()
+            entry<Route.SearchRecipes> {
+                SearchRecipesRoot(
+                    onBackClick = {
+                        Log.d("NavigationRoot", "SearchRecipes -> Main")
+                        topLevelBackStack.remove(it)
+                    }
+                )
             }
 
             entry<Route.RecipeDetails> {
                 RecipeDetailsRoot(
                     id = it.recipeId,
                     onBackClick = { topLevelBackStack.remove(it) },
-                    )
+                )
             }
 
             entry<Route.Main> {
@@ -111,7 +117,18 @@ fun NavigationRoot(
                                 rememberViewModelStoreNavEntryDecorator()
                             ),
                             entryProvider = entryProvider {
-                                entry<Route.Home> { HomeRoot() }
+                                entry<Route.Home> {
+                                    HomeRoot(
+                                        onSearchClick = {
+                                            Log.d("NavigationRoot", "Main -> SearchRecipes")
+                                            topLevelBackStack.add(Route.SearchRecipes)
+                                        },
+                                        onRecipeClick = { recipeId ->
+                                            Log.d("NavigationRoot", "Main -> RecipeDetails")
+                                            topLevelBackStack.add(Route.RecipeDetails(recipeId))
+                                        }
+                                    )
+                                }
                                 entry<Route.SavedRecipes> {
                                     SavedRecipesRoot(
                                         onItemClick = { recipeId ->

@@ -51,6 +51,22 @@ class SearchRecipesViewModel(
         }
     }
 
+    fun onAction(
+        action: SearchRecipesAction,
+        navigateBack: () -> Unit,
+    ) {
+        when (action) {
+            SearchRecipesAction.OnBackClick -> {
+                navigateBack()
+            }
+
+            is SearchRecipesAction.OnSearchQueryChange -> {
+                changeSearchText(action.query)
+            }
+        }
+    }
+
+
     fun fetchRecipes(
         searchText: String = uiState.value.searchText,
         searchFilter: RecipeFilterState = uiState.value.searchFilter,

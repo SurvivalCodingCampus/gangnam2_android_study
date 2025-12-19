@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -24,7 +26,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
@@ -33,24 +37,47 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchFi
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
+
 @Composable
 fun SearchRecipesScreen(
     state: SearchRecipesState = SearchRecipesState(),
-    onChangeSearchText: (String) -> Unit = {},
-    modifier: Modifier = Modifier,
+    onAction: (SearchRecipesAction) -> Unit,
 ) {
     val recipes = state.filteredRecipes
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 20.dp)
+            .background(color = AppColors.white)
+            .statusBarsPadding()
+            .navigationBarsPadding()
+            .padding(horizontal = 30.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(
-            text = "Search recipes",
-            style = AppTextStyles.mediumTextBold,
-            modifier = Modifier.padding(top = 10.dp, bottom = 17.dp),
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = 54.dp,
+                    bottom = 17.dp,
+                )
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.outline_arrow_right),
+                contentDescription = "뒤로가기 버튼",
+                modifier = Modifier
+                    .size(20.dp)
+                    .rotate(180f)
+                    .align(Alignment.CenterStart)
+                    .clickable { onAction(SearchRecipesAction.OnBackClick) }
+            )
+
+            Text(
+                text = stringResource(R.string.search_recipes_title),
+                style = AppTextStyles.mediumTextBold,
+                modifier = Modifier.padding(top = 10.dp, bottom = 17.dp),
+            )
+        }
 
         Row(
             modifier = Modifier
@@ -62,7 +89,7 @@ fun SearchRecipesScreen(
                 query = state.searchText,
                 placeholder = "Search recipe",
                 onQueryChange = {
-                    onChangeSearchText(it)
+                    onAction(SearchRecipesAction.OnSearchQueryChange(it))
                 },
                 onSearch = {},
                 modifier = Modifier.weight(1f)
@@ -91,16 +118,24 @@ fun SearchRecipesScreen(
             }
         }
 
-        Text(
-            text = "Recent Search",
-            style = AppTextStyles.mediumTextBold,
-            modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 2.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "Recent Search",
+                style = AppTextStyles.mediumTextBold,
+                modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
+            )
+        }
 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 34.dp)
+                .padding(vertical = 4.dp)
         ) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
@@ -122,5 +157,8 @@ fun SearchRecipesScreen(
 @Preview(showBackground = true)
 @Composable
 fun SearchRecipesScreenPreview() {
-    SearchRecipesScreen()
+    SearchRecipesScreen(
+        state = SearchRecipesState(),
+        onAction = {},
+    )
 }
