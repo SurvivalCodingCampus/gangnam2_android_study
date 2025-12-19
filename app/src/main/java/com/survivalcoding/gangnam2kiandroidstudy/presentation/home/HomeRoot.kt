@@ -49,6 +49,8 @@ fun HomeRoot(
                 }
             }
         }
+
+
     }
 
     // HomeScreen Composable을 호출하여 실제 UI를 그립니다.

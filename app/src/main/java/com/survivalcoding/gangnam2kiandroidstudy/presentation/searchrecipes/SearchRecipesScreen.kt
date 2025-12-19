@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,13 +41,12 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun SearchRecipesScreen(
     state: SearchRecipesState = SearchRecipesState(),
-    onChangeSearchText: (String) -> Unit = {},
-    modifier: Modifier = Modifier,
+    onAction: (SearchRecipesAction) -> Unit,
 ) {
     val recipes = state.filteredRecipes
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(color = AppColors.white)
             .statusBarsPadding()
@@ -54,11 +54,30 @@ fun SearchRecipesScreen(
             .padding(horizontal = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(
-            text = stringResource(R.string.search_recipes_title),
-            style = AppTextStyles.mediumTextBold,
-            modifier = Modifier.padding(top = 10.dp, bottom = 17.dp),
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = 54.dp,
+                    bottom = 17.dp,
+                )
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.outline_arrow_right),
+                contentDescription = "뒤로가기 버튼",
+                modifier = Modifier
+                    .size(20.dp)
+                    .rotate(180f)
+                    .align(Alignment.CenterStart)
+                    .clickable { onAction(SearchRecipesAction.OnBackClick) }
+            )
+
+            Text(
+                text = stringResource(R.string.search_recipes_title),
+                style = AppTextStyles.mediumTextBold,
+                modifier = Modifier.padding(top = 10.dp, bottom = 17.dp),
+            )
+        }
 
         Row(
             modifier = Modifier
@@ -70,7 +89,7 @@ fun SearchRecipesScreen(
                 query = state.searchText,
                 placeholder = "Search recipe",
                 onQueryChange = {
-                    onChangeSearchText(it)
+                    onAction(SearchRecipesAction.OnSearchQueryChange(it))
                 },
                 onSearch = {},
                 modifier = Modifier.weight(1f)
@@ -138,5 +157,8 @@ fun SearchRecipesScreen(
 @Preview(showBackground = true)
 @Composable
 fun SearchRecipesScreenPreview() {
-    SearchRecipesScreen()
+    SearchRecipesScreen(
+        state = SearchRecipesState(),
+        onAction = {},
+    )
 }
