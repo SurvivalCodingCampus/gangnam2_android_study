@@ -40,6 +40,25 @@ android {
     buildFeatures {
         compose = true
     }
+
+    flavorDimensions += listOf("version")
+    productFlavors {
+        create("dev") {
+            dimension = "version"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+        }
+        create("prod") {
+            dimension = "version"
+            applicationIdSuffix = ".prod"
+            versionNameSuffix = "-prod"
+        }
+        create("qa") {
+            dimension = "version"
+            applicationIdSuffix = ".qa"
+            versionNameSuffix = "-qa"
+        }
+    }
 }
 
 dependencies {
@@ -59,6 +78,7 @@ dependencies {
     implementation(libs.ktor.client.cio)
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.kotlinx.collections.immutable)
 
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.navigation3.runtime)

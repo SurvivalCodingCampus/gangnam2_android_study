@@ -24,6 +24,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterItemButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RatingButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallButton
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.SearchRecipeAction
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
@@ -33,8 +34,7 @@ fun FilterSearchBottomSheet(
     state: FilterSearchState,
     showBottomSheet: Boolean,
     modifier: Modifier = Modifier,
-    onDismiss: () -> Unit = {},
-    onClickFilter: (FilterSearchState) -> Unit = {},
+    onAction: (SearchRecipeAction) -> Unit = {},
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
@@ -44,7 +44,7 @@ fun FilterSearchBottomSheet(
 
     if (showBottomSheet) {
         ModalBottomSheet(
-            onDismissRequest = onDismiss,
+            onDismissRequest = { onAction(SearchRecipeAction.OnFilterSettingClick) },
             sheetState = sheetState,
             shape = RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp, bottomStart = 0.dp, bottomEnd = 0.dp),
             containerColor = AppColors.white
@@ -117,8 +117,14 @@ fun FilterSearchBottomSheet(
                 Spacer(Modifier.height(30.dp))
 
                 SmallButton(modifier = Modifier.padding(horizontal = 70.dp), text = "Filter") {
-                    onClickFilter(
-                        FilterSearchState(time = time.value, rate = rate.value, category = category.value)
+                    onAction(
+                        SearchRecipeAction.UpdateFilterSearch(
+                            FilterSearchState(
+                                time = time.value,
+                                rate = rate.value,
+                                category = category.value
+                            )
+                        )
                     )
                 }
             }

@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,10 +41,15 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun RatingHomeCard(recipe: Recipe, modifier: Modifier = Modifier) {
+fun RatingHomeCard(
+    recipe: Recipe,
+    modifier: Modifier = Modifier,
+    navigateToDetail: (recipeId: Int) -> Unit = {},
+) {
     Box(
         modifier = modifier
             .size(251.dp, 127.dp)
+            .clickable { navigateToDetail(recipe.id) }
     ) {
         val painter = if (LocalInspectionMode.current) {
             painterResource(R.drawable.recipe_rate)
@@ -75,7 +81,6 @@ fun RatingHomeCard(recipe: Recipe, modifier: Modifier = Modifier) {
                     modifier = Modifier.width(139.44.dp),
                     style = AppTextStyles.smallTextBold.copy(fontWeight = FontWeight.SemiBold),
                     color = AppColors.gray1,
-                    textAlign = TextAlign.Center,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )

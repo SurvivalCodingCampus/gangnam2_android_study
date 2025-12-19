@@ -1,35 +1,22 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun RecipeHomeRoot(
-    modifier: Modifier = Modifier,
+    navigateToSearchRecipe: () -> Unit = {},
+    navigateToDetail: (recipeId: Int) -> Unit = {},
     viewModel: RecipeHomeViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     RecipeHomeScreen(
         state = state,
-        modifier = modifier,
-        onSelectedCategory = viewModel::updateSelectedCategory
+        navigateToSearchRecipe = navigateToSearchRecipe,
+        navigateToDetail = navigateToDetail,
+        onAction = viewModel::onAction
     )
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun RecipeHomeRootPreview() {
-    Scaffold { innerPadding ->
-        RecipeHomeRoot(modifier = Modifier.padding(innerPadding))
-    }
 }

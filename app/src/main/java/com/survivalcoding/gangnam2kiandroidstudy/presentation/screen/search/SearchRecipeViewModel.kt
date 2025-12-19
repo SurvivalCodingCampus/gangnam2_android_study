@@ -1,11 +1,11 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.filter.FilterSearchState
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +18,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
-class SearchRecipeViewModel(private val recipeRepository: RecipeRepository) : ViewModel() {
+class SearchRecipeViewModel(
+    private val recipeRepository: RecipeRepository
+) : ViewModel() {
     private val _uiState = MutableStateFlow(SearchRecipeState())
     val uiState: StateFlow<SearchRecipeState> = _uiState.asStateFlow()
 
@@ -40,13 +42,26 @@ class SearchRecipeViewModel(private val recipeRepository: RecipeRepository) : Vi
         }
     }
 
-    fun updateSearch(query: String) {
-        _uiState.update {
-            it.copy(query = query)
+    fun onAction(action: SearchRecipeAction) {
+        when (action) {
+            SearchRecipeAction.OnFilterSettingClick -> toggleFilterSetting()
+            SearchRecipeAction.OnSearchDone -> performSearch()
+            is SearchRecipeAction.UpdateFilterSearch -> updateFilterSearchState(action.filterSearch)
+            is SearchRecipeAction.UpdateQuery -> updateSearch(action.query)
         }
     }
 
-    fun updateFilterSearchState(filterSearchState: FilterSearchState) {
+    private fun toggleFilterSetting() {
+        _uiState.update {
+            it.copy(showBottomSheet = !it.showBottomSheet)
+        }
+    }
+
+    private fun performSearch() {
+        fetchSearchRecipes(_uiState.value.query)
+    }
+
+    private fun updateFilterSearchState(filterSearchState: FilterSearchState) {
         _uiState.update {
             it.copy(
                 filterSearchState = filterSearchState,
@@ -57,13 +72,9 @@ class SearchRecipeViewModel(private val recipeRepository: RecipeRepository) : Vi
         fetchSearchRecipes(_uiState.value.query)
     }
 
-    fun performSearch() {
-        fetchSearchRecipes(_uiState.value.query)
-    }
-
-    fun toggleFilterSetting() {
+    private fun updateSearch(query: String) {
         _uiState.update {
-            it.copy(showBottomSheet = !it.showBottomSheet)
+            it.copy(query = query)
         }
     }
 
@@ -74,7 +85,7 @@ class SearchRecipeViewModel(private val recipeRepository: RecipeRepository) : Vi
 
                 when (response) {
                     is Result.Success -> _uiState.update {
-                        it.copy(recipes = response.data, isLoading = false)
+                        it.copy(recipes = response.data.toPersistentList(), isLoading = false)
                     }
 
                     is Result.Failure -> {
@@ -100,11 +111,10 @@ class SearchRecipeViewModel(private val recipeRepository: RecipeRepository) : Vi
                     _uiState.value.filterSearchState.rate,
                     _uiState.value.filterSearchState.category.displayName
                 )
-                Log.d("SearchRecipeViewModel fetchSearchRecipes", "$response")
 
                 when (response) {
                     is Result.Success -> _uiState.update {
-                        it.copy(filterRecipes = response.data, isLoading = false)
+                        it.copy(filterRecipes = response.data.toPersistentList(), isLoading = false)
                     }
 
                     is Result.Failure -> {

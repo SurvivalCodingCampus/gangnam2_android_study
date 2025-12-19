@@ -29,5 +29,8 @@ sealed interface Route : NavKey {
     data object Profile : Route
 
     @Serializable
+    data object SearchRecipe : Route
+
+    @Serializable
     data class RecipeDetail(val recipeId: Int) : Route
 }
