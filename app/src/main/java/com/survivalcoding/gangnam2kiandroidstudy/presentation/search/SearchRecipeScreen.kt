@@ -12,10 +12,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,17 +23,14 @@ import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterBox
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchInputField
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchRecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchRecipeScreen(
     state: SearchRecipeState = SearchRecipeState(),
-    showBottomSheet: Boolean = false,
     onAction: (SearchRecipesAction) -> Unit = {},
 ) {
     Scaffold(
@@ -100,22 +95,7 @@ fun SearchRecipeScreen(
                         onAction(SearchRecipesAction.SelectRecipes(recipeId))
                     }
                 }
-
             }
-        }
-
-        if (showBottomSheet) {
-            FilterSearchBottomSheet(
-                sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-                currentFilterState = state.filterState,
-                onDismiss = {
-                    onAction(SearchRecipesAction.OnTapFilterButton)
-                },
-                onApplyFilter = {
-                    onAction(SearchRecipesAction.OnUpdateFilterSearchState(it))
-                    onAction(SearchRecipesAction.OnTapFilterButton)
-                }
-            )
         }
     }
 }
