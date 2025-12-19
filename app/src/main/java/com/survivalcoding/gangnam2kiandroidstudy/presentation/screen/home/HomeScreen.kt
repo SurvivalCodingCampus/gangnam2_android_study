@@ -99,27 +99,27 @@ fun HomeScreen(
         ) {
             item {
                 SmallButton2(text = "All", isSelected = state.selectedCategory == "All") {
-                    onAction(HomeAction.OnViewmodelCalled(it))
+                    onAction(HomeAction.OnSelectedCategory(it))
                 }
             }
             item {
                 SmallButton2(text = "Indian", isSelected = state.selectedCategory == "Indian") {
-                    onAction(HomeAction.OnViewmodelCalled(it))
+                    onAction(HomeAction.OnSelectedCategory(it))
                 }
             }
             item {
                 SmallButton2(text = "Italian", isSelected = state.selectedCategory == "Italian") {
-                    onAction(HomeAction.OnViewmodelCalled(it))
+                    onAction(HomeAction.OnSelectedCategory(it))
                 }
             }
             item {
                 SmallButton2(text = "Asian", isSelected = state.selectedCategory == "Asian") {
-                    onAction(HomeAction.OnViewmodelCalled(it))
+                    onAction(HomeAction.OnSelectedCategory(it))
                 }
             }
             item {
                 SmallButton2(text = "Chinese", isSelected = state.selectedCategory == "Chinese") {
-                    onAction(HomeAction.OnViewmodelCalled(it))
+                    onAction(HomeAction.OnSelectedCategory(it))
                 }
             }
         }
