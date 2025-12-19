@@ -1,6 +1,5 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
-import android.R.attr.text
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,6 +33,7 @@ fun FilterSearchBottomSheet(
     onDismiss: () -> Unit = {},
     currentFilterState: FilterSearchState,
     onApplyFilter: (FilterSearchState) -> Unit = {},
+    onCancelFilter: () -> Unit = {},
 ) {
     var filterState by remember { mutableStateOf(currentFilterState) }
 
@@ -168,7 +168,21 @@ fun FilterSearchBottomSheet(
                     .padding(bottom = 22.dp)
                     .padding(horizontal = 100.dp)
             ) {
-                onApplyFilter(filterState)
+                when {
+                    filterState.selectedCategoryText == null &&
+                            filterState.selectedTimeText == null &&
+                            filterState.selectedRateText == null -> {
+                        onCancelFilter()
+                    }
+
+                    filterState != currentFilterState -> {
+                        onApplyFilter(filterState)
+                    }
+
+                    else -> {
+                        onDismiss()
+                    }
+                }
             }
         }
     }

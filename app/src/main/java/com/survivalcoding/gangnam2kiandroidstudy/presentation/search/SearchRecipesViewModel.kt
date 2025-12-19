@@ -3,7 +3,9 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
@@ -18,6 +20,9 @@ class SearchRecipesViewModel(
 
     private val _state = MutableStateFlow(SearchRecipeState())
     val state = _state.asStateFlow()
+
+    private val _event = MutableSharedFlow<SearchRecipesEvent>()
+    val event = _event.asSharedFlow()
 
     init {
         getAllRecipes()
@@ -42,9 +47,27 @@ class SearchRecipesViewModel(
             }
             is SearchRecipesAction.OnUpdateFilterSearchState -> {
                 applyFilters(action.filterState)
+                viewModelScope.launch {
+                    _event.emit(
+                        SearchRecipesEvent.ShowSnackBar(
+                            "필터가 적용되었습니다."
+                        )
+                    )
+                }
             }
             is SearchRecipesAction.SelectRecipes -> {
-
+                viewModelScope.launch {
+                    _event.emit(SearchRecipesEvent.OnSelectRecipes(action.id))
+                }
+            }
+            is SearchRecipesAction.OnCancelFilter -> {
+                viewModelScope.launch {
+                    _event.emit(
+                        SearchRecipesEvent.ShowSnackBar(
+                            "필터가 취소되었습니다."
+                        )
+                    )
+                }
             }
         }
     }
