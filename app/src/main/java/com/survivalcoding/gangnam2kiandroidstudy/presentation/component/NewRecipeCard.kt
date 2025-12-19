@@ -95,7 +95,7 @@ fun NewRecipeCard(
                     ) {
                         AsyncImage(
                             model = recipe.chefImageUrl.orPreview,
-                            contentDescription = "recipe image",
+                            contentDescription = "chef profile image",
                             modifier = Modifier
                                 .size(25.dp)
                                 .clip(CircleShape),
