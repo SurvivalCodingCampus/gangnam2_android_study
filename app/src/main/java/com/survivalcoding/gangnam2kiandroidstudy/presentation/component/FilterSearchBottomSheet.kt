@@ -138,7 +138,6 @@ fun FilterSearchBottomSheet(
                     text = "Filter",
                     onClick = {
                         onFilter(filterState)
-                        onDismissRequest()
                     },
                     isSelected = true
                 )
