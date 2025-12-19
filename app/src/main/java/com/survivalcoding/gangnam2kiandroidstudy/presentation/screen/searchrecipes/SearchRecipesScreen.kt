@@ -58,7 +58,7 @@ fun SearchRecipesScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { onNavigate(SearchRecipeNavigation.OnBackClick) }) {
+                    IconButton(onClick = { onNavigate(SearchRecipeNavigation.Back) }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "back icon",
@@ -156,7 +156,7 @@ fun SearchRecipesScreen(
                             recipe = it,
                             size = RecipeCardSize.Small,
                             onClick = { recipeId ->
-                                onNavigate(SearchRecipeNavigation.OnRecipeClick(recipeId))
+                                onNavigate(SearchRecipeNavigation.RecipeDetails(recipeId))
                             },
                         )
                     }

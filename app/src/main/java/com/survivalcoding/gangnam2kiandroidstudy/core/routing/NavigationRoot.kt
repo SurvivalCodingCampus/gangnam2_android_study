@@ -14,6 +14,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.notificatio
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.profile.ProfileScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail.RecipeDetailsRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.savedrecipes.SavedRecipesRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes.SearchRecipeNavigation
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes.SearchRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.signin.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.signup.SignUpScreen
@@ -122,11 +123,17 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             }
             entry<Route.SearchRecipes> { key ->
                 SearchRecipesRoot(
-                    onRecipeClick = { recipeId ->
-                        topLevelBackStack.removeIf { it is Route.RecipeDetails }
-                        topLevelBackStack.add(Route.RecipeDetails(recipeId))
+                    onNavigate = { navigation ->
+                        when (navigation) {
+                            is SearchRecipeNavigation.RecipeDetails -> {
+                                topLevelBackStack.removeIf { it is Route.RecipeDetails }
+                                topLevelBackStack.add(Route.RecipeDetails(navigation.recipeId))
+                            }
+                            SearchRecipeNavigation.Back -> {
+                                topLevelBackStack.remove(key)
+                            }
+                        }
                     },
-                    onBackClick = { topLevelBackStack.remove(key) },
                 )
             }
             entry<Route.RecipeDetails> { key ->

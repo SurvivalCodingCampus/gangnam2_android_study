@@ -9,20 +9,14 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun SearchRecipesRoot(
     viewModel: SearchRecipesViewModel = koinViewModel(),
-    onRecipeClick: (Long) -> Unit = {},
-    onBackClick: () -> Unit = {},
+    onNavigate: (SearchRecipeNavigation) -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     SearchRecipesScreen(
         uiState = uiState,
         onAction = viewModel::onAction,
-        onNavigate = {
-            when (it) {
-                is SearchRecipeNavigation.OnRecipeClick -> onRecipeClick(it.recipeId)
-                SearchRecipeNavigation.OnBackClick -> onBackClick()
-            }
-        },
+        onNavigate = onNavigate,
     )
 
     FilterSearchBottomSheet(
