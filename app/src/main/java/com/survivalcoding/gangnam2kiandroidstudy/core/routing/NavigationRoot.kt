@@ -107,12 +107,12 @@ fun NavigationRoot(
             }
             entry<Route.SearchRecipes> {
                 SearchRecipesRoot(
-                    navigateToBack = {
+                    onNavigateToBack = {
                         if (topLevelBackStack.size > 1) {
                             topLevelBackStack.removeAt(topLevelBackStack.lastIndex)
                         }
                     },
-                    navigateToRecipeDetail = { recipeId ->
+                    onNavigateToRecipeDetail = { recipeId ->
                         topLevelBackStack.add(Route.RecipeDetail(recipeId))
                     }
                 )
