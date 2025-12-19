@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -26,7 +27,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 
 @Composable
-fun CustomSearchField(onValueChange: (String) -> Unit) {
+fun CustomSearchField(onValueChange: (String) -> Unit, onClick: () -> Unit = {},enableSearch: Boolean = true) {
     var inputText by remember { mutableStateOf("") }
 
     Box(
@@ -34,6 +35,7 @@ fun CustomSearchField(onValueChange: (String) -> Unit) {
             .height(40.dp)
             .fillMaxWidth()
             .border(width = 1.3.dp, color = AppColors.gray4, shape = RoundedCornerShape(10.dp))
+            .clickable(true, onClick = { onClick() })
     ) {
         Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
             Icon(
@@ -45,13 +47,15 @@ fun CustomSearchField(onValueChange: (String) -> Unit) {
                 tint = AppColors.gray4
             )
             BasicTextField(
+                enabled = enableSearch,
                 value = inputText,
                 modifier = Modifier.fillMaxWidth(),
                 onValueChange = {
                     onValueChange(it)
                     inputText = it
                 },
-                textStyle = AppTextStyles.smallerTextRegular
+                textStyle = AppTextStyles.smallerTextRegular,
+                singleLine = true
             )
         }
     }
@@ -60,7 +64,7 @@ fun CustomSearchField(onValueChange: (String) -> Unit) {
 @Preview(showBackground = true)
 @Composable
 private fun CustomSearchFieldPreview() {
-    CustomSearchField(onValueChange = {
-
-    })
+//    CustomSearchField(onValueChange = {
+//
+//    })
 }

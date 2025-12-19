@@ -10,6 +10,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeRo
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipe_detail.SavedRecipeItemRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipes.SavedRecipesRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipes.SearchRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_in.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_up.SignUpScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashScreen
@@ -55,15 +56,29 @@ fun NavigationRoot() {
                                 rememberSaveableStateHolderNavEntryDecorator(),
                                 rememberViewModelStoreNavEntryDecorator()
                             ), entryProvider = entryProvider {
-                                entry<Route.Home> { HomeRoot() }
+                                entry<Route.Home> {
+                                    HomeRoot(
+                                        onSearchClicked = {
+                                            topLevelBackStack.add(
+                                                Route.Search
+                                            )
+                                        },
+                                        onRecipeItemClicked = {
+                                            topLevelBackStack.add(
+                                                Route.RecipeItem(
+                                                    it
+                                                )
+                                            )
+                                        })
+                                }
                                 entry<Route.SavedRecipes> {
                                     SavedRecipesRoot(onRecipeClick = {
                                         topLevelBackStack.add(Route.RecipeItem(it))
                                     })
                                 }
 
-                                entry<Route.Notifications> { HomeRoot() }
-                                entry<Route.Profile> { HomeRoot() }
+                                entry<Route.Notifications> { }
+                                entry<Route.Profile> { }
 
                             })
 
@@ -72,6 +87,10 @@ fun NavigationRoot() {
             }
             entry<Route.RecipeItem> { navEntry ->
                 SavedRecipeItemRoot(navEntry.recipe)
+            }
+
+            entry<Route.Search> {
+                SearchRecipesRoot()
             }
         })
 }

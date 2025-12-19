@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">Gangnam2kiAndroidStudy</string>
-    <string name="search_recipe_name">Search recipes</string>
-
+    <string name="search_recipe_name">Search recipes (dev)</string>
 </resources>

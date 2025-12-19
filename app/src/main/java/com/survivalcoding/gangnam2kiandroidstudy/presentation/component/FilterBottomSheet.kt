@@ -47,7 +47,7 @@ fun FilterBottomSheet(
                 selectedTime.value,
                 selectedRate.value,
                 selectedCategory.value,
-                true
+                false
             )
             Log.d(
                 "FilterBottomSheet",

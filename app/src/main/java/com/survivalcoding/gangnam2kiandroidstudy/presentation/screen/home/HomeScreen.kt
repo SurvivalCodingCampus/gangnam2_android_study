@@ -28,19 +28,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.core.MOCK
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipes
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.CustomSearchField
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.MediumRecipeCard
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.NewRecipesCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SettingButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallButton2
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.serialization.json.Json
 
 @Composable
 fun HomeScreen(
     state: HomeState,
-    onViewmodelCalled: (String) -> Unit
+    onAction: (HomeAction) -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
         Spacer(modifier = Modifier.height(64.dp))
         Row(modifier = Modifier.fillMaxWidth()) {
             Column() {
@@ -76,12 +81,11 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(30.dp))
         Row(modifier = Modifier.padding(horizontal = 30.dp)) {
             Box(modifier = Modifier.weight(1f)) {
-//                Search() {
-//                    //TODO 디자인 완성 후 콜백 구현
-//                }
-                CustomSearchField {
-
-                }
+                CustomSearchField(
+                    onValueChange = {}, onClick = {
+                        onAction(HomeAction.OnSearchClicked)
+                    }, enableSearch = false
+                )
             }
             Spacer(modifier = Modifier.width(20.dp))
             SettingButton {
@@ -95,45 +99,72 @@ fun HomeScreen(
         ) {
             item {
                 SmallButton2(text = "All", isSelected = state.selectedCategory == "All") {
-                    onViewmodelCalled(it)
+                    onAction(HomeAction.OnSelectedCategory(it))
                 }
             }
             item {
                 SmallButton2(text = "Indian", isSelected = state.selectedCategory == "Indian") {
-                    onViewmodelCalled(it)
+                    onAction(HomeAction.OnSelectedCategory(it))
                 }
             }
             item {
                 SmallButton2(text = "Italian", isSelected = state.selectedCategory == "Italian") {
-                    onViewmodelCalled(it)
+                    onAction(HomeAction.OnSelectedCategory(it))
                 }
             }
             item {
                 SmallButton2(text = "Asian", isSelected = state.selectedCategory == "Asian") {
-                    onViewmodelCalled(it)
+                    onAction(HomeAction.OnSelectedCategory(it))
                 }
             }
             item {
                 SmallButton2(text = "Chinese", isSelected = state.selectedCategory == "Chinese") {
-                    onViewmodelCalled(it)
+                    onAction(HomeAction.OnSelectedCategory(it))
                 }
             }
         }
         Spacer(modifier = Modifier.height(15.dp))
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(15.dp),
-            contentPadding = PaddingValues(30.dp)
+            contentPadding = PaddingValues(horizontal = 30.dp)
         ) {
             items(state.resultRecipes) { recipe ->
-                MediumRecipeCard(recipe)
+                MediumRecipeCard(
+                    recipe,
+                    onAction = { onAction(HomeAction.OnRecipeItemClicked(recipe)) })
             }
         }
+        Spacer(modifier = Modifier.height(20.dp))
+        Text(
+            "New Recipes",
+            style = AppTextStyles.normalTextBold.copy(fontWeight = FontWeight.SemiBold),
+            modifier = Modifier.padding(start = 30.dp)
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+
+        LazyRow(
+            modifier = Modifier,
+            horizontalArrangement = Arrangement.spacedBy(15.dp),
+            contentPadding = PaddingValues(horizontal = 30.dp)
+        ) {
+            items(state.resultRecipes) { recipe ->//TODO 일단을 recipe 그대로 사용
+                NewRecipesCard(recipe, onAction = onAction)
+            }
+        }
+        Spacer(modifier = Modifier.height(104.dp))
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
-    HomeScreen(state = HomeState(), onViewmodelCalled = { "All" })
+
+    val mockList =
+        Json.decodeFromString<Recipes>(MOCK)
+
+
+    HomeScreen(
+        state = HomeState(resultRecipes = mockList.recipes.toImmutableList()),
+        onAction = {})
 }
 

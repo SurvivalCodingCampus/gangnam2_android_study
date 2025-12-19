@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.SavedRecipesRepository
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -20,19 +21,34 @@ class HomeViewModel(
         viewModelScope.launch {
             cachedRecipes = repository.getSavedRecipes()
             _state.value =
-                _state.value.copy(selectedCategory = "All", resultRecipes = cachedRecipes)
+                _state.value.copy(
+                    selectedCategory = "All",
+                    resultRecipes = cachedRecipes.toImmutableList()
+                )
         }
         Log.d("HomeViewModel", "init: ${_state.value}")
     }
 
-    fun onSelectedCategory(category: String) {
+    fun onAction(action: HomeAction) {
+        when (action) {
+            is HomeAction.OnSelectedCategory -> onSelectedCategory(action.recipeName)
+            else -> {}
+        }
+
+    }
+
+    private fun onSelectedCategory(category: String) {
         if (category == "All") {
             _state.value =
-                _state.value.copy(selectedCategory = category, resultRecipes = cachedRecipes)
+                _state.value.copy(
+                    selectedCategory = category,
+                    resultRecipes = cachedRecipes.toImmutableList()
+                )
         } else {
             _state.value = _state.value.copy(
                 selectedCategory = category,
-                resultRecipes = cachedRecipes.filter { it.category == category })
+                resultRecipes = cachedRecipes.filter { it.category == category }.toImmutableList()
+            )
         }
         Log.d("HomeViewModel", "onSelectedCategory: ${_state.value}")
     }

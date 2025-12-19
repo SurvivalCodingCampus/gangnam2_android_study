@@ -18,10 +18,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.CustomSearchField
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterBottomSheet
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SettingButton
@@ -41,7 +43,7 @@ fun SearchRecipesScreen(
     ) {
         Spacer(modifier = Modifier.height(54.dp))
         Text(
-            "Search recipes",
+            text = stringResource(R.string.search_recipe_name),
             modifier = Modifier.fillMaxWidth(),
             style = AppTextStyles.mediumTextBold.copy(fontSize = 18.sp),
             textAlign = TextAlign.Center

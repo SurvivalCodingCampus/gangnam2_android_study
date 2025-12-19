@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,15 +31,17 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeAction
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 import kotlinx.serialization.json.Json
 
 @Composable
-fun MediumRecipeCard(recipe: Recipe) {
+fun MediumRecipeCard(recipe: Recipe, onAction: (HomeAction) -> Unit) {
     Box(
         modifier = Modifier
             .size(width = 150.dp, height = 231.dp)
+            .clickable(enabled = true, onClick = { onAction(HomeAction.OnRecipeItemClicked(recipe)) })
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.weight(1f))
@@ -171,6 +174,6 @@ private fun MediumRecipeCardPreview() {
     val json = Json {
         ignoreUnknownKeys = true
     }
-    MediumRecipeCard(json.decodeFromString(mock))
+    //MediumRecipeCard(json.decodeFromString(mock))
 
 }

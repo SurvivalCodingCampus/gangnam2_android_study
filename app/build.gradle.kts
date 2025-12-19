@@ -42,6 +42,22 @@ android {
     buildFeatures {
         compose = true
     }
+    flavorDimensions += listOf("version")
+    productFlavors {
+        create("dev") {
+            dimension = "version"
+            versionNameSuffix = "-dev"
+            applicationIdSuffix = ".dev"
+        }
+        create("prod") {
+            dimension = "version"
+        }
+        create("qa") {
+            dimension = "version"
+            versionNameSuffix = "-qa"
+            applicationIdSuffix = ".qa"
+        }
+    }
 }
 
 dependencies {
@@ -87,8 +103,10 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.insert.koin.koin.android)
-    implementation("io.insert-koin:koin-androidx-compose")
-    implementation("io.insert-koin:koin-androidx-compose-navigation")
-    implementation("io.insert-koin:koin-compose-navigation3:4.2.0-beta2")
+    implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.compose.navigation3)
+
+    //immutable collection
+    implementation(libs.kotlinx.collections.immutable)
 
 }

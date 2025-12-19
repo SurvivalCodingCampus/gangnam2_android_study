@@ -32,5 +32,8 @@ sealed interface Route : NavKey {
     @Serializable
     data class RecipeItem(val recipe: Recipe) : Route
 
+    @Serializable
+    data object Search : Route
+
 
 }
