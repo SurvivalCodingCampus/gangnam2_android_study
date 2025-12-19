@@ -26,7 +26,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun SplashScreen(
-    onClick: () -> Unit = {}
+    state: SplashState = SplashState(),
+    onAction: (SplashAction) -> Unit = {}
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -70,11 +71,12 @@ fun SplashScreen(
             Spacer(modifier = Modifier.height(64.dp))
             MediumButton(
                 text = "Start Cooking",
+                enabled = state.isConnected,
                 modifier = Modifier
                     .padding(horizontal = 66.dp)
                     .padding(bottom = 84.dp)
             ) {
-                onClick()
+                onAction(SplashAction.OnStartClick)
             }
         }
     }

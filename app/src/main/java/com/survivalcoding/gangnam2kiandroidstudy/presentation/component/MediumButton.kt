@@ -32,13 +32,18 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun MediumButton(
     text: String,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onClick: () -> Unit = {},
 ) {
     val interactionSource = remember { MutableInteractionSource() }
 
     val isPressed by interactionSource.collectIsPressedAsState()
 
-    val boxColor = if (isPressed) AppColors.gray4 else AppColors.primary100
+    val boxColor = when {
+        isPressed -> AppColors.gray4
+        !enabled -> AppColors.gray4
+        else -> AppColors.primary100
+    }
 
     Box(
         modifier = modifier
@@ -49,6 +54,7 @@ fun MediumButton(
                 shape = RoundedCornerShape(10.dp)
             )
             .clickable(
+                enabled = enabled,
                 interactionSource = interactionSource,
                 onClick = onClick
             )

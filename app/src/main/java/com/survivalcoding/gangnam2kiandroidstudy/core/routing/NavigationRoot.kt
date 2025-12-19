@@ -14,7 +14,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipe.SavedR
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.search.SearchRecipeScreenRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_up.SignUpScreen
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.splash.SplashScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.splash.SplashScreenRoot
 
 @Composable
 fun NavigationRoot(
@@ -31,8 +31,8 @@ fun NavigationRoot(
         backStack = topLevelBackStack,
         entryProvider = entryProvider {
             entry<Route.Splash> {
-                SplashScreen(
-                    onClick = {
+                SplashScreenRoot(
+                    onNavigateToSignIn = {
                         topLevelBackStack.clear()
                         topLevelBackStack.add(Route.SignIn)
                     }

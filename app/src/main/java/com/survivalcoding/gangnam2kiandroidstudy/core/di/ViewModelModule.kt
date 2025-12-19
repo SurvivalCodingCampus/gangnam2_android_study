@@ -4,6 +4,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ingredient.IngridentViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipe.SavedRecipesViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.search.SearchRecipesViewModel
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.splash.SplashViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -12,4 +13,5 @@ val viewModelModule = module {
     viewModel { SavedRecipesViewModel(getSavedRecipesUseCase = get()) }
     viewModel { HomeViewModel(recipeRepository = get(), bookmarkRepository = get()) }
     viewModel { IngridentViewModel(getRecipeDetailsUseCase = get()) }
+    viewModel { SplashViewModel(networkStatusRepository = get()) }
 }
