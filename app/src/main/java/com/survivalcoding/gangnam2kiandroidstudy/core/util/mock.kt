@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.core
+package com.survivalcoding.gangnam2kiandroidstudy.core.util
 
 
 const val MOCK = """{

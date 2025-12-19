@@ -28,7 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.core.MOCK
+import com.survivalcoding.gangnam2kiandroidstudy.core.util.MOCK
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipes
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.CustomSearchField
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.MediumRecipeCard
