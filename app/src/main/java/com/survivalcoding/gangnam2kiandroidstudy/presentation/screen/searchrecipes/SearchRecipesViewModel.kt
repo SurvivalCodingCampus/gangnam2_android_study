@@ -23,9 +23,8 @@ import kotlinx.coroutines.launch
 
 class SearchRecipesViewModel(
     private val repository: RecipeRepository,
-    state: SearchRecipesUiState = SearchRecipesUiState(),
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(state)
+    private val _uiState = MutableStateFlow(SearchRecipesUiState())
     val uiState: StateFlow<SearchRecipesUiState> = _uiState.asStateFlow()
 
     private val searchTextFlow: Flow<String> = uiState.map { it.searchText }
@@ -36,9 +35,26 @@ class SearchRecipesViewModel(
             .distinctUntilChanged()
             .onEach { fetchRecipes(searchText = it) }
             .launchIn(viewModelScope)
+
+        fetchRecipes()
     }
 
-    fun fetchRecipes(
+    fun onAction(action: SearchRecipeAction) {
+        when (action) {
+            is SearchRecipeAction.ChangeQuery -> changeSearchText(action.query)
+            SearchRecipeAction.OnFilterClick -> showBottomSheet()
+        }
+    }
+
+    fun onAction(action: FilterAction) {
+        when (action) {
+            FilterAction.OnDismissRequest -> hideBottomSheet()
+            is FilterAction.ChangeFilter -> changeSearchFilter(action.searchFilter)
+            FilterAction.OnFilter -> applyFilter()
+        }
+    }
+
+    private fun fetchRecipes(
         searchText: String = uiState.value.searchText,
         searchFilter: RecipeSearchFilter = uiState.value.searchFilter,
     ) {
@@ -75,31 +91,31 @@ class SearchRecipesViewModel(
         }
     }
 
-    fun changeSearchText(searchText: String) {
+    private fun changeSearchText(searchText: String) {
         _uiState.update {
             it.copy(searchText = searchText)
         }
     }
 
-    fun showBottomSheet() {
+    private fun showBottomSheet() {
         _uiState.update {
             it.copy(isSheetVisible = true)
         }
     }
 
-    fun hideBottomSheet() {
+    private fun hideBottomSheet() {
         _uiState.update {
             it.copy(isSheetVisible = false)
         }
     }
 
-    fun changeSearchFilter(searchFilter: RecipeSearchFilter) {
+    private fun changeSearchFilter(searchFilter: RecipeSearchFilter) {
         _uiState.update {
             it.copy(searchFilter = searchFilter)
         }
     }
 
-    fun applyFilter() {
+    private fun applyFilter() {
         fetchRecipes()
         hideBottomSheet()
     }
