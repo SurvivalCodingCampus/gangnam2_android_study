@@ -32,7 +32,17 @@ class MockRecipeIngredientDataSourceImpl @Inject constructor() : RecipeIngredien
 
         RecipeIngredientDto(9, 9, 300),
 
-        RecipeIngredientDto(10, 7, 100)
+        RecipeIngredientDto(10, 7, 100),
+
+        RecipeIngredientDto(11, 6, 300),
+        RecipeIngredientDto(11, 4, 300),
+        RecipeIngredientDto(11, 8, 5),
+        RecipeIngredientDto(11, 3, 500),
+
+        RecipeIngredientDto(12, 6, 300),
+        RecipeIngredientDto(12, 4, 400),
+        RecipeIngredientDto(12, 8, 5),
+        RecipeIngredientDto(12, 3, 500),
     )
 
     override suspend fun getIngredientsByRecipeId(

@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Items
 
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,7 +39,8 @@ fun SearchResultCard(
     name: String,
     imageUrl: String,
     chef: String,
-    rating: Double
+    rating: Double,
+    onClick: () -> Unit
 ) {
     Box(
         modifier = modifier
@@ -49,6 +51,7 @@ fun SearchResultCard(
             modifier = modifier
                 .size(150.dp)
                 .clip(RoundedCornerShape(10.dp))
+                .clickable { onClick() }
         ) {
             // Background Image
             AsyncImage(
@@ -137,6 +140,7 @@ private fun SearchResultCardPreview() {
         name = "Traditional spare ribs baked",
         imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
         chef = "Chef John",
-        rating = 4.0
+        rating = 4.0,
+        onClick = {}
     )
 }

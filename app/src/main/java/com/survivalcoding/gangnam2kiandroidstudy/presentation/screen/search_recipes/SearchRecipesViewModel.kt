@@ -59,8 +59,30 @@ class SearchRecipesViewModel @Inject constructor(
         }
     }
 
+    fun onAction(action: SearchRecipesAction) {
+        when (action) {
+
+            is SearchRecipesAction.KeywordChanged -> {
+                updateSearchKeyword(action.keyword)
+            }
+
+            SearchRecipesAction.FilterClicked -> {
+                showBottomSheet(true)
+            }
+
+            SearchRecipesAction.FilterDismissed -> {
+                showBottomSheet(false)
+            }
+
+            is SearchRecipesAction.FilterApplied -> {
+                applyFilters(action.filter)
+                showBottomSheet(false)
+            }
+        }
+    }
+
     // 검색어
-    fun updateSearchKeyword(keyword: String) {
+    private fun updateSearchKeyword(keyword: String) {
         _state.update { it.copy(searchKeyword = keyword) } // // UI 즉시 업데이트
 
         searchKeywordFlow.value = keyword // debounce Flow 업데이트
@@ -97,7 +119,7 @@ class SearchRecipesViewModel @Inject constructor(
     }
 
     // 검색어 결과
-    fun applyFilters(filter: FilterSearchState) {
+    private fun applyFilters(filter: FilterSearchState) {
 
         _state.update { current ->
 

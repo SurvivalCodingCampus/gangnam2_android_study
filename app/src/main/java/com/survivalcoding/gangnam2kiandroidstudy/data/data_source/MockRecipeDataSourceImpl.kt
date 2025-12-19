@@ -127,6 +127,30 @@ class MockRecipeDataSourceImpl @Inject constructor() : RecipeDataSource {
             rating = 4.9,
             createdAt = 1761941400000, // 2025-10-31
             homeImage = HomeImage.FOOD5,
+        ),
+        RecipeDto(
+            id = 11,
+            category = "ChristmasCake",
+            name = "Chocolate Lava Cake",
+            image = "https://cdn.pixabay.com/photo/2016/11/22/18/52/cake-1850011_1280.jpg",
+            chefId = 10,
+            chefName = "Paul Hollywood",
+            time = "30 min",
+            rating = 4.9,
+            createdAt = 1763996400000, // 2025-11-25 (최근 1달)
+            homeImage = HomeImage.FOOD4,
+        ),
+        RecipeDto(
+            id = 12,
+            category = "Asian",
+            name = "French Onion Soup",
+            image = "https://cdn.pixabay.com/photo/2016/03/03/16/19/food-1234483_1280.jpg",
+            chefId = 9,
+            chefName = "Julia Child",
+            time = "10 min",
+            rating = 3.0,
+            createdAt = 1764514800000, // 2025-12-01 (최근 1달)
+            homeImage = HomeImage.FOOD3,
         )
     )
 

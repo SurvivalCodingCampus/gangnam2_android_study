@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Items.HomeRecipeCard
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Items.NewRecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.searchbar.SearchBarContainer
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.selector.HomeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.selector.RecipeCategorySelector
@@ -33,9 +34,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 @Composable
 fun HomeScreen(
     state: HomeState,
-    onSelectCategory: (HomeCategory) -> Unit,
-    onSearchClick: () -> Unit,
-    onBookmarkClick: (Int) -> Unit,
+    onAction: (HomeAction) -> Unit = {},
+    onNavigateToSearch: () -> Unit,
+    onRecipeClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -86,7 +87,7 @@ fun HomeScreen(
                 value = "",
                 onValueChange = {},
                 onFilterClick = {},
-                onClick = onSearchClick
+                onClick = onNavigateToSearch
             )
         }
 
@@ -95,14 +96,18 @@ fun HomeScreen(
             RecipeCategorySelector(
                 modifier = Modifier.padding(vertical = 25.dp),
                 selected = state.selectedCategory,
-                onSelectCategory = onSelectCategory
+                onSelectCategory = {
+                    onAction(HomeAction.SelectCategory(it))
+                }
             )
 
         }
 
         item {
             LazyRow(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .padding(bottom = 15.dp)
+                    .fillMaxWidth()
             ) {
                 items(state.filteredRecipes) { recipe ->
                     val isBookmarked = recipe.id in state.bookmarkedIds
@@ -111,9 +116,37 @@ fun HomeScreen(
                         recipe = recipe,
                         isBookmarked = isBookmarked,
                         onBookmarkClick = {
-                            onBookmarkClick(recipe.id)
+                            onAction(HomeAction.ToggleBookmark(recipe.id))
+                        },
+                        onClick = {
+                            onRecipeClick(recipe.id)
                         },
                         modifier = Modifier.padding(end = 15.dp)
+                    )
+                }
+            }
+        }
+
+        item {
+            Text(
+                modifier = Modifier.padding(vertical = 5.dp),
+                text = stringResource(R.string.home_new_recipes_title),
+                style = AppTextStyles.normalTextBold
+            )
+        }
+
+        item { Spacer(Modifier.height(5.dp)) }
+
+
+        item {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(15.dp),
+            ) {
+                items(state.newRecipes) { recipe ->
+                    NewRecipeCard(
+                        newRecipe = recipe,
+                        modifier = Modifier,
+                        onClick = { onRecipeClick(recipe.recipeId) }
                     )
                 }
             }
@@ -133,8 +166,8 @@ fun RecipeCategorySelectorPreview() {
 
     HomeScreen(
         state = fakeState,
-        onSelectCategory = {},
-        onSearchClick = {},
-        onBookmarkClick = {},
+        onAction = {},
+        onNavigateToSearch = {},
+        onRecipeClick = {}
     )
 }

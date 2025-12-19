@@ -5,6 +5,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ChefRepositor
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetNewRecipesUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetRecipeDetailUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetSavedRecipesUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.ToggleBookmarkUseCase
@@ -53,6 +54,18 @@ object UseCaseModule {
     ): ToggleBookmarkUseCase {
         return ToggleBookmarkUseCase(
             bookmarkRepository
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetNewRecipesUseCase(
+        recipeRepository: RecipeRepository,
+        chefRepository: ChefRepository
+    ): GetNewRecipesUseCase {
+        return GetNewRecipesUseCase(
+            recipeRepository,
+            chefRepository
         )
     }
 }

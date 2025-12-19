@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 
@@ -16,6 +16,7 @@ fun HomeRoot(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToSearch: () -> Unit,
+    onNavigateToRecipeDetail: (Int) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -28,9 +29,9 @@ fun HomeRoot(
                 .padding(innerPadding)
                 .padding(horizontal = 30.dp),
             state = state,
-            onSelectCategory = viewModel::onSelectCategory,
-            onBookmarkClick = viewModel::onBookmarkClick,
-            onSearchClick = onNavigateToSearch
+            onAction = viewModel::onAction,
+            onNavigateToSearch = onNavigateToSearch,
+            onRecipeClick = onNavigateToRecipeDetail
         )
     }
 }

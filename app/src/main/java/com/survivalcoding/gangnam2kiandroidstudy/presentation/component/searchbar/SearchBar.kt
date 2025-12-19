@@ -79,7 +79,7 @@ fun SearchBar(
                         } else {
                             Modifier
                         }
-                    ),
+                    ).onFocusChanged { isFocused = it.isFocused },
                 singleLine = true,
                 textStyle = AppTextStyles.smallerTextRegular.copy(
                     color = AppColors.black
