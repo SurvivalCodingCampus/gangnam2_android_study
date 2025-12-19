@@ -51,10 +51,13 @@ class SearchRecipesViewModel(
         }
     }
 
-    fun onAction(action: SearchRecipesAction) {
+    fun onAction(
+        action: SearchRecipesAction,
+        navigateBack: () -> Unit,
+    ) {
         when (action) {
             SearchRecipesAction.OnBackClick -> {
-
+                navigateBack()
             }
 
             is SearchRecipesAction.OnSearchQueryChange -> {
