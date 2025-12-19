@@ -1,6 +1,5 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipes
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,9 +51,8 @@ fun SearchRecipesScreen(
         Row {
             Box(modifier = Modifier.weight(1f)) {
                 CustomSearchField(onValueChange = {
-
                     onAction(
-                        SearchRecipesAction.FilterRecipes(
+                        SearchRecipesAction.ChangeSearch(
                             it,
                             state.selectedTime,
                             state.selectedRate,
@@ -101,14 +99,9 @@ fun SearchRecipesScreen(
             time = state.selectedTime,
             rate = state.selectedRate,
             category = state.selectedCategory,
-            onDismiss = { inputText, time, rate, category, enableBottomSheet ->
-                Log.d(
-                    "SearchRecipesScreen",
-                    "inputText: $inputText, time: $time, rate: $rate, category: $category"
-                )
-
+            onDismiss = { inputText, time, rate, category ->
                 onAction(
-                    SearchRecipesAction.FilterRecipes(
+                    SearchRecipesAction.CancelFilterRecipes(
                         inputText ?: "",
                         time ?: "",
                         rate ?: "",
@@ -116,12 +109,24 @@ fun SearchRecipesScreen(
                         enableBottomSheet = false
                     )
                 )
-            })
+            },
+            onApply = { inputText, time, rate, category ->
+                onAction(
+                    SearchRecipesAction.ApplyFilterRecipes(
+                        inputText ?: "",
+                        time ?: "",
+                        rate ?: "",
+                        category ?: "",
+                        enableBottomSheet = false
+                    )
+                )
+            }
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun SearchRecipesScreenPreview() {
-    SearchRecipesScreen(state = SearchRecipesState(), {})
+    // SearchRecipesScreen(state = SearchRecipesState(), {}, {})
 }
