@@ -31,5 +31,9 @@ sealed interface Route : NavKey {
     @Serializable
     data class Ingrident(val recipeId: Int) : Route
 
+    @Serializable
+    data object SearchRecipe : Route
+
+
 
 }

@@ -3,7 +3,9 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
@@ -19,6 +21,9 @@ class SearchRecipesViewModel(
     private val _state = MutableStateFlow(SearchRecipeState())
     val state = _state.asStateFlow()
 
+    private val _event = MutableSharedFlow<SearchRecipesEvent>()
+    val event = _event.asSharedFlow()
+
     init {
         getAllRecipes()
 
@@ -28,6 +33,51 @@ class SearchRecipesViewModel(
                 filterRecipes()
             }
             .launchIn(viewModelScope)
+    }
+
+
+    fun onAction(action: SearchRecipesAction) {
+        when (action) {
+            is SearchRecipesAction.OnSearchRecipes -> {
+                updateSearchQuery(action.query)
+            }
+
+            SearchRecipesAction.OnTapFilterButton -> {
+                tapFilterButton()
+            }
+            is SearchRecipesAction.OnUpdateFilterSearchState -> {
+                applyFilters(action.filterState)
+                viewModelScope.launch {
+                    _event.emit(
+                        SearchRecipesEvent.ShowSnackBar(
+                            "필터가 적용되었습니다."
+                        )
+                    )
+                }
+            }
+            is SearchRecipesAction.SelectRecipes -> {
+                viewModelScope.launch {
+                    _event.emit(SearchRecipesEvent.OnSelectRecipes(action.id))
+                }
+            }
+            is SearchRecipesAction.OnCancelFilter -> {
+                viewModelScope.launch {
+                    _event.emit(
+                        SearchRecipesEvent.ShowSnackBar(
+                            "필터가 취소되었습니다."
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun tapFilterButton() {
+        _state.update {
+            it.copy(
+                showBottomSheet = !it.showBottomSheet,
+            )
+        }
     }
 
     fun getAllRecipes() {
@@ -44,24 +94,19 @@ class SearchRecipesViewModel(
         }
     }
 
-    fun updateSearchQuery(query: String) {
+    private fun updateSearchQuery(query: String) {
         _state.update { currentState ->
             currentState.copy(searchQuery = query)
         }
     }
 
-    fun applyFilters(newFilterState: FilterSearchState) {
+    private fun applyFilters(newFilterState: FilterSearchState) {
         _state.update {
             it.copy(filterState = newFilterState)
         }
         filterRecipes()
     }
 
-    fun showBottomSheet(isFilterOpen: Boolean) {
-        _state.update {
-            it.copy(showBottomSheet = isFilterOpen)
-        }
-    }
 
     private fun filterRecipes() {
         val query = _state.value.searchQuery
@@ -134,4 +179,5 @@ class SearchRecipesViewModel(
             )
         }
     }
+
 }

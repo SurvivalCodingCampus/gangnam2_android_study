@@ -6,6 +6,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.util.date
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -30,7 +31,7 @@ class SearchRecipesViewModelTest {
             address = "Seoul"
         ),
         Recipe(
-            title = "Spice roasted chicken with flavored rice",
+            title = "Spicy roasted chicken with flavored rice",
             chef = "Mark Kelvin",
             time = "20 min",
             category = "Chinese",
@@ -100,36 +101,55 @@ class SearchRecipesViewModelTest {
     }
 
     @Test
-    fun `viewModel 카테고리 필터링 테스트()`() = runTest {
-        val filter = FilterSearchState(selectedCategoryText = "Chinese")
-        viewModel.applyFilters(filter)
+    fun `검색어 입력 시 레시피가 필터링된다`() = runTest {
+        // Given
+        testDispatcher.scheduler.advanceUntilIdle()
 
-        val filteredRecipes = viewModel.state.value.filteredRecipes
-        assertEquals(2, filteredRecipes.size)
-        assertEquals("Traditional spare ribs baked", filteredRecipes[0].title)
-        assertEquals("Spice roasted chicken with flavored rice", filteredRecipes[1].title)
+        // When
+        viewModel.onAction(
+            SearchRecipesAction.OnSearchRecipes("Spicy")
+        )
+
+        advanceTimeBy(300)
+        advanceUntilIdle()
+
+        val state = viewModel.state.value
+        assertEquals(2, state.filteredRecipes.size)
+        assertEquals("Spicy roasted chicken with flavored rice", state.filteredRecipes[0].title)
+        assertEquals("Spicy fried rice mix chicken bali", state.filteredRecipes[1].title)
     }
 
     @Test
-    fun `viewModel 시간 필터링 테스트()`() = runTest {
-        val filter = FilterSearchState(selectedTimeText = "Oldest")
-        viewModel.applyFilters(filter)
+    fun `필터 버튼 클릭 시 bottomSheet 상태가 바뀐다`() = runTest {
+        // Given
+        val expected = viewModel.state.value.showBottomSheet
 
-        val filteredRecipes = viewModel.state.value.filteredRecipes
-        assertEquals(2, filteredRecipes.size)
-        assertEquals("Spice roasted chicken with flavored rice", filteredRecipes[0].title)
+        // When
+        viewModel.onAction(SearchRecipesAction.OnTapFilterButton)
+
+        // Then
+        assertEquals(!expected, viewModel.state.value.showBottomSheet)
     }
 
     @Test
-    fun `viewModel 검색어와 평점 필터가 동시에 적용 필터링 테스트()`() = runTest {
-        val filter = FilterSearchState(selectedRateText = "4")
-        viewModel.updateSearchQuery("Spicy")
-        advanceTimeBy(301)
-        viewModel.applyFilters(filter)
+    fun `카테고리 필터 적용 시 해당 카테고리만 필터링된다`() = runTest {
+        // Given
+        testDispatcher.scheduler.advanceUntilIdle()
 
-        val filteredRecipes = viewModel.state.value.filteredRecipes
-        assertEquals(1, filteredRecipes.size)
-        assertEquals("Spicy fried rice mix chicken bali", filteredRecipes[0].title)
+        val filterState = FilterSearchState(
+            selectedCategoryText = "Chinese"
+        )
+
+        // When
+        viewModel.onAction(
+            SearchRecipesAction.OnUpdateFilterSearchState(filterState)
+        )
+        advanceUntilIdle()
+
+        // Then
+        val result = viewModel.state.value.filteredRecipes
+        assertEquals(2, result.size)
+        assertEquals(true, result.all { it.category == "Chinese" })
     }
 
 

@@ -7,4 +7,5 @@ data class HomeState(
     val recipes: List<Recipe> = emptyList(),
     val filteredRecipes: List<Recipe> = emptyList(),
     val selectedCategory: String = "",
+    val bookmarkIds: List<Int> = emptyList(),
 )

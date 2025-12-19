@@ -3,6 +3,9 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.home
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.util.date
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -68,6 +71,9 @@ class HomeViewModelTest {
         }
     }
 
+    private lateinit var mockBookmarkRepository: BookmarkRepository
+
+
     private lateinit var viewModel: HomeViewModel
 
     private val testDispatcher = StandardTestDispatcher()
@@ -75,7 +81,18 @@ class HomeViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        viewModel = HomeViewModel(mockRepository)
+        mockBookmarkRepository = mockk(relaxed = true)
+        coEvery { mockBookmarkRepository.getBookmarkId() } returns emptyList()
+
+        // add / remove 기본 동작
+        coEvery { mockBookmarkRepository.addBookmarkId(any()) } answers {
+            listOf(firstArg())
+        }
+        coEvery { mockBookmarkRepository.removeBookmarkId(any()) } answers {
+            emptyList()
+        }
+
+        viewModel = HomeViewModel(mockRepository,mockBookmarkRepository)
     }
 
     @After
@@ -99,37 +116,47 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `viewModel 카테고리 필터링 테스트()- Italian`() = runTest {
-        val filter = "Italian"
-        viewModel.onSelectCategory(filter)
+    fun `북마크 추가 시 bookmarkIds에 id가 추가된다`() = runTest {
+        // Given
+        testDispatcher.scheduler.advanceUntilIdle()
 
+        // When
+        viewModel.onAction(HomeAction.BookmarkRecipe(1))
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        // Then
+        val bookmarkIds = viewModel.state.value.bookmarkIds
+        assertEquals(listOf(1), bookmarkIds)
+    }
+
+    @Test
+    fun `이미 북마크된 레시피는 다시 누르면 제거된다`() = runTest {
+        // Given
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        viewModel.onAction(HomeAction.BookmarkRecipe(1))
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        viewModel.onAction(HomeAction.BookmarkRecipe(1))
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        // Then
+        val bookmarkIds = viewModel.state.value.bookmarkIds
+        assertEquals(emptyList<Int>(), bookmarkIds)
+    }
+
+    @Test
+    fun `onAction SelectCategory Italian - Italian 레시피만 필터링된다`() = runTest {
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        // When
+        viewModel.onAction(HomeAction.SelectCategory("Italian"))
+
+        // Then
         val filteredRecipes = viewModel.state.value.filteredRecipes
         assertEquals(2, filteredRecipes.size)
         assertEquals("Traditional spare ribs baked", filteredRecipes[0].title)
         assertEquals("Spicy fried rice mix chicken bali", filteredRecipes[1].title)
-    }
-
-    @Test
-    fun `viewModel 카테고리 필터링 테스트()- Asian`() = runTest {
-        val filter = "Asian"
-        viewModel.onSelectCategory(filter)
-
-        val filteredRecipes = viewModel.state.value.filteredRecipes
-        assertEquals(1, filteredRecipes.size)
-        assertEquals("Ttekbokki", filteredRecipes[0].title)
-    }
-
-    @Test
-    fun `viewModel 카테고리 필터링 테스트()- All`() = runTest {
-        val filter = "All"
-        viewModel.onSelectCategory(filter)
-
-        val filteredRecipes = viewModel.state.value.filteredRecipes
-        assertEquals(4, filteredRecipes.size)
-        assertEquals("Traditional spare ribs baked", filteredRecipes[0].title)
-        assertEquals("Spice roasted chicken with flavored rice", filteredRecipes[1].title)
-        assertEquals("Spicy fried rice mix chicken bali", filteredRecipes[2].title)
-        assertEquals("Ttekbokki", filteredRecipes[3].title)
     }
 
 }

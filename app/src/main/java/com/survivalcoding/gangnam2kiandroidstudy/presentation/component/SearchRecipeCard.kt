@@ -3,6 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 import android.graphics.Color.YELLOW
 import android.graphics.drawable.ColorDrawable
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,12 +43,16 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun SearchRecipeCard(
     modifier: Modifier = Modifier,
     recipe: Recipe,
+    onClick: (Int) -> Unit = {}
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .aspectRatio(1f)
             .clip(RoundedCornerShape(10.dp))
+            .clickable {
+                onClick(recipe.id)
+            }
     ) {
         AsyncImage(
             modifier = Modifier

@@ -8,14 +8,13 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeScreenRoot
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.ingredient.IngredientScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ingredient.IngredientScreenRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.main.MainScreen
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipe.SavedRecipesScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipe.SavedRecipesScreenRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.search.SearchRecipeScreenRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_up.SignUpScreen
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.splash.SplashScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.splash.SplashScreenRoot
 
 @Composable
 fun NavigationRoot(
@@ -32,8 +31,8 @@ fun NavigationRoot(
         backStack = topLevelBackStack,
         entryProvider = entryProvider {
             entry<Route.Splash> {
-                SplashScreen(
-                    onClick = {
+                SplashScreenRoot(
+                    onNavigateToSignIn = {
                         topLevelBackStack.clear()
                         topLevelBackStack.add(Route.SignIn)
                     }
@@ -76,7 +75,14 @@ fun NavigationRoot(
                             ),
                             entryProvider = entryProvider {
                                 entry<Route.Home> {
-                                    HomeScreenRoot()
+                                    HomeScreenRoot(
+                                        onSearchClick = {
+                                            topLevelBackStack.add(Route.SearchRecipe)
+                                        },
+                                        onRecipeClick = {
+                                            topLevelBackStack.add(Route.Ingrident(recipeId = it))
+                                        }
+                                    )
                                 }
                                 entry<Route.SavedRecipes> {
                                     SavedRecipesScreenRoot(
@@ -98,6 +104,14 @@ fun NavigationRoot(
             }
             entry<Route.Ingrident> { route ->
                 IngredientScreenRoot(recipeId = route.recipeId)
+            }
+
+            entry<Route.SearchRecipe> {
+                SearchRecipeScreenRoot(
+                    onRecipeClick = { recipeId ->
+                        topLevelBackStack.add(Route.Ingrident(recipeId = recipeId))
+                    }
+                )
             }
 
         }

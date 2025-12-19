@@ -23,5 +23,14 @@ class BookmarkRepositoryImpl(
         }
     }
 
+    override suspend fun addBookmarkId(id: Int): List<Int> {
+        if (id != 0) {
+            bookmarkList.add(id)
+            return bookmarkList
+        } else {
+            return getBookmarkId().filter { it in bookmarkList }
+        }
+    }
+
 
 }

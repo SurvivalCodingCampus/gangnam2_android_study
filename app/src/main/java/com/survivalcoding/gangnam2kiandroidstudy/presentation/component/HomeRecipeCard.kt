@@ -3,6 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 import android.graphics.Color.BLUE
 import android.graphics.drawable.ColorDrawable
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,12 +43,18 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun HomeRecipeCard(
     modifier: Modifier = Modifier,
     recipe: Recipe,
+    isBookmark: Boolean,
+    onBookmarkClick: (Int) -> Unit = {},
+    onClick: (Int) -> Unit = {},
 ) {
     Box(
         modifier = modifier
             .height(231.dp)
             .aspectRatio(150 / 231f)
             .background(AppColors.white)
+            .clickable {
+                onClick(recipe.id)
+            }
     ) {
         Box(
             modifier = modifier
@@ -144,13 +151,18 @@ fun HomeRecipeCard(
                         .size(24.dp)
                         .clip(CircleShape)
                         .background(AppColors.primary20)
-                        .align(Alignment.Bottom),
+                        .align(Alignment.Bottom)
+                        .clickable {
+                            onBookmarkClick(recipe.id)
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.outline_bookmark_inactive),
                         contentDescription = "bookmark Recipe",
-                        tint = AppColors.primary80,
+                        tint = if (isBookmark)
+                            AppColors.primary80
+                        else AppColors.gray3,
                         modifier = Modifier
                             .size(16.dp)
                     )
@@ -175,5 +187,6 @@ private fun HomeRecipeCardPreview() {
             id = 0,
             address = "Seoul"
         ),
+        isBookmark = false,
     )
 }

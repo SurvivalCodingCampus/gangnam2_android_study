@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,13 +21,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.ColorPainter
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterBox
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.HomeRecipeCard
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.NewRecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCategorySelector
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchInputField
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -35,8 +36,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun HomeScreen(
     state: HomeState = HomeState(),
-    onSelectCategory: (String) -> Unit = {},
-    profilePainter: Painter,
+    onAction: (HomeAction) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -65,10 +65,11 @@ fun HomeScreen(
             Box(
                 modifier = Modifier
                     .size(40.dp)
-                    .background(color = AppColors.secondary40, shape = RoundedCornerShape(10.dp))
+                    .background(color = AppColors.secondary40, shape = RoundedCornerShape(10.dp)),
+                contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = profilePainter,
+                    painter = painterResource(R.drawable.profile),
                     contentDescription = null,
                     modifier = Modifier.fillMaxSize()
                 )
@@ -84,7 +85,9 @@ fun HomeScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             SearchInputField(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f).clickable {
+                    onAction(HomeAction.SearchRecipe)
+                },
                 value = "",
                 placeholder = "Search Recipe",
             ) {
@@ -105,7 +108,7 @@ fun HomeScreen(
             ),
             selectedCategory = state.selectedCategory,
             onSelectCategory = { category ->
-                onSelectCategory(category)
+                onAction(HomeAction.SelectCategory(category))
             },
         )
 
@@ -118,7 +121,35 @@ fun HomeScreen(
             horizontalArrangement = Arrangement.spacedBy(15.dp)
         ) {
             items(state.filteredRecipes) { recipe ->
-                HomeRecipeCard(recipe = recipe)
+                HomeRecipeCard(
+                    recipe = recipe,
+                    onBookmarkClick = {
+                        onAction(HomeAction.BookmarkRecipe(it))
+                    },
+                    isBookmark = recipe.id in state.bookmarkIds,
+                    onClick = {
+                        onAction(HomeAction.SelectRecipe(it))
+                    }
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+        Text(
+            text = "New Recipes",
+            style = AppTextStyles.smallTextBold,
+            modifier = Modifier.padding(horizontal = 30.dp)
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 30.dp),
+        ) {
+            items(state.recipes) { recipe ->
+                NewRecipeCard(recipe = recipe) {
+                    onAction(HomeAction.SelectRecipe(it))
+                }
             }
         }
 
@@ -128,5 +159,7 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenPrev() {
-    HomeScreen(profilePainter = ColorPainter(Color.Gray))
+    HomeScreen(
+        onAction = {}
+    )
 }
