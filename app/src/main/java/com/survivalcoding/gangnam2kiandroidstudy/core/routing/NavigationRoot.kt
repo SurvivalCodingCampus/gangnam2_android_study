@@ -11,6 +11,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ingredient.IngredientRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.saved_recipes.SavedRecipesRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.search_recipes.SearchRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_up.SignUpScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.title.TitleScreen
@@ -67,7 +68,12 @@ fun NavigationRoot(
                             backStack = tabBackStack,
                             entryProvider = entryProvider {
                                 entry<Route.Home> {
-                                    HomeRoot()
+                                    HomeRoot(
+                                        onSearchClick = { topLevelBackStack.add(Route.Search) },
+                                        onRecipeClick = { recipeId ->
+                                            topLevelBackStack.add(Route.RecipeDetail(recipeId))
+                                        }
+                                    )
                                 }
                                 entry<Route.SavedRecipes> {
                                     SavedRecipesRoot(
@@ -81,10 +87,14 @@ fun NavigationRoot(
                     }
                 )
             }
+            entry<Route.Search> {
+                SearchRecipesRoot(onBack = { topLevelBackStack.removeLast() })
+            }
+
             entry<Route.RecipeDetail> { navKey ->
                 IngredientRoot(
                     recipeId = navKey.recipeId,
-                    onBack = { topLevelBackStack.removeLast() }
+                    onBack = { topLevelBackStack.removeAt(topLevelBackStack.lastIndex) }
                 )
             }
         }

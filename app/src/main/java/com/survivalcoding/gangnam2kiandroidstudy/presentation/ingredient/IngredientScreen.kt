@@ -155,6 +155,8 @@ fun IngredientScreen(
                 onClick = { onTabSelected("Ingredient") },
                 isSelected = selectedTab == "Ingredient"
             )
+
+
             SmallButton(
                 modifier = Modifier.weight(1f),
                 text = "Procedure",

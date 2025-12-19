@@ -25,12 +25,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchState
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchInputField
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
@@ -39,11 +39,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun SearchRecipesScreen(
     state: SearchRecipesState,
-    onSearchQueryChanged: (String) -> Unit,
-    onFilterChanged: (FilterSearchState) -> Unit,
-    onShowFilter: () -> Unit,
-    showBottomSheet: Boolean,
-    onDismissBottomSheet: () -> Unit,
+    onAction: (SearchRecipesAction) -> Unit,
+    onBack: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -58,7 +55,7 @@ fun SearchRecipesScreen(
         ) {
             IconButton(
                 modifier = Modifier.align(Alignment.CenterStart),
-                onClick = { /* 껍데기 */ }
+                onClick = onBack
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_left),
@@ -67,7 +64,7 @@ fun SearchRecipesScreen(
             }
             Text(
                 modifier = Modifier.align(Alignment.Center),
-                text = "Search recipes",
+                text = stringResource(id = R.string.search_recipes_title),
                 style = AppTextStyles.mediumTextBold
             )
         }
@@ -83,13 +80,14 @@ fun SearchRecipesScreen(
                     .weight(1f)
                     .fillMaxHeight(),
                 text = state.searchQuery,
-                onTextChanged = onSearchQueryChanged,
+                onTextChanged = { query -> onAction(SearchRecipesAction.SearchQueryChanged(query)) },
             )
             Spacer(modifier = Modifier.width(20.dp))
             FilterButton(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .aspectRatio(1f), onClick = onShowFilter
+                    .aspectRatio(1f),
+                onClick = { onAction(SearchRecipesAction.ShowFilterSheet) }
             )
         }
 
@@ -134,10 +132,10 @@ fun SearchRecipesScreen(
         }
     }
 
-    if (showBottomSheet) {
+    if (state.isFilterSheetVisible) {
         FilterSearchBottomSheet(
-            onDismissRequest = onDismissBottomSheet,
-            onFilter = onFilterChanged,
+            onDismissRequest = { onAction(SearchRecipesAction.DismissFilterSheet) },
+            onFilter = { filters -> onAction(SearchRecipesAction.FilterChanged(filters)) },
             initialState = state.appliedFilters
         )
     }

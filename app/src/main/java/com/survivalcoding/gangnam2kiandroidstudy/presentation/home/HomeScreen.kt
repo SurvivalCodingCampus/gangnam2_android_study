@@ -19,7 +19,9 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard2
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard3
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCategorySelector
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchInputField
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -38,13 +41,15 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun HomeScreen(
     state: HomeState,
-    onSelectCategory: (String) -> Unit,
-    onQueryChanged: (String) -> Unit,
+    onAction: (HomeAction) -> Unit,
+    onSearchClick: () -> Unit,
+    onRecipeClick: (Int) -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding(),
+            .statusBarsPadding()
+            .verticalScroll(rememberScrollState())
     ) {
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -93,8 +98,10 @@ fun HomeScreen(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(),
-                text = state.searchQuery,
-                onTextChanged = onQueryChanged,
+                text = "",
+                onTextChanged = {},
+                enabled = false,
+                onClick = onSearchClick
             )
             Spacer(modifier = Modifier.width(20.dp))
             FilterButton(
@@ -107,22 +114,56 @@ fun HomeScreen(
         RecipeCategorySelector(
             modifier = Modifier.padding(horizontal = 30.dp),
             selectedCategory = state.selectedCategory,
-            onCategorySelected = onSelectCategory,
+            onCategorySelected = { category -> onAction(HomeAction.CategorySelected(category)) },
         )
         Spacer(modifier = Modifier.height(25.dp))
         LazyRow(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(231.dp),
             contentPadding = PaddingValues(horizontal = 30.dp),
             horizontalArrangement = Arrangement.spacedBy(15.dp)
         ) {
-            items(state.recipes) { recipe ->
+            items(state.filteredHomeRecipes) { homeRecipe ->
                 RecipeCard2(
-                    recipeName = recipe.name,
-                    time = recipe.time,
-                    rating = recipe.rating,
-                    imageUrl = recipe.image
+                    recipeName = homeRecipe.recipe.name,
+                    time = homeRecipe.recipe.time,
+                    rating = homeRecipe.recipe.rating,
+                    imageUrl = homeRecipe.recipe.image,
+                    onCardClick = { onRecipeClick(homeRecipe.recipe.id) },
+                    onBookmarkClick = { onAction(HomeAction.RecipeBookmarked(homeRecipe.recipe)) }
                 )
             }
         }
+        Spacer(modifier = Modifier.height(20.dp))
+        Text(
+            modifier = Modifier
+                .padding(horizontal = 30.dp),
+            text = "New Recipes",
+            style = AppTextStyles.normalTextBold.copy(
+                color = AppColors.black
+            )
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(260.dp),
+            contentPadding = PaddingValues(horizontal = 30.dp),
+            horizontalArrangement = Arrangement.spacedBy(15.dp)
+        ) {
+            items(state.homeRecipes) { homeRecipe ->
+                RecipeCard3(
+                    recipeName = homeRecipe.recipe.name,
+                    rating = homeRecipe.recipe.rating,
+                    chefImageUrl = homeRecipe.chefImageUrl,
+                    chefName = homeRecipe.recipe.chef,
+                    time = homeRecipe.recipe.time,
+                    recipeImageUrl = homeRecipe.recipe.image,
+                    onClick = { onRecipeClick(homeRecipe.recipe.id) }
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }

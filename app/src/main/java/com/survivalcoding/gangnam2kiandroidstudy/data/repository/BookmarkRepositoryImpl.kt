@@ -1,6 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
-import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSource
+import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.recipe.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
 import javax.inject.Inject
