@@ -9,7 +9,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import com.survivalcoding.gangnam2kiandroidstudy.di.DependencyContainer
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.DependencyContainer
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetail.RecipeDetailRoot

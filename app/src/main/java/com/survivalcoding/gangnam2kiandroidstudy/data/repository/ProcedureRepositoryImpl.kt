@@ -1,6 +1,5 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
-import com.survivalcoding.gangnam2kiandroidstudy.core.util.suspendRunCatching
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.ProcedureDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
@@ -8,11 +7,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepo
 class ProcedureRepositoryImpl private constructor(
     private val procedureDataSource: ProcedureDataSource
 ) : ProcedureRepository {
-    override suspend fun getProcedureByRecipeId(recipeId: Int): Result<List<Procedure>> {
-        return suspendRunCatching {
-            procedureDataSource.getAllProcedure()
-                .filter { it.recipeId == recipeId }
-        }
+    override suspend fun getProcedureByRecipeId(recipeId: Int): List<Procedure> {
+        return procedureDataSource.getAllProcedure()
+            .filter { it.recipeId == recipeId }
     }
 
     companion object {

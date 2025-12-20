@@ -5,7 +5,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.di.DependencyContainer
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.DependencyContainer
 
 @Composable
 fun HomeRoot(

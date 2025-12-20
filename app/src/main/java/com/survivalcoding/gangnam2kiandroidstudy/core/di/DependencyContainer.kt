@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.di
+package com.survivalcoding.gangnam2kiandroidstudy.core.di
 
 import android.content.Context
 import androidx.lifecycle.createSavedStateHandle
@@ -26,6 +26,12 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepo
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ProcedureRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetAllRecipesUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetFilteredRecipesUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.SearchRecipeByKeywordUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeDetailsUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetSavedRecipesUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.RemoveBookmarkUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetail.RecipeDetailViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes.SavedRecipesViewModel
@@ -84,11 +90,39 @@ object DependencyContainer {
     fun provideAssetManager(context: Context) =
         AppAssetManagerImpl(context.assets)
 
+    fun provideGetSavedRecipesUseCase(context: Context) = GetSavedRecipesUseCase(
+        provideRecipeRepository(context.applicationContext),
+        provideBookmarkRepository()
+    )
+
+    fun provideRemoveBookmarkUseCase() = RemoveBookmarkUseCase(
+        provideBookmarkRepository()
+    )
+
+    fun provideGetRecipeDetailsUseCase(context: Context) = GetRecipeDetailsUseCase(
+        provideRecipeRepository(context.applicationContext),
+        provideChefRepository(context.applicationContext),
+        provideIngredientRepository(context.applicationContext),
+        provideProcedureRepository(context.applicationContext)
+    )
+
+    fun provideGetAllRecipes(context: Context) = GetAllRecipesUseCase(
+        provideRecipeRepository(context.applicationContext)
+    )
+
+    fun provideGetFilteredRecipeByCategoryUseCase(context: Context) = GetFilteredRecipesUseCase(
+        provideRecipeRepository(context.applicationContext)
+    )
+
+    fun provideSearchRecipeByKeywordUseCase(context: Context) = SearchRecipeByKeywordUseCase(
+        provideRecipeRepository(context.applicationContext)
+    )
+
     fun provideSavedRecipesViewModelFactory(context: Context) = viewModelFactory {
         initializer {
             SavedRecipesViewModel(
-                recipeRepository = provideRecipeRepository(context.applicationContext),
-                bookmarkRepository = provideBookmarkRepository()
+                getSavedRecipesUseCase = provideGetSavedRecipesUseCase(context),
+                removeBookmarkUseCase = provideRemoveBookmarkUseCase()
             )
         }
     }
@@ -96,7 +130,8 @@ object DependencyContainer {
     fun provideSearchViewModelFactory(context: Context) = viewModelFactory {
         initializer {
             SearchViewModel(
-                recipeRepository = provideRecipeRepository(context.applicationContext)
+                getAllRecipesUseCase = provideGetAllRecipes(context),
+                searchRecipeByKeywordUseCase = provideSearchRecipeByKeywordUseCase(context)
             )
         }
     }
@@ -104,7 +139,7 @@ object DependencyContainer {
     fun provideHomeViewModelFactory(context: Context) = viewModelFactory {
         initializer {
             HomeViewModel(
-                recipeRepository = provideRecipeRepository(context.applicationContext)
+                getFilteredRecipesUseCase = provideGetFilteredRecipeByCategoryUseCase(context)
             )
         }
     }
@@ -114,10 +149,7 @@ object DependencyContainer {
             val savedStateHandle = createSavedStateHandle()
             savedStateHandle["recipeId"] = route.recipeId
             RecipeDetailViewModel(
-                recipeRepository = provideRecipeRepository(context.applicationContext),
-                chefRepository = provideChefRepository(context.applicationContext),
-                ingredientRepository = provideIngredientRepository(context.applicationContext),
-                procedureRepository = provideProcedureRepository(context.applicationContext),
+                getRecipeDetailsUseCase = provideGetRecipeDetailsUseCase(context),
                 savedStateHandle
             )
         }

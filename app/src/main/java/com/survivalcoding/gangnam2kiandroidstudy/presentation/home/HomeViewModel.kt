@@ -2,16 +2,12 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetFilteredRecipesUseCase
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val recipeRepository: RecipeRepository
+    private val getFilteredRecipesUseCase: GetFilteredRecipesUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState(isLoading = true))
     val uiState = _uiState.asStateFlow()
@@ -27,7 +23,7 @@ class HomeViewModel(
 
     private suspend fun fetchFilteredRecipesByCategory(category: String) {
         _uiState.update { state -> state.copy(isLoading = true) }
-        recipeRepository.getFilteredRecipesByCategory(category)
+        getFilteredRecipesUseCase(category)
             .onSuccess { recipes ->
                 _uiState.update { state ->
                     state.copy(

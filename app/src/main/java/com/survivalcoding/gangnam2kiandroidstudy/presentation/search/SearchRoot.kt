@@ -10,7 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.di.DependencyContainer
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.DependencyContainer
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterBottomSheet
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 
