@@ -4,7 +4,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.IngredientDataS
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeIngredient
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
 
-class IngredientRepositoryImpl private constructor(
+class IngredientRepositoryImpl(
     private val ingredientDataSource: IngredientDataSource
 ) : IngredientRepository {
     override suspend fun getIngredientByRecipeId(recipeId: Int): List<RecipeIngredient> {
@@ -20,14 +20,5 @@ class IngredientRepositoryImpl private constructor(
                 )
             }
         }
-    }
-
-    companion object {
-        @Volatile private var instance: IngredientRepository? = null
-
-        fun getInstance(ingredientDataSource: IngredientDataSource) =
-            instance ?: synchronized(this) {
-                instance ?: IngredientRepositoryImpl(ingredientDataSource).also { instance = it }
-            }
     }
 }

@@ -1,17 +1,14 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.home
 
-import androidx.compose.runtime.*
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.core.di.DependencyContainer
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeRoot(
-    viewModel: HomeViewModel = viewModel(
-        factory = DependencyContainer.provideHomeViewModelFactory(LocalContext.current)
-    ),
+    viewModel: HomeViewModel = koinViewModel(),
     onSearchKeywordFocusChanged: (Boolean) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()

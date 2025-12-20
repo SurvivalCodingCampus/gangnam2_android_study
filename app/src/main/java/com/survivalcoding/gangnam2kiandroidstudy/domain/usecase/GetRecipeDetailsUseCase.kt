@@ -9,6 +9,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ChefRepositor
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 
 class GetRecipeDetailsUseCase(
     private val recipeRepository: RecipeRepository,
@@ -18,11 +20,27 @@ class GetRecipeDetailsUseCase(
 ) {
     suspend operator fun invoke(recipeId: Int): Result<Triple<Pair<Recipe, Chef>, List<RecipeIngredient>, List<Procedure>>> {
         return suspendRunCatching {
-            val recipe = recipeRepository.getRecipeById(recipeId)
-            val ingredient = ingredientRepository.getIngredientByRecipeId(recipeId)
-            val procedure = procedureRepository.getProcedureByRecipeId(recipeId)
-            val chef = chefRepository.getChefByName(recipe?.name ?: throw Exception("recipe가 없습니다."))
-            Triple(recipe to chef, ingredient, procedure)
+            coroutineScope {
+                val recipeDeferred = async {
+                    recipeRepository.getRecipeById(recipeId)
+                        ?: throw IllegalStateException("recipe가 없습니다.")
+                }
+                val ingredientDeferred = async {
+                    ingredientRepository.getIngredientByRecipeId(recipeId)
+                }
+                val procedureDeferred = async {
+                    procedureRepository.getProcedureByRecipeId(recipeId)
+                }
+                val recipe = recipeDeferred.await()
+                val chefDeferred = async {
+                    chefRepository.getChefByName(recipe.chef)
+                }
+                Triple(
+                    recipe to chefDeferred.await(),
+                    ingredientDeferred.await(),
+                    procedureDeferred.await()
+                )
+            }
         }
     }
 }

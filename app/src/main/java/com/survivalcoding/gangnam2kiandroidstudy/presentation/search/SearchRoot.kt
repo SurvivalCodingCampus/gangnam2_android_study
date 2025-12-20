@@ -6,20 +6,16 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.core.di.DependencyContainer
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterBottomSheet
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchRoot(
-    viewModel: SearchViewModel = viewModel(
-        factory = DependencyContainer.provideSearchViewModelFactory(LocalContext.current)
-    ),
+    viewModel: SearchViewModel = koinViewModel(),
     onBackClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
