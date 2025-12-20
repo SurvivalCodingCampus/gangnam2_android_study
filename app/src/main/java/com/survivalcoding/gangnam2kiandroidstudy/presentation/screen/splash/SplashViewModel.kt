@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SplashViewModel(
-    private val networkNetworkMonitor: NetworkMonitor,
+    private val networkMonitor: NetworkMonitor,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SplashState())
     val uiState = _uiState.asStateFlow()
@@ -29,7 +29,7 @@ class SplashViewModel(
     val uiEvent = _uiEvent.asSharedFlow()
 
     init {
-        observerNetwork()
+        observeNetwork()
     }
 
     fun onAction(action: SplashAction) {
@@ -42,8 +42,8 @@ class SplashViewModel(
         }
     }
 
-    private fun observerNetwork() {
-        val networkFlow = networkNetworkMonitor.isConnected.shareIn(
+    private fun observeNetwork() {
+        val networkFlow = networkMonitor.isConnected.shareIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             replay = 1

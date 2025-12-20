@@ -14,7 +14,7 @@ fun RecipeHomeRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(viewModel.uiEvent) {
+    LaunchedEffect(Unit) {
         viewModel.uiEvent.collect { event ->
             when (event) {
                 RecipeHomeEvent.NavigateToSearchRecipe -> onNavigateToSearchRecipe()

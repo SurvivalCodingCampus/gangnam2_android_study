@@ -27,7 +27,7 @@ fun SplashRoot(
     val snackbarHostState = remember { SnackbarHostState() }
     var snackbarJob by remember { mutableStateOf<Job?>(null) }
 
-    LaunchedEffect(viewModel.uiEvent) {
+    LaunchedEffect(Unit) {
         viewModel.uiEvent.collect { event ->
             when (event) {
                 SplashEvent.OnNavigateToSignIn -> onNavigateToSignIn()
