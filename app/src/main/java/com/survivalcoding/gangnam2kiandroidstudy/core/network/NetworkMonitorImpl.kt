@@ -17,7 +17,7 @@ import javax.inject.Singleton
 class NetworkMonitorImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : NetworkMonitor {
-    // ConnectivityManager를 사용하는 실제 로직
+
     override val isOnline: Flow<Boolean> = callbackFlow {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -32,7 +32,6 @@ class NetworkMonitorImpl @Inject constructor(
 
         connectivityManager.registerNetworkCallback(request, callback)
 
-        // 초기 상태 전송
         val currentState = connectivityManager.activeNetwork != null
         trySend(currentState)
 
