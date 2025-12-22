@@ -44,12 +44,7 @@ fun SearchRecipesRoot(viewModel: SearchRecipesViewModel = koinViewModel()) {
                     }
 
                     is SearchRecipesAction.CancelFilterRecipes -> {
-                        viewModel.dismissFilterRecipe(
-                            searchText = action.searchText,
-                            time = action.time,
-                            rate = action.rate,
-                            category = action.category
-                        )
+                        viewModel.dismissFilterRecipe()
                     }
 
                     is SearchRecipesAction.ChangeSearch -> {

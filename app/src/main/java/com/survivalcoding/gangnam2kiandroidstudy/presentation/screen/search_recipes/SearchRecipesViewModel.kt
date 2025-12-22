@@ -85,15 +85,10 @@ class SearchRecipesViewModel(
         }
     }
 
-    fun dismissFilterRecipe(
-        searchText: String = "",
-        time: String = "",
-        rate: String = "",
-        category: String = ""
-    ) {
+    fun dismissFilterRecipe() {
         viewModelScope.launch {
-            filterRecipes(searchText, time, rate, category)
             _event.emit(SearchRecipesEvent.ShowSnackBar("필터가 취소되었습니다."))
+            _state.value = _state.value.copy(enableBottomSheet = false)
         }
     }
 }
