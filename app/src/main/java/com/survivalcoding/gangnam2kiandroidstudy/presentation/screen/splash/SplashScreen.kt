@@ -23,13 +23,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.buttons.MediumButton
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipes.SearchRecipesAction
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 
 @Composable
 fun SplashScreen(
     modifier: Modifier = Modifier,
+    isNetworkAvailable: Boolean,
     onAction: (SplashAction) -> Unit = {},
 ) {
     Box(modifier = modifier.fillMaxSize()) {
@@ -98,6 +98,7 @@ fun SplashScreen(
 
             MediumButton(
                 text = stringResource(R.string.splash_button),
+                enabled = isNetworkAvailable,
                 onClick = {
                     onAction(SplashAction.ClickStratButton)
                 }
@@ -111,6 +112,7 @@ fun SplashScreen(
 @Composable
 private fun SplashScreenPreview() {
     SplashScreen(
-        onAction = { /* preview no-op */ }
+        onAction = { /* preview no-op */ },
+        isNetworkAvailable = false
     )
 }

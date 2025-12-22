@@ -9,9 +9,7 @@ plugins {
 
 android {
     namespace = "com.survivalcoding.gangnam2kiandroidstudy"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.survivalcoding.gangnam2kiandroidstudy"
@@ -41,6 +39,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     flavorDimensions += listOf("version")
     productFlavors {
