@@ -13,7 +13,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recip
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipes.SearchRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_in.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_up.SignUpScreen
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashRoot
 
 @Composable
 fun NavigationRoot() {
@@ -24,11 +24,12 @@ fun NavigationRoot() {
             rememberViewModelStoreNavEntryDecorator()
         ), entryProvider = entryProvider {
             entry<Route.Splash> {
-                SplashScreen(
+                SplashRoot(
                     onStartButtonClick = {
                         topLevelBackStack.clear()
                         topLevelBackStack.add(Route.SignIn)
-                    })
+                    },
+                )
             }
             entry<Route.SignUp> {
                 SignUpScreen(

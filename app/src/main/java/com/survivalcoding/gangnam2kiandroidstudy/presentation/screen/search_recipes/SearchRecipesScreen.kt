@@ -1,6 +1,5 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipes
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +33,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 @Composable
 fun SearchRecipesScreen(
     state: SearchRecipesState,
-    onViewmodelCalled: (searchText: String, time: String, rate: String, category: String, enableBottomSheet: Boolean) -> Unit
+    onAction: (SearchRecipesAction) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -52,25 +51,21 @@ fun SearchRecipesScreen(
         Row {
             Box(modifier = Modifier.weight(1f)) {
                 CustomSearchField(onValueChange = {
-                    onViewmodelCalled(
-                        it,
-                        state.selectedTime,
-                        state.selectedRate,
-                        state.selectedCategory,
-                        false
+                    onAction(
+                        SearchRecipesAction.ChangeSearch(
+                            it,
+                            state.selectedTime,
+                            state.selectedRate,
+                            state.selectedCategory,
+                            false
+                        )
                     )
                 })
             }
             Spacer(modifier = Modifier.width(20.dp))
-            SettingButton {
-                onViewmodelCalled(
-                    state.searchInputText,
-                    state.selectedTime,
-                    state.selectedRate,
-                    state.selectedCategory,
-                    true
-                )
-            }
+            SettingButton(onClick = {
+                onAction(SearchRecipesAction.ToggleBottomSheet)
+            })
         }
         Spacer(modifier = Modifier.height(20.dp))
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
@@ -104,21 +99,34 @@ fun SearchRecipesScreen(
             time = state.selectedTime,
             rate = state.selectedRate,
             category = state.selectedCategory,
-            onDismiss = { inputText, time, rate, category, enableBottomSheet ->
-                Log.d(
-                    "SearchRecipesScreen",
-                    "inputText: $inputText, time: $time, rate: $rate, category: $category"
+            onDismiss = { inputText, time, rate, category ->
+                onAction(
+                    SearchRecipesAction.CancelFilterRecipes(
+                        inputText ?: "",
+                        time ?: "",
+                        rate ?: "",
+                        category ?: "",
+                        enableBottomSheet = false
+                    )
                 )
-
-                onViewmodelCalled(
-                    inputText ?: "", time ?: "", rate ?: "", category ?: "", !enableBottomSheet
+            },
+            onApply = { inputText, time, rate, category ->
+                onAction(
+                    SearchRecipesAction.ApplyFilterRecipes(
+                        inputText ?: "",
+                        time ?: "",
+                        rate ?: "",
+                        category ?: "",
+                        enableBottomSheet = false
+                    )
                 )
-            })
+            }
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun SearchRecipesScreenPreview() {
-    SearchRecipesScreen(state = SearchRecipesState(), onViewmodelCalled = { _, _, _, _, _ -> })
+    // SearchRecipesScreen(state = SearchRecipesState(), {}, {})
 }

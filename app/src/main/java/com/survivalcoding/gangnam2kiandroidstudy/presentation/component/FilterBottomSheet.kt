@@ -1,6 +1,5 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,7 +28,8 @@ fun FilterBottomSheet(
     rate: String?,
     category: String?,
     inputText: String?,
-    onDismiss: (inputText: String?, time: String?, rate: String?, category: String?, enableBottomSheet: Boolean) -> Unit
+    onDismiss: (inputText: String?, time: String?, rate: String?, category: String?) -> Unit,
+    onApply: (inputText: String?, time: String?, rate: String?, category: String?) -> Unit,
 ) {
     val selectedTime = remember { mutableStateOf<String>(time ?: "") }
     val selectedRate = remember { mutableStateOf<String>(rate ?: "") }
@@ -47,13 +47,9 @@ fun FilterBottomSheet(
                 selectedTime.value,
                 selectedRate.value,
                 selectedCategory.value,
-                false
             )
-            Log.d(
-                "FilterBottomSheet",
-                "onDismissRequest: ${selectedTime.value}, ${selectedRate.value}, ${selectedCategory.value}"
-            )
-        }) {
+        }
+    ) {
         Column(modifier = Modifier.padding(horizontal = 30.dp)) {
             Spacer(modifier = Modifier.height(31.dp))
             Text(
@@ -250,14 +246,12 @@ fun FilterBottomSheet(
                 Spacer(modifier = Modifier.height(30.dp))
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     SmallButton("Filter") {
-                        onDismiss(
+                        onApply(
                             inputText,
                             selectedTime.value,
                             selectedRate.value,
                             selectedCategory.value,
-                            false
                         )
-
                     }
                 }
                 Spacer(modifier = Modifier.height(22.dp))

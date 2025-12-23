@@ -1,12 +1,13 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipes
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.SavedRecipesRepository
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -18,6 +19,9 @@ class SearchRecipesViewModel(
     private var cachedRecipes: List<Recipe> = emptyList()
     val state = _state.asStateFlow()
 
+    private var _event = MutableSharedFlow<SearchRecipesEvent>()
+    val event = _event.asSharedFlow()
+
     init {
         viewModelScope.launch {
             cachedRecipes = repository.getSavedRecipes()
@@ -27,10 +31,7 @@ class SearchRecipesViewModel(
 
     fun toggleBottomSheet() {
         _state.value = _state.value.copy(enableBottomSheet = !_state.value.enableBottomSheet)
-        Log.d("SearchRecipesViewModel", "toggleBottomSheet: ${_state.value.enableBottomSheet}")
-
     }
-
 
     fun filterRecipes(
         searchText: String = "",
@@ -39,9 +40,6 @@ class SearchRecipesViewModel(
         category: String = ""
     ) {
         viewModelScope.launch {
-            Log.d("SearchRecipesViewModel", "time: $time, rate: $rate, category: $category")
-
-
             var filteredList = if (searchText.isNotEmpty()) {
                 cachedRecipes.filter { it.name.contains(searchText, ignoreCase = true) }
             } else {
@@ -69,10 +67,28 @@ class SearchRecipesViewModel(
                 selectedTime = time,
                 selectedRate = rate,
                 selectedCategory = category,
-                resultRecipes = filteredList
+                resultRecipes = filteredList,
+                enableBottomSheet = false
             )
-            Log.d("SearchRecipesViewModel", "result: ${_state.value}")
         }
     }
 
+    fun applyFilterRecipe(
+        searchText: String = "",
+        time: String = "",
+        rate: String = "",
+        category: String = ""
+    ) {
+        viewModelScope.launch {
+            filterRecipes(searchText, time, rate, category)
+            _event.emit(SearchRecipesEvent.ShowSnackBar("필터가 적용되었습니다."))
+        }
+    }
+
+    fun dismissFilterRecipe() {
+        viewModelScope.launch {
+            _event.emit(SearchRecipesEvent.ShowSnackBar("필터가 취소되었습니다."))
+            _state.value = _state.value.copy(enableBottomSheet = false)
+        }
+    }
 }

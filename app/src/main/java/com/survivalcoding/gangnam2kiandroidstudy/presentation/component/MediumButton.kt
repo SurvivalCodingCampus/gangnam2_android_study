@@ -2,8 +2,6 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,8 +14,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -28,21 +24,18 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppFonts
 
 @Composable
-fun MediumButton(text: String, onClick: () -> Unit) {
-    //InteractionSource 생성 (상호작용 감지)
-    val interactionSource = remember { MutableInteractionSource() }
-    // 2. pressed 상태 추적
-    // 현재 버튼이 눌리고 있는지 여부를 State로 관찰
-    val isPressed by interactionSource.collectIsPressedAsState()
-
+fun MediumButton(text: String, onClick: () -> Unit, isEnable: Boolean = true) {
     Box(
         modifier = Modifier
-            .background(color = if(!isPressed)AppColors.primary100 else AppColors.gray4, shape = RoundedCornerShape(10.dp))
+            .background(
+                color = if (isEnable) AppColors.primary100 else AppColors.gray4,
+                shape = RoundedCornerShape(10.dp)
+            )
             .height(height = 54.dp)
             .fillMaxWidth()
-            .clickable(onClick = onClick,
-                interactionSource = interactionSource,
-                indication = null
+            .clickable(
+                enabled = isEnable,
+                onClick = { onClick() }
             ),
         contentAlignment = Alignment.Center
     ) {
@@ -65,8 +58,6 @@ fun MediumButton(text: String, onClick: () -> Unit) {
                 contentDescription = "화살표",
                 tint = AppColors.white
             )
-
-
         }
 
     }
