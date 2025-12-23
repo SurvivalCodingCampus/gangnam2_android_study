@@ -15,7 +15,10 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -30,13 +33,18 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    body: @Composable (modifier: Modifier) -> Unit = {},
+    body: @Composable (Modifier, SnackbarHostState) -> Unit = { _, _ -> },
     onNavigate: (Route) -> Unit,
     onFabClick: () -> Unit = {},
     isSelectedRoute: (Route) -> Boolean,
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+
     Scaffold(
         modifier = modifier,
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
         bottomBar = {
             MainNavigationBar(
                 onNavigate = onNavigate,
@@ -44,8 +52,12 @@ fun MainScreen(
                 isSelectedRoute = isSelectedRoute,
             )
         },
-    ) {
-        body(Modifier.padding(top = 0.dp, bottom = 66.dp))
+        containerColor = AppColors.White,
+    ) { innerPadding ->
+        body(
+            Modifier.padding(top = innerPadding.calculateTopPadding(), bottom = 66.dp),
+            snackbarHostState,
+        )
     }
 }
 

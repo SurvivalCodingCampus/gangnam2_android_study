@@ -105,6 +105,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 }
                                 entry<Route.SavedRecipes> {
                                     SavedRecipesRoot(
+                                        snackbarHostState = snackbarHostState,
                                         onNavigate = { navigation ->
                                             when (navigation) {
                                                 is SavedRecipesNavigation.RecipeDetails -> {
