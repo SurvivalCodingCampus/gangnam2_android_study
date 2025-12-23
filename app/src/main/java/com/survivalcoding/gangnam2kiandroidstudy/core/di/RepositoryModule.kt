@@ -18,5 +18,5 @@ val repositoryModule = module {
     single<BookmarkRepository> { BookmarkRepositoryImpl(get()) }
     single<ProcedureRepository> { ProcedureRepositoryImpl(get()) }
     single<IngridentRepository> { IngridentRepositoryImpl(get()) }
-    single<NetworkStatusRepository> { NetworkStatusRepositoryImpl(get()) }
+//    single<NetworkStatusRepository> { NetworkStatusRepositoryImpl(get()) }
 }

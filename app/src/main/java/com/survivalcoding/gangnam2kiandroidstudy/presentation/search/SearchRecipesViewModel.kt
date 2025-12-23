@@ -61,6 +61,7 @@ class SearchRecipesViewModel(
                 }
             }
             is SearchRecipesAction.OnCancelFilter -> {
+                applyFilters(action.filterState)
                 viewModelScope.launch {
                     _event.emit(
                         SearchRecipesEvent.ShowSnackBar(

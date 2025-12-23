@@ -33,7 +33,7 @@ fun FilterSearchBottomSheet(
     onDismiss: () -> Unit = {},
     currentFilterState: FilterSearchState,
     onApplyFilter: (FilterSearchState) -> Unit = {},
-    onCancelFilter: () -> Unit = {},
+    onCancelFilter: (FilterSearchState) -> Unit = {},
 ) {
     var filterState by remember { mutableStateOf(currentFilterState) }
 
@@ -172,7 +172,7 @@ fun FilterSearchBottomSheet(
                     filterState.selectedCategoryText == null &&
                             filterState.selectedTimeText == null &&
                             filterState.selectedRateText == null -> {
-                        onCancelFilter()
+                        onCancelFilter(filterState)
                     }
 
                     filterState != currentFilterState -> {

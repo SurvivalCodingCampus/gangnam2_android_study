@@ -5,6 +5,6 @@ sealed interface SearchRecipesAction {
     data class OnSearchRecipes(val query: String) : SearchRecipesAction
     data class OnUpdateFilterSearchState(val filterState: FilterSearchState) : SearchRecipesAction
     data class SelectRecipes(val id: Int) : SearchRecipesAction
-    data object OnCancelFilter : SearchRecipesAction
+    data class OnCancelFilter(val filterState: FilterSearchState) : SearchRecipesAction
 
 }

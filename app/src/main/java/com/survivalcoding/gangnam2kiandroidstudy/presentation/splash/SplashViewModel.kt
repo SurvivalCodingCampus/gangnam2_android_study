@@ -34,6 +34,7 @@ class SplashViewModel(
         }
     }
 
+
     private fun observeNetworkStatus() {
         viewModelScope.launch {
             networkStatusRepository.observeNetworkStatus().collect { networkStatus ->

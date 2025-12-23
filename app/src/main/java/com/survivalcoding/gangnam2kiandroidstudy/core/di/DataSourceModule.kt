@@ -2,8 +2,6 @@ package com.survivalcoding.gangnam2kiandroidstudy.core.di
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.MockRecipeDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.MockUserDataSourceImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.NetworkStatusDataSource
-import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.NetworkStatusDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.ProcedureDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.ProcedureDataSoureImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSource
@@ -16,5 +14,9 @@ val datasourceModule = module {
     single<RecipeDataSource> { MockRecipeDataSourceImpl() }
     single<UserDataSource> { MockUserDataSourceImpl() }
     single<ProcedureDataSource> { ProcedureDataSoureImpl() }
-    single<NetworkStatusDataSource> { NetworkStatusDataSourceImpl(androidContext()) }
+//    single<NetworkStatusDataSource> {
+//        NetworkStatusDataSourceImpl(
+//            androidContext()
+//        )
+//    }
 }

@@ -68,7 +68,7 @@ fun SearchRecipeScreenRoot(
             },
             onCancelFilter = {
                 viewModel.onAction(SearchRecipesAction.OnTapFilterButton)
-                viewModel.onAction(SearchRecipesAction.OnCancelFilter)
+                viewModel.onAction(SearchRecipesAction.OnCancelFilter(filterState = it))
             }
 
         )

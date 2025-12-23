@@ -33,7 +33,6 @@ fun SplashScreenRoot(
                 }
             }
         }
-
     }
 
     Scaffold(

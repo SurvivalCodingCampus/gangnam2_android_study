@@ -13,7 +13,8 @@ class NetworkStatusDataSourceImpl(
     private val context: Context
 ) : NetworkStatusDataSource {
     override fun observeNetworkStatus(): Flow<NetworkStatusDto> = callbackFlow {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val callback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 trySend(NetworkStatusDto(isConnected = true))

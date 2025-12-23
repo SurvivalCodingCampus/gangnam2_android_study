@@ -3,6 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy
 import android.app.Application
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.appModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.datasourceModule
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.networkModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.repositoryModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.useCaseModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.viewModelModule
@@ -21,6 +22,7 @@ class AppApplication : Application() {
             modules(
                 appModule,
                 datasourceModule,
+                networkModule,
                 repositoryModule,
                 useCaseModule,
                 viewModelModule

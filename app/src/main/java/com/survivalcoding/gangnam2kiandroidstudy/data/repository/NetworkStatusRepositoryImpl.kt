@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.map
 
 class NetworkStatusRepositoryImpl(
     private val networkStatusDataSource: NetworkStatusDataSource
-): NetworkStatusRepository {
+) : NetworkStatusRepository {
     override suspend fun observeNetworkStatus(): Flow<NetworkStatus> {
         return networkStatusDataSource.observeNetworkStatus().map {
             it.toModel()
