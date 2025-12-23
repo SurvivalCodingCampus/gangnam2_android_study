@@ -45,14 +45,6 @@ class HomeViewModel(
             }
     }
 
-    private fun onSelectCategory(value: String) {
-        _uiState.update { it.copy(selectedCategory = value) }
-    }
-
-    private fun onSearchKeywordChange(value: String) {
-        _uiState.update { it.copy(searchKeyword = value) }
-    }
-
     fun onAction(action: HomeAction) {
         when (action) {
             is HomeAction.ChangeQuery -> {
