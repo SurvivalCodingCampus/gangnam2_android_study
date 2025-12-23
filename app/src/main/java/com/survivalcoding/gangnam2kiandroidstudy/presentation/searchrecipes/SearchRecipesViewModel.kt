@@ -1,11 +1,14 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -22,6 +25,10 @@ class SearchRecipesViewModel(
     ) : ViewModel() {
     private val _uiState = MutableStateFlow(SearchRecipesState())
     val uiState = _uiState.asStateFlow()
+
+    private val _event = MutableSharedFlow<SearchRecipesEvent>()
+    val event = _event.asSharedFlow()
+
     private val searchTextFlow: Flow<String> = uiState.map { it.searchText }
 
     init {
@@ -63,6 +70,59 @@ class SearchRecipesViewModel(
             is SearchRecipesAction.OnSearchQueryChange -> {
                 changeSearchText(action.query)
             }
+
+            is SearchRecipesAction.OnFilterClick -> {
+                applyFilter(action.filter)
+            }
+        }
+    }
+
+    fun applyFilter(filter: FilterSearchState) {
+        Log.d("SearchRecipesViewModel", "applyFilter: $filter")
+
+        _uiState.update { it.copy(filterSearchState = filter) }
+
+        val all = uiState.value.recipes
+        val filtered = all
+            // name 필터
+            .filter { recipe ->
+                recipe.name.contains(uiState.value.searchText, ignoreCase = true)
+            }
+
+            // time 필터
+            .let { recipes ->
+                when (filter.time) {
+                    "All" -> recipes
+                    "Newest" -> recipes.sortedByDescending { it.id }
+                    "Oldest" -> recipes.sortedBy { it.id }
+                    "Popularity" -> recipes.sortedByDescending { it.rating }
+                    else -> recipes
+                }
+
+                    // rating 필터
+                    .let { recipes ->
+                        if (filter.rating != null) {
+                            recipes.filter { it.rating >= filter.rating }
+                        } else {
+                            recipes
+                        }
+                    }
+
+                    // category 필터
+                    .let { recipes ->
+                        if (filter.categories.isNotEmpty() && "All" !in filter.categories) {
+                            recipes.filter { recipe ->
+                                recipe.category in filter.categories
+                            }
+                        } else {
+                            recipes
+                        }
+                    }
+            }
+
+        // ui 업데이트
+        _uiState.update {
+            it.copy(filteredRecipes = filtered)
         }
     }
 

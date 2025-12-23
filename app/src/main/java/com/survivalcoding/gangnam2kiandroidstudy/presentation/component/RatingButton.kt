@@ -30,7 +30,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun RatingButton(
     text: String = "4",
     isSelected: Boolean = false,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     val borderColor = AppColors.primary100
     val background = if (isSelected) borderColor else Color.Transparent
