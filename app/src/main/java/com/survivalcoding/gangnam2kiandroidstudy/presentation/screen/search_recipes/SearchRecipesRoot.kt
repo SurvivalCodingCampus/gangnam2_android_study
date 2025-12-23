@@ -3,8 +3,12 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_rec
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -25,7 +29,29 @@ fun SearchRecipesRoot(
     ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(Unit) {
+        viewModel.event.collect { event ->
+            when (event) {
+                is SearchRecipesEvent.ShowSnackBar -> {
+                    snackbarHostState.showSnackbar(event.message)
+                }
+
+                is SearchRecipesEvent.NavigateToRecipeDetail -> {
+                    onNavigateToRecipeDetail(event.recipeId)
+                }
+
+                SearchRecipesEvent.NavigateBack -> {
+                    onBack()
+                }
+            }
+        }
+    }
+
+
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         containerColor = AppColors.white,
         topBar = {
             CustomAppTopBar(
@@ -34,6 +60,7 @@ fun SearchRecipesRoot(
                 onBackClick = onBack
             )
         }
+
     ) { innerpadding ->
         SearchRecipesScreen(
             modifier = modifier
@@ -42,7 +69,6 @@ fun SearchRecipesRoot(
                 .padding(horizontal = 30.dp),
             state = state,
             onAction = viewModel::onAction,
-            onRecipeClick = onNavigateToRecipeDetail
         )
     }
 

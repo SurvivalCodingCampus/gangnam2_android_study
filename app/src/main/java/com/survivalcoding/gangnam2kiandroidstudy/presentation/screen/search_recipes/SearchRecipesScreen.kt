@@ -28,7 +28,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 fun SearchRecipesScreen(
     modifier: Modifier = Modifier,
     onAction: (SearchRecipesAction) -> Unit = {},
-    onRecipeClick: (Int) -> Unit,
     state: SearchRecipesState,
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -105,7 +104,7 @@ fun SearchRecipesScreen(
                         chef = recipe.chefName,
                         rating = recipe.rating,
                         onClick = {
-                            onRecipeClick(recipe.id)
+                            onAction(SearchRecipesAction.RecipeClicked(recipe.id))
                         }
 
                     )

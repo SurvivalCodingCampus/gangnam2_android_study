@@ -29,7 +29,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 @Composable
 fun SplashScreen(
     modifier: Modifier = Modifier,
-    onStartClick: () -> Unit
+    isNetworkAvailable: Boolean,
+    onAction: (SplashAction) -> Unit = {},
 ) {
     Box(modifier = modifier.fillMaxSize()) {
 
@@ -97,7 +98,10 @@ fun SplashScreen(
 
             MediumButton(
                 text = stringResource(R.string.splash_button),
-                onClick = onStartClick
+                enabled = isNetworkAvailable,
+                onClick = {
+                    onAction(SplashAction.ClickStartButton)
+                }
             )
         }
     }
@@ -108,6 +112,7 @@ fun SplashScreen(
 @Composable
 private fun SplashScreenPreview() {
     SplashScreen(
-        onStartClick = { /* preview no-op */ }
+        onAction = { /* preview no-op */ },
+        isNetworkAvailable = false
     )
 }
