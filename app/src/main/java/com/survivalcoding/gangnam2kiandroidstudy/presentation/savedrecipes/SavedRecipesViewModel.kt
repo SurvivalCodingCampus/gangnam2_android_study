@@ -35,6 +35,7 @@ class SavedRecipesViewModel(
                     }
                 }
                 .onFailure {
+                    _uiState.update { state -> state.copy(isLoading = false) }
                     emitEvent(
                         SavedRecipesEvent.ShowMessage(
                             it.message ?: "Failed to load saved recipes"

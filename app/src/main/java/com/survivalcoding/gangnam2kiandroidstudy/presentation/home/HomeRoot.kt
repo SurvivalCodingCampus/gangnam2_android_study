@@ -19,7 +19,9 @@ fun HomeRoot(
         viewModel.event.collect { event ->
             when (event) {
                 is HomeEvent.SearchFocusChanged -> {
-                    keyboardController?.hide()
+                    if (!event.focused) {
+                        keyboardController?.hide()
+                    }
                     onSearchKeywordFocusChanged(event.focused)
                 }
                 is HomeEvent.ShowMessage -> {
