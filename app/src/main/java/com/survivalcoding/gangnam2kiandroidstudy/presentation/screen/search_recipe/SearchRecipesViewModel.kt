@@ -7,8 +7,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.toFormatString
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
@@ -20,8 +22,13 @@ class SearchRecipesViewModel(
     private val recipeRepository: RecipeRepository,
 ) : ViewModel() {
 
+    // 상태
     private val _state = MutableStateFlow(SearchRecipesState())
     val state: StateFlow<SearchRecipesState> = _state.asStateFlow()
+
+    // UI 이벤트
+    private val _event = MutableSharedFlow<SearchRecipesEvent>()
+    val event = _event.asSharedFlow()
 
     // 검색어만 담는 flow
     private val searchTermFlow = MutableStateFlow("")
@@ -32,16 +39,43 @@ class SearchRecipesViewModel(
         observeSearchTerm()
     }
 
-    fun onAction(
-        action: SearchRecipesAction,
-        navigateToBack: () -> Unit,
-        navigateToRecipeDetail: (Long) -> Unit,
-    ) {
+    fun onAction(action: SearchRecipesAction) {
         when (action) {
-            SearchRecipesAction.OnBackClick -> navigateToBack()
-            is SearchRecipesAction.OnFilterClick -> { applyFilter(action.filter) }
-            is SearchRecipesAction.OnRecipeCardClick -> { navigateToRecipeDetail(action.recipeId) }
-            is SearchRecipesAction.OnSearchTermChange -> { updateSearchTerm(action.searchTerm) }
+            SearchRecipesAction.OnBackClick -> {
+                viewModelScope.launch {
+                    _event.emit(SearchRecipesEvent.NavigateToBack)
+                }
+            }
+
+            is SearchRecipesAction.OnFilterClick -> {}
+
+            is SearchRecipesAction.OnRecipeCardClick -> {
+                viewModelScope.launch {
+                    _event.emit(SearchRecipesEvent.NavigateToRecipeDetail(action.recipeId))
+                }
+            }
+
+            is SearchRecipesAction.OnSearchTermChange -> {
+                updateSearchTerm(action.searchTerm)
+            }
+        }
+    }
+
+    fun onFilterAction(action: FilterSearchAction) {
+        when (action) {
+            is FilterSearchAction.OnApplyFilterClick -> {
+                applyFilter(action.filter)
+
+                viewModelScope.launch {
+                    _event.emit(SearchRecipesEvent.SnackBarApplyFilter)
+                }
+            }
+
+            FilterSearchAction.OnDismissFilter -> {
+                viewModelScope.launch {
+                    _event.emit(SearchRecipesEvent.SnackBarCancelFilter)
+                }
+            }
         }
     }
 
