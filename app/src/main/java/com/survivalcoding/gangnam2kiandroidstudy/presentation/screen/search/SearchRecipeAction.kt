@@ -4,9 +4,12 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search.filt
 
 sealed interface SearchRecipeAction {
 
-    data object OnSearchDone : SearchRecipeAction
-    data object OnFilterSettingClick : SearchRecipeAction
+    data class OnRecipeClick(val recipeId: Int) : SearchRecipeAction
 
+    data object OnSearchDone : SearchRecipeAction
     data class UpdateQuery(val query: String) : SearchRecipeAction
-    data class UpdateFilterSearch(val filterSearch: FilterSearchState) : SearchRecipeAction
+
+    data object OnFilterSettingClick : SearchRecipeAction
+    data class ApplyFilter(val filter: FilterSearchState) : SearchRecipeAction
+    data object CancelFilter : SearchRecipeAction
 }
