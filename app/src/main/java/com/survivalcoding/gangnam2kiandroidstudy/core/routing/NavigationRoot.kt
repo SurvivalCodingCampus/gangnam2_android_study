@@ -74,7 +74,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                 val backStack = rememberNavBackStack(Route.Home)
 
                 MainScreen(
-                    body = { modifier ->
+                    body = { modifier, snackbarHostState ->
                         NavDisplay(
                             modifier = modifier,
                             backStack = backStack,
