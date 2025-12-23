@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetSavedRecipesUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.RemoveBookmarkUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes.SavedRecipesEvent.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -74,7 +75,14 @@ class SavedRecipesViewModel(
         when (action) {
             is SavedRecipesAction.RemoveBookmark -> removeBookmark(action.id)
             is SavedRecipesAction.RecipeClick -> {
-                emitEvent(SavedRecipesEvent.NavigateToRecipe(action.id))
+                emitEvent(NavigateToRecipe(action.id))
+            }
+            SavedRecipesAction.ReachedBottom -> {
+                emitEvent(
+                    SavedRecipesEvent.ShowMessage(
+                        "리스트의 마지막입니다"
+                    )
+                )
             }
         }
     }

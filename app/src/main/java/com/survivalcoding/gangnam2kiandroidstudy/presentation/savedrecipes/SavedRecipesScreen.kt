@@ -2,7 +2,9 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +18,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.LinearRe
 @Composable
 fun SavedRecipesScreen(
     uiState: SavedRecipesUiState,
+    listState: LazyListState,
     onItemClick: (Int) -> Unit,
     onAction: (SavedRecipesAction) -> Unit,
 ) {
@@ -29,6 +32,7 @@ fun SavedRecipesScreen(
                 !uiState.recipes.isEmpty() -> {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
+                        state = listState,
                         contentPadding = PaddingValues(top = 10.dp, bottom = 45.dp, start = 30.dp, end = 30.dp),
                         verticalArrangement = Arrangement.spacedBy(20.dp)
                     ) {
@@ -52,5 +56,5 @@ fun SavedRecipesScreen(
 @Preview(showBackground = true)
 @Composable
 fun SavedRecipesScreenPreview() {
-    SavedRecipesScreen(SavedRecipesUiState(), fun(_) = Unit, fun(_) = Unit)
+    SavedRecipesScreen(SavedRecipesUiState(), LazyListState(), fun(_) = Unit, fun(_) = Unit)
 }
