@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipe.FilterSearchState
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,9 +54,30 @@ fun FilterSearchBottomSheet(
         "Lunch",
     )
 
+    // 시스템 뒤로가기 버튼 처리
+//    val scope = rememberCoroutineScope()
+//
+//    BackHandler(enabled = true) {
+//        // 닫기 전에 현재까지 변경된 filterState를 ViewModel에 전달
+//        println("Log: BackHandler captured!")
+//        onApplyFilter(filterState)
+//
+//        scope.launch {
+//            sheetState.hide() // 시트를 닫는 애니메이션 실행
+//        }.invokeOnCompletion {
+//            if (!sheetState.isVisible) {
+//                onDismiss()
+//            }
+//        }
+//    }
+
+
+    // 필터 바텀시트 UI
     ModalBottomSheet(
         containerColor = AppColors.white,
-        onDismissRequest = onDismiss,
+        onDismissRequest = {
+            onDismiss()
+        },
         sheetState = sheetState,
     ) {
         Column(

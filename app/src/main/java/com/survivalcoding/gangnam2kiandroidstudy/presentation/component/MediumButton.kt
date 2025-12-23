@@ -39,45 +39,45 @@ fun MediumButton(
 
     val isPressed by interactionSource.collectIsPressedAsState()
 
-        Box(
-            modifier = modifier
-                .size(width = 243.dp, height = 54.dp)
-                .background(
-                    color = if (isPressed || !isEnabled) AppColors.gray4     // Disable
-                    else AppColors.primary100,      // Default
+    Box(
+        modifier = modifier
+            .size(width = 243.dp, height = 54.dp)
+            .background(
+                color = if (isPressed || !isEnabled) AppColors.gray4     // Disable
+                else AppColors.primary100,      // Default
 
-                    shape = RoundedCornerShape(10.dp)
-                )
-                .clickable(
-                    enabled = isEnabled,
-                    interactionSource = interactionSource,
-                    indication = null, // 시각적 ripple 효과를 원치 않으면 null
-                    onClick = { onClick() }
-                )
+                shape = RoundedCornerShape(10.dp)
+            )
+            .clickable(
+                enabled = isEnabled,
+                interactionSource = interactionSource,
+                indication = null, // 시각적 ripple 효과를 원치 않으면 null
+                onClick = { onClick() }
+            )
+    ) {
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
         ) {
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
+            Box(
+                modifier = Modifier.size(width = 114.dp, height = 24.dp),
+                contentAlignment = Alignment.Center
             ) {
-                Box(
-                    modifier = Modifier.size(width = 114.dp, height = 24.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = text,
-                        style = AppTextStyles.normalTextBold.copy(color = AppColors.white)
-                    )
-                }
-                Spacer(modifier = Modifier.width(9.dp))
-                Icon(
-                    painter = painterResource(R.drawable.outline_arrow_right),
-                    modifier = Modifier.size(width = 20.dp, height = 20.dp),
-                    tint = AppColors.white,
-                    contentDescription = "오른쪽 화살표"
+                Text(
+                    text = text,
+                    style = AppTextStyles.normalTextBold.copy(color = AppColors.white)
                 )
             }
+            Spacer(modifier = Modifier.width(9.dp))
+            Icon(
+                painter = painterResource(R.drawable.outline_arrow_right),
+                modifier = Modifier.size(width = 20.dp, height = 20.dp),
+                tint = AppColors.white,
+                contentDescription = "오른쪽 화살표"
+            )
         }
+    }
 }
 
 
