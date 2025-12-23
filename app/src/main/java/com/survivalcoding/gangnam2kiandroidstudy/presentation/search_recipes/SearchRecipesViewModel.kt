@@ -7,7 +7,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSe
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
@@ -26,12 +28,16 @@ class SearchRecipesViewModel @Inject constructor(private val recipeRepository: R
     private val _state = MutableStateFlow(SearchRecipesState())
     val state = _state.asStateFlow()
 
+    private val _event = MutableSharedFlow<SearchRecipesEvent>()
+    val event = _event.asSharedFlow()
+
     fun onAction(action: SearchRecipesAction) {
         when (action) {
             is SearchRecipesAction.SearchQueryChanged -> onSearchQueryChanged(action.query)
-            is SearchRecipesAction.FilterChanged -> onFilterChanged(action.filters)
+            is SearchRecipesAction.ApplyFilters -> onApplyFilters(action.filters)
             is SearchRecipesAction.ShowFilterSheet -> onShowFilterSheet()
             is SearchRecipesAction.DismissFilterSheet -> onDismissFilterSheet()
+            is SearchRecipesAction.BackButtonClicked -> onBackButtonClicked()
         }
     }
 
@@ -101,8 +107,11 @@ class SearchRecipesViewModel @Inject constructor(private val recipeRepository: R
         _state.update { it.copy(searchQuery = query) }
     }
 
-    private fun onFilterChanged(filters: FilterSearchState) {
+    private fun onApplyFilters(filters: FilterSearchState) {
         _state.update { it.copy(appliedFilters = filters, isFilterSheetVisible = false) }
+        viewModelScope.launch {
+            _event.emit(SearchRecipesEvent.ShowSnackbar("필터가 적용되었습니다."))
+        }
     }
 
     private fun onShowFilterSheet() {
@@ -111,5 +120,14 @@ class SearchRecipesViewModel @Inject constructor(private val recipeRepository: R
 
     private fun onDismissFilterSheet() {
         _state.update { it.copy(isFilterSheetVisible = false) }
+        viewModelScope.launch {
+            _event.emit(SearchRecipesEvent.ShowSnackbar("필터가 취소되었습니다."))
+        }
+    }
+
+    private fun onBackButtonClicked() {
+        viewModelScope.launch {
+            _event.emit(SearchRecipesEvent.GoBack)
+        }
     }
 }
