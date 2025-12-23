@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_reci
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
@@ -25,6 +26,7 @@ fun SavedRecipesRoot(
     val state = viewmodel.state.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val lazyListState = rememberLazyListState()
 
 
     Scaffold(
@@ -48,7 +50,7 @@ fun SavedRecipesRoot(
                         snackBarHostState.showSnackbar("끝에 도달했습니다.")
                     }
                 },
-
+                lazyListState = lazyListState
                 )
         }
     }
