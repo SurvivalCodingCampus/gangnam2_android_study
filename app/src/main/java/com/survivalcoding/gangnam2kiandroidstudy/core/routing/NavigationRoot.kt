@@ -1,24 +1,28 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.routing
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import com.survivalcoding.gangnam2kiandroidstudy.di.DependencyContainer
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetail.RecipeDetailRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetail.RecipeDetailViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes.SavedRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.search.SearchRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.signin.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.signup.SignUpScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.splash.SplashScreen
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
+@SuppressLint("VisibleForTests")
 @Composable
 fun NavigationRoot(
     modifier: Modifier = Modifier
@@ -100,8 +104,14 @@ fun NavigationRoot(
                 SearchRoot(onBackClick = { topLevelBackStack.removeLastOrNull() })
             }
             entry<Route.RecipeDetails> { route ->
+                val viewModel: RecipeDetailViewModel = koinViewModel(
+                    parameters = {
+                        parametersOf(route.recipeId)
+                    }
+                )
+
                 RecipeDetailRoot(
-                    viewModel(factory = DependencyContainer.provideRecipeDetailViewModelFactory(LocalContext.current, route)),
+                    viewModel = viewModel,
                     onNavigateUp = {
                         topLevelBackStack.removeIf { it == route }
                     }

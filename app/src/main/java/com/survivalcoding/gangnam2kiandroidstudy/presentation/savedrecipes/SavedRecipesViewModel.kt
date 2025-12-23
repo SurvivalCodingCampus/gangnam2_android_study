@@ -2,29 +2,29 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetSavedRecipesUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.RemoveBookmarkUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SavedRecipesViewModel(
-    private val recipeRepository: RecipeRepository,
-    private val bookmarkRepository: BookmarkRepository
+    private val getSavedRecipesUseCase: GetSavedRecipesUseCase,
+    private val removeBookmarkUseCase: RemoveBookmarkUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SavedRecipesUiState())
     val uiState = _uiState.asStateFlow()
 
-    private fun fetchRecipes(ids: List<Int>) {
+    private fun fetchBookmarkRecipes() {
         _uiState.update { state -> state.copy(isLoading = true) }
         viewModelScope.launch {
-            recipeRepository.getAllRecipes()
+            getSavedRecipesUseCase()
                 .onSuccess { recipes ->
                     _uiState.update { state ->
                         state.copy(
                             isLoading = false,
-                            recipes = recipes.filter { it.id in ids }
+                            recipes = recipes
                         )
                     }
                 }
@@ -39,27 +39,9 @@ class SavedRecipesViewModel(
         }
     }
 
-    private fun fetchBookmarkRecipes() {
-        _uiState.update { state -> state.copy(isLoading = true) }
+    private fun removeBookmark(id: Int) {
         viewModelScope.launch {
-            bookmarkRepository.getBookmarkedRecipeIds()
-                .onSuccess { bookmarkIds ->
-                    fetchRecipes(bookmarkIds)
-                }
-                .onFailure {
-                    _uiState.update { state ->
-                        state.copy(
-                            isLoading = false,
-                            message = it.message
-                        )
-                    }
-                }
-        }
-    }
-
-    fun removeBookmark(id: Int) {
-        viewModelScope.launch {
-            bookmarkRepository.removeBookmark(id)
+            removeBookmarkUseCase(id)
                 .onSuccess { success ->
                     if (success) {
                         _uiState.update { state ->
@@ -78,6 +60,12 @@ class SavedRecipesViewModel(
                         )
                     }
                 }
+        }
+    }
+
+    fun onAction(action: SavedRecipesAction) {
+        when (action) {
+            is SavedRecipesAction.RemoveBookmark -> removeBookmark(action.id)
         }
     }
 

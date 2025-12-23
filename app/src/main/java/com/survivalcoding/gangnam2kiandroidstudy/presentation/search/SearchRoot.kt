@@ -6,20 +6,16 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.di.DependencyContainer
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterBottomSheet
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchRoot(
-    viewModel: SearchViewModel = viewModel(
-        factory = DependencyContainer.provideSearchViewModelFactory(LocalContext.current)
-    ),
+    viewModel: SearchViewModel = koinViewModel(),
     onBackClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -29,14 +25,13 @@ fun SearchRoot(
 
     SearchScreen(
         uiState,
-        viewModel::onSearchKeywordChange,
-        viewModel::onFilterButtonClick,
+        viewModel::onAction,
         onBackClick
     )
     if (uiState.isShowBottomSheet) {
         ModalBottomSheet(
             sheetState = sheetState,
-            onDismissRequest = { viewModel.onFilterButtonClick(false) },
+            onDismissRequest = { viewModel.onAction(SearchAction.FilterButtonClick(false)) },
             shape = RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp),
             containerColor = AppColors.white,
             dragHandle = null
@@ -46,9 +41,7 @@ fun SearchRoot(
                 onFilterClick = { time, rating, category ->
                     val filterResult = FilterSearchState(time, rating, category)
 
-                    viewModel.onFilterComplete(filterResult)
-                    // 필터 적용 처리
-                    viewModel.onFilterButtonClick(false)
+                    viewModel.onAction(SearchAction.FilterApply(filterResult))
                 }
             )
         }

@@ -8,8 +8,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeIngredientEn
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.dto.RecipesIngredientsResponse
 import kotlinx.serialization.json.Json
 
-class IngredientDataSourceImpl private constructor(
-    private val appAssetManager: AppAssetManager
+class IngredientDataSourceImpl(
+    appAssetManager: AppAssetManager
 ) : IngredientDataSource {
     val recipesIngredientsJsonString = appAssetManager.open("recipesIngredients.json").use { input ->
         input.readBytes().toString(Charsets.UTF_8)
@@ -28,14 +28,5 @@ class IngredientDataSourceImpl private constructor(
     override fun getAllIngredients(): List<IngredientEntity> {
         val response = Json.Default.decodeFromString<IngredientsResponse>(ingredientsJsonString)
         return response.ingredients
-    }
-
-    companion object {
-        @Volatile private var instance: IngredientDataSource? = null
-
-        fun getInstance(appAssetManager: AppAssetManager) =
-            instance ?: synchronized(this) {
-                instance ?: IngredientDataSourceImpl(appAssetManager).also { instance = it }
-            }
     }
 }

@@ -2,7 +2,8 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetAllRecipesUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.SearchRecipeByKeywordUseCase
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +14,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
-    private val recipeRepository: RecipeRepository
+    private val getAllRecipesUseCase: GetAllRecipesUseCase,
+    private val searchRecipeByKeywordUseCase: SearchRecipeByKeywordUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SearchUiState())
     val uiState = _uiState.asStateFlow()
@@ -21,7 +23,7 @@ class SearchViewModel(
     private fun fetchAllRecipes() {
         _uiState.update { state -> state.copy(isLoading = true) }
         viewModelScope.launch {
-            recipeRepository.getAllRecipes()
+            getAllRecipesUseCase()
                 .onSuccess { recipes ->
                     _uiState.update { state ->
                         state.copy(
@@ -42,7 +44,7 @@ class SearchViewModel(
     }
 
     private suspend fun fetchFilteredRecipesByKeyword(keyword: String) {
-        recipeRepository.getFilteredRecipes(keyword)
+        searchRecipeByKeywordUseCase(keyword)
             .onSuccess { recipes ->
                 _uiState.update { state ->
                     state.copy(
@@ -72,16 +74,24 @@ class SearchViewModel(
         }
     }
 
-    fun onSearchKeywordChange(value: String) {
+    private fun onSearchKeywordChange(value: String) {
         _uiState.update { it.copy(searchKeyword = value) }
     }
 
-    fun onFilterButtonClick(value: Boolean) {
+    private fun onFilterButtonClick(value: Boolean) {
         _uiState.update { it.copy(isShowBottomSheet = value) }
     }
 
-    fun onFilterComplete(value: FilterSearchState) {
-        _uiState.update { it.copy(filterSearchState = value) }
+    private fun onFilterComplete(value: FilterSearchState) {
+        _uiState.update { it.copy(filterSearchState = value, isShowBottomSheet = false) }
+    }
+
+    fun onAction(action: SearchAction) {
+        when (action) {
+            is SearchAction.FilterApply -> onFilterComplete(action.filterSearchState)
+            is SearchAction.FilterButtonClick -> onFilterButtonClick(action.isClick)
+            is SearchAction.SearchKeywordChange -> onSearchKeywordChange(action.keyword)
+        }
     }
 
     init {

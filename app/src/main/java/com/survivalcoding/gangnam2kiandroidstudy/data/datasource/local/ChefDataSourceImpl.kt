@@ -6,7 +6,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Chef
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.dto.ProfilesResponse
 import kotlinx.serialization.json.Json
 
-class ChefDataSourceImpl private constructor(
+class ChefDataSourceImpl(
     appAssetManager: AppAssetManager
 ) : ChefDataSource {
     val chefsJsonString = appAssetManager.open("chef.json").use { input ->
@@ -16,14 +16,5 @@ class ChefDataSourceImpl private constructor(
     override suspend fun getAllChefs(): List<Chef> {
         val response = Json.Default.decodeFromString<ProfilesResponse>(chefsJsonString)
         return response.profiles
-    }
-
-    companion object {
-        @Volatile private var instance: ChefDataSource? = null
-
-        fun getInstance(appAssetManager: AppAssetManager) =
-            instance ?: synchronized(this) {
-                instance ?: ChefDataSourceImpl(appAssetManager).also { instance = it }
-            }
     }
 }
