@@ -5,7 +5,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -40,7 +39,7 @@ fun MainScreen(
                             contentDescription = "Home",
                         )
                     },
-                    label = { Text("Home") }
+                    //label = { Text("Home") }
                 )
                 NavigationBarItem(
                     selected = currentRoute is Route.SavedRecipes,
@@ -52,11 +51,11 @@ fun MainScreen(
                     },
                     icon = {
                         Icon(
-                            painter = painterResource(id = R.drawable.inactive),
+                            painter = painterResource(id = R.drawable.ic_bookmark_outline),
                             contentDescription = "Saved Recipes"
                         )
                     },
-                    label = { Text("Saved") }
+                    //label = { Text("Saved") }
                 )
                 NavigationBarItem(
                     selected = currentRoute is Route.Notifications,
@@ -72,7 +71,7 @@ fun MainScreen(
                             contentDescription = "Notifications"
                         )
                     },
-                    label = { Text("Notifications") }
+                    //label = { Text("Notifications") }
                 )
                 NavigationBarItem(
                     selected = currentRoute is Route.Profile,
@@ -88,7 +87,7 @@ fun MainScreen(
                             contentDescription = "Profile"
                         )
                     },
-                    label = { Text("Profile") }
+                    //label = { Text("Profile") }
                 )
             }
         }
