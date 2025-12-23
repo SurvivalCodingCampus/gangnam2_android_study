@@ -7,16 +7,19 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeNavigation
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.notification.NotificationScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.profile.ProfileScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail.RecipeDetailsRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.savedrecipes.SavedRecipesRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes.SearchRecipeNavigation
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes.SearchRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.signin.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.signup.SignUpScreen
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashNavigation
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashRoot
 
 @Composable
 fun NavigationRoot(modifier: Modifier = Modifier) {
@@ -31,10 +34,14 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
         ),
         entryProvider = entryProvider {
             entry<Route.Splash> {
-                SplashScreen(
-                    onClick = {
-                        topLevelBackStack.clear()
-                        topLevelBackStack.add(Route.SignIn)
+                SplashRoot(
+                    onNavigate = { navigation ->
+                        when (navigation) {
+                            SplashNavigation.SignIn -> {
+                                topLevelBackStack.clear()
+                                topLevelBackStack.add(Route.SignIn)
+                            }
+                        }
                     },
                 )
             }
@@ -77,21 +84,21 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             entryProvider = entryProvider {
                                 entry<Route.Home> {
                                     HomeRoot(
-                                        onRecipeClick = { recipeId ->
-                                            topLevelBackStack.removeIf { it is Route.RecipeDetails }
-                                            topLevelBackStack.add(Route.RecipeDetails(recipeId))
-                                        },
-                                        onSearchInputClick = {
-                                            backStack.removeIf { it is Route.SearchRecipes }
-                                            backStack.add(Route.SearchRecipes)
-                                        },
-                                    )
-                                }
-                                entry<Route.SearchRecipes> {
-                                    SearchRecipesRoot(
-                                        onRecipeClick = { recipeId ->
-                                            topLevelBackStack.removeIf { it is Route.RecipeDetails }
-                                            topLevelBackStack.add(Route.RecipeDetails(recipeId))
+                                        onNavigate = { navigation ->
+                                            when (navigation) {
+                                                HomeNavigation.SearchRecipes -> {
+                                                    topLevelBackStack.removeIf { it is Route.SearchRecipes }
+                                                    topLevelBackStack.add(Route.SearchRecipes)
+                                                }
+                                                is HomeNavigation.RecipeDetails -> {
+                                                    topLevelBackStack.removeIf { it is Route.RecipeDetails }
+                                                    topLevelBackStack.add(
+                                                        Route.RecipeDetails(
+                                                            navigation.recipeId,
+                                                        ),
+                                                    )
+                                                }
+                                            }
                                         },
                                     )
                                 }
@@ -116,6 +123,21 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         val currentRoute = backStack.lastOrNull()
 
                         it == currentRoute
+                    },
+                )
+            }
+            entry<Route.SearchRecipes> { key ->
+                SearchRecipesRoot(
+                    onNavigate = { navigation ->
+                        when (navigation) {
+                            is SearchRecipeNavigation.RecipeDetails -> {
+                                topLevelBackStack.removeIf { it is Route.RecipeDetails }
+                                topLevelBackStack.add(Route.RecipeDetails(navigation.recipeId))
+                            }
+                            SearchRecipeNavigation.Back -> {
+                                topLevelBackStack.remove(key)
+                            }
+                        }
                     },
                 )
             }

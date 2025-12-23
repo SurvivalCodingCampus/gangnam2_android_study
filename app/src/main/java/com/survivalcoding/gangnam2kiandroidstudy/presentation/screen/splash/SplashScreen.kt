@@ -29,7 +29,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun SplashScreen(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
+    uiState: SplashUiState = SplashUiState(),
+    onAction: (SplashAction) -> Unit = {},
 ) {
     Image(
         painter = painterResource(R.drawable.splash_background),
@@ -65,7 +66,7 @@ fun SplashScreen(
                 painter = painterResource(R.drawable.splash_icon),
                 contentDescription = "splash icon",
                 tint = AppColors.White,
-                modifier = Modifier.size(79.dp)
+                modifier = Modifier.size(79.dp),
             )
             Text(
                 text = "100K+ Premium Recipe",
@@ -96,7 +97,8 @@ fun SplashScreen(
             modifier = Modifier
                 .padding(top = 64.dp)
                 .padding(horizontal = 66.dp),
-            onClick = onClick,
+            onClick = { onAction(SplashAction.OnClick) },
+            enabled = uiState.isOnline,
         )
     }
 }
@@ -105,4 +107,12 @@ fun SplashScreen(
 @Composable
 fun SplashScreenPreview() {
     SplashScreen()
+}
+
+@Preview(showBackground = false)
+@Composable
+fun NetworkSplashScreenPreview() {
+    SplashScreen(
+        uiState = SplashUiState(isOnline = false),
+    )
 }

@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.util
+package com.survivalcoding.gangnam2kiandroidstudy.core.util
 
 import android.util.Log
 import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult

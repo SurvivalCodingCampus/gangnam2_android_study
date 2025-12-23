@@ -1,6 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
 sealed interface HomeNavigation {
-    data object OnSearchInputClick : HomeNavigation
-    data class OnRecipeClick(val recipeId: Long) : HomeNavigation
+    data object SearchRecipes : HomeNavigation
+    data class RecipeDetails(val recipeId: Long) : HomeNavigation
 }

@@ -34,6 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.core.util.formatCompactNumber
+import com.survivalcoding.gangnam2kiandroidstudy.core.util.orPreview
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Profile
@@ -46,8 +48,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallBut
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Tabs
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
-import com.survivalcoding.gangnam2kiandroidstudy.util.formatCompactNumber
-import com.survivalcoding.gangnam2kiandroidstudy.util.orPreview
 
 @Composable
 fun RecipeDetailsScreen(

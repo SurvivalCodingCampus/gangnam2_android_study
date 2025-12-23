@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.util
+package com.survivalcoding.gangnam2kiandroidstudy.core.util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalInspectionMode

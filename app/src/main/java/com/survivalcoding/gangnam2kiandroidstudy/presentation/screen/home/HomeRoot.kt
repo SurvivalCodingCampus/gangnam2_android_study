@@ -10,8 +10,7 @@ import org.koin.androidx.compose.koinViewModel
 fun HomeRoot(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = koinViewModel(),
-    onSearchInputClick: () -> Unit = {},
-    onRecipeClick: (Long) -> Unit = {},
+    onNavigate: (HomeNavigation) -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -19,15 +18,6 @@ fun HomeRoot(
         modifier = modifier,
         uiState = uiState,
         onAction = viewModel::onAction,
-        onNavigate = {
-            when (it) {
-                HomeNavigation.OnSearchInputClick -> {
-                    onSearchInputClick()
-                }
-                is HomeNavigation.OnRecipeClick -> {
-                    onRecipeClick(it.recipeId)
-                }
-            }
-        },
+        onNavigate = onNavigate,
     )
 }
