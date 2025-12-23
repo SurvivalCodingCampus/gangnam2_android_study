@@ -123,10 +123,7 @@ fun SearchRecipesScreen(
                         .size(40.dp)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            // viewModel.showBottomSheet()
                             showFilterSheet = true
-
-
                         }
                         .background(
                             color = AppColors.primary100,
