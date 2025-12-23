@@ -10,9 +10,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -21,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
+import kotlinx.coroutines.launch
 
 @Composable
 fun SavedRecipesScreen(
@@ -28,6 +36,31 @@ fun SavedRecipesScreen(
     uiState: SavedRecipesState = SavedRecipesState(),
     onClick: (Long) -> Unit = {},
 ) {
+
+    // SnackBar를 관리하기 위한 상태와 코루틴 스코프
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    // LazyColumn의 스크롤 상태를 기억
+    val listState = rememberLazyListState()
+
+    // 스크롤 상태가 변경될 때마다 호출되는 LaunchedEffect
+    LaunchedEffect(listState) {
+        snapshotFlow { listState.layoutInfo.visibleItemsInfo }
+            .collect { visibleItems ->
+                // 마지막 아이템의 인덱스를 확인
+                val lastVisibleItemIndex = visibleItems.lastOrNull()?.index
+                val totalItemCount = listState.layoutInfo.totalItemsCount
+
+                // 마지막 아이템이 보이고, 전체 아이템 수가 0이 아닐 때 SnackBar 표시
+                if (lastVisibleItemIndex != null && lastVisibleItemIndex == totalItemCount - 1 && totalItemCount > 0) {
+                    scope.launch {
+                        snackbarHostState.showSnackbar("마지막 레시피입니다.")
+                    }
+                }
+            }
+    }
+
     Box(
         modifier = modifier.padding(
             paddingValues = PaddingValues(
@@ -56,6 +89,7 @@ fun SavedRecipesScreen(
                 CircularProgressIndicator()
             } else {
                 LazyColumn(
+                    state = listState,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 10.dp),
@@ -72,6 +106,12 @@ fun SavedRecipesScreen(
                 }
             }
         }
+
+        // SnackbarHost를 Box 내에 추가하고 상단 중앙에 배치
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.TopCenter)
+        )
     }
 }
 

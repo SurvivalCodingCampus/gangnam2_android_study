@@ -12,6 +12,15 @@
 - Effect는 UI를 리턴하지 않고 composition이 완료될 때 부작용이 실행되도록 하는 Composable 함수이다.
 - 반응형 UI는 본질적으로 비동기식이며, Jetpack Compose는 API 수준에서 코루틴을 사용하여 이 문제를 해결한다.
 
+## Side Effect 가 꼭 필요한 경우
+
+- 시스템 백 버튼 처리 (ScreenRoot)
+- 애니메이션 (Component 내부)
+- 권한 요청 (ScreenRoot)
+- 화면 생명주기와 관련된 작업 (ScreenRoot)
+- 1회성 이벤트 처리 (ScreenRoot)
+
+ViewModel 만으로는 처리가 어려운 UI 관련 작업들
 
 
 
