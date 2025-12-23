@@ -110,7 +110,9 @@ fun SavedRecipesScreen(
         // SnackbarHost를 Box 내에 추가하고 상단 중앙에 배치
         SnackbarHost(
             hostState = snackbarHostState,
-            modifier = Modifier.align(Alignment.TopCenter)
+            modifier = Modifier
+                .align(Alignment.BottomCenter) // 하단 중앙에 정렬
+                .padding(bottom = 106.dp) // 하단에 106.dp 패딩을 주어 위로 올림
         )
     }
 }
