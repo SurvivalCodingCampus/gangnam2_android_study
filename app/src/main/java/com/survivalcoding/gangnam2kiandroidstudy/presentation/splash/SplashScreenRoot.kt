@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -22,7 +23,7 @@ fun SplashScreenRoot(
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(viewModel.event) {
-        viewModel.event.collect { event ->
+        viewModel.event.collectLatest { event ->
             when (event) {
                 SplashEvent.NavigateToSignIn -> {
                     onNavigateToSignIn()
