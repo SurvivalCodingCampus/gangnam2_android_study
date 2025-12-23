@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipes
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -30,6 +31,11 @@ fun SearchRecipesRoot(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val snackbarHostState = remember { SnackbarHostState() }
+
+    // BackHandler
+    BackHandler(enabled = state.showBottomSheet) {
+        viewModel.onAction(SearchRecipesAction.FilterDismissed)
+    }
 
     LaunchedEffect(Unit) {
         viewModel.event.collect { event ->
