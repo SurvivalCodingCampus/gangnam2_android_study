@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.CategoryFilter
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.bottomsheet.TimeFilter
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -17,9 +19,38 @@ class SearchRecipeViewModel(
     private val _state = MutableStateFlow(SearchRecipeState())
     val state: StateFlow<SearchRecipeState> = _state.asStateFlow()
 
-    init {
-        loadRecipes()
+    private val _event = MutableSharedFlow<SearchRecipeEvent>()
+    val event = _event.asSharedFlow()
+
+
+    fun onAction(action: SearchRecipeAction) {
+        when (action) {
+
+            SearchRecipeAction.Load -> {
+                loadRecipes()
+            }
+
+            is SearchRecipeAction.InputKeyword -> {
+                updateSearchQuery(action.keyword)
+            }
+
+            SearchRecipeAction.ApplyFilter -> {
+                applyFilter()
+                emitSnackBar("필터가 적용되었습니다.")
+            }
+
+            is SearchRecipeAction.CancelFilter -> {
+                _state.value = _state.value.copy(
+                    filterState = action.filterState
+                )
+                applyFilter()
+                emitSnackBar("필터가 취소되었습니다.")
+            }
+
+            else -> Unit
+        }
     }
+
 
     private fun loadRecipes() {
         viewModelScope.launch {
@@ -82,4 +113,11 @@ class SearchRecipeViewModel(
             filteredRecipesText = "${filtered.size} results"
         )
     }
+
+    private fun emitSnackBar(message : String){
+        viewModelScope.launch {
+            _event.emit(SearchRecipeEvent.ShowSnackBar(message))
+        }
+    }
+
 }

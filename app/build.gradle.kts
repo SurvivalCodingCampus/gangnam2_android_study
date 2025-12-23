@@ -15,10 +15,15 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // 빌드 타입
     buildTypes {
+        debug {
+            isDebuggable = true
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -28,20 +33,53 @@ android {
         }
     }
 
+    // flavor dimension
+    flavorDimensions += "env"
+
+    // product flavors
+    productFlavors {
+        create("dev") {
+            dimension = "env"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+            buildConfigField("String", "ENV_NAME", "\"dev\"")
+        }
+
+        create("qa") {
+            dimension = "env"
+            applicationIdSuffix = ".qa"
+            versionNameSuffix = "-qa"
+            buildConfigField("String", "ENV_NAME", "\"qa\"")
+        }
+
+        create("prod") {
+            dimension = "env"
+            buildConfigField("String", "ENV_NAME", "\"prod\"")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions { jvmTarget = "11" }
 
-    buildFeatures { compose = true }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+
+    buildFeatures {
+        compose = true
+        buildConfig = true // 이거 없으면 ENV_NAME 안 생김
+    }
 }
 
 dependencies {
-    // --- 기본 & UI ---
+    // --- 기본 ---
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+
+    // --- Compose ---
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
@@ -49,41 +87,37 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation("androidx.compose.material:material-icons-extended")
 
-    // --- 내비게이션 (Navigation) ---
+    // --- Navigation ---
     implementation("androidx.navigation:navigation-compose:2.8.0-beta05")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    // --- Lifecycle ---
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
 
-    // --- 데이터 (직렬화, 이미지 로딩) ---
+    // --- Serialization ---
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
+
+    // --- Image ---
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
 
-    // --- 테스트 ---
-    testImplementation(libs.junit)
-    testImplementation("io.mockk:mockk:1.13.9")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+    // --- Koin ---
+    implementation("io.insert-koin:koin-android:3.5.6")
+    implementation("io.insert-koin:koin-androidx-compose:3.5.6")
 
+    // --- Navigation3 ---
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.material3.adaptive.navigation3)
+
+    // --- Test ---
+    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 
-    // --- 디버그용 ---
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-
-    implementation("io.insert-koin:koin-android:3.5.6")
-    implementation("io.insert-koin:koin-androidx-compose:3.5.6")
-// Navigation 3 (필수)
-    implementation(libs.androidx.navigation3.runtime)
-    implementation(libs.androidx.navigation3.ui)
-
-// ViewModel 연동
-    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-
-// Material3 adaptive (선택)
-    implementation(libs.androidx.material3.adaptive.navigation3)
-
 }

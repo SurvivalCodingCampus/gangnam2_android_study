@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -15,15 +16,22 @@ import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.button.MediumButton
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
-import androidx.compose.ui.graphics.Brush
 
 @Composable
 fun SplashScreen(
-    onStartClick: () -> Unit
+    onStartClick: () -> Unit,
+    isConnected: Boolean,
+    modifier: Modifier = Modifier
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    // 네트워크 상태에 따른 어둠 정도
+    val topAlpha = if (isConnected) 0.55f else 0.75f
+    val bottomAlpha = if (isConnected) 0.85f else 0.95f
 
-        // 배경
+    Box(
+        modifier = modifier.fillMaxSize()
+    ) {
+
+        // 배경 이미지
         Image(
             painter = painterResource(R.drawable.splash_background),
             contentDescription = null,
@@ -31,20 +39,19 @@ fun SplashScreen(
             contentScale = ContentScale.Crop
         )
 
-        // 어둡게
+        // 어둡게 오버레이
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
-                            AppColors.black.copy(alpha = 0.55f),
-                            AppColors.black.copy(alpha = 0.85f),
+                            AppColors.black.copy(alpha = topAlpha),
+                            AppColors.black.copy(alpha = bottomAlpha),
                         )
                     )
                 )
         )
-
 
         // 상단 로고 + 문구
         Column(
@@ -56,7 +63,7 @@ fun SplashScreen(
             Image(
                 painter = painterResource(R.drawable.splash_logo),
                 contentDescription = "Splash Logo",
-                modifier = Modifier.size(74.dp) // 친구는 74
+                modifier = Modifier.size(74.dp)
             )
 
             Spacer(modifier = Modifier.height(14.dp))
@@ -93,7 +100,6 @@ fun SplashScreen(
             )
         }
 
-
         // 하단 버튼
         Box(
             modifier = Modifier
@@ -103,14 +109,9 @@ fun SplashScreen(
             MediumButton(
                 text = "Start Cooking",
                 modifier = Modifier.padding(horizontal = 66.dp),
+                enabled = isConnected,
                 onClick = onStartClick
             )
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//private fun SplashScreenPreview() {
-//    SplashScreen()
-//}
