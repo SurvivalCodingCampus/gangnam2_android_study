@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -28,6 +29,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun GridRecipeCard(
     recipe: Recipe,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit,
     imageLoader: @Composable (Modifier) -> Unit = { modifier ->
         AsyncImage(
             model = recipe.image,
@@ -41,6 +43,7 @@ fun GridRecipeCard(
         modifier = modifier
             .height(150.dp)
             .aspectRatio(1f)
+            .clickable(onClick = onClick)
             .clip(RoundedCornerShape(10.dp))
     ) {
         imageLoader(Modifier)
@@ -112,7 +115,7 @@ fun GridRecipeCardPreview() {
         4.0
     )
     Box(Modifier.size(210.dp).padding(30.dp)) {
-        GridRecipeCard(recipe) { modifier ->
+        GridRecipeCard(recipe, onClick = {}) { modifier ->
             Image(
                 painter = painterResource(R.drawable.ic_launcher_background),
                 contentDescription = "item",

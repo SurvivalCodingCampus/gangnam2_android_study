@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetAllRecipesUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.SearchRecipeByKeywordUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.search.SearchEvent.*
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -84,14 +85,17 @@ class SearchViewModel(
                 _uiState.update { it.copy(filterSearchState = action.filter) }
 
                 emitEvent(SearchEvent.HideFilterBottomSheet)
-                emitEvent(SearchEvent.ShowMessage("필터가 적용되었습니다"))
+                emitEvent(ShowMessage("필터가 적용되었습니다"))
             }
             SearchAction.FilterCancel -> {
                 emitEvent(SearchEvent.HideFilterBottomSheet)
-                emitEvent(SearchEvent.ShowMessage("필터가 취소되었습니다"))
+                emitEvent(ShowMessage("필터가 취소되었습니다"))
             }
             SearchAction.BackClick -> {
                 emitEvent(SearchEvent.NavigateBack)
+            }
+            is SearchAction.RecipeClick -> {
+                emitEvent(SearchEvent.NavigateToRecipeDetail(action.recipeId))
             }
         }
     }

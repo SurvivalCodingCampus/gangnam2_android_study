@@ -6,4 +6,5 @@ sealed interface SearchAction {
     data class FilterApply(val filter: FilterSearchState) : SearchAction
     object FilterCancel : SearchAction
     object BackClick : SearchAction
+    data class RecipeClick(val recipeId: Int) : SearchAction
 }

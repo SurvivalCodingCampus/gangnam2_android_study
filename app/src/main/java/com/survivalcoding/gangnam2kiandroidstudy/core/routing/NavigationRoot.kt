@@ -101,7 +101,14 @@ fun NavigationRoot(
                 )
             }
             entry<Route.Search> {
-                SearchRoot(onBackClick = { topLevelBackStack.removeLastOrNull() })
+                SearchRoot(
+                    onRecipeClick = { recipeId ->
+                        topLevelBackStack.add(Route.RecipeDetails(recipeId))
+                    },
+                    onBackClick = {
+                        topLevelBackStack.removeLastOrNull()
+                    }
+                )
             }
             entry<Route.RecipeDetails> { route ->
                 val viewModel: RecipeDetailViewModel = koinViewModel(

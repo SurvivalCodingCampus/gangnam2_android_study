@@ -60,11 +60,17 @@ fun SearchScreen(
                 }
                 if (uiState.searchKeyword.isEmpty()) {
                     items(uiState.allRecipes) { recipe ->
-                        GridRecipeCard(recipe)
+                        GridRecipeCard(
+                            recipe = recipe,
+                            onClick = { onAction(SearchAction.RecipeClick(recipe.id)) }
+                        )
                     }
                 } else {
                     items(uiState.filteredRecipes) { recipe ->
-                        GridRecipeCard(recipe)
+                        GridRecipeCard(
+                            recipe = recipe,
+                            onClick = { onAction(SearchAction.RecipeClick(recipe.id)) }
+                        )
                     }
                 }
             }
