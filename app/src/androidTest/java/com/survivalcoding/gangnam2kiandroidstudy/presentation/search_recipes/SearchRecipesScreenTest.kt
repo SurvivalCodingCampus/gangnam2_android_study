@@ -3,6 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.search_recipes
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
@@ -63,8 +64,10 @@ class SearchRecipesScreenTest {
 
         // Perform search
         val searchQuery = "lamb"
-        composeTestRule.onNodeWithContentDescription("Search recipe").performTextInput(searchQuery)
-        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithTag("search_input").performTextInput(searchQuery)
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            viewModel.state.value.recipes.size == 1
+        }
 
         // Verify filtered results
         composeTestRule.onNodeWithText("Lamb chops with fruity couscous and mint").assertExists()
@@ -79,12 +82,14 @@ class SearchRecipesScreenTest {
         }
 
         // Show filter sheet
-        composeTestRule.onNodeWithContentDescription("Filter").performClick()
+        composeTestRule.onNodeWithTag("filter_button").performClick()
         composeTestRule.waitForIdle()
 
         // Apply a filter (e.g., category "Meat")
         viewModel.onAction(SearchRecipesAction.ApplyFilters(FilterSearchState(selectedCategory = "Meat")))
-        composeTestRule.waitForIdle()
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            viewModel.state.value.recipes.size == 2
+        }
 
         // Verify filtered results
         composeTestRule.onNodeWithText("Lamb chops with fruity couscous and mint").assertExists()

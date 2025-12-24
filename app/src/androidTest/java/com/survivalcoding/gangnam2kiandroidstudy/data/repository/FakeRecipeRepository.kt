@@ -10,46 +10,51 @@ class FakeRecipeRepository : RecipeRepository {
             id = 1,
             name = "Traditional spare ribs baked",
             category = "Meat",
-            rating = 4.5f,
+            rating = 4.5,
             time = "60 min",
             chef = "Chef John",
-            thumbnail = ""
+            image = "",
+            ingredients = emptyList()
         ),
         Recipe(
             id = 2,
             name = "Lamb chops with fruity couscous and mint",
             category = "Meat",
-            rating = 4.0f,
+            rating = 4.0,
             time = "45 min",
             chef = "Chef Emily",
-            thumbnail = ""
+            image = "",
+            ingredients = emptyList()
         ),
         Recipe(
             id = 3,
             name = "Spice roasted chicken with flavored rice",
             category = "Chicken",
-            rating = 4.8f,
+            rating = 4.8,
             time = "75 min",
             chef = "Chef Michael",
-            thumbnail = ""
+            image = "",
+            ingredients = emptyList()
         ),
         Recipe(
             id = 4,
             name = "Chinese style Egg fried rice with sliced pork",
             category = "Rice",
-            rating = 3.9f,
+            rating = 3.9,
             time = "30 min",
             chef = "Chef Lee",
-            thumbnail = ""
+            image = "",
+            ingredients = emptyList()
         ),
         Recipe(
             id = 5,
             name = "Vegan Stir-fry with Tofu",
             category = "Vegan",
-            rating = 4.2f,
+            rating = 4.2,
             time = "25 min",
             chef = "Chef Sophia",
-            thumbnail = ""
+            image = "",
+            ingredients = emptyList()
         )
     )
 
