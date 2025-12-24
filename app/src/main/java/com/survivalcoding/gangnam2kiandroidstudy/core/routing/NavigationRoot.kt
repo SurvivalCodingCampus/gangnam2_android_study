@@ -111,7 +111,14 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                 )
             }
             entry<Route.RecipeDetail> { key ->
-                RecipeDetailRoot(key.recipeId)
+                RecipeDetailRoot(
+                    recipeId = key.recipeId,
+                    onNavigateToBack = {
+                        if (topLevelBackStack.isNotEmpty()) {
+                            topLevelBackStack.removeAt(topLevelBackStack.lastIndex)
+                        }
+                    }
+                )
             }
         }
     )

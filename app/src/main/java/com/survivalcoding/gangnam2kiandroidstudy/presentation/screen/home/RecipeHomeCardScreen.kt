@@ -22,6 +22,7 @@ import kotlinx.collections.immutable.toPersistentList
 @Composable
 fun RecipeHomeCardScreen(
     recipes: ImmutableList<Recipe>,
+    savedRecipeIds: Set<Int>,
     modifier: Modifier = Modifier,
     onAction: (RecipeHomeAction) -> Unit = {},
 ) {
@@ -33,6 +34,7 @@ fun RecipeHomeCardScreen(
                 items(recipes) { recipe ->
                     RecipeHomeCard(
                         recipe = recipe,
+                        isSaved = savedRecipeIds.contains(recipe.id),
                         onAction = onAction
                     )
                     Spacer(Modifier.width(15.dp))
@@ -50,6 +52,7 @@ private fun RecipeHomeCardScreenPreview() {
     Scaffold { innerPadding ->
         RecipeHomeCardScreen(
             recipes = recipes,
+            savedRecipeIds = emptySet(),
             modifier = Modifier.padding(innerPadding)
         )
     }

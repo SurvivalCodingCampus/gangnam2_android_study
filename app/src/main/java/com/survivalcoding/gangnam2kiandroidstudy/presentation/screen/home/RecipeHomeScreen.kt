@@ -126,6 +126,7 @@ fun RecipeHomeScreen(
 
             else -> RecipeHomeCardScreen(
                 recipes = state.recipes,
+                savedRecipeIds = state.savedRecipeIds,
                 modifier = Modifier.padding(top = 15.dp),
                 onAction = onAction
             )
