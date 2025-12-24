@@ -3,7 +3,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -74,15 +73,17 @@ fun RecipeDetailsScreen(
                     }
                 },
                 actions = {
-                    Icon(
-                        painter = painterResource(R.drawable.outline_more),
-                        contentDescription = "more icon",
-                        modifier = Modifier
-                            .padding(end = 30.dp)
-                            .clickable {
-                                onAction(RecipeDetailsAction.OnMenuClick)
-                            },
-                    )
+                    IconButton(
+                        modifier = Modifier.padding(end = 30.dp),
+                        onClick = {
+                            onAction(RecipeDetailsAction.OnMenuClick)
+                        },
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.outline_more),
+                            contentDescription = "more icon",
+                        )
+                    }
 
                     uiState.recipe?.let { recipe ->
                         RecipeDetailsDropdownMenu(

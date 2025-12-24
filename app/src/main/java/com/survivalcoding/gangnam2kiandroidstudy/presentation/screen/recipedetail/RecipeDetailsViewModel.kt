@@ -136,11 +136,13 @@ class RecipeDetailsViewModel(
             when (toggleBookmarkUseCase(recipeId)) {
                 is AppResult.Success -> {
                     _uiState.update {
-                        it.copy(
-                            recipe = it.recipe?.copy(
-                                isSaved = !it.recipe.isSaved,
-                            ),
-                        )
+                        it.recipe?.let { recipe ->
+                            it.copy(
+                                recipe = recipe.copy(
+                                    isSaved = !recipe.isSaved,
+                                ),
+                            )
+                        } ?: it
                     }
                 }
                 is AppResult.Error -> Unit
