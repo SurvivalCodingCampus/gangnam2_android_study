@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,11 +33,12 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 
 @Composable
-fun SmallRecipeCard(recipe: Recipe) {
+fun SmallRecipeCard(recipe: Recipe, onClick: () -> Unit = {}) {
     Box(
         modifier = Modifier
             .size(150.dp)
             .clip(shape = RoundedCornerShape(10.dp))
+            .clickable { onClick() }
     ) {
         AsyncImage(
             model = recipe.image,
