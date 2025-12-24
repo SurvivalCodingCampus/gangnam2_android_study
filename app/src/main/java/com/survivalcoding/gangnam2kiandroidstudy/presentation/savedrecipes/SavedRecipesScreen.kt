@@ -58,7 +58,9 @@ fun SavedRecipesScreen(
                 val totalItemCount = listState.layoutInfo.totalItemsCount
 
                 // 마지막 아이템이 보이고, 전체 아이템 수가 0이 아닐 때 SnackBar 표시
-                if (!hasShownSnackbar && lastVisibleItemIndex != null && lastVisibleItemIndex == totalItemCount - 1 && totalItemCount > 0) {
+                if (!hasShownSnackbar && lastVisibleItemIndex != null
+                    && lastVisibleItemIndex == totalItemCount - 1
+                    && totalItemCount > 0) {
                     hasShownSnackbar = true
                     snackbarHostState.showSnackbar("마지막 레시피입니다.")
                 }
