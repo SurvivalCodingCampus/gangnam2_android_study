@@ -12,4 +12,6 @@ sealed interface SearchRecipesAction {
     data class FilterApplied(val filter: FilterSearchState) : SearchRecipesAction
 
     data class RecipeClicked(val recipeId: Int) : SearchRecipesAction
+
+    data object FocusRequested : SearchRecipesAction
 }

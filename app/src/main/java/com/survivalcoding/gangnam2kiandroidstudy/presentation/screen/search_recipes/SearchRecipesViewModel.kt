@@ -53,11 +53,11 @@ class SearchRecipesViewModel @Inject constructor(
                 updateSearchKeyword(action.keyword)
             }
 
-            SearchRecipesAction.FilterClicked -> {
+            is SearchRecipesAction.FilterClicked -> {
                 showBottomSheet(true)
             }
 
-            SearchRecipesAction.FilterDismissed -> {
+            is SearchRecipesAction.FilterDismissed -> {
                 showBottomSheet(false)
             }
 
@@ -68,6 +68,10 @@ class SearchRecipesViewModel @Inject constructor(
 
             is SearchRecipesAction.RecipeClicked -> {
                 onRecipeClick(action.recipeId)
+            }
+
+            is SearchRecipesAction.FocusRequested -> {
+                onFocusRequested()
             }
         }
     }
@@ -98,6 +102,11 @@ class SearchRecipesViewModel @Inject constructor(
             }
 
         }
+    }
+
+    // 검색창 포커스
+    private fun onFocusRequested() {
+        _state.update { it.copy(hasRequestedFocus = true) }
     }
 
     // 검색어

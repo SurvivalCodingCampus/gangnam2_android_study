@@ -32,11 +32,13 @@ fun SearchRecipesScreen(
 ) {
     val focusRequester = remember { FocusRequester() }
 
-    // 화면 진입 시 포커스 요청
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
+    // 최초 진입 시에만 포커스 요청
+    LaunchedEffect(state.hasRequestedFocus) {
+        if (!state.hasRequestedFocus) {
+            focusRequester.requestFocus()
+            onAction(SearchRecipesAction.FocusRequested)
+        }
     }
-
 
     LazyColumn(
         modifier = modifier

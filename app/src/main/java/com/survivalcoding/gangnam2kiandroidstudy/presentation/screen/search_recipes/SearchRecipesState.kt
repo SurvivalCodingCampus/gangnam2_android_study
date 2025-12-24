@@ -11,6 +11,7 @@ data class SearchRecipesState(
     val isLoading: Boolean = false, // 로딩 여부
     val showBottomSheet: Boolean = false,
     val filterState: FilterSearchState = FilterSearchState(),
+    val hasRequestedFocus: Boolean = false,
 ) {
     // 검색어 유무에 따라 UI 문구 결정
     val headerTitleRes: Int
