@@ -40,7 +40,7 @@ class IngridentViewModel(
     }
 
     fun onCopyClick(text: String) {
-        copyLinkUseCase.execute(text = "app.Recipe.co/jollof _rice")
+        copyLinkUseCase.execute(text = text)
     }
 
     fun onAction(action: IngredientAction) {
