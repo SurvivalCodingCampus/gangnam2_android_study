@@ -5,6 +5,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.mapper.toModel
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.NetworkStatus
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.NetworkStatusRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 class NetworkStatusRepositoryImpl(
@@ -13,6 +14,6 @@ class NetworkStatusRepositoryImpl(
     override suspend fun observeNetworkStatus(): Flow<NetworkStatus> {
         return networkStatusDataSource.observeNetworkStatus().map {
             it.toModel()
-        }
+        }.distinctUntilChanged()
     }
 }

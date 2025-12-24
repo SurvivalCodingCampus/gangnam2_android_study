@@ -10,6 +10,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -29,7 +31,9 @@ fun SplashScreenRoot(
                 }
 
                 is SplashEvent.ShowSnackBar -> {
-                    snackbarHostState.showSnackbar(event.message)
+                    launch {
+                        snackbarHostState.showSnackbar(event.message)
+                    }
                 }
             }
         }
