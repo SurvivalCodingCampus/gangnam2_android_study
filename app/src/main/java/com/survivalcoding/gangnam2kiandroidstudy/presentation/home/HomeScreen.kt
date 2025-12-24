@@ -38,121 +38,136 @@ fun HomeScreen(
     state: HomeState = HomeState(),
     onAction: (HomeAction) -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(AppColors.white),
-    ) {
-        Spacer(modifier = Modifier.height(64.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 30.dp)
+    if (state.errorMessage != null) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
         ) {
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = "Hello Jega",
-                    style = AppTextStyles.largeTextBold
-                )
-                Spacer(modifier = Modifier.height(5.dp))
-                Text(
-                    text = "What are you cooking today?",
-                    style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray3)
-                )
-            }
-            Box(
+            Text(
+                text = state.errorMessage,
+                style = AppTextStyles.mediumTextBold.copy(color = AppColors.primary100)
+            )
+        }
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(AppColors.white),
+        ) {
+            Spacer(modifier = Modifier.height(64.dp))
+            Row(
                 modifier = Modifier
-                    .size(40.dp)
-                    .background(color = AppColors.secondary40, shape = RoundedCornerShape(10.dp)),
-                contentAlignment = Alignment.Center
+                    .fillMaxWidth()
+                    .padding(horizontal = 30.dp)
             ) {
-                Image(
-                    painter = painterResource(R.drawable.profile),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize()
-                )
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = "Hello Jega",
+                        style = AppTextStyles.largeTextBold
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Text(
+                        text = "What are you cooking today?",
+                        style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray3)
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .background(
+                            color = AppColors.secondary40,
+                            shape = RoundedCornerShape(10.dp)
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.profile),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+
             }
+            Spacer(modifier = Modifier.height(30.dp))
 
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 30.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            SearchInputField(
-                modifier = Modifier.weight(1f).clickable {
-                    onAction(HomeAction.SearchRecipe)
-                },
-                value = "",
-                placeholder = "Search Recipe",
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 30.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                // search
-            }
-            Spacer(modifier = Modifier.width(20.dp))
-            FilterBox {
-                // filter
-            }
-        }
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-        RecipeCategorySelector(
-            categories = listOf(
-                "All", "Indian", "Italian", "Asian", "Chinese",
-                "Fruit", "Vegetables", "Protein", "Cereal", "Local Dishes"
-            ),
-            selectedCategory = state.selectedCategory,
-            onSelectCategory = { category ->
-                onAction(HomeAction.SelectCategory(category))
-            },
-        )
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 30.dp),
-            horizontalArrangement = Arrangement.spacedBy(15.dp)
-        ) {
-            items(state.filteredRecipes) { recipe ->
-                HomeRecipeCard(
-                    recipe = recipe,
-                    onBookmarkClick = {
-                        onAction(HomeAction.BookmarkRecipe(it))
+                SearchInputField(
+                    modifier = Modifier.weight(1f).clickable {
+                        onAction(HomeAction.SearchRecipe)
                     },
-                    isBookmark = recipe.id in state.bookmarkIds,
-                    onClick = {
-                        onAction(HomeAction.SelectRecipe(it))
-                    }
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(
-            text = "New Recipes",
-            style = AppTextStyles.smallTextBold,
-            modifier = Modifier.padding(horizontal = 30.dp)
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 30.dp),
-        ) {
-            items(state.recipes) { recipe ->
-                NewRecipeCard(recipe = recipe) {
-                    onAction(HomeAction.SelectRecipe(it))
+                    value = "",
+                    placeholder = "Search Recipe",
+                ) {
+                    // search
+                }
+                Spacer(modifier = Modifier.width(20.dp))
+                FilterBox {
+                    // filter
                 }
             }
-        }
 
+            Spacer(modifier = Modifier.height(15.dp))
+
+            RecipeCategorySelector(
+                categories = listOf(
+                    "All", "Indian", "Italian", "Asian", "Chinese",
+                    "Fruit", "Vegetables", "Protein", "Cereal", "Local Dishes"
+                ),
+                selectedCategory = state.selectedCategory,
+                onSelectCategory = { category ->
+                    onAction(HomeAction.SelectCategory(category))
+                },
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 30.dp),
+                horizontalArrangement = Arrangement.spacedBy(15.dp)
+            ) {
+                items(state.filteredRecipes) { recipe ->
+                    HomeRecipeCard(
+                        recipe = recipe,
+                        onBookmarkClick = {
+                            onAction(HomeAction.BookmarkRecipe(it))
+                        },
+                        isBookmark = recipe.id in state.bookmarkIds,
+                        onClick = {
+                            onAction(HomeAction.SelectRecipe(it))
+                        }
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(
+                text = "New Recipes",
+                style = AppTextStyles.smallTextBold,
+                modifier = Modifier.padding(horizontal = 30.dp)
+            )
+            Spacer(modifier = Modifier.height(5.dp))
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 30.dp),
+            ) {
+                items(state.recipes) { recipe ->
+                    NewRecipeCard(recipe = recipe) {
+                        onAction(HomeAction.SelectRecipe(it))
+                    }
+                }
+            }
+
+        }
     }
 }
 

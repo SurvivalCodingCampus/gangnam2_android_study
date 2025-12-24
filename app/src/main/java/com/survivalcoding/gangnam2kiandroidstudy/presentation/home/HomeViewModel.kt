@@ -56,20 +56,29 @@ class HomeViewModel(
         viewModelScope.launch {
             _state.update {
                 it.copy(
-                    isLoading = true
+                    isLoading = true,
+                    errorMessage = null
                 )
             }
 
-            val recipes = recipeRepository.getRecipes()
+            try {
+                val recipes = recipeRepository.getRecipes()
 
-            _state.update {
-                it.copy(
-                    isLoading = false,
-                    recipes = recipes,
-                    filteredRecipes = recipes
-                )
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        recipes = recipes,
+                        filteredRecipes = recipes
+                    )
+                }
+            } catch (e: Exception) {
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = "Failed to load recipes"
+                    )
+                }
             }
-
         }
     }
 
