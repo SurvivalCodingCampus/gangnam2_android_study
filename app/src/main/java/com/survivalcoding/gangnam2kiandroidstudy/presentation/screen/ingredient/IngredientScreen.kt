@@ -124,7 +124,7 @@ fun IngredientScreen(
                 modifier = Modifier.padding(horizontal = 10.dp)
             ) {
                 Text(
-                    text = "Laura wilson",
+                    text = state.recipe.chef,
                     style = AppTextStyles.smallTextBold,
                 )
                 Spacer(modifier = Modifier.height(2.dp))
