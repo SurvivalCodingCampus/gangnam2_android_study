@@ -1,9 +1,9 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.searchrecipes
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.utils.Logger
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -58,6 +58,13 @@ class SearchRecipesViewModel(
         }
     }
 
+
+    // TODO 다음 작업에 사용 예정
+    private fun onEvent(event: SearchRecipesEvent) {
+        viewModelScope.launch { _event.emit(event) }
+    }
+
+
     fun onAction(
         action: SearchRecipesAction,
         navigateBack: () -> Unit,
@@ -78,7 +85,7 @@ class SearchRecipesViewModel(
     }
 
     fun applyFilter(filter: FilterSearchState) {
-        Log.d("SearchRecipesViewModel", "applyFilter: $filter")
+        Logger.d("SearchRecipesViewModel", "applyFilter: $filter")
 
         _uiState.update { it.copy(filterSearchState = filter) }
 
