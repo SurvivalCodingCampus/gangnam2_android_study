@@ -1,13 +1,28 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes
 
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithContentDescription
+import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockIngredientRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockProcedureRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockProfileRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockRecipeRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeDetailsUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail.RecipeDetailsEvent
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail.RecipeDetailsScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail.RecipeDetailsViewModel
 import org.junit.Rule
 import org.junit.Test
 
@@ -55,6 +70,92 @@ class SearchRecipesScreenTest {
 
         // 결과 개수 텍스트 확인
         composeTestRule.onNodeWithText("${MockRecipeRepositoryImpl.mockRecipes.size} results")
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun search_to_detail_scenario() {
+        val recipeRepository = MockRecipeRepositoryImpl
+        val profileRepository = MockProfileRepositoryImpl
+        val ingredientRepository = MockIngredientRepositoryImpl
+        val procedureRepository = MockProcedureRepositoryImpl
+        val getRecipeDetailsUseCase = GetRecipeDetailsUseCase(
+            recipeRepository, profileRepository, ingredientRepository, procedureRepository,
+        )
+
+        composeTestRule.setContent {
+            var currentScreen by remember { mutableStateOf("search") }
+            var selectedRecipeId by remember { mutableStateOf<Long?>(null) }
+            val searchViewModel = remember { SearchRecipesViewModel(recipeRepository) }
+            val searchUiState by searchViewModel.uiState.collectAsState()
+
+            LaunchedEffect(searchViewModel.event) {
+                searchViewModel.event.collect { event ->
+                    if (event is SearchRecipesEvent.NavigateToDetails) {
+                        selectedRecipeId = event.recipeId
+                        currentScreen = "detail"
+                    }
+                }
+            }
+
+            if (currentScreen == "search") {
+                SearchRecipesScreen(
+                    uiState = searchUiState,
+                    onAction = searchViewModel::onAction,
+                )
+            } else if (currentScreen == "detail") {
+                val detailViewModel = remember(selectedRecipeId) {
+                    RecipeDetailsViewModel(selectedRecipeId!!, getRecipeDetailsUseCase)
+                }
+                val detailUiState by detailViewModel.uiState.collectAsState()
+
+                LaunchedEffect(detailViewModel.event) {
+                    detailViewModel.event.collect { event ->
+                        if (event is RecipeDetailsEvent.NavigateToBack) {
+                            currentScreen = "search"
+                        }
+                    }
+                }
+
+                RecipeDetailsScreen(
+                    uiState = detailUiState,
+                    onAction = detailViewModel::onAction,
+                )
+            }
+        }
+
+        // 1. Search
+        composeTestRule.onNode(hasSetTextAction())
+            .performTextInput("Traditional")
+
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            composeTestRule.onAllNodesWithText("Traditional spare ribs baked").fetchSemanticsNodes()
+                .isNotEmpty()
+        }
+
+        // 2. Click Item
+        composeTestRule.onNodeWithText("Traditional spare ribs baked")
+            .performClick()
+
+        // 3. Verify Detail Screen
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            composeTestRule.onAllNodesWithContentDescription("back icon").fetchSemanticsNodes()
+                .isNotEmpty()
+        }
+
+        composeTestRule.onNodeWithText("Traditional spare ribs baked")
+            .assertIsDisplayed()
+
+        // 4. Back
+        composeTestRule.onNodeWithContentDescription("back icon")
+            .performClick()
+
+        // 5. Verify Search Screen
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            composeTestRule.onAllNodesWithText("Search Result").fetchSemanticsNodes().isNotEmpty()
+        }
+
+        composeTestRule.onNodeWithText("Traditional spare ribs baked")
             .assertIsDisplayed()
     }
 }
