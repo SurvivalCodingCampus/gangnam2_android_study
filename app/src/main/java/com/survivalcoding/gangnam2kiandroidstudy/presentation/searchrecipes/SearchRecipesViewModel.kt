@@ -81,6 +81,8 @@ class SearchRecipesViewModel(
             is SearchRecipesAction.OnFilterClick -> {
                 applyFilter(action.filter)
             }
+
+            is SearchRecipesAction.OnRecipeClick -> {}
         }
     }
 

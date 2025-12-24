@@ -4,4 +4,5 @@ sealed interface SearchRecipesAction {
     data class OnSearchQueryChange(val query: String) : SearchRecipesAction
     data object OnBackClick : SearchRecipesAction
     data class OnFilterClick(val filter: FilterSearchState) : SearchRecipesAction
+    data class OnRecipeClick(val recipeId: Long) : SearchRecipesAction
 }

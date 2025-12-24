@@ -123,4 +123,28 @@ class SearchRecipesScreenTest {
         // Then
         assertEquals(SearchRecipesAction.OnBackClick, lastAction)
     }
+
+    @Test
+    fun triggerRecipeClick() {
+        // Given
+        val state = SearchRecipesState(
+            filteredRecipes = testRecipes
+        )
+        var lastAction: SearchRecipesAction? = null
+
+        // When
+        composeTestRule.setContent {
+            SearchRecipesScreen(
+                state = state,
+                onAction = { lastAction = it }
+            )
+        }
+
+        // Click on "Traditional Spare Ribs" recipe
+        composeTestRule.onNodeWithText("Traditional Spare Ribs")
+            .performClick()
+
+        // Then
+        assertEquals(SearchRecipesAction.OnRecipeClick(1), lastAction)
+    }
 }
