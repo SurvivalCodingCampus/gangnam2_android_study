@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -85,6 +86,7 @@ open class SearchRecipesViewModel(
     private fun observeSearchTerm() {
         viewModelScope.launch {
             searchTermFlow
+                .drop(1)
                 .onEach {
                     // debounce 시작 시점에서 로딩 시작
                     _state.update { it.copy(isLoading = true) }
