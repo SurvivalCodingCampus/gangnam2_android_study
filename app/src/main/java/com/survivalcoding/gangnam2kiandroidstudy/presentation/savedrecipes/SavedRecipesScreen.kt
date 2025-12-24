@@ -111,7 +111,7 @@ fun SavedRecipesScreen(
             }
         }
 
-        // SnackbarHost를 Box 내에 추가하고 상단 중앙에 배치
+        // SnackbarHost를 Box 내에 추가
         SnackbarHost(
             hostState = snackbarHostState,
             modifier = Modifier
