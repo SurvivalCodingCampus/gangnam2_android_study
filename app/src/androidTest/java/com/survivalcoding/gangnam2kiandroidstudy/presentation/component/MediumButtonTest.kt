@@ -15,9 +15,9 @@ class MediumButtonTest {
     fun `mediumButton이_클릭된다`() {
         var isClicked = false
         composeTestRule.setContent {
-            MediumButton("Button") {
+            MediumButton(text = "Button", onClick = {
                 isClicked = true
-            }
+            })
         }
         composeTestRule.onNodeWithText("Button")
             .performClick()

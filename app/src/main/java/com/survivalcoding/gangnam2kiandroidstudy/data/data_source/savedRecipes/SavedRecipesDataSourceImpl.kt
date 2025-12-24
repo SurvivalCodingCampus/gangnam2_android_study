@@ -8,13 +8,14 @@ class SavedRecipesDataSourceImpl : SavedRecipesDataSource {
         val file = """{
   "recipes": [
     {
-      "category": "Indian",
       "id": 1,
+      "category": "Indian",
       "name": "Traditional spare ribs baked",
       "image": "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
       "chef": "Chef John",
       "time": "20 min",
       "rating": 4.0,
+      "isSaved": true,
       "ingredients": [
         {
           "ingredient": {
@@ -58,6 +59,7 @@ class SavedRecipesDataSourceImpl : SavedRecipesDataSource {
       "chef": "Mark Kelvin",
       "time": "20 min",
       "rating": 4.0,
+      "isSaved": true,
       "ingredients": [
         {
           "ingredient": {
@@ -101,6 +103,7 @@ class SavedRecipesDataSourceImpl : SavedRecipesDataSource {
       "chef": "Spicy Nelly",
       "time": "20 min",
       "rating": 4.0,
+      "isSaved": true,
       "ingredients": [
         {
           "ingredient": {
@@ -129,13 +132,14 @@ class SavedRecipesDataSourceImpl : SavedRecipesDataSource {
       ]
     },
     {
-      "category": "Japanese",
       "id": 4,
+      "category": "Japanese",
       "name": "Ttekbokki",
       "image": "https://cdn.pixabay.com/photo/2017/07/27/16/48/toppokki-2545943_1280.jpg",
       "chef": "Kim Dahee",
       "time": "30 min",
       "rating": 5.0,
+      "isSaved": true,
       "ingredients": []
     },
     {
@@ -146,6 +150,7 @@ class SavedRecipesDataSourceImpl : SavedRecipesDataSource {
       "chef": "Alice Johnson",
       "time": "25 min",
       "rating": 4.5,
+      "isSaved": true,
       "ingredients": [
         {
           "ingredient": {
@@ -173,6 +178,7 @@ class SavedRecipesDataSourceImpl : SavedRecipesDataSource {
       "chef": "Gordon Ramsay",
       "time": "45 min",
       "rating": 5.0,
+      "isSaved": true,
       "ingredients": [
         {
           "ingredient": {
@@ -200,6 +206,7 @@ class SavedRecipesDataSourceImpl : SavedRecipesDataSource {
       "chef": "Mario Batali",
       "time": "15 min",
       "rating": 4.3,
+      "isSaved": true,
       "ingredients": [
         {
           "ingredient": {
@@ -219,6 +226,7 @@ class SavedRecipesDataSourceImpl : SavedRecipesDataSource {
       "chef": "Jiro Ono",
       "time": "60 min",
       "rating": 4.8,
+      "isSaved": true,
       "ingredients": [
         {
           "ingredient": {
@@ -246,6 +254,7 @@ class SavedRecipesDataSourceImpl : SavedRecipesDataSource {
       "chef": "Julia Child",
       "time": "40 min",
       "rating": 4.6,
+      "isSaved": true,
       "ingredients": [
         {
           "ingredient": {
@@ -265,6 +274,7 @@ class SavedRecipesDataSourceImpl : SavedRecipesDataSource {
       "chef": "Paul Hollywood",
       "time": "30 min",
       "rating": 4.9,
+      "isSaved": true,
       "ingredients": [
         {
           "ingredient": {
@@ -324,5 +334,9 @@ class SavedRecipesDataSourceImpl : SavedRecipesDataSource {
         }
         return json.decodeFromString(file)
 
+    }
+
+    override fun deleteSavedRecipe(id: Int) {
+        // No-op for hardcoded data source
     }
 }

@@ -10,14 +10,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
@@ -52,7 +55,7 @@ fun SavedRecipesScreen(
         ) {
             Spacer(modifier = Modifier.height(54.dp))
             Text(
-                "Saved Recipes",
+                stringResource(R.string.saved_recipes),
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 style = AppTextStyles.mediumTextBold
             )
@@ -63,13 +66,27 @@ fun SavedRecipesScreen(
                     .weight(1f)
                     .fillMaxWidth()
             ) {
-                items(state.savedRecipesList) { recipe ->
-                    RecipeCard(
-                        recipe = recipe,
-                        isSaved = true,
-                        onBookMarkClick = { onBookMarkClick(recipe.id) },
-                        onRecipeClick = { onRecipeClick(recipe) }
-                    )
+                if (state.savedRecipesList.isEmpty()) {
+                    item {
+                        Box(
+                            modifier = Modifier.fillParentMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                stringResource(R.string.no_saved_recipes),
+                                style = AppTextStyles.normalTextRegular
+                            )
+                        }
+                    }
+                } else {
+                    items(state.savedRecipesList) { recipe ->
+                        RecipeCard(
+                            recipe = recipe,
+                            isSaved = true,
+                            onBookMarkClick = { onBookMarkClick(recipe.id) },
+                            onRecipeClick = { onRecipeClick(recipe) }
+                        )
+                    }
                 }
 
             }
@@ -80,14 +97,23 @@ fun SavedRecipesScreen(
 @Preview(showBackground = true)
 @Composable
 fun SavedRecipesScreenPreview() {
-//    val recipeDto = Recipe(
-//        category = "Test",
-//        chef = "Chef John",
-//        id = 1,
-//        image = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
-//        name = "Grilled Steak",
-//        rating = 4.5,
-//        time = "30 min" // 예시 시간 추가
-//    )
-    //SavedRecipesScreen()
+    val recipe = Recipe(
+        category = "Indian",
+        chef = "Chef John",
+        id = 1,
+        image = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
+        name = "Traditional spare ribs baked",
+        rating = 4.0,
+        time = "20 min",
+        ingredients = emptyList(),
+        isSaved = true
+    )
+    SavedRecipesScreen(
+        state = SavedRecipesState(
+            savedRecipesList = listOf(recipe, recipe, recipe)
+        ),
+        onBookMarkClick = {},
+        onReachEnd = {},
+        lazyListState = rememberLazyListState()
+    )
 }

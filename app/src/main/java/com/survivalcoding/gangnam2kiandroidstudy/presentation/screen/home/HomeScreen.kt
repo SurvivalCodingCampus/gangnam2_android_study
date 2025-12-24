@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.core.util.MOCK
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipes
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.CustomSearchField
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.MediumRecipeCard
@@ -44,6 +45,8 @@ import kotlinx.serialization.json.Json
 fun HomeScreen(
     state: HomeState,
     onAction: (HomeAction) -> Unit,
+    onAddRecipe: (Recipe) -> Unit,
+    onDeleteRecipe: (Recipe) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
         Spacer(modifier = Modifier.height(64.dp))
@@ -131,7 +134,13 @@ fun HomeScreen(
             items(state.resultRecipes) { recipe ->
                 MediumRecipeCard(
                     recipe,
-                    onAction = { onAction(HomeAction.OnRecipeItemClicked(recipe)) })
+                    onAction = { onAction(HomeAction.OnRecipeItemClicked(recipe)) },
+                    onClickRecipeSaveButton = if (recipe.isSaved) {
+                        { onDeleteRecipe(recipe) }
+                    } else {
+                        { onAddRecipe(recipe) }
+                    }
+                )
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -162,9 +171,9 @@ private fun HomeScreenPreview() {
     val mockList =
         Json.decodeFromString<Recipes>(MOCK)
 
-
-    HomeScreen(
-        state = HomeState(resultRecipes = mockList.recipes.toImmutableList()),
-        onAction = {})
+//
+//    HomeScreen(
+//        state = HomeState(resultRecipes = mockList.recipes.toImmutableList()),
+//        onAction = {})
 }
 

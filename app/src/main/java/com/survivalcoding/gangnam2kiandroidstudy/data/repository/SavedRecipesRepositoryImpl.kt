@@ -11,5 +11,7 @@ class SavedRecipesRepositoryImpl(
         return savedRecipesDataSource.getSavedRecipes().recipes
     }
 
-
+    override suspend fun deleteSavedRecipe(id: Int) {
+        savedRecipesDataSource.deleteSavedRecipe(id)
+    }
 }

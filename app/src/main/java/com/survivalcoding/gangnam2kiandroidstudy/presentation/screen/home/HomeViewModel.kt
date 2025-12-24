@@ -53,5 +53,18 @@ class HomeViewModel(
         Log.d("HomeViewModel", "onSelectedCategory: ${_state.value}")
     }
 
+    fun addSavedRecipe(recipe: Recipe) {
+        _state.value = _state.value.copy(
+            resultRecipes = (_state.value.resultRecipes + recipe).toImmutableList()
+        )
+    }
+
+    fun deleteSavedRecipe(recipe: Recipe) {
+        _state.value = _state.value.copy(
+            resultRecipes = _state.value.resultRecipes.filter { it.id != recipe.id }
+                .toImmutableList()
+        )
+    }
+
 
 }

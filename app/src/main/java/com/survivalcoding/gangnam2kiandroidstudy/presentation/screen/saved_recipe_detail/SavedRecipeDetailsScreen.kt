@@ -154,6 +154,7 @@ private fun SavedRecipeItemScreenPreview() {
         name = "Traditional spare ribs baked",
         rating = 4.0,
         time = "20 min",
+        isSaved = true,
         ingredients = listOf(
             Ingredients(
                 amount = 500,
@@ -197,10 +198,10 @@ private fun SavedRecipeItemScreenPreview() {
                     "Tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?"
         )
     )
-    SavedRecipeItemScreen(
-        state = SavedRecipeDetailsState(isSelectIngredient = false),
-        recipe = mockRecipe,
-        procedure = mockProcedure,
-        { 0 }
-    )
+//    SavedRecipeItemScreen(
+//        state = SavedRecipeDetailsState(isSelectIngredient = false),
+//        recipe = Recipe(),
+//        procedure = emptyList<Procedure>(),
+//        { 0 }
+//    )
 }

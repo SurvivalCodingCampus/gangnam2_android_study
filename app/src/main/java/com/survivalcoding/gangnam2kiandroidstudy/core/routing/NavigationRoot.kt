@@ -91,7 +91,9 @@ fun NavigationRoot() {
             }
 
             entry<Route.Search> {
-                SearchRecipesRoot()
+                SearchRecipesRoot(onRecipeClick = {
+                    topLevelBackStack.add(Route.RecipeItem(it))
+                })
             }
         })
 }

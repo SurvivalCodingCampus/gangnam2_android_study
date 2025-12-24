@@ -37,11 +37,17 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 import kotlinx.serialization.json.Json
 
 @Composable
-fun MediumRecipeCard(recipe: Recipe, onAction: (HomeAction) -> Unit) {
+fun MediumRecipeCard(
+    recipe: Recipe,
+    onAction: (HomeAction) -> Unit,
+    onClickRecipeSaveButton: (Recipe) -> Unit
+) {
     Box(
         modifier = Modifier
             .size(width = 150.dp, height = 231.dp)
-            .clickable(enabled = true, onClick = { onAction(HomeAction.OnRecipeItemClicked(recipe)) })
+            .clickable(
+                enabled = true,
+                onClick = { onAction(HomeAction.OnRecipeItemClicked(recipe)) })
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.weight(1f))
@@ -88,11 +94,14 @@ fun MediumRecipeCard(recipe: Recipe, onAction: (HomeAction) -> Unit) {
                         .size(24.dp)
                         .background(color = AppColors.white, shape = CircleShape)
                         .align(Alignment.BottomEnd)
+                        .clickable(onClick = { onClickRecipeSaveButton(recipe) })
+
                 ) {
                     Image(
                         painter = painterResource(R.drawable.inactive),
                         contentDescription = "inactive",
-                        modifier = Modifier.align(Alignment.Center)
+                        modifier = Modifier
+                            .align(Alignment.Center)
                     )
                 }
 
@@ -174,6 +183,6 @@ private fun MediumRecipeCardPreview() {
     val json = Json {
         ignoreUnknownKeys = true
     }
-    //MediumRecipeCard(json.decodeFromString(mock))
+    MediumRecipeCard(json.decodeFromString(mock), {},{})
 
 }
