@@ -13,6 +13,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main.MainSc
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.notification.NotificationScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.profile.ProfileScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail.RecipeDetailsRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.savedrecipes.SavedRecipesNavigation
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.savedrecipes.SavedRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes.SearchRecipeNavigation
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes.SearchRecipesRoot
@@ -73,7 +74,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                 val backStack = rememberNavBackStack(Route.Home)
 
                 MainScreen(
-                    body = { modifier ->
+                    body = { modifier, snackbarHostState ->
                         NavDisplay(
                             modifier = modifier,
                             backStack = backStack,
@@ -104,9 +105,18 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 }
                                 entry<Route.SavedRecipes> {
                                     SavedRecipesRoot(
-                                        onCardClick = { recipeId ->
-                                            topLevelBackStack.removeIf { it is Route.RecipeDetails }
-                                            topLevelBackStack.add(Route.RecipeDetails(recipeId))
+                                        snackbarHostState = snackbarHostState,
+                                        onNavigate = { navigation ->
+                                            when (navigation) {
+                                                is SavedRecipesNavigation.RecipeDetails -> {
+                                                    topLevelBackStack.removeIf { it is Route.RecipeDetails }
+                                                    topLevelBackStack.add(
+                                                        Route.RecipeDetails(
+                                                            navigation.recipeId,
+                                                        ),
+                                                    )
+                                                }
+                                            }
                                         },
                                     )
                                 }
