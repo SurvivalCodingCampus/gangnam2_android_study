@@ -1,5 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
+import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,8 +15,10 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -34,6 +38,8 @@ fun FilterBottomSheet(
     val selectedTime = remember { mutableStateOf<String>(time ?: "") }
     val selectedRate = remember { mutableStateOf<String>(rate ?: "") }
     val selectedCategory = remember { mutableStateOf<String>(category ?: "") }
+    var backHandlingEnabled by remember { mutableStateOf(true) }
+
 
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true,
@@ -42,6 +48,7 @@ fun FilterBottomSheet(
         dragHandle = null,
         sheetState = sheetState,
         onDismissRequest = {
+
             onDismiss(
                 inputText,
                 selectedTime.value,
@@ -50,6 +57,16 @@ fun FilterBottomSheet(
             )
         }
     ) {
+
+        BackHandler(backHandlingEnabled) {
+            Log.d("FilterBottomSheet", "FilterBottomSheet: backHandler작동")
+            onDismiss(
+                inputText,
+                selectedTime.value,
+                selectedRate.value,
+                selectedCategory.value,
+            )
+        }
         Column(modifier = Modifier.padding(horizontal = 30.dp)) {
             Spacer(modifier = Modifier.height(31.dp))
             Text(

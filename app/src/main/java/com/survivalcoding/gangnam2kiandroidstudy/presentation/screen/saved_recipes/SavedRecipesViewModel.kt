@@ -3,7 +3,6 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_reci
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetSavedRecipesUseCase
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -16,7 +15,7 @@ class SavedRecipesViewModel(
     val state = _state.asStateFlow()
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             _state.value =
                 _state.value.copy(savedRecipesList = getSavedRecipesUseCase.execute())
         }
