@@ -12,6 +12,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeRo
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.notification.NotificationScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.profile.ProfileScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail.RecipeDetailsNavigation
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail.RecipeDetailsRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.savedrecipes.SavedRecipesNavigation
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.savedrecipes.SavedRecipesRoot
@@ -154,7 +155,16 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             entry<Route.RecipeDetails> { key ->
                 RecipeDetailsRoot(
                     id = key.recipeId,
-                    onBackClick = { topLevelBackStack.remove(key) },
+                    onNavigate = { navigation ->
+                        when (navigation) {
+                            RecipeDetailsNavigation.Back -> {
+                                topLevelBackStack.remove(key)
+                            }
+                            is RecipeDetailsNavigation.Reviews -> {
+                                topLevelBackStack.add(Route.Reviews(navigation.recipeId))
+                            }
+                        }
+                    },
                 )
             }
         },

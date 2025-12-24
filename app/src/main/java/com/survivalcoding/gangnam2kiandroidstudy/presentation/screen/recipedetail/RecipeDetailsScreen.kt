@@ -3,6 +3,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,6 +45,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Ingredie
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.ProcedureItem
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCardSize
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeDetailsDropdownMenu
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Tabs
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -53,15 +55,18 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun RecipeDetailsScreen(
     modifier: Modifier = Modifier,
     uiState: RecipeDetailsUiState = RecipeDetailsUiState(),
-    onTabClick: (Int) -> Unit = {},
-    onBackClick: () -> Unit = {},
+    onAction: (RecipeDetailsAction) -> Unit = {},
 ) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = onBackClick) {
+                    IconButton(
+                        onClick = {
+                            onAction(RecipeDetailsAction.OnBackClick)
+                        },
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "back icon",
@@ -72,8 +77,34 @@ fun RecipeDetailsScreen(
                     Icon(
                         painter = painterResource(R.drawable.outline_more),
                         contentDescription = "more icon",
-                        modifier = Modifier.padding(end = 30.dp),
+                        modifier = Modifier
+                            .padding(end = 30.dp)
+                            .clickable {
+                                onAction(RecipeDetailsAction.OnMenuClick)
+                            },
                     )
+
+                    uiState.recipe?.let { recipe ->
+                        RecipeDetailsDropdownMenu(
+                            isExpanded = uiState.isMenuVisible,
+                            isSaved = uiState.recipe.isSaved,
+                            onDismissRequest = {
+                                onAction(RecipeDetailsAction.OnMenuDismissRequest)
+                            },
+                            onShareClick = {
+                                onAction(RecipeDetailsAction.OnShareClick)
+                            },
+                            onRateClick = {
+                                onAction(RecipeDetailsAction.OnRateClick)
+                            },
+                            onReviewClick = {
+                                onAction(RecipeDetailsAction.OnReviewClick(recipe.id))
+                            },
+                            onBookmarkClick = {
+                                onAction(RecipeDetailsAction.OnBookmarkClick(recipe.id))
+                            },
+                        )
+                    }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = AppColors.White,
@@ -178,7 +209,9 @@ fun RecipeDetailsScreen(
             Tabs(
                 labels = listOf("Ingredient", "Procedure"),
                 selectedIndex = uiState.selectedTabIndex,
-                onValueChange = onTabClick,
+                onValueChange = {
+                    onAction(RecipeDetailsAction.OnTabClick(it))
+                },
             )
 
             Row(

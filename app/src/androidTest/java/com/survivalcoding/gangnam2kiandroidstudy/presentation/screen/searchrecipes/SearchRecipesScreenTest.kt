@@ -15,11 +15,14 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import com.survivalcoding.gangnam2kiandroidstudy.core.util.MockCopyManager
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockBookmarkRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockIngredientRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockProcedureRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockProfileRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockRecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeDetailsUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.ToggleBookmarkUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail.RecipeDetailsEvent
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail.RecipeDetailsScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail.RecipeDetailsViewModel
@@ -82,6 +85,8 @@ class SearchRecipesScreenTest {
         val getRecipeDetailsUseCase = GetRecipeDetailsUseCase(
             recipeRepository, profileRepository, ingredientRepository, procedureRepository,
         )
+        val toggleBookmarkUseCase = ToggleBookmarkUseCase(MockBookmarkRepositoryImpl)
+        val copyManager = MockCopyManager()
 
         composeTestRule.setContent {
             var currentScreen by remember { mutableStateOf("search") }
@@ -105,7 +110,12 @@ class SearchRecipesScreenTest {
                 )
             } else if (currentScreen == "detail") {
                 val detailViewModel = remember(selectedRecipeId) {
-                    RecipeDetailsViewModel(selectedRecipeId!!, getRecipeDetailsUseCase)
+                    RecipeDetailsViewModel(
+                        selectedRecipeId!!,
+                        getRecipeDetailsUseCase,
+                        toggleBookmarkUseCase,
+                        copyManager,
+                    )
                 }
                 val detailUiState by detailViewModel.uiState.collectAsState()
 

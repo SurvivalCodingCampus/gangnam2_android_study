@@ -10,4 +10,5 @@ data class Recipe(
     val serve: Int = 1,
     val chefImageUrl: String = "https://cdn.pixabay.com/photo/2022/10/19/01/02/woman-7531315_1280.png",
     val isSaved: Boolean = false,
+    val shareUrl: String = "app.Recipe.co/jollof_rice",
 )

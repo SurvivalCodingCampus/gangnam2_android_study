@@ -1,17 +1,28 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail
 
+import android.content.ClipboardManager
+import android.content.Context
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.test.platform.app.InstrumentationRegistry
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Profile
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.ShareDialog
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
-class RecipeDetailsScreenTest {
+class `RecipeDetailsScreenTest` {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -105,6 +116,92 @@ class RecipeDetailsScreenTest {
         composeTestRule.onNodeWithText("400g").assertIsDisplayed()
         composeTestRule.onNodeWithText("Taco").assertIsDisplayed()
         composeTestRule.onNodeWithText("300g").assertIsDisplayed()
+    }
+
+    @Test
+    fun testCopyLink() {
+        val recipe = Recipe(
+            id = 1L,
+            name = "spice roasted chicken with flavored rice",
+            imageUrl = "https://cdn.pixabay.com/photo/2017/11/10/15/04/steak-2936531_1280.jpg",
+            chef = "Chef John",
+            time = 20,
+            rating = 4.0,
+            shareUrl = "app.Recipe.co/jollof_rice",
+        )
+
+        composeTestRule.setContent {
+            var uiState by remember {
+                mutableStateOf(
+                    RecipeDetailsUiState(
+                        recipe = recipe,
+                    ),
+                )
+            }
+
+            RecipeDetailsScreen(
+                uiState = uiState,
+                onAction = { action ->
+                    when (action) {
+                        RecipeDetailsAction.OnMenuClick -> {
+                            uiState = uiState.copy(isMenuVisible = true)
+                        }
+
+                        RecipeDetailsAction.OnShareClick -> {
+                            uiState = uiState.copy(
+                                isMenuVisible = false,
+                                isShareDialogVisible = true,
+                            )
+                        }
+
+                        is RecipeDetailsAction.OnCopyClick -> {
+                            val context = InstrumentationRegistry.getInstrumentation().targetContext
+                            val clipboard =
+                                context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                            val clip = android.content.ClipData.newPlainText("share", action.text)
+                            clipboard.setPrimaryClip(clip)
+                        }
+
+                        RecipeDetailsAction.OnShareDismissRequest -> {
+                            uiState = uiState.copy(isShareDialogVisible = false)
+                        }
+
+                        else -> {}
+                    }
+                },
+            )
+
+            ShareDialog(
+                isVisible = uiState.isShareDialogVisible,
+                shareUrl = uiState.recipe?.shareUrl ?: "",
+                onDismissRequest = {
+                    uiState = uiState.copy(isShareDialogVisible = false)
+                },
+                onCopy = {
+                    val context = InstrumentationRegistry.getInstrumentation().targetContext
+                    val clipboard =
+                        context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = android.content.ClipData.newPlainText("share", it)
+                    clipboard.setPrimaryClip(clip)
+                },
+            )
+        }
+
+        // 1. 메뉴를 누르고
+        composeTestRule.onNodeWithContentDescription("more icon").performClick()
+
+        // 2. share 버튼을 누르고
+        composeTestRule.onNodeWithText("share").performClick()
+
+        // 3. Copy Link를 누르고
+        composeTestRule.onNodeWithText("Copy Link").performClick()
+
+        // 4. 클립보드에 복사되었는지 확인
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val actualText = clipboard.primaryClip?.getItemAt(0)?.text?.toString()
+
+        assertEquals(recipe.shareUrl, actualText)
     }
 
 }

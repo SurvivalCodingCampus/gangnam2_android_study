@@ -16,4 +16,7 @@ data class RecipeDetailsUiState(
     val isLoading: Boolean = false,
     val isFollowing: Boolean = false,
     val selectedTabIndex: Int = 0,
+    val isMenuVisible: Boolean = false,
+    val isShareDialogVisible: Boolean = false,
+    val isRateDialogVisible: Boolean = false,
 )
