@@ -8,7 +8,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ClipboardRepo
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.CopyLinkUseCase
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 

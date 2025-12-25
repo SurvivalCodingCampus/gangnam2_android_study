@@ -81,7 +81,7 @@ class RecipeDetailViewModel(
 
     private fun updateVisibleShare() {
         _uiState.update {
-            it.copy(visibleShare = !_uiState.value.visibleShare)
+            it.copy(visibleShare = !it.visibleShare)
         }
     }
 
