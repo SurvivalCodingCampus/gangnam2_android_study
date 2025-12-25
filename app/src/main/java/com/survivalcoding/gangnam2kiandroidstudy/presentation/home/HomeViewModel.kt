@@ -6,8 +6,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetHomeRecipesUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.ToggleBookmarkUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,6 +23,9 @@ class HomeViewModel @Inject constructor(
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
 
+    private val _event = Channel<HomeEvent>()
+    val event = _event.receiveAsFlow()
+
     fun onAction(action: HomeAction) {
         when (action) {
             is HomeAction.CategorySelected -> onSelectCategory(action.category)
@@ -31,13 +36,20 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            val homeRecipes = getHomeRecipesUseCase.execute()
-            _state.update {
-                it.copy(
-                    homeRecipes = homeRecipes,
-                    filteredHomeRecipes = homeRecipes,
-                    isLoading = false
-                )
+            try {
+                val homeRecipes = getHomeRecipesUseCase.execute()
+                val categories = listOf("All") + homeRecipes.map { it.recipe.category }.distinct()
+                _state.update {
+                    it.copy(
+                        homeRecipes = homeRecipes,
+                        filteredHomeRecipes = homeRecipes,
+                        categories = categories,
+                        isLoading = false
+                    )
+                }
+            } catch (e: Exception) {
+                _state.update { it.copy(isLoading = false) }
+                _event.send(HomeEvent.ShowError("Failed to load recipes: ${e.message}"))
             }
         }
     }

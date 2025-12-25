@@ -7,4 +7,5 @@ data class HomeState(
     val filteredHomeRecipes: List<HomeRecipe> = emptyList(),
     val isLoading: Boolean = false,
     val selectedCategory: String = "All",
+    val categories: List<String> = listOf("All")
 )

@@ -113,6 +113,7 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(25.dp))
         RecipeCategorySelector(
             modifier = Modifier.padding(horizontal = 30.dp),
+            categories = state.categories,
             selectedCategory = state.selectedCategory,
             onCategorySelected = { category -> onAction(HomeAction.CategorySelected(category)) },
         )
