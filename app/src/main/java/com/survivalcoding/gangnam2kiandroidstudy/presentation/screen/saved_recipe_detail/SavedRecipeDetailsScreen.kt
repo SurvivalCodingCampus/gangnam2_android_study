@@ -402,7 +402,7 @@ private fun SavedRecipeItemScreenPreview() {
     SavedRecipeItemScreen(
         state = SavedRecipeDetailsState(isSelectIngredient = false),
         recipe = mockRecipe,
-        procedure = emptyList<Procedure>(),
+        procedure = mockProcedure,
         { 0 },
         {},
         {},
