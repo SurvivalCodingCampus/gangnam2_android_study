@@ -38,15 +38,14 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SettingB
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallButton2
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.serialization.json.Json
 
 @Composable
 fun HomeScreen(
     state: HomeState,
     onAction: (HomeAction) -> Unit,
-    onAddRecipe: (Recipe) -> Unit,
-    onDeleteRecipe: (Recipe) -> Unit
+    onAddSavedRecipe: (Recipe) -> Unit,
+    onDeleteSavedRecipe: (Recipe) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
         Spacer(modifier = Modifier.height(64.dp))
@@ -136,9 +135,9 @@ fun HomeScreen(
                     recipe,
                     onAction = { onAction(HomeAction.OnRecipeItemClicked(recipe)) },
                     onClickRecipeSaveButton = if (recipe.isSaved) {
-                        { onDeleteRecipe(recipe) }
+                        { onDeleteSavedRecipe(recipe) }
                     } else {
-                        { onAddRecipe(recipe) }
+                        { onAddSavedRecipe(recipe) }
                     }
                 )
             }

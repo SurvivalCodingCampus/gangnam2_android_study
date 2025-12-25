@@ -22,8 +22,8 @@ fun HomeRoot(
                 is HomeAction.OnRecipeItemClicked -> onRecipeItemClicked(action.recipe)//onAction(HomeAction.OnRecipeItemClicked(action.recipe))
             }
         },
-        onAddRecipe = { viewModel.addSavedRecipe(it) },
-        onDeleteRecipe = {
+        onAddSavedRecipe = { viewModel.addSavedRecipe(it) },
+        onDeleteSavedRecipe = {
             viewModel.deleteSavedRecipe(it)
 
         }
