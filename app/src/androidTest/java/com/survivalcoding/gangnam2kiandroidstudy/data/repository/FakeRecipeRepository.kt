@@ -7,6 +7,12 @@ import javax.inject.Inject
 
 class FakeRecipeRepository @Inject constructor() : RecipeRepository {
 
+    private var shouldThrowError = false
+
+    fun setShouldThrowError(value: Boolean) {
+        shouldThrowError = value
+    }
+
     private val fakeRecipes = listOf(
         Recipe(
             id = 1,
@@ -47,6 +53,9 @@ class FakeRecipeRepository @Inject constructor() : RecipeRepository {
     )
 
     override suspend fun getRecipes(): List<Recipe> {
+        if (shouldThrowError) {
+            throw Exception("Network Error")
+        }
         return fakeRecipes
     }
 

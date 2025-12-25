@@ -33,30 +33,41 @@ class HomeViewModel @Inject constructor(
     private fun loadHome() {
         // 전체
         viewModelScope.launch {
-            val recipes = recipeRepository.getRecipes()
+            _state.update { it.copy(isLoading = true, errorMessage = null) }
+            try {
+                val recipes = recipeRepository.getRecipes()
 
-            val bookmarkedIds = bookmarkRepository
-                .getSavedRecipeIds()
-                .toSet()
+                val bookmarkedIds = bookmarkRepository
+                    .getSavedRecipeIds()
+                    .toSet()
 
-            // new
-            val newRecipes = getNewRecipesUseCase.execute()
+                // new
+                val newRecipes = getNewRecipesUseCase.execute()
 
-            _state.update { current ->
-                // 현재 선택된 카테고리를 유지하면서 셀렉터 다시 계산
-                val filtered =
-                    if (current.selectedCategory == HomeCategory.ALL) {
-                        recipes
-                    } else {
-                        recipes.filter { it.category == current.selectedCategory.label }
-                    }
+                _state.update { current ->
+                    // 현재 선택된 카테고리를 유지하면서 셀렉터 다시 계산
+                    val filtered =
+                        if (current.selectedCategory == HomeCategory.ALL) {
+                            recipes
+                        } else {
+                            recipes.filter { it.category == current.selectedCategory.label }
+                        }
 
-                current.copy(
-                    recipes = recipes,
-                    filteredRecipes = filtered,  // 현재 선택 상태 기반으로 셀렉터 재적용
-                    bookmarkedIds = bookmarkedIds,
-                    newRecipes = newRecipes,
-                )
+                    current.copy(
+                        recipes = recipes,
+                        filteredRecipes = filtered,  // 현재 선택 상태 기반으로 셀렉터 재적용
+                        bookmarkedIds = bookmarkedIds,
+                        newRecipes = newRecipes,
+                        isLoading = false,
+                    )
+                }
+            } catch (e: Exception) {
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = "Failed to load data"
+                    )
+                }
             }
         }
     }
