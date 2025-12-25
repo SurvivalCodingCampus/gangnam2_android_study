@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -114,7 +115,7 @@ fun RecipeCard(
                             style = AppTextStyles.smallTextBold.copy(color = AppColors.white)
                         )
                         Text(
-                            if(recipe.chef.isNotEmpty()) "By ${recipe.chef}" else "",
+                            if (recipe.chef.isNotEmpty()) "By ${recipe.chef}" else "",
                             modifier = Modifier,
                             style = AppTextStyles.smallerTextRegular.copy(color = AppColors.white)
                         )
@@ -149,14 +150,14 @@ fun RecipeCard(
                         contentAlignment = Alignment.Center,
 
                         ) {
-                        Image(
-                            painter = if (isSaved) painterResource(R.drawable.bold_bookmark_active) else painterResource(
+                        Icon(
+                            modifier = Modifier.size(16.dp),
+                            painter = painterResource(
                                 R.drawable.outline_bookmark_inactive
                             ),
-                            contentDescription = "Bookmark"
+                            contentDescription = "Bookmark",
+                            tint = if (isSaved) AppColors.primary80 else AppColors.gray3
                         )
-
-
                     }
                     Spacer(modifier = Modifier.width(10.dp)) // 여기에 오른쪽 여백을 추가
                 }

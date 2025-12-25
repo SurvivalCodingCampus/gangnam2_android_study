@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipe_detail
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -26,7 +27,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredients
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
-import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedures
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.IngredientItem
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.ProcedureItem
@@ -41,14 +41,38 @@ fun SavedRecipeItemScreen(
     state: SavedRecipeDetailsState,
     recipe: Recipe,
     procedure: List<Procedure>,
-    onValueChanged: (Boolean) -> Unit
+    onValueChanged: (Boolean) -> Unit,
+    onBackButtonClicked: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 30.dp)
     ) {
-        Spacer(modifier = Modifier.height(88.dp))
+        Spacer(modifier = Modifier.height(54.dp))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(24.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.outline_arrow_left),
+                contentDescription = "뒤로가기 버튼",
+                modifier = Modifier.clickable(onClick = { onBackButtonClicked() })
+            )
+
+            Icon(
+                painter = painterResource(R.drawable.outline_more),
+                contentDescription = "more버튼",
+                modifier = Modifier.clickable(onClick = {})
+            )
+
+        }
+        Spacer(modifier = Modifier.height(54.dp))
+
         RecipeCard(
             recipe = recipe.copy(name = "", chef = ""),
             isSaved = true,
@@ -74,7 +98,7 @@ fun SavedRecipeItemScreen(
         Profile(name = recipe.chef, region = "south korea", imageUrl = recipe.image) //TODO지역 수정)
         Spacer(modifier = Modifier.height(8.dp))
         Tab2(
-            listOf("Ingredient", "Procedure"), if(state.isSelectIngredient) 0 else 1
+            listOf("Ingredient", "Procedure"), if (state.isSelectIngredient) 0 else 1
         ) {
             if (it == 0) {
                 onValueChanged(true)
@@ -133,14 +157,9 @@ fun SavedRecipeItemScreen(
                 items(procedure) {
                     ProcedureItem(it)
                 }
-
-
             }
         }
-
-
     }
-
 }
 
 @Preview(showBackground = true)
@@ -198,10 +217,11 @@ private fun SavedRecipeItemScreenPreview() {
                     "Tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?"
         )
     )
-//    SavedRecipeItemScreen(
-//        state = SavedRecipeDetailsState(isSelectIngredient = false),
-//        recipe = Recipe(),
-//        procedure = emptyList<Procedure>(),
-//        { 0 }
-//    )
+    SavedRecipeItemScreen(
+        state = SavedRecipeDetailsState(isSelectIngredient = false),
+        recipe = mockRecipe,
+        procedure = emptyList<Procedure>(),
+        { 0 },
+        {}
+    )
 }

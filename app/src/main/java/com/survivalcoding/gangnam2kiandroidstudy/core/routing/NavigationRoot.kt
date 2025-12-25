@@ -58,19 +58,17 @@ fun NavigationRoot() {
                                 rememberViewModelStoreNavEntryDecorator()
                             ), entryProvider = entryProvider {
                                 entry<Route.Home> {
-                                    HomeRoot(
-                                        onSearchClicked = {
-                                            topLevelBackStack.add(
-                                                Route.Search
+                                    HomeRoot(onSearchClicked = {
+                                        topLevelBackStack.add(
+                                            Route.Search
+                                        )
+                                    }, onRecipeItemClicked = {
+                                        topLevelBackStack.add(
+                                            Route.RecipeItem(
+                                                it
                                             )
-                                        },
-                                        onRecipeItemClicked = {
-                                            topLevelBackStack.add(
-                                                Route.RecipeItem(
-                                                    it
-                                                )
-                                            )
-                                        })
+                                        )
+                                    })
                                 }
                                 entry<Route.SavedRecipes> {
                                     SavedRecipesRoot(onRecipeClick = {
@@ -87,7 +85,9 @@ fun NavigationRoot() {
 
             }
             entry<Route.RecipeItem> { navEntry ->
-                SavedRecipeItemRoot(navEntry.recipe)
+                SavedRecipeItemRoot(
+                    navEntry.recipe,
+                    onBackButtonClick = { topLevelBackStack.removeAt(topLevelBackStack.lastIndex) })
             }
 
             entry<Route.Search> {
