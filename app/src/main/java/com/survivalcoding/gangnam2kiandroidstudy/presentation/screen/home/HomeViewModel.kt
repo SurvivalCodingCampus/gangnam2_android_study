@@ -50,6 +50,9 @@ class HomeViewModel(
     }
 
     fun addSavedRecipe(recipe: Recipe) {
+        cachedRecipes = cachedRecipes.map {
+            if (it.id == recipe.id) it.copy(isSaved = true) else it
+        }
         _state.value = _state.value.copy(
             resultRecipes = _state.value.resultRecipes.map {
                 if (it.id == recipe.id) {
@@ -57,11 +60,15 @@ class HomeViewModel(
                 } else {
                     it
                 }
-            }.toImmutableList()
+            }.toImmutableList(),
         )
+
     }
 
     fun deleteSavedRecipe(recipe: Recipe) {
+        cachedRecipes = cachedRecipes.map {
+            if (it.id == recipe.id) it.copy(isSaved = false) else it
+        }
         _state.value = _state.value.copy(
             resultRecipes = _state.value.resultRecipes.map {
                 if (it.id == recipe.id) {
