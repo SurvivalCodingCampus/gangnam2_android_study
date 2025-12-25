@@ -14,12 +14,12 @@ class BookmarkDataSourceImpl : BookmarkDataSource {
     }
 
     override suspend fun addBookmark(recipeId: Int): Boolean {
-        bookmarkedIds.update { it + listOf(recipeId) }
+        bookmarkedIds.update { it + recipeId }
         return true
     }
 
     override suspend fun removeBookmark(recipeId: Int): Boolean {
-        bookmarkedIds.update { it - listOf(recipeId) }
+        bookmarkedIds.update { it - recipeId }
         return true
     }
 }
