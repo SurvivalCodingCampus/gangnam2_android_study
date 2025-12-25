@@ -98,14 +98,20 @@ fun HomeScreen(
                     .padding(horizontal = 30.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                SearchInputField(
-                    modifier = Modifier.weight(1f).clickable {
-                        onAction(HomeAction.SearchRecipe)
-                    },
-                    value = "",
-                    placeholder = "Search Recipe",
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable {
+                            onAction(HomeAction.SearchRecipe)
+                        }
                 ) {
-                    // search
+                    SearchInputField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = "",
+                        placeholder = "Search Recipe",
+                    ) {
+                        // search
+                    }
                 }
                 Spacer(modifier = Modifier.width(20.dp))
                 FilterBox {

@@ -22,10 +22,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,12 +34,14 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun ShareDialog(
     modifier: Modifier = Modifier,
+    recipeLink: String = "app.Recipe.co/jollof _rice",
     onDismiss: () -> Unit = {},
     onCopy: (String) -> Unit = {}
 ) {
-    var copyLink by remember { mutableStateOf("app.Recipe.co/jollof _rice") }
     Dialog(
-        onDismissRequest = { }
+        onDismissRequest = {
+            onDismiss()
+        }
     ) {
         Card(
             modifier = modifier
@@ -102,7 +100,7 @@ fun ShareDialog(
                     ) {
                         Spacer(modifier = Modifier.width(14.dp))
                         Text(
-                            text = copyLink,
+                            text = recipeLink,
                             style = AppTextStyles.smallerTextBold
                         )
                     }
@@ -112,7 +110,7 @@ fun ShareDialog(
                             .size(85.dp, 43.dp)
                             .align(Alignment.TopEnd)
                     ) {
-                        onCopy(copyLink)
+                        onCopy(recipeLink)
                     }
                 }
             }
