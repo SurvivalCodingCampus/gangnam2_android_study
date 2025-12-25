@@ -18,6 +18,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun MoreDropdownMenu(
     expanded: Boolean = false,
     onDismissRequest: () -> Unit = {},
+    onShareClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     DropdownMenu(
@@ -40,7 +41,10 @@ fun MoreDropdownMenu(
                     modifier = Modifier.size(20.dp),
                 )
             },
-            onClick = { /* Do something... */ }
+            onClick = {
+                onShareClick()
+                onDismissRequest()
+            }
         )
 
         DropdownMenuItem(

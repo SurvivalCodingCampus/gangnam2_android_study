@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.CopyLinkUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeProcedureUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 class IngredientViewModel(
     private val recipeRepository: RecipeRepository,
     private val getRecipeProcedureUseCase: GetRecipeProcedureUseCase,
+    private val copyLinkUseCase: CopyLinkUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(IngredientState())
@@ -46,5 +48,9 @@ class IngredientViewModel(
                 is Result.Error -> println("에러 처리")
             }
         }
+    }
+
+    fun copyLink(link: String) {
+        copyLinkUseCase(link)
     }
 }

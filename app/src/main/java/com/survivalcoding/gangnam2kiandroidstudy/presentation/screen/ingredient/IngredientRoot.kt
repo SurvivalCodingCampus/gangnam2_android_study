@@ -9,6 +9,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
 
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeLinkDialog
+
 @Composable
 fun IngredientRoot(
     recipeId: Long,
@@ -17,6 +19,7 @@ fun IngredientRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     var isMenuExpanded by remember { mutableStateOf(false) }
+    var isShareDialogVisible by remember { mutableStateOf(false) }
 
     LaunchedEffect(recipeId) {
         viewModel.loadRecipeDetail(recipeId)
@@ -29,6 +32,20 @@ fun IngredientRoot(
         onBackClick = onBackClick,
         onMoreClick = { isMenuExpanded = true },
         onDismissMoreMenu = { isMenuExpanded = false },
-        onTapClick = { index -> viewModel.updateTabIndex(index) }
+        onTapClick = { index -> viewModel.updateTabIndex(index) },
+        onShareClick = { isShareDialogVisible = true }
     )
+
+    val linkText = "app.foodrecipe.com/recipe143"
+
+    if (isShareDialogVisible) {
+        RecipeLinkDialog(
+            linkText = linkText,
+            onDismissRequest = { isShareDialogVisible = false },
+            onCopyClick = {
+                viewModel.copyLink(linkText)
+                isShareDialogVisible = false
+            }
+        )
+    }
 }

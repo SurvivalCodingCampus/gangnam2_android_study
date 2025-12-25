@@ -25,6 +25,7 @@ val viewModelModule = module {
         IngredientViewModel(
             recipeRepository = get(),
             getRecipeProcedureUseCase = get(),
+            copyLinkUseCase = get(),
         )
     }
     viewModel {

@@ -48,6 +48,7 @@ fun IngredientScreen(
     onDismissMoreMenu: () -> Unit = {},
     onBookmarkClick: () -> Unit = {},
     onTapClick: (Int) -> Unit = {},
+    onShareClick: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier.padding(horizontal = 30.dp)
@@ -77,7 +78,8 @@ fun IngredientScreen(
                 )
                 MoreDropdownMenu(
                     expanded = isMenuExpanded,
-                    onDismissRequest = onDismissMoreMenu
+                    onDismissRequest = onDismissMoreMenu,
+                    onShareClick = onShareClick
                 )
             }
         }
