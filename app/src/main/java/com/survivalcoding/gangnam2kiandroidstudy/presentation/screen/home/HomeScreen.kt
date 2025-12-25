@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
+﻿package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.*
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.card.HomeRecipeCard
@@ -23,8 +24,26 @@ fun HomeScreen(
     state: HomeState,
     onAction: (HomeAction) -> Unit,
     profilePainter: Painter,
-    isTest: Boolean = false, // ⭐ 테스트 전용 플래그
+    isTest: Boolean = false, // 狩??뚯뒪???꾩슜 ?뚮옒洹?
 ) {
+    if (state.errorMessage != null) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(AppColors.white)
+                .testTag("home_error"),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = state.errorMessage,
+                style = AppTextStyles.mediumTextBold,
+                color = AppColors.gray3
+            )
+        }
+        return
+    }
+
+    
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -33,7 +52,7 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(64.dp))
 
-        // 상단
+        // ?곷떒
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -63,7 +82,7 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        // 검색
+        // 寃??
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -139,3 +158,5 @@ fun HomeScreen(
         }
     }
 }
+
+

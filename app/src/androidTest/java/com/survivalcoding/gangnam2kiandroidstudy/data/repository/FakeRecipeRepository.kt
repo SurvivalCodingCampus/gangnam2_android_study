@@ -6,12 +6,18 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.recipe.Recipe
 class FakeRecipeRepository : RecipeRepository {
 
     private val recipes = mutableListOf<Recipe>()
+    var shouldThrowOnGetRecipes: Boolean = false
 
     fun addRecipe(recipe: Recipe) {
         recipes.add(recipe)
     }
 
-    override suspend fun getRecipes(): List<Recipe> = recipes
+    override suspend fun getRecipes(): List<Recipe> {
+        if (shouldThrowOnGetRecipes) {
+            throw IllegalStateException("Fake error")
+        }
+        return recipes
+    }
 
     override suspend fun getSavedRecipes(): List<Recipe> {
         return recipes.filter { it.isSaved }

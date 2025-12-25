@@ -41,15 +41,22 @@ class HomeViewModel(
 
     private fun loadRecipes() {
         viewModelScope.launch {
-            val recipes = repository.getRecipes()
-            _state.value = _state.value.copy(
-                allRecipes = recipes,
-                filteredRecipes = recipes,
-
-                newRecipes = recipes
-                    .sortedByDescending { it.createdAt }
-                    .take(5)
-            )
+            runCatching { repository.getRecipes() }
+                .onSuccess { recipes ->
+                    _state.value = _state.value.copy(
+                        allRecipes = recipes,
+                        filteredRecipes = recipes,
+                        newRecipes = recipes
+                            .sortedByDescending { it.createdAt }
+                            .take(5),
+                        errorMessage = null
+                    )
+                }
+                .onFailure {
+                    _state.value = _state.value.copy(
+                        errorMessage = "Failed to load recipes"
+                    )
+                }
         }
     }
 
