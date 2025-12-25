@@ -124,7 +124,7 @@ fun SearchRecipesScreen(
                 items(state.recipes) { recipe ->
                     RecipeCard(
                         modifier = Modifier.aspectRatio(1f), recipe = recipe, showDetails = false,
-                        onClick = {}
+                        onClick = { onAction(SearchRecipesAction.RecipeClicked(recipe.id)) }
                     )
                 }
             }

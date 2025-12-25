@@ -39,6 +39,7 @@ class SearchRecipesViewModel @Inject constructor(private val recipeRepository: R
             is SearchRecipesAction.ShowFilterSheet -> onShowFilterSheet()
             is SearchRecipesAction.DismissFilterSheet -> onDismissFilterSheet()
             is SearchRecipesAction.BackButtonClicked -> onBackButtonClicked()
+            is SearchRecipesAction.RecipeClicked -> onRecipeClicked(action.recipeId)
         }
     }
 
@@ -130,6 +131,12 @@ class SearchRecipesViewModel @Inject constructor(private val recipeRepository: R
     private fun onBackButtonClicked() {
         viewModelScope.launch {
             _event.emit(SearchRecipesEvent.GoBack)
+        }
+    }
+
+    private fun onRecipeClicked(recipeId: Int) {
+        viewModelScope.launch {
+            _event.emit(SearchRecipesEvent.NavigateToRecipeDetail(recipeId))
         }
     }
 }
