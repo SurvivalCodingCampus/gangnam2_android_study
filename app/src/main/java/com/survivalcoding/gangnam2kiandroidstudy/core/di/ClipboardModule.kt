@@ -9,7 +9,8 @@ import org.koin.dsl.module
 
 val clipboardModule = module {
     single<ClipboardManager> {
-        androidContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        androidContext().getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+            ?: throw IllegalStateException("ClipboardManager not available")
     }
 
     single<ClipboardRepository> { ClipboardRepositoryImpl(get()) }

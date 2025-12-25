@@ -11,7 +11,8 @@ import org.koin.dsl.module
 
 val networkModule = module {
     single<ConnectivityManager> {
-        androidContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        androidContext().getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+            ?: throw IllegalStateException("ConnectivityManager not available")
     }
 
     single<NetworkMonitor> { NetworkMonitorImpl(get()) }
