@@ -6,4 +6,6 @@ sealed interface RecipeDetailAction {
     object BackClick : RecipeDetailAction
     data class MenuClick(val isShow: Boolean) : RecipeDetailAction
     object ShareClick : RecipeDetailAction
+    object CopyLinkClick : RecipeDetailAction
+    object DismissShareDialog : RecipeDetailAction
 }

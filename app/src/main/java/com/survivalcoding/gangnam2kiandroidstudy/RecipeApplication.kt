@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy
 
 import android.app.Application
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.clipboardModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.dataModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.networkModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.repositoryModule
@@ -16,7 +17,7 @@ class RecipeApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@RecipeApplication)
-            modules(viewModelModule, useCaseModule, repositoryModule, dataModule, networkModule)
+            modules(viewModelModule, useCaseModule, repositoryModule, dataModule, networkModule, clipboardModule)
         }
     }
 }

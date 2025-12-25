@@ -35,4 +35,9 @@ val useCaseModule = module {
             networkRepository = get()
         )
     }
+    factory {
+        CopyLinkUseCase(
+            clipboardService = get()
+        )
+    }
 }

@@ -34,6 +34,7 @@ val viewModelModule = module {
 
         RecipeDetailViewModel(
             getRecipeDetailsUseCase = get(),
+            copyLinkUseCase = get(),
             savedStateHandle = savedStateHandle
         )
     }

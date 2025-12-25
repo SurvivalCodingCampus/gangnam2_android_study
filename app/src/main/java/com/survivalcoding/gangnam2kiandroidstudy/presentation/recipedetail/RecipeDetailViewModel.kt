@@ -3,16 +3,14 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.CopyLinkUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeDetailsUseCase
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class RecipeDetailViewModel(
     private val getRecipeDetailsUseCase: GetRecipeDetailsUseCase,
+    private val copyLinkUseCase: CopyLinkUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _event = MutableSharedFlow<RecipeDetailEvent>()
@@ -46,7 +44,6 @@ class RecipeDetailViewModel(
 
     private fun followChef(chefId: Int) {
         viewModelScope.launch {
-            // followUseCase(chefId)
             emitEvent(RecipeDetailEvent.FollowCompleted(chefId))
         }
     }
@@ -72,9 +69,24 @@ class RecipeDetailViewModel(
                 }
             }
             RecipeDetailAction.ShareClick -> {
+                _uiState.update { it.copy(isShowShareDialog = true) }
+            }
+            RecipeDetailAction.DismissShareDialog -> {
+                _uiState.update { it.copy(isShowShareDialog = false) }
+            }
+            RecipeDetailAction.CopyLinkClick -> {
+                val link = "app.Recipe.co/${uiState.value.recipe.id}"
+
+                val success = copyLinkUseCase(link)
                 emitEvent(
-                    RecipeDetailEvent.ShowShare(uiState.value.recipe)
+                    RecipeDetailEvent.ShowMessage(
+                        if (success) "클립보드에 복사되었습니다."
+                        else "실패 했습니다."
+                    )
                 )
+                _uiState.update {
+                    it.copy(isShowShareDialog = false)
+                }
             }
         }
     }

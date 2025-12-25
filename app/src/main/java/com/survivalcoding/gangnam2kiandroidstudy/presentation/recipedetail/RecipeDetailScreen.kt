@@ -74,8 +74,8 @@ fun RecipeDetailScreen(
                                 )
                             },
                             onClick = {
-                                onAction(RecipeDetailAction.MenuClick(false))
                                 onAction(RecipeDetailAction.ShareClick)
+                                onAction(RecipeDetailAction.MenuClick(false))
                             }
                         )
                         DropdownMenuItem(
