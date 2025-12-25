@@ -17,7 +17,7 @@ class SavedRecipesScreenTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun savedRecipesAreDisplayed() {
+    fun `저장된_레시피_표시_테스트`() {
         composeTestRule.setContent {
             SavedRecipesRoot()
         }
@@ -27,7 +27,7 @@ class SavedRecipesScreenTest {
     }
 
     @Test
-    fun clickingBookmarkRemovesRecipe() {
+    fun `북마크_클릭_시_레시피_삭제_테스트`() {
         composeTestRule.setContent {
             SavedRecipesRoot()
         }

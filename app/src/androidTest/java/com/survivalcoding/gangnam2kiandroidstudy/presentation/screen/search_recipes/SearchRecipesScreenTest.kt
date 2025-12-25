@@ -15,7 +15,7 @@ class SearchRecipesScreenTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun typingTextFiltersRecipes() {
+    fun `검색어_입력_시_레시피_필터링_테스트`() {
         // Given
         composeTestRule.setContent {
             SearchRecipesRoot()

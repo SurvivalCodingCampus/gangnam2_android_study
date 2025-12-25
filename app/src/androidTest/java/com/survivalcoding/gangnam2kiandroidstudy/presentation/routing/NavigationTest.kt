@@ -22,7 +22,7 @@ class NavigationTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun clickingRecipeInSearchScreenNavigatesToDetails() {
+    fun `검색화면에서_레시피_클릭시_상세화면_이동_테스트`() {
         // Given
         composeTestRule.setContent {
             TestSearchNavigationRoot()
@@ -44,7 +44,7 @@ class NavigationTest {
 fun TestSearchNavigationRoot() {
     // Start directly at Search
     val topLevelBackStack = rememberNavBackStack(Route.Search)
-    
+
     NavDisplay(
         backStack = topLevelBackStack,
         entryDecorators = listOf(
@@ -52,13 +52,15 @@ fun TestSearchNavigationRoot() {
             rememberViewModelStoreNavEntryDecorator()
         ),
         entryProvider = entryProvider {
-             entry<Route.Search> {
+            entry<Route.Search> {
                 SearchRecipesRoot(onRecipeClick = {
                     topLevelBackStack.add(Route.RecipeItem(it))
                 })
             }
             entry<Route.RecipeItem> { navEntry ->
-                SavedRecipeItemRoot(navEntry.recipe)
+                SavedRecipeItemRoot(
+                    navEntry.recipe,
+                    onBackButtonClick = { topLevelBackStack.removeAt(topLevelBackStack.lastIndex) })
             }
         }
     )

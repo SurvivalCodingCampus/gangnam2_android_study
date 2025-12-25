@@ -17,7 +17,7 @@ class HomeRootTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun saveRecipeTest() {
+    fun `레시피_저장_테스트`() {
         // 1. 가짜 레포지토리 및 뷰모델 설정
         val fakeRecipe = Recipe(
             category = "All",
@@ -76,7 +76,7 @@ class HomeRootTest {
     }
 
     @Test
-    fun rotationTest() {
+    fun `화면_회전_테스트`() {
         val stateRestorationTester = StateRestorationTester(composeTestRule)
 
         val fakeRecipe = Recipe(
@@ -126,7 +126,7 @@ class HomeRootTest {
     }
 
     @Test
-    fun showNoRecipesTextWhenListIsEmpty() {
+    fun `목록이_비었을_때_레시피_없음_표시_테스트`() {
         val fakeRepository = object : RecipesRepository {
             override suspend fun getAllRecipes(): List<Recipe> = emptyList()
             override suspend fun getSavedRecipes(): List<Recipe> = emptyList()
