@@ -31,6 +31,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.IngredientAmount
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.IngredientItem
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.MoreDropdownMenu
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.ProcedureItem
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallButton
@@ -41,8 +42,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun IngredientScreen(
     state: IngredientState,
+    isMenuExpanded: Boolean = false,
     onBackClick: () -> Unit = {},
     onMoreClick: () -> Unit = {},
+    onDismissMoreMenu: () -> Unit = {},
     onBookmarkClick: () -> Unit = {},
     onTapClick: (Int) -> Unit = {},
 ) {
@@ -64,11 +67,19 @@ fun IngredientScreen(
                     .clickable { onBackClick() }
             )
             Spacer(modifier = Modifier.weight(1f))
-            Icon(
-                painter = painterResource(R.drawable.outline_more),
-                contentDescription = "더보기 아이콘",
-                modifier = Modifier.clickable { onMoreClick() },
-            )
+            Box {
+                Icon(
+                    painter = painterResource(R.drawable.outline_more),
+                    contentDescription = "더보기 아이콘",
+                    modifier = Modifier.clickable {
+                        onMoreClick()
+                    },
+                )
+                MoreDropdownMenu(
+                    expanded = isMenuExpanded,
+                    onDismissRequest = onDismissMoreMenu
+                )
+            }
         }
 
         // 레시피카드
