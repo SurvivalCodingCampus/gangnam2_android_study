@@ -2,4 +2,5 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipe.det
 
 sealed interface RecipeDetailEvent {
     data object NavigateToBack : RecipeDetailEvent
+    data object CopyToClipboard : RecipeDetailEvent
 }

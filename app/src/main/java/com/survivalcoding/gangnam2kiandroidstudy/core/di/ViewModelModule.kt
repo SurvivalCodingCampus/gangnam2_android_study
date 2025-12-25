@@ -33,6 +33,7 @@ val recipeDetailViewModelModule = module {
     viewModel { (recipeId: Int) ->
         RecipeDetailViewModel(
             getRecipeDetailsUseCase = get(),
+            copyLinkUseCase = get(),
             recipeId = recipeId
         )
     }
