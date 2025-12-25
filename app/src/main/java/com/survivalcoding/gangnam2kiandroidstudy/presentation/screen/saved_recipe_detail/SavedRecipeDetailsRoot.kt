@@ -21,7 +21,10 @@ fun SavedRecipeItemRoot(
         state = state.value, recipe = recipe, onValueChanged = {
             viewModel.changeValue(it)
         }, procedure = state.value.procedureList,
-        onBackButtonClicked = {onBackButtonClick()}
+        onBackButtonClicked = {onBackButtonClick()},
+        onMoreButtonClicked = {viewModel.toggleMenu(it)},
+        onShareDialogRequest = { viewModel.toggleShareDialog(it) },
+        onCopyLink = { viewModel.copyLink(it) }
     )
 
 }

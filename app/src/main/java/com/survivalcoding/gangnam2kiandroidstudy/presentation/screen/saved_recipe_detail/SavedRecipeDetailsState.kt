@@ -7,5 +7,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
 data class SavedRecipeDetailsState(
     val isSelectIngredient: Boolean = true,
     val procedureList: List<Procedure> = emptyList(),
-    val ingredientList: List<Ingredients> = emptyList()
+    val ingredientList: List<Ingredients> = emptyList(),
+    val isDrowDownMenuShow: Boolean = false,
+    val isShareDialogShow: Boolean = false
 )
