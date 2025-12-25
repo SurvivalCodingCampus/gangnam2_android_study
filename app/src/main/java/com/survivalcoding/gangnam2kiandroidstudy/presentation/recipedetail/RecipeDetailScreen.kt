@@ -8,6 +8,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,7 +51,65 @@ fun RecipeDetailScreen(
                 )
             },
             actions = {
-                Icon(painter = painterResource(R.drawable.more), contentDescription = null)
+                Box {
+                    Icon(
+                        painter = painterResource(R.drawable.more),
+                        contentDescription = null,
+                        modifier = Modifier.clickable {
+                            onAction(RecipeDetailAction.MenuClick(true))
+                        }
+                    )
+                    DropdownMenu(
+                        expanded = recipeDetailUiState.isShowMenu,
+                        onDismissRequest = {
+                            onAction(RecipeDetailAction.MenuClick(false))
+                        }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Share") },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_share),
+                                    contentDescription = null
+                                )
+                            },
+                            onClick = {
+                                onAction(RecipeDetailAction.MenuClick(false))
+                                onAction(RecipeDetailAction.ShareClick)
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Rate Recipe") },
+                            onClick = { onAction(RecipeDetailAction.MenuClick(false)) },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.star_5),
+                                    contentDescription = null
+                                )
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Review") },
+                            onClick = { onAction(RecipeDetailAction.MenuClick(false)) },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_message),
+                                    contentDescription = null
+                                )
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Unsave") },
+                            onClick = { onAction(RecipeDetailAction.MenuClick(false)) },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.bookmark_fill),
+                                    contentDescription = null
+                                )
+                            }
+                        )
+                    }
+                }
             }
         )
         Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp)) {

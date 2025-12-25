@@ -7,6 +7,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeIngredient
 
 data class RecipeDetailUiState(
     val isLoading: Boolean = false,
+    val isShowMenu: Boolean = false,
     val selectedTabPosition: Int = 0, // 0 = Ingredient, 1 = Procedure
     val recipe: Recipe = Recipe(0),
     val ingredients: List<RecipeIngredient> = emptyList(),

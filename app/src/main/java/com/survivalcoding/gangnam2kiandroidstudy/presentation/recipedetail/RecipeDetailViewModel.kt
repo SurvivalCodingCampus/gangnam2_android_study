@@ -66,6 +66,16 @@ class RecipeDetailViewModel(
             RecipeDetailAction.BackClick -> {
                 emitEvent(RecipeDetailEvent.NavigateUp)
             }
+            is RecipeDetailAction.MenuClick -> {
+                _uiState.update {
+                    it.copy(isShowMenu = action.isShow)
+                }
+            }
+            RecipeDetailAction.ShareClick -> {
+                emitEvent(
+                    RecipeDetailEvent.ShowShare(uiState.value.recipe)
+                )
+            }
         }
     }
 
