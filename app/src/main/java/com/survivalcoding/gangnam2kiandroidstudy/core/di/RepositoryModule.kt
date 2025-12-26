@@ -26,7 +26,7 @@ val procedureRepositoryModule = module {
     single<ProcedureRepository> { ProcedureRepositoryImpl(get()) }
 }
 
-val clipboardRepository = module {
+val clipboardRepositoryModule = module {
     single<ClipboardRepository> { ClipboardRepositoryImpl(androidContext()) }
 }
 
@@ -34,5 +34,5 @@ val repositoryModule = listOf(
     recipeRepositoryModule,
     ingredientRepositoryModule,
     procedureRepositoryModule,
-    clipboardRepository
+    clipboardRepositoryModule
 )
