@@ -13,16 +13,14 @@ class ConnectivityNetworkMonitor(
     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
+    val currentStatus: NetworkStatus
+        get() = if (connectivityManager.activeNetwork != null) NetworkStatus.Available else NetworkStatus.Unavailable
+
     // Flow
     val networkStatus: Flow<NetworkStatus> = callbackFlow {
 
         // 구독하자마자 현재 네트워크 상태를 먼저 확인
-        val initialStatus = if (connectivityManager.activeNetwork != null) {
-            NetworkStatus.Available
-        } else {
-            NetworkStatus.Unavailable
-        }
-        trySend(initialStatus) // 초기값 전송
+        trySend(currentStatus) // 초기값 전송
 
         // 네트워크 변화를 감지할 콜백
         val callback = object : ConnectivityManager.NetworkCallback() {
