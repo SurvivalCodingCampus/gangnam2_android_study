@@ -3,7 +3,9 @@ package com.survivalcoding.gangnam2kiandroidstudy.core.routing
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -20,8 +22,43 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_reci
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 
 @Composable
-fun MainRoot() {
+fun MainRoot(
+    deepLinkUri: String? = null,
+    onDeepLinkHandled: () -> Unit = {}
+) {
+    // 1. 초기 스택 생성
     val mainBackStack = rememberNavBackStack(Route.Home)
+
+    // 2. deepLinkUri가 들어오면 즉시 스택 조작
+    LaunchedEffect(deepLinkUri) {
+        if (deepLinkUri != null) {
+            val uri = deepLinkUri.toUri()
+            if (uri.scheme == "https" || uri.scheme == "myapp") {
+                val pathSegments = uri.pathSegments
+
+                // "saved" 문자열이 경로 어디에든 포함되어 있는지 확인
+                if (pathSegments.contains("saved")) {
+                    mainBackStack.clear()
+                    mainBackStack.add(Route.SavedRecipes)
+                    onDeepLinkHandled()
+                }
+                // "detail" 문자열을 찾고, 그 바로 다음 인덱스의 값을 ID로 사용
+                else if (pathSegments.contains("detail")) {
+                    val detailIndex = pathSegments.indexOf("detail")
+                    val recipeIdRaw = pathSegments.getOrNull(detailIndex + 1)
+                    val recipeId = recipeIdRaw?.toIntOrNull()
+
+                    if (recipeId != null) {
+                        mainBackStack.clear()
+                        mainBackStack.add(Route.Home) // 뒤로가기 베이스
+                        mainBackStack.add(Route.RecipeDetail(recipeId))
+                        onDeepLinkHandled()
+                    }
+                }
+            }
+        }
+    }
+
     val currentKey = mainBackStack.lastOrNull() ?: Route.Home
 
     val showBottomBar = currentKey in listOf(
