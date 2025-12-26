@@ -3,7 +3,9 @@ package com.survivalcoding.gangnam2kiandroidstudy.core.routing
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -20,8 +22,37 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_reci
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 
 @Composable
-fun MainRoot() {
+fun MainRoot(
+    deepLinkUri: String? = null,
+) {
+    // 1. 초기 스택 생성
     val mainBackStack = rememberNavBackStack(Route.Home)
+
+    // 2. deepLinkUri가 들어오면 즉시 스택 조작
+    LaunchedEffect(deepLinkUri) {
+        if (deepLinkUri != null) {
+            val uri = deepLinkUri.toUri()
+            val pathSegments = uri.pathSegments
+
+            when {
+                // myapp://recipes/saved
+                pathSegments.contains("saved") -> {
+                    mainBackStack.clear()
+                    mainBackStack.add(Route.SavedRecipes)
+                }
+                // myapp://recipes/detail/1
+                pathSegments.contains("detail") -> {
+                    val recipeId = pathSegments.getOrNull(1)?.toIntOrNull()
+                    if (recipeId != null) {
+                        mainBackStack.clear()
+                        mainBackStack.add(Route.Home) // 뒤로가기 시 홈으로 가도록 설정
+                        mainBackStack.add(Route.RecipeDetail(recipeId))
+                    }
+                }
+            }
+        }
+    }
+
     val currentKey = mainBackStack.lastOrNull() ?: Route.Home
 
     val showBottomBar = currentKey in listOf(
