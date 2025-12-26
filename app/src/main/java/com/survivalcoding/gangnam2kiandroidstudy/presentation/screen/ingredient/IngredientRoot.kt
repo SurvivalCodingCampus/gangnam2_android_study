@@ -46,6 +46,10 @@ fun IngredientRoot(
                 is IngredientEvent.NavigateBack -> {
                     onBack()
                 }
+
+                IngredientEvent.ShowShareDialog -> {
+                    isShareDialogVisible = true
+                }
             }
         }
     }
@@ -54,7 +58,6 @@ fun IngredientRoot(
     LaunchedEffect(recipeId) {
         viewModel.loadIngredients(recipeId)
     }
-
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -71,18 +74,10 @@ fun IngredientRoot(
                     onMoreAction = { action ->
                         isMenuExpanded = false
                         when (action) {
-                            MoreAction.Share -> {
-                                isShareDialogVisible = true
-                            }
-
-                            MoreAction.Rate -> { /* TODO */
-                            }
-
-                            MoreAction.Review -> { /* TODO */
-                            }
-
-                            MoreAction.Unsave -> { /* TODO */
-                            }
+                            MoreAction.Share -> viewModel.onAction(IngredientAction.ShareClicked)
+                            MoreAction.Rate -> viewModel.onAction(IngredientAction.RateClicked)
+                            MoreAction.Review -> viewModel.onAction(IngredientAction.ReviewClicked)
+                            MoreAction.Unsave -> viewModel.onAction(IngredientAction.UnsaveClicked)
                         }
                     },
                 )

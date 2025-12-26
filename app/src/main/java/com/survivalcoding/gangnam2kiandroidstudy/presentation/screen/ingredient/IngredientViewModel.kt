@@ -3,7 +3,6 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.ingredient
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetRecipeDetailUseCase
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipe.SavedRecipesEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,6 +27,10 @@ class IngredientViewModel @Inject constructor(
             is IngredientAction.SelectTab -> onTabSelected(action.index)
             is IngredientAction.BackClicked -> onBackClicked()
             IngredientAction.FollowClicked -> onFollowClicked()
+            IngredientAction.ShareClicked -> onShareClicked()
+            IngredientAction.RateClicked -> onRateClicked()
+            IngredientAction.ReviewClicked -> onReviewClicked()
+            IngredientAction.UnsaveClicked -> onUnsaveClicked()
         }
     }
 
@@ -61,4 +64,24 @@ class IngredientViewModel @Inject constructor(
     private fun onFollowClicked() {
         // Todo: 추후 구현
     }
+
+    private fun onShareClicked() {
+        viewModelScope.launch {
+            // Event로 다이얼로그 열기 요청
+            _event.emit(IngredientEvent.ShowShareDialog)
+        }
+    }
+
+    private fun onRateClicked() {
+        // Todo: 추후 구현
+    }
+
+    private fun onReviewClicked() {
+        // Todo: 추후 구현
+    }
+
+    private fun onUnsaveClicked() {
+        // Todo: 추후 구현
+    }
+
 }
