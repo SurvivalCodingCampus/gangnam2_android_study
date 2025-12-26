@@ -22,7 +22,7 @@ val viewModelModule = module {
     // 자동으로 찾아서 주입해달라고 요청하는 것입니다.
     // 예를 들어, HomeViewModel이 RecipeRepository를 필요로 한다면,
     // 다른 모듈(예: repositoryModule)에 정의된 RecipeRepository를 찾아서 넣어줍니다.
-    viewModel { HomeViewModel(get()) }
+    viewModel { HomeViewModel(get(), get()) }
 
     // RecipeDetailsViewModel을 주입하기 위한 정의입니다.
     // get()을 통해 필요한 의존성을 자동으로 주입받습니다.

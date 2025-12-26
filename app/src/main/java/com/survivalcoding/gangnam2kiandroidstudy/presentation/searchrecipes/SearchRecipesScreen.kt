@@ -167,7 +167,10 @@ fun SearchRecipesScreen(
                 ) {
                     items(recipes) { recipe ->
                         RecipeCardMedium(
-                            recipe
+                            recipe,
+                            modifier = Modifier.clickable {
+                                onAction(SearchRecipesAction.OnRecipeClick(recipe.id))
+                            }
                         )
                     }
                 }
