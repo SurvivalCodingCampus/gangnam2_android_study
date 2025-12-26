@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.routing
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
@@ -15,12 +16,28 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_reci
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_in.SignInRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_up.SignUpRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashRoot
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun NavigationRoot(
     modifier: Modifier = Modifier,
+    deepLinkFlow: Flow<String>,
 ) {
     val topLevelBackStack = rememberNavBackStack(Route.Splash)
+
+    LaunchedEffect(deepLinkFlow) {
+        deepLinkFlow.collect { uri ->
+            if (uri.startsWith("myapp://recipes/detail/")) {
+                val recipeId = uri.substringAfter("myapp://recipes/detail/").toLongOrNull() ?: 0L
+                topLevelBackStack.clear()
+                topLevelBackStack.add(Route.Main())
+                topLevelBackStack.add(Route.RecipeDetail(recipeId))
+            } else if (uri == "myapp://recipes/saved") {
+                topLevelBackStack.clear()
+                topLevelBackStack.add(Route.Main(startDestination = Route.SavedRecipes))
+            }
+        }
+    }
 
     NavDisplay(
         modifier = modifier,
@@ -42,7 +59,7 @@ fun NavigationRoot(
                 SignInRoot(
                     onSignInClick = {
                         topLevelBackStack.clear()
-                        topLevelBackStack.add(Route.Main)
+                        topLevelBackStack.add(Route.Main())
                     },
                     onSignUpNavigateClick = {
                         topLevelBackStack.clear()
@@ -54,7 +71,7 @@ fun NavigationRoot(
                 SignUpRoot(
                     onSignUpClick = {
                         topLevelBackStack.clear()
-                        topLevelBackStack.add(Route.Main)
+                        topLevelBackStack.add(Route.Main())
                     },
                     onSignInNavigateClick = {
                         topLevelBackStack.clear()
@@ -63,8 +80,8 @@ fun NavigationRoot(
                 )
             }
             // Home, Saved, Notifications, Profile
-            entry<Route.Main> {
-                val mainBackStack = rememberNavBackStack(Route.Home)
+            entry<Route.Main> { key ->
+                val mainBackStack = rememberNavBackStack(key.startDestination)
 
                 MainScreen(
                     backStack = mainBackStack,
