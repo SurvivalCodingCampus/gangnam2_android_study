@@ -1,58 +1,124 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.selector.HomeCategory
-import junit.framework.TestCase.assertEquals
+import com.survivalcoding.gangnam2kiandroidstudy.core.Result
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.HomeImage
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetNewRecipesUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.ToggleBookmarkUseCase
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeViewModelTest {
-    private val testDispatcher = StandardTestDispatcher()
+
     private lateinit var viewModel: HomeViewModel
+    private val recipeRepository: RecipeRepository = mockk()
+    private val bookmarkRepository: BookmarkRepository = mockk()
+    private val toggleBookmarkUseCase: ToggleBookmarkUseCase = mockk()
+    private val getNewRecipesUseCase: GetNewRecipesUseCase = mockk()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
+    private val testDispatcher = StandardTestDispatcher()
+
     @Before
-    fun setup() {
+    fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        val fakeRepository = FakeRecipeRepository(RecipeTestFixtures.fakeRecipes)
-        viewModel = HomeViewModel(fakeRepository)
     }
-
-
-    @Test
-    fun `init 초기 로드에서 recipes 와 filteredRecipes 에 전체 리스트`() = runTest {
-        // 코루틴 실행 완료되도록
-        advanceUntilIdle()
-
-        val state = viewModel.state.value
-
-        assertEquals(RecipeTestFixtures.fakeRecipes.size, state.recipes.size)
-        assertEquals(RecipeTestFixtures.fakeRecipes.size, state.filteredRecipes.size)
-    }
-
-    @Test
-    fun `Cereal 선택 시 Cereal 카테고리만 필터링`() = runTest {
-        advanceUntilIdle()
-
-        viewModel.onSelectCategory(HomeCategory.CEREAL)
-
-        val state = viewModel.state.value
-
-        assertEquals(HomeCategory.CEREAL, state.selectedCategory)
-        assertEquals("Cereal", state.filteredRecipes.first().category)
-    }
-
 
     @After
     fun tearDown() {
         Dispatchers.resetMain()
+    }
+
+    private val dummyRecipe = Recipe(
+        id = 1,
+        title = "Test Recipe",
+        chefId = 1,
+        chefName = "Chef",
+        time = "10 min",
+        rating = 5.0,
+        imageUrls = "",
+        createdAt = 0L,
+        category = "Cereal",
+        homeImage = HomeImage.FOOD1
+    )
+
+    private fun createViewModel(): HomeViewModel {
+        return HomeViewModel(
+            recipeRepository,
+            bookmarkRepository,
+            toggleBookmarkUseCase,
+            getNewRecipesUseCase
+        )
+    }
+
+    @Test
+    fun `init loads data and sets bookmarked ids`() = runTest(testDispatcher) {
+        // Given
+        coEvery { recipeRepository.getRecipes() } returns listOf(dummyRecipe)
+        coEvery { bookmarkRepository.getSavedRecipeIds() } returns listOf(1)
+        coEvery { getNewRecipesUseCase.execute() } returns emptyList()
+
+        // When
+        viewModel = createViewModel()
+        testScheduler.advanceUntilIdle()
+
+        // Then
+        val state = viewModel.state.value
+        assertTrue(state.bookmarkedIds.contains(1))
+        assertEquals(1, state.recipes.size)
+    }
+
+    @Test
+    fun `ToggleBookmark action calls usecase and updates state to true`() = runTest(testDispatcher) {
+        // Given
+        coEvery { recipeRepository.getRecipes() } returns listOf(dummyRecipe)
+        coEvery { bookmarkRepository.getSavedRecipeIds() } returns emptyList()
+        coEvery { getNewRecipesUseCase.execute() } returns emptyList()
+        coEvery { toggleBookmarkUseCase.execute(1) } returns Result.Success(true) // Bookmarked
+
+        viewModel = createViewModel()
+        testScheduler.advanceUntilIdle()
+
+        // When
+        viewModel.onAction(HomeAction.ToggleBookmark(1))
+        testScheduler.advanceUntilIdle()
+
+        // Then
+        coVerify { toggleBookmarkUseCase.execute(1) }
+        assertTrue(viewModel.state.value.bookmarkedIds.contains(1))
+    }
+
+    @Test
+    fun `ToggleBookmark action calls usecase and updates state to false`() = runTest(testDispatcher) {
+        // Given
+        coEvery { recipeRepository.getRecipes() } returns listOf(dummyRecipe)
+        coEvery { bookmarkRepository.getSavedRecipeIds() } returns listOf(1) // Already bookmarked
+        coEvery { getNewRecipesUseCase.execute() } returns emptyList()
+        coEvery { toggleBookmarkUseCase.execute(1) } returns Result.Success(false) // Unbookmarked
+
+        viewModel = createViewModel()
+        testScheduler.advanceUntilIdle()
+
+        // When
+        viewModel.onAction(HomeAction.ToggleBookmark(1))
+        testScheduler.advanceUntilIdle()
+
+        // Then
+        coVerify { toggleBookmarkUseCase.execute(1) }
+        assertTrue(viewModel.state.value.bookmarkedIds.isEmpty())
     }
 }

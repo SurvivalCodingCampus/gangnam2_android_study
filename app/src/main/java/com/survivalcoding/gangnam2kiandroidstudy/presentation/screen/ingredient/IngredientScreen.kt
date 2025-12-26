@@ -12,20 +12,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Items.IngredientListItem
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.Items.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.ingredient.IngredientSummaryRow
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.ingredient.ProcedureCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.tabs.DualTabBar
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.user.RecipeAuthorSection
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipe.SavedRecipesAction
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 
 @Composable
 fun IngredientScreen(
     state: IngredientState,
-    onTabSelected: (Int) -> Unit,
-    onFollowClick: () -> Unit,
+    onAction: (IngredientAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val detail = state.recipeDetail ?: return
@@ -80,7 +81,9 @@ fun IngredientScreen(
                     modifier = Modifier.padding(bottom = 8.dp),
                     author = author,
                     isFollowing = state.isFollowing,
-                    onFollowClick = onFollowClick
+                    onFollowClick = {
+                        onAction(IngredientAction.FollowClicked)
+                    }
                 )
             }
         }
@@ -91,7 +94,9 @@ fun IngredientScreen(
                 leftTab = "Ingredients",
                 rightTab = "Procedure",
                 selectedIndex = state.selectedTab,
-                onTabSelected = onTabSelected
+                onTabSelected = { index ->
+                    onAction(IngredientAction.SelectTab(index))
+                }
             )
         }
 

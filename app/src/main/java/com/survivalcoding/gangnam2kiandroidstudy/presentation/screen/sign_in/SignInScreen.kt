@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -78,7 +79,8 @@ fun SignInScreen(
                     onNext = {
                         passwordFocusRequester.requestFocus()
                     }
-                )
+                ),
+                modifier = Modifier.testTag("email_input")
             )
         }
 
@@ -100,7 +102,9 @@ fun SignInScreen(
                         focusManager.clearFocus()
                     }
                 ),
-                modifier = Modifier.focusRequester(passwordFocusRequester)
+                modifier = Modifier
+                    .focusRequester(passwordFocusRequester)
+                    .testTag("password_input")
             )
         }
 

@@ -31,6 +31,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.selector
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.CircularProgressIndicator
+
 @Composable
 fun HomeScreen(
     state: HomeState,
@@ -39,6 +42,26 @@ fun HomeScreen(
     onRecipeClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    if (state.errorMessage != null) {
+        Box(
+            modifier = modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = state.errorMessage)
+        }
+        return
+    }
+
+    if (state.isLoading) {
+        Box(
+            modifier = modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+        return
+    }
+
     LazyColumn(
         modifier = modifier
             .fillMaxSize()

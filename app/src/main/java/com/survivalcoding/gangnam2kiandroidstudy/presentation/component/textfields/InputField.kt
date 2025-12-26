@@ -20,7 +20,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -57,7 +56,7 @@ fun InputField(
             placeholder = {
                 Text(text = placeholderText, fontSize = 11.sp)
             },
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .height(55.dp),
             singleLine = true,
@@ -82,7 +81,6 @@ fun InputField(
         )
     }
 }
-
 
 
 @Preview(showBackground = true)
