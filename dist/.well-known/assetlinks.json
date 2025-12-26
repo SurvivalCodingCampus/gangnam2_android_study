@@ -1,11 +1,13 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "com.survivalcoding.gangnam2kiandroidstudy",
       "sha256_cert_fingerprints": [
-        "49:1B:B9:4B:9B:48:FF:D4:0D:78:43:B7:52:37:10:32:9D:93:35:01:E9:35:01:E9:8A:99:E2:F4:CB:FE:3F:0B:83:53:1B"
+        "49:1B:B9:4B:9B:48:FF:D4:0D:78:43:B7:52:37:10:32:9D:93:35:01:E9:8A:99:E2:F4:CB:FE:3F:0B:83:53:1B"
       ]
     }
   }
