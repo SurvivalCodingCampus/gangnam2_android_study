@@ -1,13 +1,17 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.routing
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.survivalcoding.gangnam2kiandroidstudy.core.util.DeepLink.parseRecipeDeepLink
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetail.RecipeDetailRoot
@@ -23,9 +27,15 @@ import org.koin.core.parameter.parametersOf
 @SuppressLint("VisibleForTests")
 @Composable
 fun NavigationRoot(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    deepLinkUri: Uri? = null
 ) {
-    val topLevelBackStack = rememberNavBackStack(Route.Splash)
+    val deepLinkTarget = remember(deepLinkUri) {
+        parseRecipeDeepLink(deepLinkUri)
+    }
+    val topLevelBackStack = rememberNavBackStack(
+        if (deepLinkTarget != null) Route.Main else Route.Splash
+    )
 
     NavDisplay(
         modifier = modifier,
@@ -70,6 +80,22 @@ fun NavigationRoot(
             entry<Route.Main> {
                 val backStack = rememberNavBackStack(Route.Home)
 
+                LaunchedEffect(deepLinkTarget) {
+                    when (deepLinkTarget) {
+                        DeepLinkTarget.SavedRecipes -> {
+                            backStack.clear()
+                            backStack.add(Route.SavedRecipes)
+                        }
+                        is DeepLinkTarget.RecipeDetail -> {
+                            backStack.clear()
+                            backStack.add(Route.Home)
+                            topLevelBackStack.add(
+                                Route.RecipeDetails(deepLinkTarget.id)
+                            )
+                        }
+                        null -> Unit
+                    }
+                }
                 MainScreen(
                     backStack = backStack,
                     body = {
