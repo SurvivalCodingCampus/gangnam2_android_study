@@ -8,7 +8,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeScreenRoot
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.ingredient.IngredientScreenRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.recipeDetail.RecipeDetailScreenRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipe.SavedRecipesScreenRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.search.SearchRecipeScreenRoot
@@ -80,14 +80,14 @@ fun NavigationRoot(
                                             topLevelBackStack.add(Route.SearchRecipe)
                                         },
                                         onRecipeClick = {
-                                            topLevelBackStack.add(Route.Ingrident(recipeId = it))
+                                            topLevelBackStack.add(Route.RecipeDetail(recipeId = it))
                                         }
                                     )
                                 }
                                 entry<Route.SavedRecipes> {
                                     SavedRecipesScreenRoot(
                                         onCardClick = { recipeId ->
-                                            topLevelBackStack.add(Route.Ingrident(recipeId = recipeId))
+                                            topLevelBackStack.add(Route.RecipeDetail(recipeId = recipeId))
                                         }
                                     )
                                 }
@@ -102,14 +102,19 @@ fun NavigationRoot(
                     }
                 )
             }
-            entry<Route.Ingrident> { route ->
-                IngredientScreenRoot(recipeId = route.recipeId)
+            entry<Route.RecipeDetail> { route ->
+                RecipeDetailScreenRoot(
+                    recipeId = route.recipeId,
+                    onBackClick = {
+                        topLevelBackStack.remove(topLevelBackStack.last())
+                    }
+                )
             }
 
             entry<Route.SearchRecipe> {
                 SearchRecipeScreenRoot(
                     onRecipeClick = { recipeId ->
-                        topLevelBackStack.add(Route.Ingrident(recipeId = recipeId))
+                        topLevelBackStack.add(Route.RecipeDetail(recipeId = recipeId))
                     }
                 )
             }

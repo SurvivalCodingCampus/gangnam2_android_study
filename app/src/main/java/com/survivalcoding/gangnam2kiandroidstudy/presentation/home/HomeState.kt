@@ -8,4 +8,5 @@ data class HomeState(
     val filteredRecipes: List<Recipe> = emptyList(),
     val selectedCategory: String = "",
     val bookmarkIds: List<Int> = emptyList(),
+    val errorMessage: String? = null,
 )

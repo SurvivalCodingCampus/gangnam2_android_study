@@ -1,10 +1,10 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.ingredient
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.recipeDetail
 
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingrident
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 
-data class IngridentState(
+data class RecipeDetailState(
     val isLoading: Boolean = false,
     val recipe: Recipe? = null,
     val selectedIndex: Int = 0,

@@ -1,7 +1,8 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.ingredient
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.recipeDetail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +35,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingrident
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.DropDown
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.IngredientItem
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.ProcedureItem
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
@@ -43,10 +45,12 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun IngredientScreen(
-    state: IngridentState = IngridentState(),
+fun RecipeDetailScreen(
+    state: RecipeDetailState = RecipeDetailState(),
+    isDropDownExpanded: Boolean = false,
     modifier: Modifier = Modifier,
-    onValueChange: (Int) -> Unit = {}
+    onAction: (RecipeDetailAction) -> Unit= {},
+    onBackClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -63,13 +67,30 @@ fun IngredientScreen(
             Icon(
                 imageVector = Icons.AutoMirrored.Default.ArrowBack,
                 contentDescription = "back",
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier
+                    .size(20.dp)
+                    .clickable { onBackClick() }
             )
-            Icon(
-                imageVector = Icons.Default.MoreHoriz,
-                contentDescription = "more",
-                modifier = Modifier.size(20.dp)
-            )
+            Box {
+                Icon(
+                    imageVector = Icons.Default.MoreHoriz,
+                    contentDescription = "more",
+                    modifier = Modifier
+                        .size(20.dp)
+                        .clickable {
+                            onAction(RecipeDetailAction.OnDropDownClick)
+                        }
+                )
+                DropDown(
+                    expanded = isDropDownExpanded,
+                    onDismiss = {
+                        onAction(RecipeDetailAction.OnDropDownDismiss)
+                    },
+                    onShare = {
+                        onAction(RecipeDetailAction.OnShareClick)
+                    }
+                )
+            }
         }
         RecipeCard(
             recipe = state.recipe,
@@ -150,7 +171,7 @@ fun IngredientScreen(
             labels = listOf("Ingredient", "Procedure"),
             selectedIndex = state.selectedIndex,
             onValueChange = {
-                onValueChange(it)
+                onAction(RecipeDetailAction.OnValueChange(it))
             }
         )
 
@@ -245,9 +266,9 @@ fun IngredientScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun IngredientScreenPreview() {
-    IngredientScreen(
-        state = IngridentState(
+private fun RecipeDetailScreenPreview() {
+    RecipeDetailScreen(
+        state = RecipeDetailState(
             isLoading = false,
             recipe = Recipe(
                 title = "Spicy chicken burger with French fries",
