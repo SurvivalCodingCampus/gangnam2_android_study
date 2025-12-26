@@ -2,11 +2,17 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,13 +44,71 @@ fun RecipeDetailScreen(
         AppBar(
             title = "",
             navigationIcon = {
-                IconButton(onClick = { onAction(RecipeDetailAction.BackClick) }) {
-                    Icon(painter = painterResource(R.drawable.arrow_left), contentDescription = null)
-                }
+                Icon(
+                    painter = painterResource(R.drawable.arrow_left),
+                    contentDescription = "뒤로가기",
+                    modifier = Modifier.size(20.dp).clickable { onAction(RecipeDetailAction.BackClick) }
+                )
             },
             actions = {
-                IconButton(onClick = { /* Back action */ }) {
-                    Icon(painter = painterResource(R.drawable.more), contentDescription = null)
+                Box {
+                    Icon(
+                        painter = painterResource(R.drawable.more),
+                        contentDescription = null,
+                        modifier = Modifier.clickable {
+                            onAction(RecipeDetailAction.MenuClick(true))
+                        }
+                    )
+                    DropdownMenu(
+                        expanded = recipeDetailUiState.isShowMenu,
+                        onDismissRequest = {
+                            onAction(RecipeDetailAction.MenuClick(false))
+                        }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Share") },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_share),
+                                    contentDescription = null
+                                )
+                            },
+                            onClick = {
+                                onAction(RecipeDetailAction.ShareClick)
+                                onAction(RecipeDetailAction.MenuClick(false))
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Rate Recipe") },
+                            onClick = { onAction(RecipeDetailAction.MenuClick(false)) },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.star_5),
+                                    contentDescription = null
+                                )
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Review") },
+                            onClick = { onAction(RecipeDetailAction.MenuClick(false)) },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_message),
+                                    contentDescription = null
+                                )
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Unsave") },
+                            onClick = { onAction(RecipeDetailAction.MenuClick(false)) },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.bookmark_fill),
+                                    contentDescription = null
+                                )
+                            }
+                        )
+                    }
                 }
             }
         )

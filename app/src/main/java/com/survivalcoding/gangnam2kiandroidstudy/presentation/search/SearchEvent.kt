@@ -5,4 +5,5 @@ sealed interface SearchEvent {
     object HideFilterBottomSheet : SearchEvent
     data class ShowMessage(val message: String) : SearchEvent
     object NavigateBack : SearchEvent
+    data class NavigateToRecipeDetail(val recipeId: Int) : SearchEvent
 }
