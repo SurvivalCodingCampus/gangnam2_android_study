@@ -18,8 +18,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:launchMode="singleTop"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.Gangnam2kiAndroidStudy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,24 +28,26 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="myapp"
                     android:host="recipes"
-                    android:path="/saved" />
+                    android:path="/saved"
+                    android:scheme="myapp" />
             </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="myapp"
                     android:host="recipes"
-                    android:pathPrefix="/detail" />
+                    android:pathPrefix="/detail"
+                    android:scheme="myapp" />
             </intent-filter>
 
             <intent-filter android:autoVerify="true">
@@ -55,9 +57,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
                     android:host="foodre-4a9f8.web.app"
-                    android:pathPrefix="/recipes" />
+                    android:pathPrefix="/recipes"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
     </application>

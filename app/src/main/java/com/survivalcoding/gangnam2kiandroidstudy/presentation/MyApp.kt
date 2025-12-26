@@ -5,7 +5,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.routing.NavigationRoot
 
 @Composable
 fun MyApp(
-    deepLinkUri: String? ,
+    deepLinkUri: String?,
 ) {
     NavigationRoot(deepLinkUri = deepLinkUri)
 }
