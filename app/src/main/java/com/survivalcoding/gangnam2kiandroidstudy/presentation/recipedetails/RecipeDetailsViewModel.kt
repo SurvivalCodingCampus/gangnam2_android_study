@@ -3,7 +3,6 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetails
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usercase.GetRecipeDetailsUseCase
-import com.survivalcoding.gangnam2kiandroidstudy.utils.Logger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -53,9 +52,6 @@ class RecipeDetailsViewModel(
             }
             is RecipeDetailsAction.OnBookmarkClick -> {
                 // 북마크 클릭 동작 구현
-            }
-            else -> {
-                Logger.d("RecipeDetailsViewModel", "onAction: $action")
             }
         }
     }
