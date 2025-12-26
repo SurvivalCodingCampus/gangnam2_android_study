@@ -14,11 +14,12 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SearchRecipesViewModel(
+open class SearchRecipesViewModel(
     private val recipeRepository: RecipeRepository,
 ) : ViewModel() {
 
@@ -64,7 +65,8 @@ class SearchRecipesViewModel(
     fun onFilterAction(action: FilterSearchAction) {
         when (action) {
             is FilterSearchAction.OnApplyFilterClick -> {
-                applyFilter(action.filter)
+                _state.update { it.copy(filterSearchState = action.filter) }
+                applyAllFilters()
 
                 viewModelScope.launch {
                     _event.emit(SearchRecipesEvent.SnackBarApplyFilter)
@@ -84,71 +86,30 @@ class SearchRecipesViewModel(
     private fun observeSearchTerm() {
         viewModelScope.launch {
             searchTermFlow
+                .drop(1)
                 .onEach {
                     // debounce 시작 시점에서 로딩 시작
                     _state.update { it.copy(isLoading = true) }
                 }
                 .debounce(500)
-                .collectLatest { term ->
-                    applySearchFilter(term)
+                .collectLatest {
+                    applyAllFilters()
                 }
         }
     }
 
     // 실제 필터 로직
-    private fun applySearchFilter(term: String) {
+    private fun applyAllFilters() {
         // 로딩 시작
         _state.update { it.copy(isLoading = true) }
 
-        val all = state.value.allRecipes
-        val filtered = all
-            .filter { it.name.contains(term, ignoreCase = true) }
-            .sortedBy { it.name }
-
-        // 로딩 종료 & 결과 업데이트
-        _state.update {
-            it.copy(
-                filteredRecipes = filtered,
-                isLoading = false
-            )
-        }
-    }
-
-    // 검색어 입력 시 호출되는 메서드
-    private fun updateSearchTerm(term: String) {
-        _state.update { it.copy(searchTerm = term) }
-        searchTermFlow.value = term
-    }
-
-    fun loadRecipes() {
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
-
-            when (val response = recipeRepository.findRecipes()) {
-                is Result.Success -> _state.update { currentState ->
-                    currentState.copy(
-                        allRecipes = response.data,
-                        isLoading = false,
-                    )
-                }
-
-                is Result.Error -> {
-                    println("에러 처리")
-                    _state.update { it.copy(isLoading = false) }
-                }
-            }
-        }
-    }
-
-    // 바텀시트 필터 적용
-    private fun applyFilter(filter: FilterSearchState) {
-        _state.update { it.copy(filterSearchState = filter) }
-
+        val term = state.value.searchTerm
+        val filter = state.value.filterSearchState
         val all = state.value.allRecipes
 
         val filtered = all
             // searchTerm 필터
-            .filter { it.name.contains(state.value.searchTerm, ignoreCase = true) }
+            .filter { it.name.contains(term, ignoreCase = true) }
 
             // time 필터
             .let { list ->
@@ -156,7 +117,7 @@ class SearchRecipesViewModel(
                     "Newest" -> list.sortedByDescending { it.id }
                     "Oldest" -> list.sortedBy { it.id }
                     "Popularity" -> list.sortedByDescending { it.rating }
-                    else -> list
+                    else -> list.sortedBy { it.name }
                 }
             }
 
@@ -185,12 +146,43 @@ class SearchRecipesViewModel(
                 }
             }
 
-        // UI 업데이트
+        // 로딩 종료 & 결과 업데이트
         _state.update {
-            it.copy(filteredRecipes = filtered)
+            it.copy(
+                filteredRecipes = filtered,
+                isLoading = false
+            )
         }
     }
 
+    // 검색어 입력 시 호출되는 메서드
+    private fun updateSearchTerm(term: String) {
+        _state.update { it.copy(searchTerm = term) }
+        searchTermFlow.value = term
+    }
+
+    fun loadRecipes() {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+
+            when (val response = recipeRepository.findRecipes()) {
+                is Result.Success -> {
+                    _state.update { currentState ->
+                        currentState.copy(
+                            allRecipes = response.data,
+                            isLoading = false,
+                        )
+                    }
+                    applyAllFilters()
+                }
+
+                is Result.Error -> {
+                    println("에러 처리")
+                    _state.update { it.copy(isLoading = false) }
+                }
+            }
+        }
+    }
 
     // 파괴될 때
     override fun onCleared() {
