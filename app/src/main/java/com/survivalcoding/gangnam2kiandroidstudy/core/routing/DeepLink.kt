@@ -8,15 +8,21 @@ sealed class DeepLink {
 
     companion object {
         fun fromUri(uri: Uri): DeepLink? {
-            if (uri.scheme != "myapp" || uri.host != "recipes") return null
-
+            val host = uri.host ?: return null
+            val scheme = uri.scheme ?: return null
             val segments = uri.pathSegments
+
+            if (scheme !in listOf("myapp", "http", "https")) return null
+            if (host !in listOf("recipes", "gangnam2-android.web.app")) return null
+
             return when {
                 segments.contains("saved") -> SavedRecipes
-                segments.firstOrNull() == "detail" -> {
-                    val id = segments.getOrNull(1)?.toIntOrNull()
-                    if (id != null) RecipeDetail(id) else null
+
+                segments.lastOrNull()?.toIntOrNull() != null -> {
+                    val recipeId = segments.last().toInt()
+                    RecipeDetail(recipeId)
                 }
+
                 else -> null
             }
         }

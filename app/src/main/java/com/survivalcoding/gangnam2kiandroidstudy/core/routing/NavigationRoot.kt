@@ -36,6 +36,7 @@ fun NavigationRoot(
     deepLinkUri: String? = null,
 ) {
     val topLevelBackStack = rememberNavBackStack(Splash)
+    val backStack = rememberNavBackStack(Home)
 
     LaunchedEffect(deepLinkUri) {
         val uri = deepLinkUri?.toUri() ?: return@LaunchedEffect
@@ -44,12 +45,17 @@ fun NavigationRoot(
         when (activeLink) {
             DeepLink.SavedRecipes -> {
                 topLevelBackStack.clear()
-                topLevelBackStack.add(Main(SavedRecipes))
+                backStack.clear()
+
+                topLevelBackStack.add(Main())
+                backStack.add(SavedRecipes)
             }
             is DeepLink.RecipeDetail -> {
                 topLevelBackStack.clear()
+                backStack.clear()
+
                 topLevelBackStack.add(Main())
-                topLevelBackStack.add(Main(SavedRecipes))
+                backStack.add(SavedRecipes)
                 topLevelBackStack.add(RecipeDetail(activeLink.id))
             }
         }
@@ -90,8 +96,6 @@ fun NavigationRoot(
                 )
             }
             entry<Main> { key ->
-                val backStack = rememberNavBackStack(key.initialRoute)
-
                 MainScreen(
                     backStack = backStack,
                     body = { it ->
