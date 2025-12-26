@@ -3,16 +3,17 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail
 
 import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult
+import com.survivalcoding.gangnam2kiandroidstudy.core.util.CopyManager
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockIngredientRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockProcedureRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockProfileRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.MockRecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeDetails
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeDetailsUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.ToggleBookmarkUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.test.MainDispatcherRule
 import io.mockk.MockKAnnotations
 import io.mockk.bdd.coGiven
-import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -32,7 +33,12 @@ class RecipeDetailsViewModelTest {
     @MockK
     private lateinit var getRecipeDetailsUseCase: GetRecipeDetailsUseCase
 
-    @InjectMockKs
+    @MockK
+    private lateinit var toggleBookmarkUseCase: ToggleBookmarkUseCase
+
+    @MockK
+    private lateinit var copyManager: CopyManager
+
     private lateinit var viewModel: RecipeDetailsViewModel
 
     @Before
@@ -57,14 +63,16 @@ class RecipeDetailsViewModelTest {
         )
 
         val recipeId = 1L
-        assertFalse(viewModel.uiState.value.isLoading)
-
-        viewModel.fetchRecipeDetails(recipeId)
+        viewModel = RecipeDetailsViewModel(
+            recipeId = recipeId,
+            getRecipeDetailsUseCase = getRecipeDetailsUseCase,
+            toggleBookmarkUseCase = toggleBookmarkUseCase,
+            copyManager = copyManager,
+        )
 
         assertTrue(viewModel.uiState.value.isLoading)
 
         advanceUntilIdle()
-
         assertFalse(viewModel.uiState.value.isLoading)
 
         val recipe = viewModel.uiState.value.recipe
