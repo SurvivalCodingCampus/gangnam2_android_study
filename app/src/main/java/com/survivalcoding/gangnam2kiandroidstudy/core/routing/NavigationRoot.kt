@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.routing
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
@@ -24,8 +25,38 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.Spla
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashRoot
 
 @Composable
-fun NavigationRoot(modifier: Modifier = Modifier) {
+fun NavigationRoot(
+    modifier: Modifier = Modifier,
+    deepLinkRoute: Route? = null,
+) {
     val topLevelBackStack = rememberNavBackStack(Route.Splash)
+    val backStack = rememberNavBackStack(Route.Home)
+
+    LaunchedEffect(deepLinkRoute) {
+        if (deepLinkRoute != null) {
+            when (deepLinkRoute) {
+                is Route.SavedRecipes -> {
+                    topLevelBackStack.clear()
+                    topLevelBackStack.add(Route.Main)
+
+                    backStack.clear()
+                    backStack.add(Route.SavedRecipes)
+                }
+
+                is Route.RecipeDetails -> {
+                    topLevelBackStack.clear()
+                    topLevelBackStack.add(Route.Main)
+
+                    backStack.clear()
+                    backStack.add(Route.SavedRecipes)
+
+                    topLevelBackStack.removeIf { it is Route.RecipeDetails }
+                    topLevelBackStack.add(deepLinkRoute)
+                }
+                else -> Unit
+            }
+        }
+    }
 
     NavDisplay(
         modifier = modifier,
@@ -72,8 +103,6 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                 )
             }
             entry<Route.Main> {
-                val backStack = rememberNavBackStack(Route.Home)
-
                 MainScreen(
                     body = { modifier, snackbarHostState ->
                         NavDisplay(
