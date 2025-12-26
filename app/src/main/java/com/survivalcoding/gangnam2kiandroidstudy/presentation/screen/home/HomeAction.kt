@@ -18,4 +18,8 @@ sealed interface HomeAction {
 
     // 홈 진입 시 데이터 로딩
     object LoadHome : HomeAction
+
+    data class ToggleRecipeBookmark(
+        val recipeId: Int
+    ) : HomeAction
 }

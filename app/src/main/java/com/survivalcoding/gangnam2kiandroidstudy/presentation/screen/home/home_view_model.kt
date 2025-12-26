@@ -24,6 +24,16 @@ class HomeViewModel(
                 onSelectCategory(action.category)
             }
 
+            is HomeAction.ToggleRecipeBookmark -> {
+                val currentBookmarks = _state.value.bookmarkedRecipeIds
+                val updatedBookmarks = if (currentBookmarks.contains(action.recipeId)) {
+                    currentBookmarks - action.recipeId
+                } else {
+                    currentBookmarks + action.recipeId
+                }
+                _state.value = _state.value.copy(bookmarkedRecipeIds = updatedBookmarks)
+            }
+
             else -> Unit
         }
     }
@@ -31,15 +41,22 @@ class HomeViewModel(
 
     private fun loadRecipes() {
         viewModelScope.launch {
-            val recipes = repository.getRecipes()
-            _state.value = _state.value.copy(
-                allRecipes = recipes,
-                filteredRecipes = recipes,
-
-                newRecipes = recipes
-                    .sortedByDescending { it.createdAt }
-                    .take(5)
-            )
+            runCatching { repository.getRecipes() }
+                .onSuccess { recipes ->
+                    _state.value = _state.value.copy(
+                        allRecipes = recipes,
+                        filteredRecipes = recipes,
+                        newRecipes = recipes
+                            .sortedByDescending { it.createdAt }
+                            .take(5),
+                        errorMessage = null
+                    )
+                }
+                .onFailure {
+                    _state.value = _state.value.copy(
+                        errorMessage = "Failed to load recipes"
+                    )
+                }
         }
     }
 

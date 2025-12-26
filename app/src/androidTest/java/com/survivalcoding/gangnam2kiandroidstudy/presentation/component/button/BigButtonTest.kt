@@ -3,7 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component.button
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import org.junit.Assert.*
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
 
@@ -25,6 +25,6 @@ class BigButtonUITest {
 
         composeTestRule.onNodeWithText("Button").performClick()
 
-        assertTrue(clicked)
+        assertThat(clicked).isTrue()
     }
 }
