@@ -13,12 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.dialog.MoreDropdownMenu
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 
 @Composable
@@ -28,7 +27,11 @@ fun CustomAppTopBar(
     showBackButton: Boolean = false,
     showMoreButton: Boolean = false,
     onBackClick: () -> Unit = {},
+    isMenuExpanded: Boolean = false,
     onMoreClick: () -> Unit = {},
+    onMenuDismiss: () -> Unit = {},
+    onMoreAction: (MoreAction) -> Unit = {}
+
 ) {
     Row(
         modifier = modifier
@@ -37,21 +40,18 @@ fun CustomAppTopBar(
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        // Back Icon
         if (showBackButton) {
             Icon(
                 painter = painterResource(R.drawable.ic_arrow_left),
-                contentDescription = stringResource(R.string.ic_back_description),
-                tint = AppColors.black,
+                contentDescription = null,
                 modifier = Modifier
                     .size(24.dp)
-                    .clickable { onBackClick() }
+                    .clickable(onClick = onBackClick)
             )
         } else {
             Spacer(modifier = Modifier.size(24.dp))
         }
 
-        // Title
         Text(
             text = text,
             style = AppTextStyles.mediumTextBold,
@@ -59,16 +59,26 @@ fun CustomAppTopBar(
             textAlign = TextAlign.Center
         )
 
-        // More Icon
         if (showMoreButton) {
-            Icon(
-                painter = painterResource(R.drawable.ic_more_outline),
-                contentDescription = stringResource(R.string.ic_more_description),
-                tint = AppColors.black,
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable(){ onMoreClick() }
-            )
+            Box {
+                Icon(
+                    painter = painterResource(R.drawable.ic_more_outline),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable { onMoreClick() } // 클릭 시 상태 변경 호출
+                )
+
+                // MoreDropdownMenu를 연결
+                MoreDropdownMenu(
+                    expanded = isMenuExpanded,
+                    onDismiss = onMenuDismiss,
+                    onShareClick = { onMoreAction(MoreAction.Share) },
+                    onRateClick = { onMoreAction(MoreAction.Rate) },
+                    onReviewClick = { onMoreAction(MoreAction.Review) },
+                    onUnsaveClick = { onMoreAction(MoreAction.Unsave) }
+                )
+            }
         } else {
             Spacer(modifier = Modifier.size(24.dp))
         }
