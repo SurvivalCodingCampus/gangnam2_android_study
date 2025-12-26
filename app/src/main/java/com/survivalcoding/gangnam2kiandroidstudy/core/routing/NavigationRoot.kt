@@ -50,6 +50,26 @@ fun NavigationRoot(
                         topLevelBackStack.add(Route.RecipeDetail(recipeId))
                     }
                 }
+
+                uri.path == "/recipes/saved" -> {
+                    topLevelBackStack.clear()
+                    backStack.clear()
+
+                    topLevelBackStack.add(Route.Main)
+                    backStack.add(Route.SavedRecipes)
+                }
+
+                uri.path?.startsWith("/recipes/") == true -> {
+                    val recipeId = uri.lastPathSegment?.toIntOrNull()
+                    if (recipeId != null) {
+                        topLevelBackStack.clear()
+                        backStack.clear()
+
+                        topLevelBackStack.add(Route.Main)
+                        backStack.add(Route.SavedRecipes)
+                        topLevelBackStack.add(Route.RecipeDetail(recipeId))
+                    }
+                }
             }
         }
     }
