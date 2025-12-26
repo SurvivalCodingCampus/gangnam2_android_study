@@ -37,7 +37,9 @@ class IngredientViewModel @Inject constructor(
                 }
             }
             IngredientAction.CopyLink -> {
-                copyLinkUseCase.execute(_state.value.recipeLink)
+                viewModelScope.launch {
+                    copyLinkUseCase.execute(_state.value.recipeLink)
+                }
             }
         }
     }
