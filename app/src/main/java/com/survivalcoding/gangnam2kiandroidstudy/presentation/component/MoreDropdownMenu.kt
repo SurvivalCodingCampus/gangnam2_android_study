@@ -90,7 +90,7 @@ fun MoreDropdownMenu(
             },
             leadingIcon = {
                 Icon(
-                    painter = painterResource(R.drawable.bold_share),
+                    painter = painterResource(R.drawable.bold_bookmark_active),
                     contentDescription = "북마크 취소 아이콘",
                     modifier = Modifier.size(20.dp),
                 )
