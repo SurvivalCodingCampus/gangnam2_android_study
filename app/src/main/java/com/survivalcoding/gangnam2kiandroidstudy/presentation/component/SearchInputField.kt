@@ -24,6 +24,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.Gangnam2kiAndroidStudyTheme
 
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.platform.testTag
+
 @Composable
 fun SearchInputField(
     modifier: Modifier = Modifier,
@@ -36,7 +40,10 @@ fun SearchInputField(
         BasicTextField(
             value = text,
             onValueChange = onTextChanged,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .testTag("search_input")
+                .semantics { contentDescription = "Search recipe" },
             enabled = enabled,
             singleLine = true,
             textStyle = AppTextStyles.smallTextRegular2.copy(color = AppColors.black),

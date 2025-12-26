@@ -43,10 +43,11 @@ fun RecipeCategorySelector(
 @Preview(showBackground = true)
 @Composable
 private fun RecipeCategorySelectorPreview() {
-    var selectedCategory by remember { mutableStateOf("Lunch") }
+    var selectedCategory by remember { mutableStateOf("All") }
 
     RecipeCategorySelector(
         selectedCategory = selectedCategory,
+        categories = listOf("All", "Indian", "Italian", "Asian"),
         onCategorySelected = { selectedCategory = it }
     )
 }

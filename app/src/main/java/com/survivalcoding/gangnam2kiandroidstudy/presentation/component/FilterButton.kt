@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
+import androidx.compose.ui.platform.testTag
 
 @Composable
 fun FilterButton(
@@ -23,6 +24,7 @@ fun FilterButton(
 ) {
     Box(
         modifier = modifier
+            .testTag("filter_button")
             .clip(RoundedCornerShape(10.dp))
             .background(AppColors.primary100)
             .clickable(onClick = onClick),

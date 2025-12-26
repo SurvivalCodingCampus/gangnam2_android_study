@@ -6,6 +6,7 @@ plugins {
 
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    id("jacoco")
 }
 
 android {
@@ -38,7 +39,21 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.survivalcoding.gangnam2kiandroidstudy.HiltTestRunner"
+    }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnit {
+                includeCategories("org.junit.experimental.categories.Category")
+            }
+        }
+        unitTests.all {
+            (it as ExtensionAware).extensions.configure<JacocoTaskExtension>("jacoco") {
+                isIncludeNoLocationClasses = true
+                excludes = listOf("jdk.internal.*")
+            }
+        }
     }
 
     buildTypes {
@@ -48,6 +63,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
         }
     }
     compileOptions {
@@ -73,6 +92,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     testImplementation(libs.junit)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
+    testImplementation("io.mockk:mockk:1.13.10")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -97,4 +118,88 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
     implementation("com.google.dagger:hilt-android:2.57.1")
     ksp("com.google.dagger:hilt-android-compiler:2.57.1")
+
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.57.1")
+    kspAndroidTest("com.google.dagger:hilt-android-compiler:2.57.1")
+}
+
+val fileFilter = listOf(
+    "**/R.class", "**/R$*.class", "**/BuildConfig.*", "**/Manifest*.*", "**/*Test*.*", "android/**/*.*",
+    "**/*_MembersInjector.class",
+    "**/Dagger*Component.class",
+    "**/Dagger*Component\$Builder.class",
+    "**/*Module_*Factory.class",
+    "**/di/module/*",
+    "**/*_Factory*.*",
+    "**/*_HiltModules*.*",
+    "**/*Hilt*.*",
+    "**/hilt_aggregated_deps/**",
+    "**/*MapperImpl*.*",
+    "**/*\$ViewInjector*.*",
+    "**/*\$ViewBinder*.*",
+    "**/BuildConfig.*",
+    "**/*Component*.*",
+    "**/*BR*.*",
+    "**/Manifest*.*",
+    "**/*\$Lambda$*.*",
+    "**/*Companion*.*",
+    "**/*Module*.*",
+    "**/*Dagger*.*",
+    "**/*Hilt*.*",
+    "**/*MembersInjector*.*",
+    "**/*_Provide*Factory*.*",
+    "**/*_Factory.*",
+    "**/*_Impl*"
+)
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("testDevDebugUnitTest", "connectedDevDebugAndroidTest")
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+
+    val debugTree = fileTree("${layout.buildDirectory.get().asFile}/tmp/kotlin-classes/devDebug") {
+        exclude(fileFilter)
+    }
+    val mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories.setFrom(files(mainSrc))
+    classDirectories.setFrom(files(debugTree))
+    executionData.setFrom(fileTree(layout.buildDirectory.get().asFile) {
+        include(
+            "outputs/unit_test_code_coverage/devDebugUnitTest/testDevDebugUnitTest.exec",
+            "outputs/code_coverage/devDebugAndroidTest/**/*.ec"
+        )
+    })
+}
+
+tasks.register<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
+    dependsOn("jacocoTestReport")
+
+    val debugTree = fileTree("${layout.buildDirectory.get().asFile}/tmp/kotlin-classes/devDebug") {
+        exclude(fileFilter)
+    }
+    val mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories.setFrom(files(mainSrc))
+    classDirectories.setFrom(files(debugTree))
+    executionData.setFrom(fileTree(layout.buildDirectory.get().asFile) {
+        include(
+            "outputs/unit_test_code_coverage/devDebugUnitTest/testDevDebugUnitTest.exec",
+            "outputs/code_coverage/devDebugAndroidTest/**/*.ec"
+        )
+    })
+
+    violationRules {
+        rule {
+            element = "BUNDLE"
+            limit {
+                counter = "INSTRUCTION"
+                value = "COVEREDRATIO"
+                minimum = 0.0.toBigDecimal() // Set to 0.0 for now, increase as needed (e.g. 0.8)
+            }
+        }
+    }
 }

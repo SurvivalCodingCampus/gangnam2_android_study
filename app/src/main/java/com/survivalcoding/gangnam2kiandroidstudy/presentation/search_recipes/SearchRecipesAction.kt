@@ -8,4 +8,5 @@ sealed interface SearchRecipesAction {
     data object ShowFilterSheet : SearchRecipesAction
     data object DismissFilterSheet : SearchRecipesAction
     data object BackButtonClicked : SearchRecipesAction
+    data class RecipeClicked(val recipeId: Int) : SearchRecipesAction
 }

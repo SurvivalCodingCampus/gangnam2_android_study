@@ -1,45 +1,61 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.ingredient
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
-import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.CopyLinkUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetRecipeDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class IngredientViewModel @Inject constructor(
-    private val getRecipeDetailsUseCase: GetRecipeDetailsUseCase
+    private val getRecipeDetailsUseCase: GetRecipeDetailsUseCase,
+    private val copyLinkUseCase: CopyLinkUseCase
 ) : ViewModel() {
 
-    private val _recipe = MutableStateFlow(
-        Recipe(
-            id = -1,
-            category = "",
-            name = "",
-            image = "",
-            chef = "",
-            time = "",
-            rating = 0.0,
-            ingredients = emptyList()
-        )
-    )
-    val recipe: StateFlow<Recipe> = _recipe.asStateFlow()
+    private val _state = MutableStateFlow(IngredientState())
+    val state = _state.asStateFlow()
 
-    private val _procedures = MutableStateFlow<List<Procedure>>(emptyList())
-    val procedures: StateFlow<List<Procedure>> = _procedures.asStateFlow()
+    fun onAction(action: IngredientAction) {
+        when (action) {
+            is IngredientAction.TabSelected -> {
+                _state.update { it.copy(selectedTab = action.tab) }
+            }
+            IngredientAction.ToggleMoreOptions -> {
+                _state.update { it.copy(isMoreOptionsOpen = !it.isMoreOptionsOpen) }
+            }
+            IngredientAction.ToggleShareDialog -> {
+                _state.update { 
+                    it.copy(
+                        isShareDialogVisible = !it.isShareDialogVisible,
+                        isMoreOptionsOpen = false // Close menu when opening dialog
+                    ) 
+                }
+            }
+            IngredientAction.CopyLink -> {
+                viewModelScope.launch {
+                    copyLinkUseCase.execute(_state.value.recipeLink)
+                }
+            }
+        }
+    }
 
     fun loadRecipe(recipeId: Int) {
         viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
             val details = getRecipeDetailsUseCase.execute(recipeId)
-            _recipe.value = details.recipe
-            _procedures.value = details.procedures
+            _state.update {
+                it.copy(
+                    recipe = details.recipe,
+                    procedures = details.procedures,
+                    isLoading = false,
+                    recipeLink = "https://www.gangnam2ki.com/recipe/${details.recipe.id}"
+                )
+            }
         }
     }
 }

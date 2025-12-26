@@ -19,15 +19,11 @@ fun IngredientRoot(
         viewModel.loadRecipe(recipeId)
     }
 
-    val recipe by viewModel.recipe.collectAsStateWithLifecycle()
-    val procedures by viewModel.procedures.collectAsStateWithLifecycle()
-    var selectedTab by remember { mutableStateOf("Ingredient") }
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     IngredientScreen(
-        recipe = recipe,
-        procedures = procedures,
-        onBack = onBack,
-        selectedTab = selectedTab,
-        onTabSelected = { selectedTab = it }
+        state = state,
+        onAction = viewModel::onAction,
+        onBack = onBack
     )
 }

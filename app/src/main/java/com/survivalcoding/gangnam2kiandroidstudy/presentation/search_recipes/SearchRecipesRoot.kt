@@ -17,6 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 @Composable
 fun SearchRecipesRoot(
     onBack: () -> Unit,
+    onRecipeClick: (Int) -> Unit,
     viewModel: SearchRecipesViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -37,6 +38,7 @@ fun SearchRecipesRoot(
                     snackbarHostState.showSnackbar(event.message)
                 }
                 is SearchRecipesEvent.GoBack -> onBack()
+                is SearchRecipesEvent.NavigateToRecipeDetail -> onRecipeClick(event.recipeId)
             }
         }
     }

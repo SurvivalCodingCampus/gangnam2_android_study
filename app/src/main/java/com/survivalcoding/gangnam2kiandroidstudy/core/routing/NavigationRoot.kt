@@ -88,7 +88,12 @@ fun NavigationRoot(
                 )
             }
             entry<Route.Search> {
-                SearchRecipesRoot(onBack = { topLevelBackStack.removeLast() })
+                SearchRecipesRoot(
+                    onBack = { topLevelBackStack.removeLast() },
+                    onRecipeClick = { recipeId ->
+                        topLevelBackStack.add(Route.RecipeDetail(recipeId))
+                    }
+                )
             }
 
             entry<Route.RecipeDetail> { navKey ->

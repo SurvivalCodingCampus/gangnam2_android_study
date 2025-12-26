@@ -1,9 +1,11 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.di
 
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ClipboardRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.CopyLinkUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetHomeRecipesUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetRecipeDetailsUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetSavedRecipesUseCase
@@ -48,5 +50,11 @@ object UseCaseModule {
         procedureRepository: ProcedureRepository
     ): GetRecipeDetailsUseCase {
         return GetRecipeDetailsUseCase(recipeRepository, ingredientRepository, procedureRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCopyLinkUseCase(clipboardRepository: ClipboardRepository): CopyLinkUseCase {
+        return CopyLinkUseCase(clipboardRepository)
     }
 }
