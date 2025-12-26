@@ -13,52 +13,80 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ClipboardRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.CopyLinkUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeProcedureUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.ingredient.IngredientRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.ingredient.IngredientViewModel
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.core.module.dsl.viewModel
+import org.koin.dsl.module
 
 class SearchToIngredientIntegrationTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    private val targetRecipe = Recipe(
+        id = 99,
+        category = RecipeCategory.ITALIAN,
+        name = "Test Spice Roasted Chicken",
+        imageUrl = "",
+        chef = "Test Chef",
+        time = "20 min",
+        rating = 4.0,
+        ingredients = emptyList()
+    )
+
+    @Before
+    fun setUp() {
+        stopKoin()
+        startKoin {
+            modules(
+                module {
+                    single<RecipeRepository> {
+                        object : RecipeRepository {
+                            override suspend fun findRecipe(id: Long): Result<Recipe, String> {
+                                return if (id == targetRecipe.id) Result.Success(targetRecipe)
+                                else Result.Error("Not found")
+                            }
+
+                            override suspend fun findRecipes(): Result<List<Recipe>, String> {
+                                return Result.Success(listOf(targetRecipe))
+                            }
+                        }
+                    }
+                    single<ProcedureRepository> {
+                        object : ProcedureRepository {
+                            override suspend fun getProcedure(id: Long): List<String> = emptyList()
+                        }
+                    }
+                    single<ClipboardRepository> {
+                        object : ClipboardRepository {
+                            override fun copyText(text: String) {}
+                        }
+                    }
+                    single { GetRecipeProcedureUseCase(get()) }
+                    single { CopyLinkUseCase(get()) }
+                    viewModel { SearchRecipesViewModel(get()) }
+                    viewModel { IngredientViewModel(get(), get(), get()) }
+                }
+            )
+        }
+    }
+
+    @After
+    fun tearDown() {
+        stopKoin()
+    }
+
     @Test
     fun navigate_from_list_to_detail_and_back() {
-        // 1. Fake Data & Dependencies
-        val targetRecipe = Recipe(
-            id = 99,
-            category = RecipeCategory.ITALIAN,
-            name = "Test Spice Roasted Chicken",
-            imageUrl = "",
-            chef = "Test Chef",
-            time = "20 min",
-            rating = 4.0,
-            ingredients = emptyList()
-        )
-
-        val fakeRepository = object : RecipeRepository {
-            override suspend fun findRecipe(id: Long): Result<Recipe, String> {
-                return if (id == targetRecipe.id) Result.Success(targetRecipe)
-                else Result.Error("Not found")
-            }
-
-            override suspend fun findRecipes(): Result<List<Recipe>, String> {
-                return Result.Success(listOf(targetRecipe))
-            }
-        }
-
-        // Fake UseCase
-        val fakeProcedureRepository = object : ProcedureRepository {
-            override suspend fun getProcedure(id: Long): List<String> = emptyList()
-        }
-        val fakeUseCase = GetRecipeProcedureUseCase(fakeProcedureRepository)
-
-        // ViewModel
-        val searchViewModel = SearchRecipesViewModel(fakeRepository)
-        val ingredientViewModel = IngredientViewModel(fakeRepository, fakeUseCase)
-
         // 2. 네비게이션을 포함한 컨텐츠 설정
         composeTestRule.setContent {
             val backStack = rememberNavBackStack(Route.SearchRecipes)
@@ -72,7 +100,6 @@ class SearchToIngredientIntegrationTest {
                 entryProvider = entryProvider {
                     entry<Route.SearchRecipes> {
                         SearchRecipesRoot(
-                            viewModel = searchViewModel,
                             onNavigateToRecipeDetail = { id ->
                                 backStack.add(Route.RecipeDetail(id))
                             },
@@ -83,7 +110,6 @@ class SearchToIngredientIntegrationTest {
                     }
                     entry<Route.RecipeDetail> { entry ->
                         IngredientRoot(
-                            viewModel = ingredientViewModel,
                             recipeId = entry.recipeId,
                             onBackClick = {
                                 backStack.removeAt(backStack.lastIndex)
