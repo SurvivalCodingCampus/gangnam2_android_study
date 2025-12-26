@@ -7,6 +7,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 data class RecipeHomeState(
     val recipes: ImmutableList<Recipe> = persistentListOf(),
+    val savedRecipeIds: Set<Int> = emptySet(),
     val isLoading: Boolean = true,
     val error: String? = null,
     val query: String = "",

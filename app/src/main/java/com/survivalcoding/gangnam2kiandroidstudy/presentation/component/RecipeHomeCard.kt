@@ -104,11 +104,9 @@ fun RecipeHomeCard(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.union),
-                            contentDescription = "union icon",
+                            contentDescription = if (isSaved) "bookmark enabled" else "bookmark disabled",
                             modifier = Modifier.size(16.dp),
-                            // TODO 사용자 데이터에 저장된 레시피가 있어야 함 현재 보류
-//                            tint = if (isSaved) AppColors.primary80 else AppColors.gray3
-                            tint = AppColors.primary80
+                            tint = if (isSaved) AppColors.primary80 else AppColors.gray3
                         )
                     }
                 }

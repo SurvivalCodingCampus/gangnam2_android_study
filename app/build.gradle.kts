@@ -94,6 +94,7 @@ dependencies {
     testImplementation(libs.koin.test)
 
     testImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
     testImplementation(libs.turbine)
 
