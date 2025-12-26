@@ -1,6 +1,10 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipe_detail
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,20 +17,33 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredients
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
-import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedures
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.IngredientItem
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.ProcedureItem
@@ -41,106 +58,290 @@ fun SavedRecipeItemScreen(
     state: SavedRecipeDetailsState,
     recipe: Recipe,
     procedure: List<Procedure>,
-    onValueChanged: (Boolean) -> Unit
+    onValueChanged: (Boolean) -> Unit,
+    onBackButtonClicked: () -> Unit,
+    onMoreButtonClicked: (Boolean) -> Unit,
+    onShareDialogRequest: (Boolean) -> Unit,
+    onCopyLink: (String) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 30.dp)
-    ) {
-        Spacer(modifier = Modifier.height(88.dp))
-        RecipeCard(
-            recipe = recipe.copy(name = "", chef = ""),
-            isSaved = true,
-            onBookMarkClick = {}
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        Row(modifier = Modifier.height(41.dp)) {
-            Text(
-                recipe.name,
-                modifier = Modifier.weight(1f),
-                style = AppTextStyles.smallTextBold.copy(fontWeight = FontWeight.SemiBold)
-            )
-            Text(
-                text = "13k Reviewers",
-                modifier = Modifier.padding(start = 18.dp, end = 5.dp),
-                style = AppTextStyles.smallTextBold.copy(
-                    fontWeight = FontWeight.SemiBold,
-                    color = AppColors.gray4
-                )
-            )
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-        Profile(name = recipe.chef, region = "south korea", imageUrl = recipe.image) //TODO지역 수정)
-        Spacer(modifier = Modifier.height(8.dp))
-        Tab2(
-            listOf("Ingredient", "Procedure"), if(state.isSelectIngredient) 0 else 1
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 30.dp)
         ) {
-            if (it == 0) {
-                onValueChanged(true)
-            } else {
-                onValueChanged(false)
-            }
-        }
-        Spacer(modifier = Modifier.height(43.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Row(modifier = Modifier) {
+            Spacer(modifier = Modifier.height(54.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(24.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Icon(
-                    painter = painterResource(R.drawable.icon_serve),
-                    contentDescription = "1인분 아이콘",
-                    tint = AppColors.gray3,
-                    modifier = Modifier.size(17.dp)
+                    painter = painterResource(R.drawable.outline_arrow_left),
+                    contentDescription = "뒤로가기 버튼",
+                    modifier = Modifier.clickable(onClick = { onBackButtonClicked() })
                 )
-                Spacer(modifier = Modifier.width(5.dp))
+
+                Box {
+                    Icon(
+                        painter = painterResource(R.drawable.outline_more),
+                        contentDescription = "more버튼",
+                        modifier = Modifier.clickable(onClick = { onMoreButtonClicked(true) })
+                    )
+                    DropdownMenu(
+                        expanded = state.isDropDownMenuShow,
+                        onDismissRequest = { onMoreButtonClicked(false) }
+                    ) {
+                        DropdownMenuItem(
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.bold_share),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp),
+                                    tint = AppColors.black
+                                )
+                            },
+                            text = { Text("Share") },
+                            onClick = {
+                                onMoreButtonClicked(false)
+                                onShareDialogRequest(true)
+                            }
+                        )
+                        DropdownMenuItem(
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.bold_star),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp),
+                                    tint = AppColors.black
+                                )
+                            },
+                            text = { Text("Rate Recipe") },
+                            onClick = { /* Do something... */ }
+                        )
+                        DropdownMenuItem(
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.bold_message),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp),
+                                    tint = AppColors.black
+                                )
+                            },
+                            text = { Text("Review") },
+                            onClick = { /* Do something... */ }
+                        )
+                        DropdownMenuItem(
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.bold_bookmark_inactive),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp),
+                                    tint = AppColors.black
+                                )
+                            },
+                            text = { Text("Unsave") },
+                            onClick = { /* Do something... */ }
+                        )
+                    }
+                }
+
+            }
+            Spacer(modifier = Modifier.height(54.dp))
+
+            RecipeCard(
+                recipe = recipe.copy(name = "", chef = ""),
+                isSaved = true,
+                onBookMarkClick = {}
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(modifier = Modifier.height(41.dp)) {
                 Text(
-                    "1 serve",
+                    recipe.name,
+                    modifier = Modifier.weight(1f),
+                    style = AppTextStyles.smallTextBold.copy(fontWeight = FontWeight.SemiBold)
+                )
+                Text(
+                    text = "13k Reviewers",
+                    modifier = Modifier.padding(start = 18.dp, end = 5.dp),
+                    style = AppTextStyles.smallTextBold.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        color = AppColors.gray4
+                    )
+                )
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Profile(
+                name = recipe.chef,
+                region = "south korea",
+                imageUrl = recipe.image
+            ) //TODO지역 수정)
+            Spacer(modifier = Modifier.height(8.dp))
+            Tab2(
+                listOf("Ingredient", "Procedure"), if (state.isSelectIngredient) 0 else 1
+            ) {
+                if (it == 0) {
+                    onValueChanged(true)
+                } else {
+                    onValueChanged(false)
+                }
+            }
+            Spacer(modifier = Modifier.height(43.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(modifier = Modifier) {
+                    Icon(
+                        painter = painterResource(R.drawable.icon_serve),
+                        contentDescription = "1인분 아이콘",
+                        tint = AppColors.gray3,
+                        modifier = Modifier.size(17.dp)
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(
+                        "1 serve",
+                        modifier = Modifier,
+                        style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray3)
+                    )
+                }
+                Text(
+                    if (state.isSelectIngredient) "${recipe.ingredients.size} Items" else "${procedure.size} Steps",
                     modifier = Modifier,
                     style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray3)
                 )
             }
-            Text(
-                if (state.isSelectIngredient) "${recipe.ingredients.size} Items" else "${procedure.size} Steps",
-                modifier = Modifier,
-                style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray3)
+            Spacer(modifier = Modifier.height(20.dp))
+            if (state.isSelectIngredient) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(bottom = 10.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
+                    items(recipe.ingredients) { recipe ->
+                        IngredientItem(
+                            imageUrl = recipe.ingredient.image,
+                            foodName = recipe.ingredient.name,
+                            foodGram = recipe.amount
+                        )
+
+                    }
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(bottom = 10.dp)
+                ) {
+                    items(procedure) {
+                        ProcedureItem(it)
+                    }
+                }
+            }
+        }
+
+        // 통합 Scrim (메뉴 또는 다이얼로그가 떠있을 때)
+        if (state.isDropDownMenuShow || state.isShareDialogShow) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.5f))
+                    .zIndex(1f)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
+                        if (state.isDropDownMenuShow) onMoreButtonClicked(false)
+                        if (state.isShareDialogShow) onShareDialogRequest(false)
+                    }
             )
         }
-        Spacer(modifier = Modifier.height(20.dp))
-        if (state.isSelectIngredient) {
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(bottom = 10.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
+
+        // Custom Dialog Overlay
+        if (state.isShareDialogShow) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .zIndex(2f)
+                    .padding(horizontal = 32.dp),
+                contentAlignment = Alignment.Center
             ) {
-                items(recipe.ingredients) { recipe ->
-                    IngredientItem(
-                        imageUrl = recipe.ingredient.image,
-                        foodName = recipe.ingredient.name,
-                        foodGram = recipe.amount
-                    )
-
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    shape = RoundedCornerShape(14.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 15.dp)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Recipe Link",
+                                style = AppTextStyles.largeTextBold.copy(fontWeight = FontWeight.SemiBold),
+                                modifier = Modifier.padding(top = 5.dp)
+                            )
+                            Icon(
+                                imageVector = Icons.Default.Close,
+                                contentDescription = "Close",
+                                tint = AppColors.gray1,
+                                modifier = Modifier
+                                    .size(5.dp)
+                                    .clickable { onShareDialogRequest(false) }
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(
+                            text = "Copy recipe link and share your recipe link with friends and family.",
+                            style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray2)
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(43.dp)
+                                .background(
+                                    color = AppColors.gray4,
+                                    shape = RoundedCornerShape(9.dp)
+                                ),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "app.Recipe.co/recipe?id=${recipe.id}",
+                                style = AppTextStyles.smallTextRegular.copy(
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 11.sp
+                                ),
+                                modifier = Modifier
+                                    .padding(start = 14.dp)
+                                    .weight(1f),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                            Button(
+                                onClick = { onCopyLink("app.Recipe.co/recipe?id=${recipe.id}") },
+                                shape = RoundedCornerShape(9.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = AppColors.primary100),
+                                modifier = Modifier
+                                    .height(43.dp)
+                            ) {
+                                Text(
+                                    text = "Copy Link",
+                                    style = AppTextStyles.smallerTextBold.copy(color = Color.White)
+                                )
+                            }
+                        }
+                    }
                 }
-            }
-        } else {
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                contentPadding = PaddingValues(bottom = 10.dp)
-            ) {
-                items(procedure) {
-                    ProcedureItem(it)
-                }
-
-
             }
         }
-
-
     }
-
 }
 
 @Preview(showBackground = true)
@@ -154,6 +355,7 @@ private fun SavedRecipeItemScreenPreview() {
         name = "Traditional spare ribs baked",
         rating = 4.0,
         time = "20 min",
+        isSaved = true,
         ingredients = listOf(
             Ingredients(
                 amount = 500,
@@ -201,6 +403,10 @@ private fun SavedRecipeItemScreenPreview() {
         state = SavedRecipeDetailsState(isSelectIngredient = false),
         recipe = mockRecipe,
         procedure = mockProcedure,
-        { 0 }
+        {},
+        {},
+        {},
+        {},
+        {}
     )
 }

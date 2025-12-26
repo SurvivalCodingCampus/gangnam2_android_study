@@ -12,5 +12,6 @@ data class Recipe(
     val ingredients: List<Ingredients>,
     val name: String,
     val rating: Double,
-    val time: String
+    val time: String,
+    val isSaved: Boolean = false
 )

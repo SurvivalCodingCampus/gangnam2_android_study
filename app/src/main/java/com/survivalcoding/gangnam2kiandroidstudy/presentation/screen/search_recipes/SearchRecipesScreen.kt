@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.CustomSearchField
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterBottomSheet
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SettingButton
@@ -34,6 +35,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 fun SearchRecipesScreen(
     state: SearchRecipesState,
     onAction: (SearchRecipesAction) -> Unit,
+    onRecipeClick: (Recipe) -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -89,7 +91,7 @@ fun SearchRecipesScreen(
             horizontalArrangement = Arrangement.spacedBy(15.dp)
         ) {
             items(state.resultRecipes) { item ->
-                SmallRecipeCard(item)
+                SmallRecipeCard(item, onClick = { onRecipeClick(item) })
             }
         }
     }

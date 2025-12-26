@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,11 +38,14 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 import kotlinx.serialization.json.Json
 
 @Composable
-fun MediumRecipeCard(recipe: Recipe, onAction: (HomeAction) -> Unit) {
+fun MediumRecipeCard(
+    recipe: Recipe, onAction: (HomeAction) -> Unit, onClickRecipeSaveButton: (Recipe) -> Unit
+) {
     Box(
         modifier = Modifier
             .size(width = 150.dp, height = 231.dp)
-            .clickable(enabled = true, onClick = { onAction(HomeAction.OnRecipeItemClicked(recipe)) })
+            .clickable(
+                onClick = { onAction(HomeAction.OnRecipeItemClicked(recipe)) })
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.weight(1f))
@@ -58,12 +62,10 @@ fun MediumRecipeCard(recipe: Recipe, onAction: (HomeAction) -> Unit) {
                     Spacer(modifier = Modifier.height(66.dp))
                     Text(
                         recipe.name,
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         style = AppTextStyles.smallTextBold.copy(
-                            color = AppColors.gray1,
-                            fontWeight = FontWeight.SemiBold
+                            color = AppColors.gray1, fontWeight = FontWeight.SemiBold
                         ),
                         minLines = 2,
                         maxLines = 2
@@ -88,11 +90,14 @@ fun MediumRecipeCard(recipe: Recipe, onAction: (HomeAction) -> Unit) {
                         .size(24.dp)
                         .background(color = AppColors.white, shape = CircleShape)
                         .align(Alignment.BottomEnd)
+                        .clickable(onClick = { onClickRecipeSaveButton(recipe) })
+
                 ) {
-                    Image(
+                    Icon(
                         painter = painterResource(R.drawable.inactive),
                         contentDescription = "inactive",
-                        modifier = Modifier.align(Alignment.Center)
+                        modifier = Modifier.align(Alignment.Center),
+                        tint = if (recipe.isSaved) AppColors.primary80 else AppColors.gray3
                     )
                 }
 
@@ -102,14 +107,16 @@ fun MediumRecipeCard(recipe: Recipe, onAction: (HomeAction) -> Unit) {
             modifier = Modifier
                 .size(110.dp)
                 .clip(shape = CircleShape)
-                .align(Alignment.TopCenter), contentAlignment = Alignment.Center
+                .align(Alignment.TopCenter),
+            contentAlignment = Alignment.Center
         ) {
             AsyncImage(
                 model = recipe.image,
                 contentDescription = "레시피 이미지",
                 modifier = Modifier
                     .align(Alignment.TopCenter)
-                    .fillMaxSize(), contentScale = ContentScale.Crop
+                    .fillMaxSize(),
+                contentScale = ContentScale.Crop
             )
 
         }
@@ -122,8 +129,7 @@ fun MediumRecipeCard(recipe: Recipe, onAction: (HomeAction) -> Unit) {
             Row(
                 modifier = Modifier
                     .background(
-                        color = AppColors.secondary20,
-                        shape = RoundedCornerShape(20.dp)
+                        color = AppColors.secondary20, shape = RoundedCornerShape(20.dp)
                     )
                     .size(width = 37.dp, height = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -139,8 +145,7 @@ fun MediumRecipeCard(recipe: Recipe, onAction: (HomeAction) -> Unit) {
                 Text(
                     text = recipe.rating.toString(), // 실제 레시피 평점 사용
                     style = AppTextStyles.smallerTextRegular.copy(
-                        fontSize = 8.sp,
-                        color = AppColors.black
+                        fontSize = 8.sp, color = AppColors.black
                     ) // 색상 지정
                 )
                 Spacer(modifier = Modifier.width(7.dp))
@@ -174,6 +179,6 @@ private fun MediumRecipeCardPreview() {
     val json = Json {
         ignoreUnknownKeys = true
     }
-    //MediumRecipeCard(json.decodeFromString(mock))
+    MediumRecipeCard(json.decodeFromString(mock), {}, {})
 
 }

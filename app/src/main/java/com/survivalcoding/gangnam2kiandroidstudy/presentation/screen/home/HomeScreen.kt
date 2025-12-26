@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.core.util.MOCK
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipes
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.CustomSearchField
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.MediumRecipeCard
@@ -37,13 +38,14 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SettingB
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallButton2
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.serialization.json.Json
 
 @Composable
 fun HomeScreen(
     state: HomeState,
     onAction: (HomeAction) -> Unit,
+    onAddSavedRecipe: (Recipe) -> Unit,
+    onDeleteSavedRecipe: (Recipe) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
         Spacer(modifier = Modifier.height(64.dp))
@@ -128,10 +130,30 @@ fun HomeScreen(
             horizontalArrangement = Arrangement.spacedBy(15.dp),
             contentPadding = PaddingValues(horizontal = 30.dp)
         ) {
-            items(state.resultRecipes) { recipe ->
-                MediumRecipeCard(
-                    recipe,
-                    onAction = { onAction(HomeAction.OnRecipeItemClicked(recipe)) })
+            if (state.resultRecipes.isEmpty()) {
+                item {
+                    Box(
+                        modifier = Modifier.height(231.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "레시피 없음",
+                            style = AppTextStyles.normalTextBold.copy(color = AppColors.gray3)
+                        )
+                    }
+                }
+            } else {
+                items(state.resultRecipes) { recipe ->
+                    MediumRecipeCard(
+                        recipe,
+                        onAction = { onAction(HomeAction.OnRecipeItemClicked(recipe)) },
+                        onClickRecipeSaveButton = if (recipe.isSaved) {
+                            { onDeleteSavedRecipe(recipe) }
+                        } else {
+                            { onAddSavedRecipe(recipe) }
+                        }
+                    )
+                }
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -162,9 +184,9 @@ private fun HomeScreenPreview() {
     val mockList =
         Json.decodeFromString<Recipes>(MOCK)
 
-
-    HomeScreen(
-        state = HomeState(resultRecipes = mockList.recipes.toImmutableList()),
-        onAction = {})
+//
+//    HomeScreen(
+//        state = HomeState(resultRecipes = mockList.recipes.toImmutableList()),
+//        onAction = {})
 }
 

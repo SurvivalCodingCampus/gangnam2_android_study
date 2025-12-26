@@ -14,10 +14,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SearchRecipesRoot(viewModel: SearchRecipesViewModel = koinViewModel()) {
+fun SearchRecipesRoot(
+    viewModel: SearchRecipesViewModel = koinViewModel(),
+    onRecipeClick: (Recipe) -> Unit = {}
+) {
     val searchRecipesState by viewModel.state.collectAsState(SearchRecipesState())
     val snackBarHostState = remember { SnackbarHostState() }
     Log.d("SearchRecipesRoot", "searchRecipes: $searchRecipesState")
@@ -34,6 +38,7 @@ fun SearchRecipesRoot(viewModel: SearchRecipesViewModel = koinViewModel()) {
         Box(modifier = Modifier.padding(paddingValues)) {
             SearchRecipesScreen(
                 state = searchRecipesState,
+                onRecipeClick = onRecipeClick,
                 onAction = { action ->
                     when (action) {
                         is SearchRecipesAction.ToggleBottomSheet -> viewModel.toggleBottomSheet()

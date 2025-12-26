@@ -9,7 +9,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun SavedRecipeItemRoot(
     recipe: Recipe,
-    viewModel: SavedRecipeDetailsViewModel = koinViewModel()
+    viewModel: SavedRecipeDetailsViewModel = koinViewModel(),
+    onBackButtonClick: ()-> Unit
 ) {
 
     val state = viewModel.state.collectAsState()
@@ -19,7 +20,11 @@ fun SavedRecipeItemRoot(
     SavedRecipeItemScreen(
         state = state.value, recipe = recipe, onValueChanged = {
             viewModel.changeValue(it)
-        }, procedure = state.value.procedureList
+        }, procedure = state.value.procedureList,
+        onBackButtonClicked = {onBackButtonClick()},
+        onMoreButtonClicked = {viewModel.toggleMenu(it)},
+        onShareDialogRequest = { viewModel.toggleShareDialog(it) },
+        onCopyLink = { viewModel.copyLink(it) }
     )
 
 }

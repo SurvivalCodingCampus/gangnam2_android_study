@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,7 +50,9 @@ fun CustomSearchField(onValueChange: (String) -> Unit, onClick: () -> Unit = {},
             BasicTextField(
                 enabled = enableSearch,
                 value = inputText,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("SearchField"),
                 onValueChange = {
                     onValueChange(it)
                     inputText = it
