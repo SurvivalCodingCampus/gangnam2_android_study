@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -18,6 +19,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         intent?.data?.toString()?.let { uri ->
+            Log.d("DeepLinkLog", "onCreate URI: $uri")
             deepLinkChannel.trySend(uri)
         }
 
@@ -29,6 +31,7 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         intent.data?.toString()?.let { uri ->
+            Log.d("DeepLinkLog", "onNewIntent URI: $uri")
             deepLinkChannel.trySend(uri)
         }
     }

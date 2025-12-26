@@ -27,14 +27,29 @@ fun NavigationRoot(
 
     LaunchedEffect(deepLinkFlow) {
         deepLinkFlow.collect { uri ->
-            if (uri.startsWith("myapp://recipes/detail/")) {
-                val recipeId = uri.substringAfter("myapp://recipes/detail/").toLongOrNull() ?: 0L
-                topLevelBackStack.clear()
-                topLevelBackStack.add(Route.Main())
-                topLevelBackStack.add(Route.RecipeDetail(recipeId))
-            } else if (uri == "myapp://recipes/saved") {
-                topLevelBackStack.clear()
-                topLevelBackStack.add(Route.Main(startDestination = Route.SavedRecipes))
+            when {
+                // /recipes/saved 경로가 포함된 경우 (myapp://recipes/saved 또는 https://.../recipes/saved)
+                uri.contains("/recipes/saved") -> {
+                    topLevelBackStack.clear()
+                    topLevelBackStack.add(Route.Main(startDestination = Route.SavedRecipes))
+                }
+                
+                // 상세 화면 처리
+                // 1. myapp://recipes/detail/{id}
+                uri.contains("/recipes/detail/") -> {
+                    val recipeId = uri.substringAfter("/recipes/detail/").toLongOrNull() ?: 0L
+                    topLevelBackStack.clear()
+                    topLevelBackStack.add(Route.Main())
+                    topLevelBackStack.add(Route.RecipeDetail(recipeId))
+                }
+                
+                // 2. https://neouul-recipe.web.app/recipes/{id} (숫자로 끝나는 경우)
+                uri.matches(Regex(".*/recipes/\\d+$")) -> {
+                    val recipeId = uri.substringAfterLast("/").toLongOrNull() ?: 0L
+                    topLevelBackStack.clear()
+                    topLevelBackStack.add(Route.Main())
+                    topLevelBackStack.add(Route.RecipeDetail(recipeId))
+                }
             }
         }
     }
