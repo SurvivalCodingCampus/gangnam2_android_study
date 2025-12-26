@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
@@ -50,7 +51,7 @@ fun RecipeDetailsDropdownMenu(
             },
             text = {
                 Text(
-                    text = "share",
+                    text = stringResource(R.string.menu_share),
                     style = AppTextStyles.smallTextRegular,
                 )
             },

@@ -37,9 +37,11 @@ class RecipeDetailsViewModel(
             }
             RecipeDetailsAction.OnShareClick -> {
                 // 공유 클릭 동작 구현
+                showShareDialog()
             }
             RecipeDetailsAction.OnShareDismissRequest -> {
                 // 공유 닫기 동작 구현
+                hideShareDialog()
             }
             is RecipeDetailsAction.OnCopyClick -> {
                 // 텍스트 복사 동작 구현
@@ -89,6 +91,19 @@ class RecipeDetailsViewModel(
     private fun hideMenu() {
         _uiState.update {
             it.copy(isMenuVisible = false)
+        }
+    }
+
+    private fun showShareDialog() {
+        _uiState.update {
+            it.copy(isShareDialogVisible = true)
+        }
+        hideMenu()
+    }
+
+    private fun hideShareDialog() {
+        _uiState.update {
+            it.copy(isShareDialogVisible = false)
         }
     }
 }

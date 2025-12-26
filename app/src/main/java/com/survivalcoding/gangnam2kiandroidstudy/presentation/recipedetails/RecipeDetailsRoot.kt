@@ -39,5 +39,6 @@ fun RecipeDetailsRoot(
         uiState = uiState,
         onTabClick = viewModel::changeTab,
         onBackClick = onBackClick,
+        onAction = viewModel::onAction,
     )
 }
