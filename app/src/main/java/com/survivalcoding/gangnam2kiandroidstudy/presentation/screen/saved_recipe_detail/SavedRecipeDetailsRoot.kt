@@ -1,7 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipe_detail
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.koinViewModel
@@ -12,10 +11,11 @@ fun SavedRecipeItemRoot(
     viewModel: SavedRecipeDetailsViewModel = koinViewModel(),
     onBackButtonClick: () -> Unit
 ) {
+
     val state = viewModel.state.collectAsState()
-    LaunchedEffect(recipeId) {
-        viewModel.init(recipeId)
-    }
+
+    viewModel.init(recipeId)
+
     SavedRecipeItemScreen(
         state = state.value, onValueChanged = {
             viewModel.changeValue(it)
