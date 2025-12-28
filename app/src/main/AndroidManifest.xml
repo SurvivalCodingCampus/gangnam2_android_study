@@ -47,9 +47,7 @@
                 <data
                     android:scheme="https"
                     android:host="misterjerry-androidstudy.web.app" />
-                <data
-                    android:scheme="http"
-                    android:host="misterjerry-androidstudy.web.app" />
+
             </intent-filter>
 
         </activity>
