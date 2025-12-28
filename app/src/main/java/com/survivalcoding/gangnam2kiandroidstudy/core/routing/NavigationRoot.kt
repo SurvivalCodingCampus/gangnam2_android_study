@@ -26,16 +26,25 @@ fun NavigationRoot(deepLinkUri: String?) {
         if (deepLinkUri != null) {
             val uri = deepLinkUri.toUri()
             if (uri.scheme == "app" && uri.host == "recipe.misterjerry.com") {
-                val recipeId = uri.lastPathSegment?.toIntOrNull()
-
-                if (recipeId != null) {
+                if (uri.path == "/saved") {
                     topLevelBackStack.clear()
                     backStack.clear()
 
                     topLevelBackStack.add(Route.Main)
                     backStack.add(Route.SavedRecipes)
-                    topLevelBackStack.add(Route.RecipeItem(recipeId))
+                } else {
+                    val recipeId = uri.lastPathSegment?.toIntOrNull()
+
+                    if (recipeId != null) {
+                        topLevelBackStack.clear()
+                        backStack.clear()
+
+                        topLevelBackStack.add(Route.Main)
+                        backStack.add(Route.SavedRecipes)
+                        topLevelBackStack.add(Route.RecipeItem(recipeId))
+                    }
                 }
+
 
             }
         }
@@ -72,7 +81,6 @@ fun NavigationRoot(deepLinkUri: String?) {
             }
 
             entry<Route.Main> {
-                val backStack = rememberNavBackStack(Route.Home)
                 MainScreen(
                     backStack = backStack, body = {
                         NavDisplay(
