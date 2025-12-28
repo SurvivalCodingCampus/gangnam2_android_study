@@ -1,6 +1,8 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.routing
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -16,8 +18,29 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_up.Sig
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashRoot
 
 @Composable
-fun NavigationRoot() {
+fun NavigationRoot(deepLinkUri: String?) {
     val topLevelBackStack = rememberNavBackStack(Route.Splash)
+    val backStack = rememberNavBackStack(Route.Home)
+
+    LaunchedEffect(deepLinkUri) {
+        if (deepLinkUri != null) {
+            val uri = deepLinkUri.toUri()
+            if (uri.scheme == "app" && uri.host == "recipe.misterjerry.com") {
+                val recipeId = uri.lastPathSegment?.toIntOrNull()
+
+                if (recipeId != null) {
+                    topLevelBackStack.clear()
+                    backStack.clear()
+
+                    topLevelBackStack.add(Route.Main)
+                    backStack.add(Route.SavedRecipes)
+                    topLevelBackStack.add(Route.RecipeItem(recipeId))
+                }
+
+            }
+        }
+
+    }
     NavDisplay(
         backStack = topLevelBackStack, entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),
@@ -65,14 +88,14 @@ fun NavigationRoot() {
                                     }, onRecipeItemClicked = {
                                         topLevelBackStack.add(
                                             Route.RecipeItem(
-                                                it
+                                                it.id
                                             )
                                         )
                                     })
                                 }
                                 entry<Route.SavedRecipes> {
                                     SavedRecipesRoot(onRecipeClick = {
-                                        topLevelBackStack.add(Route.RecipeItem(it))
+                                        topLevelBackStack.add(Route.RecipeItem(it.id))
                                     })
                                 }
 
@@ -86,13 +109,13 @@ fun NavigationRoot() {
             }
             entry<Route.RecipeItem> { navEntry ->
                 SavedRecipeItemRoot(
-                    navEntry.recipe,
+                    navEntry.recipeId,
                     onBackButtonClick = { topLevelBackStack.removeAt(topLevelBackStack.lastIndex) })
             }
 
             entry<Route.Search> {
                 SearchRecipesRoot(onRecipeClick = {
-                    topLevelBackStack.add(Route.RecipeItem(it))
+                    topLevelBackStack.add(Route.RecipeItem(it.id))
                 })
             }
         })
