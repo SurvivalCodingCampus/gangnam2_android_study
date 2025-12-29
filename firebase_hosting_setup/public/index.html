@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>App Link Test</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+        a { display: block; margin: 10px 0; padding: 15px; background: #eee; text-decoration: none; color: #333; border-radius: 8px; }
+        a:hover { background: #ddd; }
+        .note { color: #666; font-size: 0.9em; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>App Link Test Page</h1>
+    <p class="note">앱이 설치된 상태에서 아래 링크를 클릭하면 앱으로 바로 이동해야 합니다.</p>
+
+    <h2>Saved Recipes</h2>
+    <a href="https://recipe-e089b.web.app/recipes/saved">
+        Go to Saved Recipes<br>
+        <small>(https://recipe-e089b.web.app/recipes/saved)</small>
+    </a>
+
+    <h2>Recipe Details</h2>
+    <a href="https://recipe-e089b.web.app/recipes/1">
+        Go to Recipe #1<br>
+        <small>(https://recipe-e089b.web.app/recipes/1)</small>
+    </a>
+
+    <a href="https://recipe-e089b.web.app/recipes/42">
+        Go to Recipe #42<br>
+        <small>(https://recipe-e089b.web.app/recipes/42)</small>
+    </a>
+
+    <hr>
+    <h3>Setup Check</h3>
+    <a href="/.well-known/assetlinks.json" target="_blank">View assetlinks.json</a>
+</body>
+</html>

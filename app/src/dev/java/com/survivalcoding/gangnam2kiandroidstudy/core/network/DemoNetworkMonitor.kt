@@ -9,9 +9,6 @@ import javax.inject.Singleton
 @Singleton
 class DemoNetworkMonitor @Inject constructor() : NetworkMonitor {
     override val isOnline: Flow<Boolean> = flow {
-        delay(4000)
         emit(true)
-        delay(4000)
-        emit(false)
     }
 }
