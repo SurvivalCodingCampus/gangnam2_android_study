@@ -1,7 +1,9 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.routing
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -18,10 +20,59 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.splash.SplashScree
 
 @Composable
 fun NavigationRoot(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    deepLinkUri: String? = null
 ) {
     val topLevelBackStack = rememberNavBackStack(Route.Splash)
+    val backStack = rememberNavBackStack(Route.Home)
 
+    LaunchedEffect(deepLinkUri) {
+        if (deepLinkUri != null) {
+            val uri = deepLinkUri.toUri()
+            when {
+                uri.path == "/saved" -> {
+                    topLevelBackStack.clear()
+                    backStack.clear()
+
+                    topLevelBackStack.add(Route.Main)
+                    backStack.add(Route.SavedRecipes)
+                }
+
+                uri.path?.startsWith("/detail") == true -> {
+                    val recipeId = uri.lastPathSegment?.toIntOrNull()
+                    if (recipeId != null) {
+
+                        topLevelBackStack.clear()
+                        backStack.clear()
+
+                        topLevelBackStack.add(Route.Main)
+                        backStack.add(Route.SavedRecipes)
+                        topLevelBackStack.add(Route.RecipeDetail(recipeId))
+                    }
+                }
+
+                uri.path == "/recipes/saved" -> {
+                    topLevelBackStack.clear()
+                    backStack.clear()
+
+                    topLevelBackStack.add(Route.Main)
+                    backStack.add(Route.SavedRecipes)
+                }
+
+                uri.path?.startsWith("/recipes/") == true -> {
+                    val recipeId = uri.lastPathSegment?.toIntOrNull()
+                    if (recipeId != null) {
+                        topLevelBackStack.clear()
+                        backStack.clear()
+
+                        topLevelBackStack.add(Route.Main)
+                        backStack.add(Route.SavedRecipes)
+                        topLevelBackStack.add(Route.RecipeDetail(recipeId))
+                    }
+                }
+            }
+        }
+    }
     NavDisplay(
         modifier = modifier,
         entryDecorators = listOf(
@@ -61,7 +112,6 @@ fun NavigationRoot(
 
             }
             entry<Route.Main> {
-                val backStack = rememberNavBackStack(Route.Home)
 
                 MainScreen(
                     backStack = backStack,
