@@ -16,7 +16,7 @@ class NetworkMonitorImpl @Inject constructor(
     @ApplicationScope private val applicationScope: CoroutineScope
 ) : NetworkMonitor {
 
-    private val _status = MutableStateFlow(NetworkStatus.Unavailable)
+    private val _status = MutableStateFlow(connectivity.currentStatus)
     override val status: StateFlow<NetworkStatus> = _status
 
     private val _events = MutableSharedFlow<NetworkEvent>(

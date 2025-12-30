@@ -15,3 +15,8 @@
 local.properties
 
 .idea/
+
+# --- Firebase 관련 제외 항목 ---
+.firebase/
+firebase-debug.log
+.firebaserc

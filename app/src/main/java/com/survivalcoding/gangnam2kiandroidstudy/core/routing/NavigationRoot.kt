@@ -7,9 +7,11 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.core.net.toUri
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
@@ -24,13 +26,17 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_up.Sig
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashRoot
 
 @Composable
-fun NavigationRoot(modifier: Modifier = Modifier) {
+fun NavigationRoot(
+    modifier: Modifier = Modifier,
+    deepLinkUri: String? = null,
+    onDeepLinkHandled: () -> Unit = {}
+) {
     val topLevelBackStack = rememberNavBackStack(Route.Splash)
 
     val snackbarHostState = remember { SnackbarHostState() }
     val viewModel: AppRootViewModel = hiltViewModel()
 
-    // ✅ NetworkMonitor 는 ViewModel 통해서만 사용
+    // NetworkMonitor 는 ViewModel 통해서만 사용
     val networkMonitor = viewModel.networkMonitor
 
 
@@ -46,6 +52,18 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
         }
     }
 
+    // 딥링크 존재 판단
+    LaunchedEffect(deepLinkUri) {
+        if (deepLinkUri != null) {
+            val uri = deepLinkUri.toUri()
+            // host가 recipes(커스텀 스킴) 이거나 web.app(앱 링크)인 경우 모두 처리
+            if (uri.host == "recipes" || uri.host == "gangnam-android-study.web.app") {
+                topLevelBackStack.replaceAll { Route.Main }
+                // 주의: 여기서 바로 onDeepLinkHandled()를 호출하면 MainRoot가 값을 못 읽을 수 있으므로
+                // MainRoot 내부에서 호출하거나, 시간을 약간 지연시킵니다.
+            }
+        }
+    }
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { innerPadding ->
@@ -88,7 +106,13 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         )
                     }
                     entry<Route.Main> {
-                        MainRoot()
+                        key(deepLinkUri) {
+                            MainRoot(
+                                deepLinkUri = deepLinkUri,
+                                // MainRoot 내부에서 처리가 끝났을 때 Activity의 상태를 비우도록 전달
+                                onDeepLinkHandled = onDeepLinkHandled
+                            )
+                        }
                     }
                 }
             )
