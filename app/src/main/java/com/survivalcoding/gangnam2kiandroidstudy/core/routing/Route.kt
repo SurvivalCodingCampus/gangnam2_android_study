@@ -35,4 +35,7 @@ sealed interface Route : NavKey {
 
     @Serializable
     data class RecipeDetails(val recipeId: Long) : Route
+
+    @Serializable
+    data class Reviews(val recipeId: Long) : Route
 }
