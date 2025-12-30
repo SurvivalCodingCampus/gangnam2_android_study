@@ -10,11 +10,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.routing.NavigationRoot
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val deepLinkUri = intent?.data
-
         enableEdgeToEdge()
         setContent {
-            NavigationRoot(deepLinkUri = deepLinkUri)
+            NavigationRoot(deepLinkUri = intent?.data)
         }
     }
 
