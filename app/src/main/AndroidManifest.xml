@@ -15,6 +15,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Gangnam2kiAndroidStudy">
         <activity
+            android:name=".DelegatedPropertiesActivity"
+            android:exported="true"
+            android:label="@string/title_activity_delegated_properties"
+            android:theme="@style/Theme.Gangnam2kiAndroidStudy">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".SearchRecipesActivity"
             android:exported="true"
             android:label="@string/title_activity_search_recipes"
