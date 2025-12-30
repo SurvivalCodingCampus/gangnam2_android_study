@@ -8,7 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.survivalcoding.gangnam2kiandroidstudy.core.routing.NavigationRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.MyApp
 
 class MainActivity : ComponentActivity() {
     private var deepLinkUri by mutableStateOf<String?>(null)
@@ -20,8 +20,7 @@ class MainActivity : ComponentActivity() {
         deepLinkUri = intent.dataString
 
         setContent {
-            //MyApp()
-            NavigationRoot(deepLinkUri = deepLinkUri)
+            MyApp(deepLinkUri = deepLinkUri)
         }
     }
 
