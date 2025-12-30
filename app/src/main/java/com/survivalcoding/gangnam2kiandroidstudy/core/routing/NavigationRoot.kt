@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.routing
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
@@ -15,12 +16,43 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_reci
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_in.SignInRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_up.SignUpRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashRoot
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun NavigationRoot(
     modifier: Modifier = Modifier,
+    deepLinkFlow: Flow<String>,
 ) {
     val topLevelBackStack = rememberNavBackStack(Route.Splash)
+
+    LaunchedEffect(deepLinkFlow) {
+        deepLinkFlow.collect { uri ->
+            when {
+                // /recipes/saved 경로가 포함된 경우 (myapp://recipes/saved 또는 https://.../recipes/saved)
+                uri.contains("/recipes/saved") -> {
+                    topLevelBackStack.clear()
+                    topLevelBackStack.add(Route.Main(startDestination = Route.SavedRecipes))
+                }
+                
+                // 상세 화면 처리
+                // 1. myapp://recipes/detail/{id}
+                uri.contains("/recipes/detail/") -> {
+                    val recipeId = uri.substringAfter("/recipes/detail/").toLongOrNull() ?: 0L
+                    topLevelBackStack.clear()
+                    topLevelBackStack.add(Route.Main())
+                    topLevelBackStack.add(Route.RecipeDetail(recipeId))
+                }
+                
+                // 2. https://neouul-recipe.web.app/recipes/{id} (숫자로 끝나는 경우)
+                uri.matches(Regex(".*/recipes/\\d+$")) -> {
+                    val recipeId = uri.substringAfterLast("/").toLongOrNull() ?: 0L
+                    topLevelBackStack.clear()
+                    topLevelBackStack.add(Route.Main())
+                    topLevelBackStack.add(Route.RecipeDetail(recipeId))
+                }
+            }
+        }
+    }
 
     NavDisplay(
         modifier = modifier,
@@ -42,7 +74,7 @@ fun NavigationRoot(
                 SignInRoot(
                     onSignInClick = {
                         topLevelBackStack.clear()
-                        topLevelBackStack.add(Route.Main)
+                        topLevelBackStack.add(Route.Main())
                     },
                     onSignUpNavigateClick = {
                         topLevelBackStack.clear()
@@ -54,7 +86,7 @@ fun NavigationRoot(
                 SignUpRoot(
                     onSignUpClick = {
                         topLevelBackStack.clear()
-                        topLevelBackStack.add(Route.Main)
+                        topLevelBackStack.add(Route.Main())
                     },
                     onSignInNavigateClick = {
                         topLevelBackStack.clear()
@@ -63,8 +95,8 @@ fun NavigationRoot(
                 )
             }
             // Home, Saved, Notifications, Profile
-            entry<Route.Main> {
-                val mainBackStack = rememberNavBackStack(Route.Home)
+            entry<Route.Main> { key ->
+                val mainBackStack = rememberNavBackStack(key.startDestination)
 
                 MainScreen(
                     backStack = mainBackStack,
