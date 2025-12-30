@@ -11,4 +11,14 @@
     <!-- Search recipes -->
     <string name="search_recipes_title">Search Recipes (dev)</string>
 
+    <string name="menu_share">Share</string>
+    <string name="menu_rate_recipe">Rate Recipe</string>
+    <string name="menu_review">Review</string>
+    <string name="menu_save">Save</string>
+    <string name="menu_unsave">Unsave</string>
+    <string name="content_description_share_icon">share icon</string>
+    <string name="content_description_rate_icon">rate recipe icon</string>
+    <string name="content_description_review_icon">review icon</string>
+    <string name="content_description_bookmark_icon">bookmark icon</string>
+
 </resources>

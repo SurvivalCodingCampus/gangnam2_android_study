@@ -82,7 +82,7 @@ fun RecipeDetailsScreen(
                     .clickable { onBackClick() },
             )
             IconButton(
-                onClick = { expanded = !expanded },
+                onClick = { onAction(RecipeDetailsAction.OnMenuClick) },
             ) {
                 Icon(
                     painter = painterResource(R.drawable.outline_more),

@@ -5,8 +5,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.survivalcoding.gangnam2kiandroidstudy.core.routing.NavigationRoot
 
 @Composable
-fun MyApp() {
-    NavigationRoot()
+fun MyApp(
+    deepLinkUri: String? = null,
+) {
+    NavigationRoot(deepLinkUri = deepLinkUri)
 }
 
 @Preview(showBackground = true)

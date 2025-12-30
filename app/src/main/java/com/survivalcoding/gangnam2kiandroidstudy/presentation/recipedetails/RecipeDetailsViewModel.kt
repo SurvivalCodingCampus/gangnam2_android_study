@@ -3,7 +3,6 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetails
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usercase.GetRecipeDetailsUseCase
-import com.survivalcoding.gangnam2kiandroidstudy.utils.Logger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -38,9 +37,11 @@ class RecipeDetailsViewModel(
             }
             RecipeDetailsAction.OnShareClick -> {
                 // 공유 클릭 동작 구현
+                showShareDialog()
             }
             RecipeDetailsAction.OnShareDismissRequest -> {
                 // 공유 닫기 동작 구현
+                hideShareDialog()
             }
             is RecipeDetailsAction.OnCopyClick -> {
                 // 텍스트 복사 동작 구현
@@ -53,9 +54,6 @@ class RecipeDetailsViewModel(
             }
             is RecipeDetailsAction.OnBookmarkClick -> {
                 // 북마크 클릭 동작 구현
-            }
-            else -> {
-                Logger.d("RecipeDetailsViewModel", "onAction: $action")
             }
         }
     }
@@ -93,6 +91,19 @@ class RecipeDetailsViewModel(
     private fun hideMenu() {
         _uiState.update {
             it.copy(isMenuVisible = false)
+        }
+    }
+
+    private fun showShareDialog() {
+        _uiState.update {
+            it.copy(isShareDialogVisible = true)
+        }
+        hideMenu()
+    }
+
+    private fun hideShareDialog() {
+        _uiState.update {
+            it.copy(isShareDialogVisible = false)
         }
     }
 }
