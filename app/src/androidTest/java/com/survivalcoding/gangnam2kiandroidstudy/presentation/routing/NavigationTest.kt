@@ -54,12 +54,12 @@ fun TestSearchNavigationRoot() {
         entryProvider = entryProvider {
             entry<Route.Search> {
                 SearchRecipesRoot(onRecipeClick = {
-                    topLevelBackStack.add(Route.RecipeItem(it))
+                    topLevelBackStack.add(Route.RecipeItem(it.id))
                 })
             }
             entry<Route.RecipeItem> { navEntry ->
                 SavedRecipeItemRoot(
-                    navEntry.recipe,
+                    navEntry.recipeId,
                     onBackButtonClick = { topLevelBackStack.removeAt(topLevelBackStack.lastIndex) })
             }
         }

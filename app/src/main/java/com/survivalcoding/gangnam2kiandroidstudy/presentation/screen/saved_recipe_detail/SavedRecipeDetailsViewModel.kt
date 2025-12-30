@@ -21,7 +21,11 @@ class SavedRecipeDetailsViewModel(
         viewModelScope.launch {
             val result = getRecipeDetailsUseCase.execute(id)
             _state.value =
-                _state.value.copy(ingredientList = result.first, procedureList = result.second)
+                _state.value.copy(
+                    ingredientList = result.first,
+                    procedureList = result.second,
+                    recipe = result.third
+                )
         }
     }
 

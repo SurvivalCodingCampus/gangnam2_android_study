@@ -56,7 +56,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 @Composable
 fun SavedRecipeItemScreen(
     state: SavedRecipeDetailsState,
-    recipe: Recipe,
     procedure: List<Procedure>,
     onValueChanged: (Boolean) -> Unit,
     onBackButtonClicked: () -> Unit,
@@ -153,14 +152,14 @@ fun SavedRecipeItemScreen(
             Spacer(modifier = Modifier.height(54.dp))
 
             RecipeCard(
-                recipe = recipe.copy(name = "", chef = ""),
+                recipe = state.recipe.copy(name = "", chef = ""),
                 isSaved = true,
                 onBookMarkClick = {}
             )
             Spacer(modifier = Modifier.height(10.dp))
             Row(modifier = Modifier.height(41.dp)) {
                 Text(
-                    recipe.name,
+                    state.recipe.name,
                     modifier = Modifier.weight(1f),
                     style = AppTextStyles.smallTextBold.copy(fontWeight = FontWeight.SemiBold)
                 )
@@ -175,9 +174,9 @@ fun SavedRecipeItemScreen(
             }
             Spacer(modifier = Modifier.height(10.dp))
             Profile(
-                name = recipe.chef,
+                name = state.recipe.chef,
                 region = "south korea",
-                imageUrl = recipe.image
+                imageUrl = state.recipe.image
             ) //TODO지역 수정)
             Spacer(modifier = Modifier.height(8.dp))
             Tab2(
@@ -210,7 +209,7 @@ fun SavedRecipeItemScreen(
                     )
                 }
                 Text(
-                    if (state.isSelectIngredient) "${recipe.ingredients.size} Items" else "${procedure.size} Steps",
+                    if (state.isSelectIngredient) "${state.recipe.ingredients.size} Items" else "${procedure.size} Steps",
                     modifier = Modifier,
                     style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray3)
                 )
@@ -222,7 +221,7 @@ fun SavedRecipeItemScreen(
                     contentPadding = PaddingValues(bottom = 10.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
-                    items(recipe.ingredients) { recipe ->
+                    items(state.recipe.ingredients) { recipe ->
                         IngredientItem(
                             imageUrl = recipe.ingredient.image,
                             foodName = recipe.ingredient.name,
@@ -313,7 +312,7 @@ fun SavedRecipeItemScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = "app.Recipe.co/recipe?id=${recipe.id}",
+                                text = "app.Recipe.co/recipe?id=${state.recipe.id}",
                                 style = AppTextStyles.smallTextRegular.copy(
                                     fontWeight = FontWeight.SemiBold,
                                     fontSize = 11.sp
@@ -325,7 +324,7 @@ fun SavedRecipeItemScreen(
                                 overflow = TextOverflow.Ellipsis
                             )
                             Button(
-                                onClick = { onCopyLink("app.Recipe.co/recipe?id=${recipe.id}") },
+                                onClick = { onCopyLink("app.Recipe.co/recipe?id=${state.recipe.id}") },
                                 shape = RoundedCornerShape(9.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = AppColors.primary100),
                                 modifier = Modifier
@@ -401,7 +400,6 @@ private fun SavedRecipeItemScreenPreview() {
     )
     SavedRecipeItemScreen(
         state = SavedRecipeDetailsState(isSelectIngredient = false),
-        recipe = mockRecipe,
         procedure = mockProcedure,
         {},
         {},

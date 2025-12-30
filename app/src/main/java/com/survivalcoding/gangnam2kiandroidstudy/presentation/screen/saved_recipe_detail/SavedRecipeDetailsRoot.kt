@@ -3,26 +3,25 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_reci
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
-import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SavedRecipeItemRoot(
-    recipe: Recipe,
+    recipeId: Int,
     viewModel: SavedRecipeDetailsViewModel = koinViewModel(),
-    onBackButtonClick: ()-> Unit
+    onBackButtonClick: () -> Unit
 ) {
 
     val state = viewModel.state.collectAsState()
 
-    viewModel.init(recipe.id)
+    viewModel.init(recipeId)
 
     SavedRecipeItemScreen(
-        state = state.value, recipe = recipe, onValueChanged = {
+        state = state.value, onValueChanged = {
             viewModel.changeValue(it)
         }, procedure = state.value.procedureList,
-        onBackButtonClicked = {onBackButtonClick()},
-        onMoreButtonClicked = {viewModel.toggleMenu(it)},
+        onBackButtonClicked = { onBackButtonClick() },
+        onMoreButtonClicked = { viewModel.toggleMenu(it) },
         onShareDialogRequest = { viewModel.toggleShareDialog(it) },
         onCopyLink = { viewModel.copyLink(it) }
     )

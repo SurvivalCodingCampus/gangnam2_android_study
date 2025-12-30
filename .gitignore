@@ -14,5 +14,20 @@
 .cxx
 local.properties
 
+# Android Studio / IntelliJ
 .idea/
 /.kotlin
+
+# Firebase
+google-services.json
+.firebase/
+firebase-debug.log
+
+# OS generated
+Thumbs.db
+Desktop.ini
+
+# Keystore
+*.jks
+*.keystore
+*.key

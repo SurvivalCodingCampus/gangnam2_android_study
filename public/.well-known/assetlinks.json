@@ -1,0 +1,32 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.survivalcoding.gangnam2kiandroidstudy",
+      "sha256_cert_fingerprints": [
+        "2B:E9:B0:10:4C:CF:C4:53:FF:E8:F3:99:14:F5:EC:3E:14:B7:96:52:76:25:20:96:30:76:83:0C:3A:CD:BF:EC"
+      ]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.survivalcoding.gangnam2kiandroidstudy.dev",
+      "sha256_cert_fingerprints": [
+        "2B:E9:B0:10:4C:CF:C4:53:FF:E8:F3:99:14:F5:EC:3E:14:B7:96:52:76:25:20:96:30:76:83:0C:3A:CD:BF:EC"
+      ]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.survivalcoding.gangnam2kiandroidstudy.qa",
+      "sha256_cert_fingerprints": [
+        "2B:E9:B0:10:4C:CF:C4:53:FF:E8:F3:99:14:F5:EC:3E:14:B7:96:52:76:25:20:96:30:76:83:0C:3A:CD:BF:EC"
+      ]
+    }
+  }
+]

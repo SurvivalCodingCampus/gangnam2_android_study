@@ -49,7 +49,6 @@ class SavedRecipeDetailsScreenTest {
 
             SavedRecipeItemScreen(
                 state = state,
-                recipe = mockRecipe,
                 procedure = emptyList(),
                 onValueChanged = {},
                 onBackButtonClicked = {},
