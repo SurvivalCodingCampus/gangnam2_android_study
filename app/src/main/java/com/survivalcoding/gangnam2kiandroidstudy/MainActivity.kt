@@ -25,9 +25,8 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onNewIntent(intent: Intent, caller: ComponentCaller) {
-        super.onNewIntent(intent, caller)
-        setIntent(intent)
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
         deepLinkUri = intent.dataString
     }
 }

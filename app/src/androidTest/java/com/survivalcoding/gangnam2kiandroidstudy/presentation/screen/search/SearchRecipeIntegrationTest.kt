@@ -12,6 +12,7 @@ import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performTextInput
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -84,9 +85,10 @@ class SearchRecipeIntegrationTest {
             }
 
             composeTestRule.onNode(hasSetTextAction()).performTextInput("Classic")
+            composeTestRule.onNode(hasSetTextAction()).performImeAction()
 
             composeTestRule.waitUntil(timeoutMillis = 5000) {
-                composeTestRule.onAllNodesWithText("Classic Greek Salad").fetchSemanticsNodes().isNotEmpty()
+                composeTestRule.onAllNodesWithText("Classic Greek Salad").fetchSemanticsNodes().size == 3
             }
 
             composeTestRule.onAllNodesWithText("Classic Greek Salad").assertCountEquals(3)
