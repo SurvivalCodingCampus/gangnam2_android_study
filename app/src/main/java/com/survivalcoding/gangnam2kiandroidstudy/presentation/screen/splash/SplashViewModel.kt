@@ -25,7 +25,6 @@ class SplashViewModel(
             networkMonitor.isConnectedNetwork.collect {
                 _state.value = _state.value.copy(isNextButtonEnable = it)
                 _event.emit(it)
-                
             }
         }
     }
