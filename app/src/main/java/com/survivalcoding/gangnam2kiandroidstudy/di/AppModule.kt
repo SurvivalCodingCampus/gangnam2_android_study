@@ -2,17 +2,28 @@ package com.survivalcoding.gangnam2kiandroidstudy.di
 
 import android.content.Context
 import android.net.ConnectivityManager
+import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.datasource.ProcedureDataSource
+import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.datasource.ProcedureDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.datasource.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.datasource.RecipeDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.network.NetworkMonitorImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.BookmarkRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.ClipBoardRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.IngredientRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.ProcedureRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.RecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.SavedRecipesRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.domain.network.NetworkMonitor
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ClipBoardRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.SavedRecipesRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.CopyLinkUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetRecipeDetailsUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetSavedRecipesUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.detail.RecipeDetailViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipes.SavedRecipesViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipe.SearchRecipeViewModel
@@ -35,17 +46,40 @@ val appModule = module {
 
     // DataSource
     single<RecipeDataSource> { RecipeDataSourceImpl() }
+    single<ProcedureDataSource> { ProcedureDataSourceImpl() }
+
 
     // Repository
     single<RecipeRepository> { RecipeRepositoryImpl(get()) }
     single<BookmarkRepository> { BookmarkRepositoryImpl(get()) }
     single<SavedRecipesRepository> { SavedRecipesRepositoryImpl(get()) }
+    single<IngredientRepository> { IngredientRepositoryImpl(get()) }
+    single<ProcedureRepository> { ProcedureRepositoryImpl(get()) }
 
     // UseCase
     single {
         GetSavedRecipesUseCase(
             bookmarkRepository = get(),
             savedRecipesRepository = get(),
+        )
+    }
+    single {
+        GetRecipeDetailsUseCase(
+            recipeRepository = get(),
+            ingredientRepository = get(),
+            procedureRepository = get()
+        )
+    }
+    single {
+        CopyLinkUseCase(
+            clipBoardRepository = get()
+        )
+    }
+
+    // Clipboard
+    single<ClipBoardRepository> {
+        ClipBoardRepositoryImpl(
+            context = androidContext()
         )
     }
 
@@ -70,5 +104,13 @@ val appModule = module {
             networkMonitor = get()
         )
     }
+
+    viewModel {
+        RecipeDetailViewModel(
+            getRecipeDetailsUseCase = get(),
+            copyLinkUseCase = get()
+        )
+    }
+
 }
 

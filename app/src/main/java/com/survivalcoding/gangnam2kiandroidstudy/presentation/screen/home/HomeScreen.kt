@@ -24,7 +24,7 @@ fun HomeScreen(
     state: HomeState,
     onAction: (HomeAction) -> Unit,
     profilePainter: Painter,
-    isTest: Boolean = false, // 狩??뚯뒪???꾩슜 ?뚮옒洹?
+    isTest: Boolean = false,
 ) {
     if (state.errorMessage != null) {
         Box(
@@ -52,7 +52,7 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(64.dp))
 
-        // ?곷떒
+        // 상단바
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -82,7 +82,7 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        // 寃??
+        // 검색
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -127,6 +127,9 @@ fun HomeScreen(
                     recipe = recipe,
                     isSaved = state.bookmarkedRecipeIds.contains(recipe.id),
                     enableAnimation = !isTest,
+                    onClick = {
+                        onAction(HomeAction.OpenRecipeDetail(recipe.id))
+                    },
                     onBookmarkClick = {
                         onAction(HomeAction.ToggleRecipeBookmark(recipe.id))
                     }

@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.routing
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -12,6 +13,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recip
 @Composable
 fun MainRoot(
     onOpenSearch: () -> Unit,
+    onOpenRecipeDetail: (Int) -> Unit,
 ) {
     val tabBackStack = rememberNavBackStack(Route.Home)
 
@@ -25,12 +27,21 @@ fun MainRoot(
                 entryProvider = entryProvider {
                     entry<Route.Home> {
                         HomeRoot(
-                            onOpenSearch = onOpenSearch
+                            onOpenSearch = onOpenSearch,
+                            //onOpenRecipeDetail = onOpenRecipeDetail,
                         )
                     }
-                    entry<Route.SavedRecipes> { SavedRecipesRoot() }
-                    // entry<Route.Notifications> { NotificationsRoot() }
-                    // entry<Route.Profile> { ProfileRoot() }
+                    entry<Route.SavedRecipes> {
+                        SavedRecipesRoot(
+                            onOpenRecipeDetail = onOpenRecipeDetail,
+                        )
+                    }
+                    entry<Route.Notifications> {
+                        Text("Notifications – Coming Soon")
+                    }
+                    entry<Route.Profile> {
+                        Text("Profile – Coming Soon")
+                    }
                 }
             )
         }

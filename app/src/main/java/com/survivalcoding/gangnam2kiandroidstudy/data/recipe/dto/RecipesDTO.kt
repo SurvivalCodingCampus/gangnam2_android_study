@@ -2,10 +2,10 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.recipe.dto
 
 import kotlinx.serialization.Serializable
 
-@Serializable
-data class RecipesResponseDTO(
-    val recipes: List<RecipeDTO>
-)
+//@Serializable
+//data class RecipesResponseDTO(
+//    val recipes: List<RecipeDTO>
+//)
 
 @Serializable
 data class RecipeDTO(
@@ -19,6 +19,7 @@ data class RecipeDTO(
     val ingredients: List<RecipeIngredientDTO>?,
     val createdAt: Long = 0L,
     val isSaved: Boolean = false,
+    val address: String?,
 )
 
 @Serializable

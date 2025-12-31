@@ -45,12 +45,14 @@ fun RecipeCard(
     recipe: Recipe,
     modifier: Modifier = Modifier,
     onBookmarkClick: () -> Unit,
+    onCardClick: () -> Unit,
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
             .aspectRatio(315 / 150f)
             .clip(RoundedCornerShape(10.dp))
+            .clickable { onCardClick() }
     ) {
         AsyncImage(
             modifier = Modifier
@@ -192,8 +194,11 @@ private fun RecipeCardPreview() {
                 chef = "Chef John",
                 time = "20 min",
                 rating = 4.0,
-                createdAt = System.currentTimeMillis()
-            ), onBookmarkClick = {}
+                createdAt = System.currentTimeMillis(),
+                address = "Seoul",
+            ),
+            onBookmarkClick = {},
+            onCardClick = {}
         )
     }
 }

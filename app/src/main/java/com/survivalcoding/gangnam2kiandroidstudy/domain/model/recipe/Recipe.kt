@@ -10,4 +10,5 @@ data class Recipe(
     val rating: Double,
     val createdAt: Long,
     val isSaved: Boolean = false,
+    val address: String,
 )

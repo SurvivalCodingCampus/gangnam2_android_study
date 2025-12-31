@@ -10,6 +10,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeRoot(
     viewModel: HomeViewModel = koinViewModel(),
+    //onOpenRecipeDetail: (Int) -> Unit,
     onOpenSearch: () -> Unit,
     ) {
     val state = viewModel.state.collectAsState().value

@@ -28,4 +28,7 @@ class RecipeRepositoryImpl(
             }
         }
     }
+    override suspend fun getRecipeById(recipeId: Int): Recipe? {
+        return getRecipes().firstOrNull { it.id == recipeId }
+    }
 }

@@ -17,6 +17,7 @@ fun SavedRecipesScreen(
     state: SavedRecipeState,
     listState: LazyListState,
     onRemoveBookmark: (Int) -> Unit,
+    onCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -47,6 +48,9 @@ fun SavedRecipesScreen(
                     modifier = Modifier.padding(vertical = 10.dp),
                     onBookmarkClick = {
                         onRemoveBookmark(recipe.id)
+                    },
+                    onCardClick = {
+                        onCardClick(recipe.id)
                     }
                 )
             }

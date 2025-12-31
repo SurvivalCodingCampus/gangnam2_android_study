@@ -15,7 +15,9 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SavedRecipesRoot() {
+fun SavedRecipesRoot(
+    onOpenRecipeDetail: (Int) -> Unit,
+) {
     val viewModel: SavedRecipesViewModel = koinViewModel()
     val state = viewModel.state.collectAsState().value
 
@@ -30,6 +32,7 @@ fun SavedRecipesRoot() {
             state = state,
             listState = listState,
             onRemoveBookmark = viewModel::removeBookmark,
+            onCardClick = onOpenRecipeDetail,
             modifier = Modifier.padding(padding)
         )
     }

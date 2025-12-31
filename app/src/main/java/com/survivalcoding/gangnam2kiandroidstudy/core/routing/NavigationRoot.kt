@@ -7,6 +7,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.detail.RecipeDetailRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipe.SearchRecipeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_in.SignInRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_up.SignUpRoot
@@ -16,30 +17,30 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.Spla
 fun NavigationRoot(
     modifier: Modifier = Modifier,
 ) {
-    val topLevelBackStack = rememberNavBackStack(Route.Splash)
+    val backStack = rememberNavBackStack(Route.Splash)
 
     fun reset(route: Route) {
-        topLevelBackStack.clear()
-        topLevelBackStack.add(route)
+        backStack.clear()
+        backStack.add(route)
     }
 
     fun push(route: Route) {
-        topLevelBackStack.add(route)
+        backStack.add(route)
     }
 
     fun pop() {
-        if (topLevelBackStack.size > 1) {
-            topLevelBackStack.removeAt(topLevelBackStack.lastIndex)
+        if (backStack.size > 1) {
+            backStack.removeAt(backStack.lastIndex)
         }
     }
 
     NavDisplay(
         modifier = modifier,
+        backStack = backStack,
         entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator(),
         ),
-        backStack = topLevelBackStack,
         entryProvider = entryProvider {
 
             entry<Route.Splash> {
@@ -62,16 +63,26 @@ fun NavigationRoot(
                 )
             }
 
-            // 탭 화면들만
+            // Main 탭 Root (Home / Saved / Profile 등은 MainRoot 내부에서 관리)
             entry<Route.Main> {
                 MainRoot(
-                    onOpenSearch = { push(Route.SearchRecipes) }
+                    onOpenSearch = { push(Route.SearchRecipes) },
+                    onOpenRecipeDetail = { recipeId ->
+                        push(Route.RecipeDetail(recipeId))
+                    }
                 )
             }
 
-            // top-level로 올렸다가 pop으로 내림
+            // Search (Top-level)
             entry<Route.SearchRecipes> {
                 SearchRecipeRoot(
+                    onBack = { pop() },
+                )
+            }
+
+            entry<Route.RecipeDetail> { route ->
+                RecipeDetailRoot(
+                    recipeId = route.recipeId,
                     onBack = { pop() }
                 )
             }

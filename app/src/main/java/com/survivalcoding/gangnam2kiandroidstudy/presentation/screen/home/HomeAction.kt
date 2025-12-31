@@ -5,9 +5,6 @@ sealed interface HomeAction {
     // 상단 검색 아이콘 클릭
     object ClickSearch : HomeAction
 
-    // 하단 북마크(저장된 레시피) 클릭
-    object ClickBookmark : HomeAction
-
     // 필터 버튼 클릭
     object ClickFilter : HomeAction
 
@@ -22,4 +19,6 @@ sealed interface HomeAction {
     data class ToggleRecipeBookmark(
         val recipeId: Int
     ) : HomeAction
+
+    data class OpenRecipeDetail(val recipeId: Int) : HomeAction
 }

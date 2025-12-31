@@ -24,9 +24,9 @@ class SearchRecipeViewModelTest {
     private lateinit var viewModel: SearchRecipeViewModel
     private lateinit var fakeRepository: FakeRecipeRepository
 
-    private val recipe1 = Recipe(id = 1, name = "Kimchi Stew", createdAt = 100L, rating = 4.5, category = "Korean", imageUrl = "", chef = "", time = "30m")
-    private val recipe2 = Recipe(id = 2, name = "Spaghetti", createdAt = 200L, rating = 4.8, category = "Italian", imageUrl = "", chef = "", time = "20m")
-    private val recipe3 = Recipe(id = 3, name = "Kimchi Fried Rice", createdAt = 50L, rating = 4.2, category = "Korean", imageUrl = "", chef = "", time = "15m")
+    private val recipe1 = Recipe(id = 1, name = "Kimchi Stew", createdAt = 100L, rating = 4.5, category = "Korean", imageUrl = "", chef = "", time = "30m", address = "Seoul")
+    private val recipe2 = Recipe(id = 2, name = "Spaghetti", createdAt = 200L, rating = 4.8, category = "Italian", imageUrl = "", chef = "", time = "20m", address = "Seoul")
+    private val recipe3 = Recipe(id = 3, name = "Kimchi Fried Rice", createdAt = 50L, rating = 4.2, category = "Korean", imageUrl = "", chef = "", time = "15m", address = "Seoul")
 
 
     @Before
@@ -253,7 +253,7 @@ class SearchRecipeViewModelTest {
 
     @Test
     fun `applyFilter with specific category`() = runTest {
-        val koreanRecipe = Recipe(1, "Korean", "Bibimbap", "", "", "25m", 4.5, 10)
+        val koreanRecipe = Recipe(1, "Korean", "Bibimbap", "", "", "25m", 4.5, 10,false, "Seoul")
         fakeRepository.addRecipe(koreanRecipe)
         viewModel.onAction(SearchRecipeAction.Load)
 
@@ -274,7 +274,7 @@ class SearchRecipeViewModelTest {
 
     @Test
     fun `applyFilter with combined filters`() = runTest {
-        val koreanRecipe = Recipe(4, "Korean", "Kimchi Pancake", "", "", "20m", 4.7, 150)
+        val koreanRecipe = Recipe(4, "Korean", "Kimchi Pancake", "", "", "20m", 4.7, 150,true,"Seoul")
         fakeRepository.addRecipe(koreanRecipe)
         viewModel.onAction(SearchRecipeAction.Load)
         viewModel.updateSearchQuery("Kimchi")

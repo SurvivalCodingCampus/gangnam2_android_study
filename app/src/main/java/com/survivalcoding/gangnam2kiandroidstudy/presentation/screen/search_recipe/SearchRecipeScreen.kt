@@ -154,6 +154,7 @@ fun SearchRecipeScreenPreview() {
                     imageUrl = "",
                     createdAt = System.currentTimeMillis(),
                     time = "20",
+                    address = "Seoul",
                 ),
                 Recipe(
                     id = 2,
@@ -164,6 +165,7 @@ fun SearchRecipeScreenPreview() {
                     imageUrl = "",
                     createdAt = System.currentTimeMillis(),
                     time = "20",
+                    address = "Seoul",
                 )
             ),
             filteredRecipesText = "2 results"

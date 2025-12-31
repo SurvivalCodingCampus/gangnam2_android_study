@@ -147,7 +147,8 @@ private fun SearchRecipeCardPreview() {
             category = "Chinese",
             rating = 4.0,
             imageUrl = "image",
-            createdAt = System.currentTimeMillis()
+            createdAt = System.currentTimeMillis(),
+            address = "Seoul",
         )
     )
 
