@@ -1,5 +1,9 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes
 
+import android.content.Context
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
+import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.BookmarkDatabase
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.MockRecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.local.BookmarkDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.BookmarkRepositoryImpl
@@ -80,9 +84,12 @@ class SavedRecipesViewModelFakeTest {
     @Test
     fun `fetchRecipes_성공_시_uiState가_recipes로_업데이트된다`() = runTest {
         // Given
+        val context = ApplicationProvider.getApplicationContext<Context>()
         val recipeDataSource = MockRecipeDataSource(fakeJson)
         val recipeRepository = RecipeRepositoryImpl(recipeDataSource)
-        val bookmarkDataSource = BookmarkDataSourceImpl()
+        val db = Room.inMemoryDatabaseBuilder(context, BookmarkDatabase::class.java).allowMainThreadQueries().build()
+        val dao = db.bookmarkDao()
+        val bookmarkDataSource = BookmarkDataSourceImpl(dao)
         val bookmarkRepository = BookmarkRepositoryImpl(bookmarkDataSource)
         val savedRecipeUsecase = GetSavedRecipesUseCase(recipeRepository, bookmarkRepository)
         val removeUseCase = ToggleBookmarkUseCase(bookmarkRepository)
@@ -105,9 +112,12 @@ class SavedRecipesViewModelFakeTest {
     @Test
     fun `fetchRecipes_실패_시_uiState가_message로_업데이트된다`() = runTest {
         // Given
+        val context = ApplicationProvider.getApplicationContext<Context>()
         val recipeDataSource = MockRecipeDataSource(fakeJson)
         val recipeRepository = RecipeRepositoryImpl(recipeDataSource)
-        val bookmarkDataSource = BookmarkDataSourceImpl()
+        val db = Room.inMemoryDatabaseBuilder(context, BookmarkDatabase::class.java).allowMainThreadQueries().build()
+        val dao = db.bookmarkDao()
+        val bookmarkDataSource = BookmarkDataSourceImpl(dao)
         val bookmarkRepository = BookmarkRepositoryImpl(bookmarkDataSource)
         val savedRecipeUsecase = GetSavedRecipesUseCase(recipeRepository, bookmarkRepository)
         val removeUseCase = ToggleBookmarkUseCase(bookmarkRepository)

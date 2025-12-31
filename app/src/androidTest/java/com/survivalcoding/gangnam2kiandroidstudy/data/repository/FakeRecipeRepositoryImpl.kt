@@ -21,7 +21,7 @@ class FakeRecipeRepositoryImpl : RecipeRepository {
         }
     }
 
-    override fun getFilteredRecipesByCategoryFlow(category: String): Flow<List<Recipe>> {
+    override suspend fun getFilteredRecipesByCategory(category: String): List<Recipe> {
         TODO("Not yet implemented")
     }
 
