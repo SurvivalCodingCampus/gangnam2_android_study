@@ -3,8 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.jetbrains.kotlin.serialization)
-//    id("com.google.devtools.ksp")
-//    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -99,8 +98,12 @@ dependencies {
 
     implementation("io.insert-koin:koin-compose-navigation3:4.2.0-beta2")
 
-//    // Hilt
-//    implementation("com.google.dagger:hilt-android:2.57.1")
-//    ksp("com.google.dagger:hilt-android-compiler:2.57.1")
+    implementation("androidx.datastore:datastore-preferences:1.2.0")
+
+    val room_version = "2.8.4"
+    implementation("androidx.room:room-runtime:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-ktx:${room_version}")
+    testImplementation("androidx.room:room-testing:${room_version}")
 
 }
