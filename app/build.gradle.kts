@@ -28,6 +28,11 @@ android {
             applicationIdSuffix = ".qa"
             versionNameSuffix = "-qa"
         }
+        create("staging") {
+            dimension = "environment"
+            applicationIdSuffix = ".staging"
+            versionNameSuffix = "-staging"
+        }
     }
 
     defaultConfig {
@@ -116,6 +121,11 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
     implementation("com.google.dagger:hilt-android:2.57.1")
     ksp("com.google.dagger:hilt-android-compiler:2.57.1")
+
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+    androidTestImplementation(libs.androidx.room.testing)
 
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.57.1")
     kspAndroidTest("com.google.dagger:hilt-android-compiler:2.57.1")
