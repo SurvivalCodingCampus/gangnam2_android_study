@@ -4,13 +4,12 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.toFormatString
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipesUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -21,7 +20,6 @@ import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -30,7 +28,7 @@ import org.junit.Test
 class SearchRecipesViewModelTest {
 
     private lateinit var viewModel: SearchRecipesViewModel
-    private val recipeRepository: RecipeRepository = mockk()
+    private val getRecipesUseCase: GetRecipesUseCase = mockk()
     private val testDispatcher = StandardTestDispatcher()
 
     private val sampleRecipes = listOf(
@@ -69,8 +67,8 @@ class SearchRecipesViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        coEvery { recipeRepository.findRecipes() } returns Result.Success(sampleRecipes)
-        viewModel = SearchRecipesViewModel(recipeRepository)
+        coEvery { getRecipesUseCase.execute() } returns Result.Success(sampleRecipes)
+        viewModel = SearchRecipesViewModel(getRecipesUseCase)
     }
 
     @After
@@ -80,19 +78,28 @@ class SearchRecipesViewModelTest {
 
     @Test
     fun `Initial State Validation`() = runTest {
-        val initialStateViewModel = SearchRecipesViewModel(recipeRepository)
+        // Override mock to simulate delay for loading state verification
+        coEvery { getRecipesUseCase.execute() } coAnswers {
+            delay(100)
+            Result.Success(emptyList())
+        }
+        val initialStateViewModel = SearchRecipesViewModel(getRecipesUseCase)
         
         // Before advancing, it should be in default state (isLoading=false)
         assertFalse(initialStateViewModel.state.value.isLoading)
         assertTrue(initialStateViewModel.state.value.allRecipes.isEmpty())
         
-        // Advance to start the loadRecipes launch
+        // Advance to start the loadRecipes launch, but pause at delay
         testDispatcher.scheduler.runCurrent()
-        assertTrue(initialStateViewModel.state.value.isLoading)
+        assertTrue("isLoading should be true while repository is fetching", initialStateViewModel.state.value.isLoading)
+
+        // Advance time to finish loading
+        advanceTimeBy(100)
+        testDispatcher.scheduler.runCurrent()
+        assertFalse("isLoading should be false after fetching", initialStateViewModel.state.value.isLoading)
     }
 
     @Test
-
     fun `Successful Recipe Loading`() = runTest {
         advanceTimeBy(1) // let init's loadRecipes complete
         testDispatcher.scheduler.advanceUntilIdle()
@@ -103,8 +110,8 @@ class SearchRecipesViewModelTest {
 
     @Test
     fun `Failed Recipe Loading`() = runTest {
-        coEvery { recipeRepository.findRecipes() } returns Result.Error("Error")
-        val failViewModel = SearchRecipesViewModel(recipeRepository)
+        coEvery { getRecipesUseCase.execute() } returns Result.Error("Error")
+        val failViewModel = SearchRecipesViewModel(getRecipesUseCase)
 
         testDispatcher.scheduler.advanceUntilIdle()
 
@@ -114,8 +121,8 @@ class SearchRecipesViewModelTest {
 
     @Test
     fun `Empty Recipe List from Repository`() = runTest {
-        coEvery { recipeRepository.findRecipes() } returns Result.Success(emptyList())
-        val emptyViewModel = SearchRecipesViewModel(recipeRepository)
+        coEvery { getRecipesUseCase.execute() } returns Result.Success(emptyList())
+        val emptyViewModel = SearchRecipesViewModel(getRecipesUseCase)
 
         testDispatcher.scheduler.advanceUntilIdle()
 
@@ -467,13 +474,13 @@ class SearchRecipesViewModelTest {
         // No, protected is only for subclasses.
         // However, we can use a subclass for testing if needed.
         
-        class TestViewModel(repo: RecipeRepository) : SearchRecipesViewModel(repo) {
+        class TestViewModel(useCase: GetRecipesUseCase) : SearchRecipesViewModel(useCase) {
             public override fun onCleared() {
                 super.onCleared()
             }
         }
         
-        val testViewModel = TestViewModel(recipeRepository)
+        val testViewModel = TestViewModel(getRecipesUseCase)
         testViewModel.onCleared()
         // No crash
     }
