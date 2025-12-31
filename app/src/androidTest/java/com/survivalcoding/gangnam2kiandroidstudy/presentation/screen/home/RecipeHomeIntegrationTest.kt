@@ -7,9 +7,13 @@ import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithText
 import com.survivalcoding.gangnam2kiandroidstudy.core.NetworkError
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
+import com.survivalcoding.gangnam2kiandroidstudy.data.model.entity.User
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.UserRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
 import org.junit.Test
 
@@ -32,12 +36,18 @@ class RecipeHomeIntegrationTest {
         override suspend fun getRecipes(): List<Recipe> = (result as? Result.Success)?.data ?: emptyList()
         override suspend fun getRecipeById(recipeId: Int): Recipe? = null
     }
+    
+    private val fakeUserRepository = object : UserRepository {
+        override suspend fun loadById(id: Int): Flow<User?> = flowOf(User(id = 1, recipeIds = emptyList()))
+        override suspend fun save(user: User) {}
+        override suspend fun updateSavedRecipe(id: Int, recipeId: Int) {}
+    }
 
     @Test
     fun recipe_home_success_scenario_test() {
         // Given: Repository returns success
         val repository = FakeRecipeRepository(Result.Success(MockRecipeData.recipeListThree))
-        val viewModel = RecipeHomeViewModel(repository)
+        val viewModel = RecipeHomeViewModel(repository, fakeUserRepository)
 
         composeTestRule.setContent {
             RecipeHomeRoot(viewModel = viewModel)
@@ -52,7 +62,7 @@ class RecipeHomeIntegrationTest {
     fun recipe_home_error_scenario_test() {
         // Given: Repository returns failure
         val repository = FakeRecipeRepository(Result.Failure(NetworkError.Timeout))
-        val viewModel = RecipeHomeViewModel(repository)
+        val viewModel = RecipeHomeViewModel(repository, fakeUserRepository)
 
         composeTestRule.setContent {
             RecipeHomeRoot(viewModel = viewModel)
