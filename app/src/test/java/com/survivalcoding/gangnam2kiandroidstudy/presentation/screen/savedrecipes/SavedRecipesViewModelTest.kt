@@ -11,6 +11,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.bdd.coGiven
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -38,23 +39,25 @@ class SavedRecipesViewModelTest {
 
     @Test
     fun testSavedRecipesViewModel() = runTest {
-        coGiven { getSavedRecipesUseCase() } returns AppResult.Success(
-            listOf(
-                Recipe(
-                    id = 1,
-                    name = "Test Recipe",
-                    imageUrl = "imageUrl",
-                    chef = "chef",
-                    time = 10,
-                    rating = 4.5,
-                ),
-                Recipe(
-                    id = 2,
-                    name = "Test Recipe2",
-                    imageUrl = "imageUrl",
-                    chef = "chef",
-                    time = 10,
-                    rating = 4.5,
+        coGiven { getSavedRecipesUseCase() } returns flowOf(
+            AppResult.Success(
+                listOf(
+                    Recipe(
+                        id = 1,
+                        name = "Test Recipe",
+                        imageUrl = "imageUrl",
+                        chef = "chef",
+                        time = 10,
+                        rating = 4.5,
+                    ),
+                    Recipe(
+                        id = 2,
+                        name = "Test Recipe2",
+                        imageUrl = "imageUrl",
+                        chef = "chef",
+                        time = 10,
+                        rating = 4.5,
+                    ),
                 ),
             ),
         )

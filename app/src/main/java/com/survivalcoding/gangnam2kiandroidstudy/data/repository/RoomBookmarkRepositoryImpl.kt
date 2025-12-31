@@ -3,6 +3,8 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 import com.survivalcoding.gangnam2kiandroidstudy.data.dao.BookmarkDao
 import com.survivalcoding.gangnam2kiandroidstudy.data.entity.BookmarkEntity
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class RoomBookmarkRepositoryImpl(
     private val bookmarkDao: BookmarkDao,
@@ -22,7 +24,9 @@ class RoomBookmarkRepositoryImpl(
         }
     }
 
-    override suspend fun getBookmarks(profileId: Long): List<Long> {
-        return bookmarkDao.findAllByProfileId(profileId).map { it.recipeId }
+    override fun getBookmarks(profileId: Long): Flow<List<Long>> {
+        return bookmarkDao.findAllByProfileId(profileId).map {
+            it.map { bookmark -> bookmark.recipeId }
+        }
     }
 }

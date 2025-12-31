@@ -6,6 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.survivalcoding.gangnam2kiandroidstudy.data.dao.BookmarkDao
 import com.survivalcoding.gangnam2kiandroidstudy.data.database.AppDatabase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -61,7 +62,7 @@ class RoomBookmarkRepositoryImplTest {
         bookmarkRepository.toggleBookmark(3L)
 
         val profileId = 1L
-        bookmarkRepository.getBookmarks(profileId).apply {
+        bookmarkRepository.getBookmarks(profileId).first().apply {
             assertEquals(3, this.size)
         }
     }
