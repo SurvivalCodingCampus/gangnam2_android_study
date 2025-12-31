@@ -7,11 +7,13 @@ import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.performClick
 import com.survivalcoding.gangnam2kiandroidstudy.core.NetworkError
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.entity.User
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.User
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.UserRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -51,7 +53,17 @@ class RecipeHomeBookmarkTest {
         }
         
         val fakeUserRepository = object : UserRepository {
-            private val _user = MutableStateFlow<User?>(User(id = 1, recipeIds = emptyList()))
+            private val _user = MutableStateFlow<User?>(
+                User(
+                    id = 1,
+                    name = "",
+                    image = "",
+                    address = "",
+                    work = "",
+                    introduce = "",
+                    bookmarks = persistentListOf()
+                )
+            )
             
             override suspend fun loadById(id: Int): Flow<User?> = _user.asStateFlow()
             
@@ -62,13 +74,13 @@ class RecipeHomeBookmarkTest {
             override suspend fun updateSavedRecipe(id: Int, recipeId: Int) {
                 _user.update { currentUser ->
                     currentUser?.let {
-                        val currentList = it.recipeIds ?: emptyList()
+                        val currentList = it.bookmarks
                         val newList = if (currentList.contains(recipeId)) {
-                            currentList - recipeId
+                            (currentList - recipeId).toPersistentList()
                         } else {
-                            currentList + recipeId
+                            (currentList + recipeId).toPersistentList()
                         }
-                        it.copy(recipeIds = newList)
+                        it.copy(bookmarks = newList)
                     }
                 }
             }

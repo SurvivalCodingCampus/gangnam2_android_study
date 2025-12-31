@@ -7,11 +7,12 @@ import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithText
 import com.survivalcoding.gangnam2kiandroidstudy.core.NetworkError
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.entity.User
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.User
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.UserRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
@@ -38,7 +39,17 @@ class RecipeHomeIntegrationTest {
     }
     
     private val fakeUserRepository = object : UserRepository {
-        override suspend fun loadById(id: Int): Flow<User?> = flowOf(User(id = 1, recipeIds = emptyList()))
+        override suspend fun loadById(id: Int): Flow<User?> = flowOf(
+            User(
+                id = 1,
+                name = "",
+                image = "",
+                address = "",
+                work = "",
+                introduce = "",
+                bookmarks = persistentListOf()
+            )
+        )
         override suspend fun save(user: User) {}
         override suspend fun updateSavedRecipe(id: Int, recipeId: Int) {}
     }
