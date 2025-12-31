@@ -51,7 +51,7 @@ fun SavedRecipesScreenRoot(
         }
     ) { innerPadding ->
         SavedRecipesScreen(
-            modifier = modifier,
+            modifier = modifier.padding(innerPadding),
             state = state.value,
             listState = listState,
             onBookmarkClick = {
