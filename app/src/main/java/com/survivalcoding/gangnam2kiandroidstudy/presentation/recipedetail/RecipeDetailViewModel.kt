@@ -76,8 +76,8 @@ class RecipeDetailViewModel(
             }
             RecipeDetailAction.CopyLinkClick -> {
                 val link = "app.Recipe.co/${uiState.value.recipe.id}"
-
                 val success = copyLinkUseCase(link)
+
                 emitEvent(
                     RecipeDetailEvent.ShowMessage(
                         if (success) "클립보드에 복사되었습니다."
