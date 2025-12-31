@@ -4,13 +4,20 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onFirst
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import com.survivalcoding.gangnam2kiandroidstudy.core.NetworkError
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.User
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.UserRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.mockdata.MockRecipeData
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import org.junit.Rule
 import org.junit.Test
 
@@ -44,8 +51,42 @@ class RecipeHomeBookmarkTest {
                 return MockRecipeData.recipeListThree.find { it.id == recipeId }
             }
         }
+        
+        val fakeUserRepository = object : UserRepository {
+            private val _user = MutableStateFlow<User?>(
+                User(
+                    id = 1,
+                    name = "",
+                    image = "",
+                    address = "",
+                    work = "",
+                    introduce = "",
+                    bookmarks = persistentListOf()
+                )
+            )
+            
+            override suspend fun loadById(id: Int): Flow<User?> = _user.asStateFlow()
+            
+            override suspend fun save(user: User) {
+                _user.value = user
+            }
+            
+            override suspend fun updateSavedRecipe(id: Int, recipeId: Int) {
+                _user.update { currentUser ->
+                    currentUser?.let {
+                        val currentList = it.bookmarks
+                        val newList = if (currentList.contains(recipeId)) {
+                            (currentList - recipeId).toPersistentList()
+                        } else {
+                            (currentList + recipeId).toPersistentList()
+                        }
+                        it.copy(bookmarks = newList)
+                    }
+                }
+            }
+        }
 
-        val viewModel = RecipeHomeViewModel(fakeRepository)
+        val viewModel = RecipeHomeViewModel(fakeRepository, fakeUserRepository)
 
         composeTestRule.setContent {
             RecipeHomeRoot(viewModel = viewModel)

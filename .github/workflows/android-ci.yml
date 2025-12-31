@@ -20,10 +20,33 @@ jobs:
           distribution: "temurin"
           cache: "gradle"
 
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: gradle-${{ runner.os }}-
+
       - run: chmod +x gradlew
 
       - name: Run tests
         run: ./gradlew test
 
+#      - name: Run instrumented tests
+#        uses: reactivecircus/android-emulator-runner@v2
+#        with:
+#          api-level: 34
+#          target: google_apis
+#          arch: x86_64
+#          script: ./gradlew connectedAndroidTest
+
       - name: Build with Gradle
-        run: ./gradlew clean build
+        env:
+          GRADLE_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=512m"
+        run: |
+          ./gradlew assembleDevDebug \
+            -x test \
+            --no-daemon \
+            --stacktrace
