@@ -98,12 +98,19 @@ class SavedRecipesViewModel @Inject constructor(
                 is Result.Success -> {
                     val isBookmarked = result.data
                     _state.update { state ->
+                        val updatedRecipes = if (isBookmarked) {
+                            state.recipes
+                        } else {
+                            state.recipes.filter { it.id != recipeId }
+                        }
+
                         state.copy(
                             bookmarkedIds = if (isBookmarked) {
                                 state.bookmarkedIds + recipeId
                             } else {
                                 state.bookmarkedIds - recipeId
-                            }
+                            },
+                            recipes = updatedRecipes
                         )
                     }
                 }
