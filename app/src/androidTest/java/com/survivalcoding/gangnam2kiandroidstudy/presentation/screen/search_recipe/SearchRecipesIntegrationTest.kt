@@ -75,8 +75,8 @@ class SearchRecipesIntegrationTest {
         composeTestRule.onNodeWithText("Spice Roasted Chicken").assertIsDisplayed()
 
         // 4. 검색어 입력 (Chicken)
-        // Placeholder text를 사용하여 검색창 찾기
-        composeTestRule.onNodeWithText("Search recipe").performTextInput("Chicken")
+        // Placeholder text 대신 입력 가능한 필드를 찾음
+        composeTestRule.onNode(hasSetTextAction()).performTextInput("Chicken")
 
         // 5. 대기 (Debounce 500ms + 필터링)
         composeTestRule.waitUntil(timeoutMillis = 3000) {
