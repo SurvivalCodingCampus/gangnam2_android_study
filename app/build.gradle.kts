@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     //직렬화
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 
 }
 
@@ -108,5 +109,11 @@ dependencies {
 
     //immutable collection
     implementation(libs.kotlinx.collections.immutable)
+
+    //room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    testImplementation(libs.androidx.room.testing)
+    ksp(libs.androidx.room.compiler)
 
 }
