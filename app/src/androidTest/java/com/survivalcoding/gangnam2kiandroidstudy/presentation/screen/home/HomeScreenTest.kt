@@ -13,8 +13,12 @@ import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.google.common.truth.Truth.assertThat
+import com.survivalcoding.gangnam2kiandroidstudy.data.bookmark.repository.InMemoryBookmarkRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.FakeRecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.recipe.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.AddBookmarkUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetBookmarkedRecipeIdsUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.RemoveBookmarkUseCase
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -35,7 +39,8 @@ class HomeScreenTest {
         chef = "Chef 1",
         rating = 4.5,
         imageUrl = "",
-        createdAt = 1L
+        createdAt = 1L,
+        address = "Seoul",
     )
 
     @Before
@@ -44,7 +49,13 @@ class HomeScreenTest {
             addRecipe(recipe1)
         }
 
-        viewModel = HomeViewModel(fakeRepository)
+        val bookmarkRepository = InMemoryBookmarkRepositoryImpl()
+        viewModel = HomeViewModel(
+            repository = fakeRepository,
+            addBookmarkUseCase = AddBookmarkUseCase(bookmarkRepository),
+            removeBookmarkUseCase = RemoveBookmarkUseCase(bookmarkRepository),
+            getBookmarkedRecipeIdsUseCase = GetBookmarkedRecipeIdsUseCase(bookmarkRepository),
+        )
     }
 
     @Test

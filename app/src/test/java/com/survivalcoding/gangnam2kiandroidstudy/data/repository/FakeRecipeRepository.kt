@@ -33,4 +33,8 @@ class FakeRecipeRepository : RecipeRepository {
             recipes[index] = recipes[index].copy(isSaved = isSaved)
         }
     }
+
+    override suspend fun getRecipeById(recipeId: Int): Recipe? {
+        return recipes.firstOrNull { it.id == recipeId }
+    }
 }
