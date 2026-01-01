@@ -64,7 +64,8 @@ class SavedRecipeDetailsScreenTest {
                 },
                 onCopyLink = { link ->
                     capturedLink = link
-                }
+                },
+                onBookMarkClicked = {}
             )
         }
 
