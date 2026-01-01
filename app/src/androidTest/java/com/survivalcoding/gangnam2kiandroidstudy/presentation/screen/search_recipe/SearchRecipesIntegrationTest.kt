@@ -10,11 +10,11 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipesUseCase
 import org.junit.Rule
 import org.junit.Test
 
-class
-SearchRecipesIntegrationTest {
+class SearchRecipesIntegrationTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -56,7 +56,7 @@ SearchRecipesIntegrationTest {
         }
 
         // 2. ViewModel 및 Screen 설정
-        val viewModel = SearchRecipesViewModel(fakeRepository)
+        val viewModel = SearchRecipesViewModel(GetRecipesUseCase(fakeRepository))
 
         composeTestRule.setContent {
             val state by viewModel.state.collectAsState()

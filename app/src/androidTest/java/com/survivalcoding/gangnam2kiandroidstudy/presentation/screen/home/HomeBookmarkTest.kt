@@ -10,6 +10,12 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.FakeBookmarkRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.AddBookmarkUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetBookmarkedRecipeIdsUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipesUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.RemoveBookmarkUseCase
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -33,7 +39,14 @@ class HomeBookmarkTest {
             modules(
                 module {
                     single<RecipeRepository> { FakeRecipeRepository() }
-                    viewModel { HomeViewModel(get()) }
+                    single<BookmarkRepository> { FakeBookmarkRepository() }
+                    
+                    factory { GetRecipesUseCase(get()) }
+                    factory { GetBookmarkedRecipeIdsUseCase(get()) }
+                    factory { AddBookmarkUseCase(get()) }
+                    factory { RemoveBookmarkUseCase(get()) }
+
+                    viewModel { HomeViewModel(get(), get(), get(), get()) }
                 }
             )
         }

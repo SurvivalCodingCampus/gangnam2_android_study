@@ -5,7 +5,12 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithText
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.FakeBookmarkRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.FakeRecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.AddBookmarkUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetBookmarkedRecipeIdsUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipesUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.RemoveBookmarkUseCase
 import org.junit.Rule
 import org.junit.Test
 
@@ -16,8 +21,15 @@ class HomeIntegrationTest {
 
     @Test
     fun loadRecipes_success_showsData() {
-        val fakeRepository = FakeRecipeRepository()
-        val viewModel = HomeViewModel(fakeRepository)
+        val fakeRecipeRepository = FakeRecipeRepository()
+        val fakeBookmarkRepository = FakeBookmarkRepository()
+
+        val viewModel = HomeViewModel(
+            GetRecipesUseCase(fakeRecipeRepository),
+            GetBookmarkedRecipeIdsUseCase(fakeBookmarkRepository),
+            AddBookmarkUseCase(fakeBookmarkRepository),
+            RemoveBookmarkUseCase(fakeBookmarkRepository)
+        )
 
         composeTestRule.setContent {
             HomeRoot(
@@ -35,9 +47,16 @@ class HomeIntegrationTest {
 
     @Test
     fun loadRecipes_error_showsErrorState() {
-        val fakeRepository = FakeRecipeRepository()
-        fakeRepository.shouldReturnError = true
-        val viewModel = HomeViewModel(fakeRepository)
+        val fakeRecipeRepository = FakeRecipeRepository()
+        fakeRecipeRepository.shouldReturnError = true
+        val fakeBookmarkRepository = FakeBookmarkRepository()
+
+        val viewModel = HomeViewModel(
+            GetRecipesUseCase(fakeRecipeRepository),
+            GetBookmarkedRecipeIdsUseCase(fakeBookmarkRepository),
+            AddBookmarkUseCase(fakeBookmarkRepository),
+            RemoveBookmarkUseCase(fakeBookmarkRepository)
+        )
 
         composeTestRule.setContent {
             HomeRoot(
