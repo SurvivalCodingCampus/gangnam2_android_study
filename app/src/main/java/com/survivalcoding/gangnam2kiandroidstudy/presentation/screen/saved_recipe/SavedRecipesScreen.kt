@@ -27,7 +27,9 @@ fun SavedRecipesScreen(
 ) {
 
     Column(
-        modifier = modifier.background(color = AppColors.white),
+        modifier = modifier
+            .fillMaxSize()
+            .background(color = AppColors.white),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(

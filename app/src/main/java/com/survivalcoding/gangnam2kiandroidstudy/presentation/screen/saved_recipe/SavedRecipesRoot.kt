@@ -48,5 +48,6 @@ private fun LazyListState.isScrolledToBottom(): Boolean {
     val lastVisibleItemIndex =
         layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: return false
 
-    return lastVisibleItemIndex == layoutInfo.totalItemsCount - 1
+    // 마지막 아이템이 보이고, 뒤로 스크롤이 가능한 상태일 때만 true (아이템이 적은 경우 방지)
+    return lastVisibleItemIndex == layoutInfo.totalItemsCount - 1 && canScrollBackward
 }
