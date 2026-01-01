@@ -61,7 +61,8 @@ fun SavedRecipeItemScreen(
     onBackButtonClicked: () -> Unit,
     onMoreButtonClicked: (Boolean) -> Unit,
     onShareDialogRequest: (Boolean) -> Unit,
-    onCopyLink: (String) -> Unit
+    onCopyLink: (String) -> Unit,
+    onBookMarkClicked: (Int) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -153,8 +154,8 @@ fun SavedRecipeItemScreen(
 
             RecipeCard(
                 recipe = state.recipe.copy(name = "", chef = ""),
-                isSaved = true,
-                onBookMarkClick = {}
+                isSaved = state.recipe.isSaved,
+                onBookMarkClick = { onBookMarkClicked(state.recipe.id) }
             )
             Spacer(modifier = Modifier.height(10.dp))
             Row(modifier = Modifier.height(41.dp)) {
@@ -401,6 +402,7 @@ private fun SavedRecipeItemScreenPreview() {
     SavedRecipeItemScreen(
         state = SavedRecipeDetailsState(isSelectIngredient = false),
         procedure = mockProcedure,
+        {},
         {},
         {},
         {},

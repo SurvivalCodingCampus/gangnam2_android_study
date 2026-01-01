@@ -18,7 +18,7 @@ class RecipesDataSourceImpl : RecipesDataSource {
       "chef": "Chef John",
       "time": "20 min",
       "rating": 4.0,
-      "isSaved": true,
+      "isSaved": false,
       "ingredients": [
         {
           "ingredient": {
@@ -62,7 +62,7 @@ class RecipesDataSourceImpl : RecipesDataSource {
       "chef": "Mark Kelvin",
       "time": "20 min",
       "rating": 4.0,
-      "isSaved": true,
+      "isSaved": false,
       "ingredients": [
         {
           "ingredient": {
@@ -106,7 +106,7 @@ class RecipesDataSourceImpl : RecipesDataSource {
       "chef": "Spicy Nelly",
       "time": "20 min",
       "rating": 4.0,
-      "isSaved": true,
+      "isSaved": false,
       "ingredients": [
         {
           "ingredient": {
@@ -142,7 +142,7 @@ class RecipesDataSourceImpl : RecipesDataSource {
       "chef": "Kim Dahee",
       "time": "30 min",
       "rating": 5.0,
-      "isSaved": true,
+      "isSaved": false,
       "ingredients": []
     },
     {
@@ -153,7 +153,7 @@ class RecipesDataSourceImpl : RecipesDataSource {
       "chef": "Alice Johnson",
       "time": "25 min",
       "rating": 4.5,
-      "isSaved": true,
+      "isSaved": false,
       "ingredients": [
         {
           "ingredient": {
@@ -181,7 +181,7 @@ class RecipesDataSourceImpl : RecipesDataSource {
       "chef": "Gordon Ramsay",
       "time": "45 min",
       "rating": 5.0,
-      "isSaved": true,
+      "isSaved": false,
       "ingredients": [
         {
           "ingredient": {
@@ -209,7 +209,7 @@ class RecipesDataSourceImpl : RecipesDataSource {
       "chef": "Mario Batali",
       "time": "15 min",
       "rating": 4.3,
-      "isSaved": true,
+      "isSaved": false,
       "ingredients": [
         {
           "ingredient": {
@@ -229,7 +229,7 @@ class RecipesDataSourceImpl : RecipesDataSource {
       "chef": "Jiro Ono",
       "time": "60 min",
       "rating": 4.8,
-      "isSaved": true,
+      "isSaved": false,
       "ingredients": [
         {
           "ingredient": {
@@ -257,7 +257,7 @@ class RecipesDataSourceImpl : RecipesDataSource {
       "chef": "Julia Child",
       "time": "40 min",
       "rating": 4.6,
-      "isSaved": true,
+      "isSaved": false,
       "ingredients": [
         {
           "ingredient": {
@@ -277,7 +277,7 @@ class RecipesDataSourceImpl : RecipesDataSource {
       "chef": "Paul Hollywood",
       "time": "30 min",
       "rating": 4.9,
-      "isSaved": true,
+      "isSaved": false,
       "ingredients": [
         {
           "ingredient": {

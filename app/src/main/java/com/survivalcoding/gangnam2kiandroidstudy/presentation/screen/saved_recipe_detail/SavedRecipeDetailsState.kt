@@ -18,6 +18,7 @@ data class SavedRecipeDetailsState(
         ingredients = emptyList(),
         name = "",
         rating = 0.0,
-        time = ""
+        time = "",
+        false
     )
 )
