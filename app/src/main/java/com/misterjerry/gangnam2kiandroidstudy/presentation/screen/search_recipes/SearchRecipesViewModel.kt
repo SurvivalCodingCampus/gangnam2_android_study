@@ -2,9 +2,9 @@ package com.misterjerry.gangnam2kiandroidstudy.presentation.screen.search_recipe
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.misterjerry.gangnam2kiandroidstudy.data.saved_recipes.SavedRecipesDao
 import com.misterjerry.gangnam2kiandroidstudy.domain.model.Recipe
 import com.misterjerry.gangnam2kiandroidstudy.domain.repository.RecipesRepository
+import com.misterjerry.gangnam2kiandroidstudy.domain.repository.SavedRecipesRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 @OptIn(FlowPreview::class)
 class SearchRecipesViewModel(
     private val repository: RecipesRepository,
-    private val dao: SavedRecipesDao
+    private val savedRecipesRepository: SavedRecipesRepository
 ) : ViewModel() {
     private var _state = MutableStateFlow(SearchRecipesState())
     private var cachedRecipes: List<Recipe> = emptyList()
@@ -28,7 +28,7 @@ class SearchRecipesViewModel(
     init {
         viewModelScope.launch {
             cachedRecipes = repository.getAllRecipes()
-            savedRecipesId = dao.getSavedRecipesList().map { it.recipeId }
+            savedRecipesId = savedRecipesRepository.getSavedRecipes().map { it.recipeId }
             _state.value = _state.value.copy(resultRecipes = cachedRecipes.filter {
                 savedRecipesId.contains(it.id)
             })

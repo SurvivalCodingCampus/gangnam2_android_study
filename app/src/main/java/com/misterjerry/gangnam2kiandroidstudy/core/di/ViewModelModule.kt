@@ -17,6 +17,7 @@ val viewModelModule = module {
             savedRecipeId,
             get(),
             get(),
+            get(),
             get()
         )
     }

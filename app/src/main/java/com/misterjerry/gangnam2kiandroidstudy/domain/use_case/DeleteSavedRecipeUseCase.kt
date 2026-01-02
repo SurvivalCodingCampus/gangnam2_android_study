@@ -1,12 +1,12 @@
 package com.misterjerry.gangnam2kiandroidstudy.domain.use_case
 
-import com.misterjerry.gangnam2kiandroidstudy.data.saved_recipes.SavedRecipesDao
+import com.misterjerry.gangnam2kiandroidstudy.domain.repository.SavedRecipesRepository
 
 class DeleteSavedRecipeUseCase(
-    private val dao: SavedRecipesDao
+    private val repository: SavedRecipesRepository
 ) {
     suspend fun execute(id: Int) {
-        dao.deleteSavedRecipe(id)
+        repository.deleteSavedRecipe(id)
     }
 
 

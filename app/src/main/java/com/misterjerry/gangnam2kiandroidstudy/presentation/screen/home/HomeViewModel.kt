@@ -3,9 +3,9 @@ package com.misterjerry.gangnam2kiandroidstudy.presentation.screen.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.misterjerry.gangnam2kiandroidstudy.data.saved_recipes.SavedRecipesDao
 import com.misterjerry.gangnam2kiandroidstudy.domain.model.Recipe
 import com.misterjerry.gangnam2kiandroidstudy.domain.repository.RecipesRepository
+import com.misterjerry.gangnam2kiandroidstudy.domain.repository.SavedRecipesRepository
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val repository: RecipesRepository,
-    private val dao: SavedRecipesDao
+    private val savedRecipesRepository: SavedRecipesRepository
 ) : ViewModel() {
     private var cachedRecipes: List<Recipe> = emptyList()
     private val _state = MutableStateFlow(HomeState())
@@ -21,7 +21,7 @@ class HomeViewModel(
 
     init {
         viewModelScope.launch {
-            val savedRecipeIds = dao.getSavedRecipesList().map { it.recipeId }
+            val savedRecipeIds = savedRecipesRepository.getSavedRecipes().map { it.recipeId }
             cachedRecipes = repository.getAllRecipes().map {
                 it.copy(isSaved = savedRecipeIds.contains(it.id))
             }
@@ -56,7 +56,7 @@ class HomeViewModel(
 
     fun addSavedRecipe(recipeId: Int) {
         viewModelScope.launch {
-            dao.addSavedRecipe(recipeId)
+            savedRecipesRepository.addSavedRecipe(recipeId)
         }
 
         cachedRecipes = cachedRecipes.map {
@@ -77,7 +77,7 @@ class HomeViewModel(
     fun deleteSavedRecipe(recipeId: Int) {
         viewModelScope.launch {
 
-            dao.deleteSavedRecipe(recipeId)
+            savedRecipesRepository.deleteSavedRecipe(recipeId)
         }
         cachedRecipes = cachedRecipes.map {
             if (it.id == recipeId) it.copy(isSaved = false) else it
