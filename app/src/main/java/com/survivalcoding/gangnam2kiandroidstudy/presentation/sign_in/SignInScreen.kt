@@ -14,10 +14,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -36,13 +32,11 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun SignInScreen(
-    onSignUpClick: () -> Unit = {},
-    onLoginClick: () -> Unit = {}
+    state: SignInState = SignInState(),
+    onAction: (SignInAction) -> Unit = {},
 ) {
     val focusManager = LocalFocusManager.current
 
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -68,7 +62,7 @@ fun SignInScreen(
             InputField(
                 label = "Email",
                 placeholder = "Enter Email",
-                value = email,
+                value = state.email,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Next
@@ -77,14 +71,14 @@ fun SignInScreen(
                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                 ),
             ) {
-                email = it
+                onAction(SignInAction.OnEmailChange(it))
             }
             Spacer(modifier = Modifier.height(30.dp))
 
             InputField(
                 label = "Enter Password",
                 placeholder = "Enter Password",
-                value = password,
+                value = state.password,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
@@ -94,7 +88,8 @@ fun SignInScreen(
                 ),
                 visualTransformation = PasswordVisualTransformation()
             ) {
-                password = it
+                onAction(SignInAction.OnPasswordChange(it))
+
             }
             Spacer(modifier = Modifier.height(20.dp))
             Text(
@@ -109,7 +104,8 @@ fun SignInScreen(
                 text = "Sign In",
                 modifier = Modifier.fillMaxWidth()
             ) {
-                onLoginClick()
+                onAction(SignInAction.OnSignInClick)
+
             }
             Spacer(modifier = Modifier.height(20.dp))
             Row(
@@ -130,7 +126,9 @@ fun SignInScreen(
                 SocialButton(
                     id = R.drawable.social_icons_google,
                     description = "구글 로그인"
-                )
+                ) {
+                    onAction(SignInAction.OnGoogleClick)
+                }
                 Spacer(modifier = Modifier.width(25.dp))
                 SocialButton(
                     id = R.drawable.social_icons_facebook,
@@ -148,7 +146,7 @@ fun SignInScreen(
                     text = "Sign up",
                     style = AppTextStyles.smallerTextBold.copy(color = AppColors.secondary100),
                     modifier = Modifier.clickable {
-                        onSignUpClick()
+                        onAction(SignInAction.OnSignUpClick)
                     }
                 )
             }

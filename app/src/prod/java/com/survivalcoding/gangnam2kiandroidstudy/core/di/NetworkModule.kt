@@ -21,6 +21,6 @@ val networkModule = module {
     }
 
     single<BookmarkRepository> {
-        BookmarkRepositoryImpl(get())
+        BookmarkRepositoryImpl(get(), get())
     }
 }

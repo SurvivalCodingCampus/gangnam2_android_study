@@ -3,6 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 import android.graphics.BlurMaskFilter
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,6 +24,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 fun SocialButton(
     id: Int,
     description: String,
+    onClick: () -> Unit = {}
     ) {
     Box(
         modifier = Modifier
@@ -36,7 +38,10 @@ fun SocialButton(
                 offsetY = 0.dp,
                 cornerRadius = 10.dp
             )
-            .background(color = AppColors.white, shape = RoundedCornerShape(10.dp)),
+            .background(color = AppColors.white, shape = RoundedCornerShape(10.dp))
+            .clickable {
+                onClick()
+            },
         contentAlignment = Alignment.Center
 
     ) {
