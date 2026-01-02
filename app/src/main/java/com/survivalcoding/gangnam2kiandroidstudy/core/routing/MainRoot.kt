@@ -12,11 +12,12 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recip
 
 @Composable
 fun MainRoot(
+    route: Route.Main, // Route.Main data class를 직접 받도록 변경
     onOpenSearch: () -> Unit,
     onOpenRecipeDetail: (Int) -> Unit,
 ) {
-    val tabBackStack = rememberNavBackStack(Route.Home)
-
+    // 딥링크로 전달받은 startTab으로 탭 내비게이션 스택을 초기화
+    val tabBackStack = rememberNavBackStack(route.startTab)
 
     MainScreen(
         backStack = tabBackStack,
@@ -25,12 +26,11 @@ fun MainRoot(
                 modifier = modifier,
                 backStack = tabBackStack,
                 entryProvider = entryProvider {
-                    entry<Route.Home> {
-                        HomeRoot(
-                            onOpenSearch = onOpenSearch,
-                            //onOpenRecipeDetail = onOpenRecipeDetail,
-                        )
-                    }
+                entry<Route.Home> {
+                    HomeRoot(
+                        onOpenSearch = onOpenSearch,
+                    )
+                }
                     entry<Route.SavedRecipes> {
                         SavedRecipesRoot(
                             onOpenRecipeDetail = onOpenRecipeDetail,

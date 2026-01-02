@@ -1,6 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
-import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.recipe.Recipe
 
 class FakeRecipeRepository : RecipeRepository {
@@ -28,5 +28,9 @@ class FakeRecipeRepository : RecipeRepository {
         if (index != -1) {
             recipes[index] = recipes[index].copy(isSaved = isSaved)
         }
+    }
+
+    override suspend fun getRecipeById(recipeId: Int): Recipe? {
+        return recipes.firstOrNull { it.id == recipeId }
     }
 }

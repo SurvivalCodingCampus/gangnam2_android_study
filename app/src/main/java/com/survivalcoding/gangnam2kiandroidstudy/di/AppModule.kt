@@ -7,15 +7,13 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.datasource.Procedur
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.datasource.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.datasource.RecipeDataSourceImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.network.NetworkMonitorImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.BookmarkRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.ClipBoardRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.IngredientRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.ProcedureRepositoryImpl
-import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.RecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.recipe.repository.SavedRecipesRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.domain.network.NetworkMonitor
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ClipBoardRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
@@ -34,6 +32,8 @@ import org.koin.dsl.module
 
 val appModule = module {
 
+    includes(bookmarkModule) // Include the new bookmark module
+
     // Network
     single {
         androidContext()
@@ -51,7 +51,6 @@ val appModule = module {
 
     // Repository
     single<RecipeRepository> { RecipeRepositoryImpl(get()) }
-    single<BookmarkRepository> { BookmarkRepositoryImpl(get()) }
     single<SavedRecipesRepository> { SavedRecipesRepositoryImpl(get()) }
     single<IngredientRepository> { IngredientRepositoryImpl(get()) }
     single<ProcedureRepository> { ProcedureRepositoryImpl(get()) }
@@ -85,7 +84,12 @@ val appModule = module {
 
     // ViewModel
     viewModel {
-        HomeViewModel(repository = get())
+        HomeViewModel(
+            repository = get(),
+            addBookmarkUseCase = get(),
+            removeBookmarkUseCase = get(),
+            getBookmarkedRecipeIdsUseCase = get(),
+        )
     }
 
     viewModel {

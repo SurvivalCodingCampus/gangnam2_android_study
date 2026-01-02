@@ -7,6 +7,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetSavedRecipes
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest // Import collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -26,14 +27,15 @@ class SavedRecipesViewModel(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
 
-            val result = getSavedRecipesUseCase.execute()
-            val recipes = result.getOrElse { emptyList() }
+            getSavedRecipesUseCase.execute().collectLatest { result -> // Collect the Flow
+                val recipes = result.getOrElse { emptyList() } // getOrElse on the Result
 
-            _state.update {
-                it.copy(
-                    isLoading = false,
-                    recipes = recipes
-                )
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        recipes = recipes
+                    )
+                }
             }
         }
     }
@@ -41,7 +43,7 @@ class SavedRecipesViewModel(
     fun removeBookmark(id: Int) {
         viewModelScope.launch {
             bookmarkRepository.removeSavedRecipeId(id)
-            loadSavedRecipes()
+            // loadSavedRecipes() // No need to manually reload, Flow will update
         }
     }
 }
