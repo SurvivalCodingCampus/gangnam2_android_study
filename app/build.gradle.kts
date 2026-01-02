@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
 
 if (!project.hasProperty("firebase.disable")) {
@@ -83,21 +84,31 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.junit.junit)
     implementation(platform("com.google.firebase:firebase-bom:34.7.0"))
-    implementation("com.google.firebase:firebase-analytics")
+    implementation(libs.firebase.analytics)
+
+    // --- Room ---
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     // --- Koin Core ---
-    implementation("io.insert-koin:koin-android:3.5.6")
+    implementation(libs.koin.android)
 
     // --- Koin Compose ---
-    implementation("io.insert-koin:koin-androidx-compose:3.5.6")
+    implementation(libs.koin.compose)
 
     // --- Koin Test (중요) ---
-    testImplementation("io.insert-koin:koin-test:3.5.6")
-    androidTestImplementation("io.insert-koin:koin-test:3.5.6")
+    testImplementation(libs.insert.koin.koin.test)
+    androidTestImplementation(libs.insert.koin.koin.test)
 
     // --- Compose UI Test ---
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:<compose_version>")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:<compose_version>")
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.test.manifest)
+
+    // --- Room Test ---
+    testImplementation(libs.androidx.room.testing)
+    androidTestImplementation(libs.androidx.room.testing)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
