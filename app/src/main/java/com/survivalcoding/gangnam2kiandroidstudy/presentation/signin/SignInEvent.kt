@@ -4,6 +4,6 @@ sealed interface SignInEvent {
     object NavigateToMain : SignInEvent
     object NavigateToForgotPassword : SignInEvent
     object NavigateToSignUp : SignInEvent
-    object GoogleLoginClick : SignInEvent
+    object GoogleSignInClick : SignInEvent
     data class ShowMessage(val message: String) : SignInEvent
 }

@@ -29,7 +29,7 @@ class SignInViewModel(
                 }
                 .onFailure {
                     _uiState.update { it.copy(isLoading = false) }
-                    emitEvent(SignInEvent.ShowMessage(it.localizedMessage))
+                    emitEvent(SignInEvent.ShowMessage(it.message ?: "로그인 실패"))
                 }
         }
     }
@@ -54,7 +54,7 @@ class SignInViewModel(
                 signIn(action.email, action.password)
             }
             SignInAction.GoogleSignInClicked -> {
-                emitEvent(SignInEvent.GoogleLoginClick)
+                emitEvent(SignInEvent.GoogleSignInClick)
             }
             SignInAction.ForgotPasswordClicked -> {
                 emitEvent(SignInEvent.NavigateToForgotPassword)
@@ -70,7 +70,7 @@ class SignInViewModel(
                             emitEvent(SignInEvent.NavigateToMain)
                         }
                         .onFailure {
-                            emitEvent(SignInEvent.ShowMessage(it.localizedMessage))
+                            emitEvent(SignInEvent.ShowMessage(it.message ?: "로그인 실패"))
                         }
                 }
             }

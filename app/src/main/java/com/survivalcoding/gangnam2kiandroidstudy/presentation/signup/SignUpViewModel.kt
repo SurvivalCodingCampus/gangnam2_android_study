@@ -37,22 +37,6 @@ class SignUpViewModel(
         }
     }
 
-    private fun googleSignIn() {
-        viewModelScope.launch {
-            /*googleSignInUseCase()
-                .onSuccess {
-                    emitEvent(SignUpEvent.NavigateToMain)
-                }
-                .onFailure {
-                    emitEvent(
-                        SignUpEvent.ShowMessage(
-                            it.localizedMessage ?: "Google sign in failed"
-                        )
-                    )
-                }*/
-        }
-    }
-
     private fun emitEvent(event: SignUpEvent) {
         viewModelScope.launch { _event.emit(event) }
     }
@@ -70,7 +54,7 @@ class SignUpViewModel(
             is SignUpAction.SignUpClicked ->
                 signUp(action.name, action.email, action.password)
             SignUpAction.GoogleSignInClicked ->
-                googleSignIn()
+                emitEvent(SignUpEvent.GoogleSignInClick)
             SignUpAction.SignInClicked ->
                 emitEvent(SignUpEvent.NavigateToSignIn)
             SignUpAction.FacebookSignInClicked -> {
@@ -78,6 +62,17 @@ class SignUpViewModel(
             }
             is SignUpAction.TermsChecked ->
                 _uiState.update { it.copy(isTermsChecked = action.checked) }
+            is SignUpAction.GoogleIdTokenReceive -> {
+                viewModelScope.launch {
+                    googleSignInUseCase(action.id)
+                        .onSuccess {
+                            emitEvent(SignUpEvent.NavigateToMain)
+                        }
+                        .onFailure {
+                            emitEvent(SignUpEvent.ShowMessage(it.message ?: "로그인 실패"))
+                        }
+                }
+            }
         }
     }
 }

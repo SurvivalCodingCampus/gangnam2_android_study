@@ -57,7 +57,7 @@ fun SignInRoot(
                 is SignInEvent.ShowMessage -> {
                     snackbarHostState.showSnackbar(event.message)
                 }
-                SignInEvent.GoogleLoginClick -> {
+                SignInEvent.GoogleSignInClick -> {
                     val options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .requestEmail()
                         .requestIdToken(context.getString(R.string.default_web_client_id))

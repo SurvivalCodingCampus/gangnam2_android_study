@@ -1,5 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.signup
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -11,7 +13,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.survivalcoding.gangnam2kiandroidstudy.R
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -22,6 +29,22 @@ fun SignUpRoot(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try {
+            val account = task.getResult(ApiException::class.java)
+            val idToken = account.idToken
+
+            if (idToken != null) {
+                viewModel.onAction(SignUpAction.GoogleIdTokenReceive(idToken))
+            }
+        } catch (e: ApiException) {
+            // 로그인 실패
+        }
+    }
 
     LaunchedEffect(Unit) {
         viewModel.event.collect { event ->
@@ -30,6 +53,15 @@ fun SignUpRoot(
                 SignUpEvent.NavigateToSignIn -> onSignInClick()
                 is SignUpEvent.ShowMessage -> {
                     snackbarHostState.showSnackbar(event.message)
+                }
+                SignUpEvent.GoogleSignInClick -> {
+                    val options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestEmail()
+                        .requestIdToken(context.getString(R.string.default_web_client_id))
+                        .build()
+                    val googleSignInClient = GoogleSignIn.getClient(context, options)
+
+                    launcher.launch(googleSignInClient.signInIntent)
                 }
             }
         }

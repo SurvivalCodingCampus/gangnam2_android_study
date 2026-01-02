@@ -1,7 +1,5 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.signup
 
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.signin.SignInAction
-
 sealed interface SignUpAction {
     data class NameChanged(val name: String) : SignUpAction
     data class EmailChanged(val email: String) : SignUpAction
@@ -12,4 +10,5 @@ sealed interface SignUpAction {
     object GoogleSignInClicked : SignUpAction
     object FacebookSignInClicked : SignUpAction
     object SignInClicked : SignUpAction
+    data class GoogleIdTokenReceive(val id: String) : SignUpAction
 }
