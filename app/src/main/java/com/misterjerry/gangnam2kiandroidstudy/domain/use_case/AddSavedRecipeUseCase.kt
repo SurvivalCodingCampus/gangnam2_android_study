@@ -5,7 +5,7 @@ import com.misterjerry.gangnam2kiandroidstudy.domain.repository.SavedRecipesRepo
 class AddSavedRecipeUseCase(
     private val repository: SavedRecipesRepository
 ) {
-    suspend fun execute(id: Int) {
-        repository.addSavedRecipe(id)
+    suspend fun execute(id: Int): Result<Unit> {
+        return repository.addSavedRecipe(id)
     }
 }

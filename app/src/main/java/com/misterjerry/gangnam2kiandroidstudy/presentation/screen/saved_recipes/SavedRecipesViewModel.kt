@@ -31,10 +31,14 @@ class SavedRecipesViewModel(
 
     fun delete(id: Int) {
         viewModelScope.launch {
-            deleteSavedRecipeUseCase.execute(id)
-            _state.value = _state.value.copy(
-                savedRecipesList = _state.value.savedRecipesList.filter { id != it.id }
-            )
+            val result = deleteSavedRecipeUseCase.execute(id)
+            result.onSuccess {
+                _state.value = _state.value.copy(
+                    savedRecipesList = _state.value.savedRecipesList.filter { id != it.id }
+                )
+            }.onFailure {
+                it.printStackTrace()
+            }
         }
     }
 

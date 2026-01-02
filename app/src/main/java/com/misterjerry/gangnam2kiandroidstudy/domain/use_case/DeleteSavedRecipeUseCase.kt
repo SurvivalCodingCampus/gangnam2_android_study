@@ -5,8 +5,8 @@ import com.misterjerry.gangnam2kiandroidstudy.domain.repository.SavedRecipesRepo
 class DeleteSavedRecipeUseCase(
     private val repository: SavedRecipesRepository
 ) {
-    suspend fun execute(id: Int) {
-        repository.deleteSavedRecipe(id)
+    suspend fun execute(id: Int): Result<Unit> {
+        return repository.deleteSavedRecipe(id)
     }
 
 

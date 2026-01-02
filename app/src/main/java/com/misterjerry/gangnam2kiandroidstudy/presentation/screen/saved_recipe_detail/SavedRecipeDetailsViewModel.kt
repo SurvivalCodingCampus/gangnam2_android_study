@@ -50,19 +50,25 @@ class SavedRecipeDetailsViewModel(
     }
 
     fun toggleSavedRecipe(id: Int) {
-        if (state.value.recipe.isSaved == true) {//삭제
-            viewModelScope.launch {
-                deleteSavedRecipeUseCase.execute(id)
-            }
-            _state.value = _state.value.copy(recipe = _state.value.recipe.copy(isSaved = false))
+        val currentIsSaved = state.value.recipe.isSaved
+        
+        // Optimistic update
+        _state.value = _state.value.copy(recipe = _state.value.recipe.copy(isSaved = !currentIsSaved))
 
-        } else {//추가
-            viewModelScope.launch {
+        viewModelScope.launch {
+            val result = if (currentIsSaved) {
+                deleteSavedRecipeUseCase.execute(id)
+            } else {
                 addSavedRecipeUseCase.execute(id)
             }
-            _state.value = _state.value.copy(recipe = _state.value.recipe.copy(isSaved = true))
+            
+            result.onFailure {
+                // Revert state on failure
+                _state.value = _state.value.copy(recipe = _state.value.recipe.copy(isSaved = currentIsSaved))
+                // You might want to expose this error to the UI to show a Snackbar
+                it.printStackTrace() 
+            }
         }
-
     }
 
 
