@@ -4,6 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.plugin.serialization")
     alias(libs.plugins.ksp)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -81,6 +82,10 @@ android {
 }
 
 dependencies {
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    // Add the dependency for the Firebase Authentication library
+    implementation("com.google.firebase:firebase-auth-ktx")
 
     // 기본
     implementation(libs.androidx.core.ktx)

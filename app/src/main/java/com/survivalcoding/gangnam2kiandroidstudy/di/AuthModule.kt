@@ -1,0 +1,22 @@
+package com.survivalcoding.gangnam2kiandroidstudy.di
+
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.survivalcoding.gangnam2kiandroidstudy.BuildConfig
+import com.survivalcoding.gangnam2kiandroidstudy.data.auth.AuthRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.AuthRepository
+import org.koin.dsl.module
+
+val authModule = module {
+    single<FirebaseAuth> {
+        val firebaseAuth = Firebase.auth
+        if (BuildConfig.FLAVOR == "dev" || BuildConfig.FLAVOR == "qa") {
+            // Use Firebase Emulator for dev and qa flavors
+            firebaseAuth.useEmulator("10.0.2.2", 9099)
+        }
+        firebaseAuth
+    }
+
+    single<AuthRepository> { AuthRepositoryImpl(get()) }
+}

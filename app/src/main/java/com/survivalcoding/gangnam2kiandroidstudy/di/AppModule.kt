@@ -26,6 +26,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeVi
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipes.SavedRecipesViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipe.SearchRecipeViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashViewModel
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.auth.AuthViewModel // Import AuthViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -116,5 +117,6 @@ val appModule = module {
         )
     }
 
+    viewModel { AuthViewModel(authRepository = get()) } // Add AuthViewModel
 }
 

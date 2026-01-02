@@ -4,6 +4,7 @@ import android.app.Application
 
 import com.survivalcoding.gangnam2kiandroidstudy.di.appModule
 import com.survivalcoding.gangnam2kiandroidstudy.di.networkModule
+import com.survivalcoding.gangnam2kiandroidstudy.di.authModule // Import authModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -19,6 +20,7 @@ class AppApplication : Application() {
             modules(
                 appModule,
                 networkModule,
+                authModule, // Add authModule to the list
             )
         }
     }
