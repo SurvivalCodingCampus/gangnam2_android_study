@@ -17,6 +17,7 @@ activityCompose = "1.12.2"
 composeBom = "2025.12.01"
 materialIconsExtended = "1.7.8"
 kotlinxCoroutinesTest = "1.10.2"
+kotlinxCoroutinesPlayServices = "1.10.2"
 #nav3
 nav3Core = "1.0.0"
 lifecycleViewmodelNav3 = "2.10.0"
@@ -45,6 +46,7 @@ coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 insert-koin-koin-android = { module = "io.insert-koin:koin-android" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -66,6 +68,7 @@ koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServices" }
 # Core Navigation 3 libraries
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
