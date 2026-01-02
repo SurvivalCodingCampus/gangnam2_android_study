@@ -30,7 +30,16 @@ import com.misterjerry.gangnam2kiandroidstudy.presentation.ui.AppColors
 import com.misterjerry.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 
 @Composable
-fun SignUpScreen(onSignInButtonClick: () -> Unit) {
+fun SignUpScreen(
+    state: SignUpState,
+    onNameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onConfirmPasswordChange: (String) -> Unit,
+    onSignUpButtonClick: () -> Unit,
+    onSignInButtonClick: () -> Unit,
+    onGoogleButtonClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxHeight()
@@ -43,21 +52,33 @@ fun SignUpScreen(onSignInButtonClick: () -> Unit) {
             style = AppTextStyles.smallerTextRegular
         )
         Spacer(modifier = Modifier.height(height = 20.dp))
-        InputField(label = "Name", placeholder = "Enter Name", value = "", onValueChange = {})
+        InputField(
+            label = "Name",
+            placeholder = "Enter Name",
+            value = state.name,
+            onValueChange = onNameChange
+        )
         Spacer(modifier = Modifier.height(height = 20.dp))
-        InputField(label = "Email", placeholder = "Enter Email", value = "", onValueChange = {})
+        InputField(
+            label = "Email",
+            placeholder = "Enter Email",
+            value = state.email,
+            onValueChange = onEmailChange
+        )
         Spacer(modifier = Modifier.height(height = 20.dp))
         InputField(
             label = "Password",
             placeholder = "Enter Password",
-            value = "",
-            onValueChange = {})
+            value = state.password,
+            onValueChange = onPasswordChange
+        )
         Spacer(modifier = Modifier.height(height = 20.dp))
         InputField(
             label = "Confirm Password",
             placeholder = "Retype Password",
-            value = "",
-            onValueChange = {})
+            value = state.confirmPassword,
+            onValueChange = onConfirmPasswordChange
+        )
         Spacer(modifier = Modifier.height(height = 20.dp))
         Row(modifier = Modifier.padding(start = 10.dp)) {
             Box(
@@ -76,7 +97,7 @@ fun SignUpScreen(onSignInButtonClick: () -> Unit) {
             )
         }
         Spacer(modifier = Modifier.height(height = 26.dp))
-        BigButton(text = "Sign Up", onClick = {})
+        BigButton(text = "Sign Up", onClick = { onSignUpButtonClick() })
         Spacer(modifier = Modifier.height(14.dp))
         Row(modifier = Modifier.height(17.dp), verticalAlignment = Alignment.CenterVertically) {
             Spacer(modifier = Modifier.width(60.dp))
@@ -104,7 +125,8 @@ fun SignUpScreen(onSignInButtonClick: () -> Unit) {
                         color = AppColors.white,
                         shape = RoundedCornerShape(10.dp)
                     )
-                    .size(44.dp),
+                    .size(44.dp)
+                    .clickable(onClick = { onGoogleButtonClick() }),
                 contentAlignment = Alignment.Center
             ) {
                 Image(painterResource(R.drawable.social_icons_google), contentDescription = "구글로고")
@@ -149,8 +171,15 @@ fun SignUpScreen(onSignInButtonClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview(modifier: Modifier = Modifier) {
-    SignUpScreen() {
-
-    }
+    SignUpScreen(
+        state = SignUpState(),
+        onNameChange = {},
+        onEmailChange = {},
+        onPasswordChange = {},
+        onConfirmPasswordChange = {},
+        onSignUpButtonClick = {},
+        onSignInButtonClick = {},
+        onGoogleButtonClick = {}
+    )
 
 }
