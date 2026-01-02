@@ -13,5 +13,5 @@ data class Recipe(
     val name: String,
     val rating: Double,
     val time: String,
-    val isSaved: Boolean = false
+    val isSaved: Boolean
 )

@@ -32,11 +32,15 @@ class HomeRootTest {
         )
         val fakeRepository = object : RecipesRepository {
             override suspend fun getAllRecipes(): List<Recipe> = listOf(fakeRecipe)
-            override suspend fun getSavedRecipes(): List<Recipe> = emptyList()
             override suspend fun deleteSavedRecipe(id: Int) {}
         }
 
-        val viewModel = HomeViewModel(fakeRepository)
+        val fakeDao = object : com.survivalcoding.gangnam2kiandroidstudy.data.saved_recipes.SavedRecipesDao {
+            override suspend fun getSavedRecipesList(): List<com.survivalcoding.gangnam2kiandroidstudy.domain.model.SavedRecipesEntity> = emptyList()
+            override suspend fun addSavedRecipe(id: Int) {}
+            override suspend fun deleteSavedRecipe(id: Int) {}
+        }
+        val viewModel = HomeViewModel(fakeRepository, fakeDao)
 
         // 2. 콘텐츠 설정
         composeTestRule.setContent {
@@ -92,10 +96,14 @@ class HomeRootTest {
         )
         val fakeRepository = object : RecipesRepository {
             override suspend fun getAllRecipes(): List<Recipe> = listOf(fakeRecipe)
-            override suspend fun getSavedRecipes(): List<Recipe> = emptyList()
             override suspend fun deleteSavedRecipe(id: Int) {}
         }
-        val viewModel = HomeViewModel(fakeRepository)
+        val fakeDao = object : com.survivalcoding.gangnam2kiandroidstudy.data.saved_recipes.SavedRecipesDao {
+            override suspend fun getSavedRecipesList(): List<com.survivalcoding.gangnam2kiandroidstudy.domain.model.SavedRecipesEntity> = emptyList()
+            override suspend fun addSavedRecipe(id: Int) {}
+            override suspend fun deleteSavedRecipe(id: Int) {}
+        }
+        val viewModel = HomeViewModel(fakeRepository, fakeDao)
 
         stateRestorationTester.setContent {
             HomeRoot(
@@ -129,11 +137,15 @@ class HomeRootTest {
     fun `목록이_비었을_때_레시피_없음_표시_테스트`() {
         val fakeRepository = object : RecipesRepository {
             override suspend fun getAllRecipes(): List<Recipe> = emptyList()
-            override suspend fun getSavedRecipes(): List<Recipe> = emptyList()
             override suspend fun deleteSavedRecipe(id: Int) {}
         }
 
-        val viewModel = HomeViewModel(fakeRepository)
+        val fakeDao = object : com.survivalcoding.gangnam2kiandroidstudy.data.saved_recipes.SavedRecipesDao {
+            override suspend fun getSavedRecipesList(): List<com.survivalcoding.gangnam2kiandroidstudy.domain.model.SavedRecipesEntity> = emptyList()
+            override suspend fun addSavedRecipe(id: Int) {}
+            override suspend fun deleteSavedRecipe(id: Int) {}
+        }
+        val viewModel = HomeViewModel(fakeRepository, fakeDao)
 
         composeTestRule.setContent {
             HomeRoot(

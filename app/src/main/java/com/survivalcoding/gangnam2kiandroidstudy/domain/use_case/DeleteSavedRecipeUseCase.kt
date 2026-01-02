@@ -1,12 +1,12 @@
 package com.survivalcoding.gangnam2kiandroidstudy.domain.use_case
 
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipesRepository
+import com.survivalcoding.gangnam2kiandroidstudy.data.saved_recipes.SavedRecipesDao
 
 class DeleteSavedRecipeUseCase(
-    private val repository: RecipesRepository
+    private val dao: SavedRecipesDao
 ) {
     suspend fun execute(id: Int) {
-        repository.deleteSavedRecipe(id)
+        dao.deleteSavedRecipe(id)
     }
 
 

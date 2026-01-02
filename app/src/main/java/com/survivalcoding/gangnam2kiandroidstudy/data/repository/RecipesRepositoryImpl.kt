@@ -11,10 +11,6 @@ class RecipesRepositoryImpl(
         return recipesDataSource.getAllRecipes().recipes
     }
 
-    override suspend fun getSavedRecipes(): List<Recipe> {
-        return recipesDataSource.getAllRecipes().recipes.filter { it.isSaved }
-    }
-
     override suspend fun deleteSavedRecipe(id: Int) {
         recipesDataSource.deleteSavedRecipe(id)
     }

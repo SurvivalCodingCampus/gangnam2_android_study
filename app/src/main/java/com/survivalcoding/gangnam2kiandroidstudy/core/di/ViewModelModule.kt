@@ -10,7 +10,7 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModelOf(::HomeViewModel) //viewModelOf 사용
-    viewModel { SavedRecipeDetailsViewModel(get(), get()) }
-    viewModel { SavedRecipesViewModel(get(), get()) }
-    viewModel { SearchRecipesViewModel(get()) }
+    viewModel { (savedRecipeId: Int) -> SavedRecipeDetailsViewModel(savedRecipeId, get(), get(), get()) }
+    viewModel { SavedRecipesViewModel(get(), get(), get()) }
+    viewModel { SearchRecipesViewModel(get(), get()) }
 }

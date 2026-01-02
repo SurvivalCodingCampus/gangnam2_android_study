@@ -13,7 +13,7 @@ class GetRecipeDetailsUseCase(
 ) {
     suspend fun execute(id: Int): Triple<List<Ingredients>, List<Procedure>, Recipe> {
 
-        val recipe = recipesRepository.getSavedRecipes().find { it.id == id }
+        val recipe = recipesRepository.getAllRecipes().find { it.id == id }
         return if (recipe != null) {
             Triple(
                 recipe.ingredients,
@@ -32,7 +32,8 @@ class GetRecipeDetailsUseCase(
                     ingredients = emptyList(),
                     name = "",
                     rating = 0.0,
-                    time = ""
+                    time = "",
+                    false
                 )
             )
         }

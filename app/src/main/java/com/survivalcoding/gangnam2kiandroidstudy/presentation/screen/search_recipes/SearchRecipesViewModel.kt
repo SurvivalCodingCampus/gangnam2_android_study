@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_rec
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.survivalcoding.gangnam2kiandroidstudy.data.saved_recipes.SavedRecipesDao
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipesRepository
 import kotlinx.coroutines.FlowPreview
@@ -13,10 +14,12 @@ import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
 class SearchRecipesViewModel(
-    private val repository: RecipesRepository
+    private val repository: RecipesRepository,
+    private val dao: SavedRecipesDao
 ) : ViewModel() {
     private var _state = MutableStateFlow(SearchRecipesState())
     private var cachedRecipes: List<Recipe> = emptyList()
+    private var savedRecipesId: List<Int> = emptyList()
     val state = _state.asStateFlow()
 
     private var _event = MutableSharedFlow<SearchRecipesEvent>()
@@ -24,8 +27,11 @@ class SearchRecipesViewModel(
 
     init {
         viewModelScope.launch {
-            cachedRecipes = repository.getSavedRecipes()
-            _state.value = _state.value.copy(resultRecipes = cachedRecipes)
+            cachedRecipes = repository.getAllRecipes()
+            savedRecipesId = dao.getSavedRecipesList().map { it.recipeId }
+            _state.value = _state.value.copy(resultRecipes = cachedRecipes.filter {
+                savedRecipesId.contains(it.id)
+            })
         }
     }
 
@@ -34,16 +40,15 @@ class SearchRecipesViewModel(
     }
 
     fun filterRecipes(
-        searchText: String = "",
-        time: String = "",
-        rate: String = "",
-        category: String = ""
+        searchText: String = "", time: String = "", rate: String = "", category: String = ""
     ) {
         viewModelScope.launch {
             var filteredList = if (searchText.isNotEmpty()) {
                 cachedRecipes.filter { it.name.contains(searchText, ignoreCase = true) }
             } else {
-                cachedRecipes
+                cachedRecipes.filter {
+                    savedRecipesId.contains(it.id)
+                }
             }
             // Rating 필터
             if (rate.isNotEmpty()) {
@@ -74,10 +79,7 @@ class SearchRecipesViewModel(
     }
 
     fun applyFilterRecipe(
-        searchText: String = "",
-        time: String = "",
-        rate: String = "",
-        category: String = ""
+        searchText: String = "", time: String = "", rate: String = "", category: String = ""
     ) {
         viewModelScope.launch {
             filterRecipes(searchText, time, rate, category)
