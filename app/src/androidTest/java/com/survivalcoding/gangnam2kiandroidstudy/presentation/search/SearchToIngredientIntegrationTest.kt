@@ -21,7 +21,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.repository.FakeRecipeRepos
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngridentRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.ingredient.IngredientScreenRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.recipeDetail.RecipeDetailScreenRoot
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -117,12 +117,12 @@ class SearchToIngredientIntegrationTest {
                 entry<Route.SearchRecipe> {
                     SearchRecipeScreenRoot(
                         onRecipeClick = { recipeId ->
-                            backStack.add(Route.Ingrident(recipeId = recipeId))
+                            backStack.add(Route.RecipeDetail(recipeId = recipeId))
                         }
                     )
                 }
-                entry<Route.Ingrident> { route ->
-                    IngredientScreenRoot(
+                entry<Route.RecipeDetail> { route ->
+                    RecipeDetailScreenRoot(
                         recipeId = route.recipeId,
                         onBackClick = {
                             backStack.remove(backStack.last())

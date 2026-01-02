@@ -159,7 +159,7 @@ fun HomeRecipeCard(
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.outline_bookmark_inactive),
-                        contentDescription = "bookmark Recipe",
+                        contentDescription = if (isBookmark) "Unbookmark Recipe" else "Bookmark Recipe",
                         tint = if (isBookmark)
                             AppColors.primary80
                         else AppColors.gray3,

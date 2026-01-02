@@ -1,94 +1,84 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.home
 
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithContentDescription
+import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
-import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.koin.androidx.compose.koinViewModel
+import org.koin.test.KoinTest
+import org.koin.test.inject
 
-class HomeScreenTest {
+@RunWith(AndroidJUnit4::class)
+class HomeScreenTest : KoinTest {
 
     @get:Rule
-    val composeRule = createComposeRule()
+    val composeTestRule = createComposeRule()
+
+    private val bookmarkRepository: BookmarkRepository by inject()
 
     @Test
-    fun clickBookmarkButton_changesViewModelState_and_maintainsStateAfterRecomposition() {
-        // 1. Setup Data & Mocks
-        val testRecipe = Recipe(
-            id = 1,
-            title = "Test Recipe",
-            chef = "Test Chef",
-            time = "10 min",
-            category = "Test Category",
-            rating = 4.5,
-            imageUrls = "",
-            createdAt = 0L,
-            address = "Test Address"
-        )
-        
-        val fakeRecipeRepository = object : RecipeRepository {
-            override suspend fun getRecipes(): List<Recipe> = listOf(testRecipe)
-        }
-        
-        val fakeBookmarkRepository = object : BookmarkRepository {
-            private val bookmarks = mutableListOf<Int>()
-            override suspend fun getBookmarkId(): List<Int> = bookmarks
-            override suspend fun addBookmarkId(id: Int): List<Int> {
-                bookmarks.add(id)
-                return bookmarks
-            }
-            override suspend fun removeBookmarkId(id: Int): List<Int> {
-                bookmarks.remove(id)
-                return bookmarks
-            }
-        }
-
-        // Initialize ViewModel with fakes
-        val viewModel = HomeViewModel(fakeRecipeRepository, fakeBookmarkRepository)
-
-        // 2. Set Content
-        composeRule.setContent {
-            // Using collectAsState to observe the flow in the Composable environment
-            val state = viewModel.state.collectAsState().value
+    fun testBookmarkFunctionality() = runTest {
+        composeTestRule.setContent {
+            val viewModel: HomeViewModel = koinViewModel()
+            val state by viewModel.state.collectAsStateWithLifecycle()
+            
             HomeScreen(
                 state = state,
                 onAction = viewModel::onAction
             )
         }
+
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodesWithContentDescription("Bookmark Recipe")
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+
+        val bookmarkButton = composeTestRule
+            .onAllNodesWithContentDescription("Bookmark Recipe")
+            .onFirst()
+
+        bookmarkButton.assertIsDisplayed()
+        bookmarkButton.performClick()
+
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodesWithContentDescription("Unbookmark Recipe")
+                .fetchSemanticsNodes().isNotEmpty()
+        }
         
-        // Wait for the initial data loading (triggered in ViewModel init) to complete
-        composeRule.waitForIdle()
+        composeTestRule
+            .onNodeWithContentDescription("Unbookmark Recipe")
+            .assertIsDisplayed()
 
-        // 3. Verify initial state (not bookmarked)
-        assertTrue("Initial bookmark list should be empty", viewModel.state.value.bookmarkIds.isEmpty())
-
-        // 4. Perform Action: Click Bookmark on the recipe card
-        // The HomeRecipeCard uses "bookmark Recipe" as content description for the button
-        composeRule.onNodeWithContentDescription("bookmark Recipe")
-            .performClick()
-
-        // 5. Verify ViewModel State Changed
-        composeRule.waitForIdle()
-        assertTrue("Bookmark ID should be added to the list", viewModel.state.value.bookmarkIds.contains(testRecipe.id))
-
-        // 6. Verify UI State Maintenance (Recomposition)
-        // Checking that the state in ViewModel persists is the key. 
-        // Compose automatically recomposes when state changes.
-        // We verify that the data driving the UI is correct.
-        
-        // As an extra check for "icon state", we can ensure the logic that drives the icon (the isBookmark boolean passed to HomeRecipeCard)
-        // is effectively true because the state has the ID. 
-        // We can't easily check the tint color without custom matchers, but identifying the node exists and the underlying state is correct confirms the behavior.
-        
-        composeRule.onNodeWithContentDescription("bookmark Recipe")
-            .assertExists()
+        val bookmarkIdsAfterAdd = bookmarkRepository.getBookmarkId()
+        assertTrue("DB should contain recipe ID 1 after bookmarking", bookmarkIdsAfterAdd.contains(1))
             
-        // Explicitly ensuring the state remains correct
-        assertTrue("State should be maintained after interaction", viewModel.state.value.bookmarkIds.contains(testRecipe.id))
+        composeTestRule
+            .onNodeWithContentDescription("Unbookmark Recipe")
+            .performClick()
+            
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodesWithContentDescription("Bookmark Recipe")
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+        
+        composeTestRule
+             .onAllNodesWithContentDescription("Bookmark Recipe")
+             .onFirst()
+             .assertIsDisplayed()
+
+        val bookmarkIdsAfterRemove = bookmarkRepository.getBookmarkId()
+        assertFalse("DB should not contain recipe ID 1 after unbookmarking", bookmarkIdsAfterRemove.contains(1))
     }
 }

@@ -16,4 +16,5 @@ val networkModule = module {
     single<NetworkStatusRepository> {
         NetworkStatusRepositoryImpl(get())
     }
+
 }
