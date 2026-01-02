@@ -99,4 +99,6 @@ dependencies {
     implementation("io.insert-koin:koin-compose-navigation3:4.2.0-beta2")
 
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.4.0")
+
+    implementation("androidx.datastore:datastore-preferences:1.2.0")
 }

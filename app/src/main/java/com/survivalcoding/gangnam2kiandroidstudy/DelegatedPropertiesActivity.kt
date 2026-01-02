@@ -2,12 +2,35 @@ package com.survivalcoding.gangnam2kiandroidstudy
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.database.Cursor
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+
+val EXAMPLE_COUNTER = intPreferencesKey("example_counter")
+
 class DelegatedPropertiesActivity : ComponentActivity() {
+
+    fun counterFlow(): Flow<Int> = dataStore.data.map { preferences ->
+        preferences[EXAMPLE_COUNTER] ?: 0
+    }
+
+    suspend fun incrementCounter() {
+        dataStore.updateData {
+            it.toMutablePreferences().also { preferences ->
+                preferences[EXAMPLE_COUNTER] = (preferences[EXAMPLE_COUNTER] ?: 0) + 1
+            }
+        }
+    }
 
     private val userSettings by lazy {
         UserSettings(this)
