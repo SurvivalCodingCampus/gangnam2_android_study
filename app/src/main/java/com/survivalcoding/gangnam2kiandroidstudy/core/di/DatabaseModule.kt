@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.di
 
 import androidx.room.Room
+import com.google.firebase.firestore.FirebaseFirestore
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.BookmarkDatabase
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -12,5 +13,8 @@ val databaseModule = module {
             BookmarkDatabase::class.java,
             "bookmark.db"
         ).build()
+    }
+    single {
+        FirebaseFirestore.getInstance()
     }
 }

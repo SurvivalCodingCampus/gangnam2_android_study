@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy
 
 import android.app.Application
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.authModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.clipboardModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.daoModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.dataModule
@@ -27,7 +28,8 @@ class RecipeApplication : Application() {
                 networkModule,
                 clipboardModule,
                 databaseModule,
-                daoModule
+                daoModule,
+                authModule
             )
         }
     }

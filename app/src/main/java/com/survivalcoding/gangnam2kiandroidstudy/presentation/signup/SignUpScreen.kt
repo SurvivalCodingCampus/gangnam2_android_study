@@ -24,17 +24,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun SignUpScreen(
-    onSignUp: () -> Unit = {},
-    onGoogleLoginClick: () -> Unit = {},
-    onFacebookLoginClick: () -> Unit = {},
-    onSignInClick: () -> Unit = {}
+    uiState: SignUpUiState,
+    onAction: (SignUpAction) -> Unit
 ) {
-    var checked by remember { mutableStateOf(false) }
-    var name by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -65,53 +57,64 @@ fun SignUpScreen(
             Spacer(modifier = Modifier.height(20.dp))
             InputField(
                 label = "Name",
-                value = name,
+                value = uiState.name,
                 modifier = Modifier.fillMaxWidth(),
-                onValueChange = { name = it },
+                onValueChange = { onAction(SignUpAction.NameChanged(it)) },
                 placeholder = "Enter Name"
             )
             Spacer(modifier = Modifier.height(20.dp))
             InputField(
                 label = "Email",
-                value = email,
+                value = uiState.email,
                 modifier = Modifier.fillMaxWidth(),
-                onValueChange = { email = it },
+                onValueChange = { onAction(SignUpAction.EmailChanged(it)) },
                 placeholder = "Enter Email"
             )
             Spacer(modifier = Modifier.height(20.dp))
             InputField(
                 label = "Password",
-                value = password,
+                value = uiState.password,
                 modifier = Modifier.fillMaxWidth(),
-                onValueChange = { password = it },
+                onValueChange = { onAction(SignUpAction.PasswordChanged(it)) },
                 placeholder = "Enter Password",
                 isInputTypePassword = true
             )
             Spacer(modifier = Modifier.height(20.dp))
             InputField(
                 label = "Confirm Password",
-                value = confirmPassword,
+                value = uiState.confirmPassword,
                 modifier = Modifier.fillMaxWidth(),
-                onValueChange = { confirmPassword = it },
+                onValueChange = { onAction.invoke(SignUpAction.ConfirmPasswordChanged(it)) },
                 placeholder = "Retype Password",
                 isInputTypePassword = true
             )
             Spacer(modifier = Modifier.height(20.dp))
             Row(modifier = Modifier.padding(start = 10.dp)) {
-                BorderCheckbox(checked) {
-                    checked = it
+                BorderCheckbox(uiState.isTermsChecked) {
+                    onAction.invoke(SignUpAction.TermsChecked(it))
                 }
                 Text(
                     text = "Accept terms & Condition",
                     color = AppColors.secondary100,
                     modifier = Modifier
                         .padding(start = 5.dp)
-                        .clickable { checked = !checked },
+                        .clickable { onAction.invoke(SignUpAction.TermsChecked(!uiState.isTermsChecked)) },
                     style = AppTextStyles.smallerTextRegular
                 )
             }
             Spacer(modifier = Modifier.height(26.dp))
-            BigButton("Sign Up", onClick = onSignUp)
+            BigButton(
+                text = "Sign Up",
+                onClick = {
+                    onAction.invoke(
+                        SignUpAction.SignUpClicked(
+                            uiState.name,
+                            uiState.email,
+                            uiState.password
+                        )
+                    )
+                }
+            )
             Spacer(modifier = Modifier.height(14.dp))
             Row(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 60.dp),
@@ -133,13 +136,13 @@ fun SignUpScreen(
                 SocialButton(
                     iconRes = R.drawable.ic_google,
                     modifier = Modifier.size(44.dp),
-                    onClick = onGoogleLoginClick
+                    onClick = { onAction(SignUpAction.GoogleSignInClicked) }
                 )
                 Spacer(modifier = Modifier.width(25.dp))
                 SocialButton(
                     iconRes = R.drawable.ic_facebook,
                     modifier = Modifier.size(44.dp),
-                    onClick = onFacebookLoginClick
+                    onClick = { onAction.invoke(SignUpAction.FacebookSignInClicked) }
                 )
             }
             Spacer(modifier = Modifier.height(20.dp))
@@ -156,7 +159,7 @@ fun SignUpScreen(
                     text = "Sign In",
                     fontSize = 14.sp,
                     color = AppColors.secondary100,
-                    modifier = Modifier.clickable { onSignInClick() },
+                    modifier = Modifier.clickable { onAction(SignUpAction.SignInClicked) },
                     style = AppTextStyles.smallerTextRegular
                 )
             }
@@ -168,5 +171,5 @@ fun SignUpScreen(
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview() {
-    SignUpScreen()
+    SignUpScreen(uiState = SignUpUiState(), onAction = fun(_) = Unit)
 }

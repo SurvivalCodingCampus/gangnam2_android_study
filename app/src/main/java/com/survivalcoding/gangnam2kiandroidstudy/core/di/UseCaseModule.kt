@@ -40,4 +40,19 @@ val useCaseModule = module {
             clipboardService = get()
         )
     }
+    factory {
+        SignInUseCase(
+            authRepository = get()
+        )
+    }
+    factory {
+        SignUpUseCase(
+            authRepository = get()
+        )
+    }
+    factory {
+        GoogleSignInUseCase(
+            authRepository = get()
+        )
+    }
 }

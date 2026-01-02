@@ -18,7 +18,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetail.Recip
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetail.RecipeDetailViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes.SavedRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.search.SearchRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.signin.SignInRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.signin.SignInScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.signup.SignUpRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.signup.SignUpScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.splash.SplashRoot
 import org.koin.androidx.compose.koinViewModel
@@ -54,7 +56,7 @@ fun NavigationRoot(
                 )
             }
             entry<Route.SignIn> {
-                SignInScreen(
+                SignInRoot (
                     onSignInClick = {
                         topLevelBackStack.clear()
                         topLevelBackStack.add(Route.Main)
@@ -66,7 +68,7 @@ fun NavigationRoot(
                 )
             }
             entry<Route.SignUp> {
-                SignUpScreen(
+                SignUpRoot(
                     onSignUp = {
                         topLevelBackStack.clear()
                         topLevelBackStack.add(Route.Main)
