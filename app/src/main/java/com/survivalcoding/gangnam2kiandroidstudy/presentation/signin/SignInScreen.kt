@@ -24,15 +24,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun SignInScreen(
-    onSignInClick: () -> Unit = {},
-    onForgotPasswordClick: () -> Unit = {},
-    onSignUpClick: () -> Unit = {},
-    onGoogleLoginClick: () -> Unit = {},
-    onFacebookLoginClick: () -> Unit = {},
+    uiState: SignInUiState,
+    onAction: (SignInAction) -> Unit
 ) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -61,17 +55,17 @@ fun SignInScreen(
             Spacer(modifier = Modifier.height(57.dp))
             InputField(
                 label = "Email",
-                value = email,
+                value = uiState.email,
                 modifier = Modifier.fillMaxWidth(),
-                onValueChange = { email = it },
+                onValueChange = { onAction.invoke(SignInAction.EmailChanged(it)) },
                 placeholder = "Enter Email"
             )
             Spacer(modifier = Modifier.height(30.dp))
             InputField(
                 label = "Enter Password",
-                value = password,
+                value = uiState.password,
                 modifier = Modifier.fillMaxWidth(),
-                onValueChange = { password = it },
+                onValueChange = { onAction.invoke(SignInAction.PasswordChanged(it)) },
                 placeholder = "Enter Password",
                 isInputTypePassword = true
             )
@@ -81,11 +75,11 @@ fun SignInScreen(
                 color = AppColors.secondary100,
                 modifier = Modifier
                     .padding(top = 8.dp, start = 10.dp)
-                    .clickable { onForgotPasswordClick() },
+                    .clickable { onAction.invoke(SignInAction.ForgotPasswordClicked) },
                 style = AppTextStyles.smallerTextRegular
             )
             Spacer(modifier = Modifier.height(25.dp))
-            BigButton("Sign In", onClick = onSignInClick)
+            BigButton("Sign In", onClick = { onAction.invoke(SignInAction.SignInClicked(uiState.email, uiState.password)) })
             Spacer(modifier = Modifier.height(20.dp))
             Row(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 60.dp),
@@ -107,13 +101,13 @@ fun SignInScreen(
                 SocialButton(
                     iconRes = R.drawable.ic_google,
                     modifier = Modifier.size(44.dp),
-                    onClick = onGoogleLoginClick
+                    onClick = { onAction.invoke(SignInAction.GoogleSignInClicked) }
                 )
                 Spacer(modifier = Modifier.width(25.dp))
                 SocialButton(
                     iconRes = R.drawable.ic_facebook,
                     modifier = Modifier.size(44.dp),
-                    onClick = onFacebookLoginClick
+                    onClick = { onAction.invoke(SignInAction.FacebookSignInClicked) }
                 )
             }
             Spacer(modifier = Modifier.height(55.dp))
@@ -130,7 +124,7 @@ fun SignInScreen(
                     text = "Sign up",
                     fontSize = 14.sp,
                     color = Color(0xFFFF9800),
-                    modifier = Modifier.clickable { onSignUpClick() },
+                    modifier = Modifier.clickable { onAction(SignInAction.SignUpClicked) },
                     style = AppTextStyles.smallerTextRegular
                 )
             }
@@ -172,5 +166,5 @@ fun SocialButton(
 @Preview(showBackground = true)
 @Composable
 fun SignInScreenPreview() {
-    SignInScreen()
+    SignInScreen(uiState = SignInUiState(), onAction = {})
 }

@@ -5,6 +5,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.recipedetail.RecipeDetailViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipes.SavedRecipesViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.search.SearchViewModel
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.signin.SignInViewModel
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.signup.SignUpViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.splash.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -40,5 +42,17 @@ val viewModelModule = module {
     }
     viewModel {
         SplashViewModel(observeNetworkStatusUseCase = get())
+    }
+    viewModel {
+        SignInViewModel(
+            signInUseCase = get(),
+            googleSignInUseCase = get()
+        )
+    }
+    viewModel {
+        SignUpViewModel(
+            signUpUseCase = get(),
+            googleSignInUseCase = get()
+        )
     }
 }

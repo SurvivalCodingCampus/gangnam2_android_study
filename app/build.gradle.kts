@@ -83,8 +83,11 @@ dependencies {
     implementation(libs.koin.compose)
     testImplementation(libs.junit)
     testImplementation(libs.junit.junit)
-    implementation(platform("com.google.firebase:firebase-bom:34.7.0"))
-    implementation(libs.firebase.analytics)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics.ktx)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.play.services.auth)
 
     // --- Room ---
     implementation(libs.androidx.room.runtime)

@@ -50,7 +50,6 @@ fun SearchRoot(
             }
         }
     }
-
     Box(modifier = Modifier.fillMaxSize()) {
         SearchScreen(
             uiState = uiState,

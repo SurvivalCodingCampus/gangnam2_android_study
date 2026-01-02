@@ -3,9 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.datasource
 import kotlinx.coroutines.flow.Flow
 
 interface BookmarkDataSource {
-    fun getBookmarkedRecipeIds(): Flow<List<Int>>
-
-    suspend fun addBookmark(recipeId: Int): Boolean
-
-    suspend fun removeBookmark(recipeId: Int): Boolean
+    fun observeBookmarks(uid: String): Flow<List<Int>>
+    suspend fun addBookmark(uid: String, recipeId: Int)
+    suspend fun removeBookmark(uid: String, recipeId: Int)
 }

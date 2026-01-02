@@ -1,6 +1,9 @@
 package com.survivalcoding.gangnam2kiandroidstudy
 
 import android.app.Application
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.authModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.clipboardModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.daoModule
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.dataModule
@@ -27,7 +30,18 @@ class RecipeApplication : Application() {
                 networkModule,
                 clipboardModule,
                 databaseModule,
-                daoModule
+                daoModule,
+                authModule
+            )
+        }
+        if (BuildConfig.FLAVOR == "staging") {
+            FirebaseFirestore.getInstance().useEmulator(
+                "10.0.2.2",
+                8080
+            )
+            FirebaseAuth.getInstance().useEmulator(
+                "10.0.2.2",
+                9099
             )
         }
     }

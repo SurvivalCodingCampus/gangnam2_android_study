@@ -12,7 +12,20 @@
           "package_name": "com.survivalcoding.gangnam2kiandroidstudy"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "398788401444-gpdt7n78lolcn67vphe9c6gn4o7s94kq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.survivalcoding.gangnam2kiandroidstudy",
+            "certificate_hash": "1683390a51fc38859d86ef2805e81b061dfc2f20"
+          }
+        },
+        {
+          "client_id": "398788401444-nv41mcg107goujl41p3q1kvl1c1nrqgt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDuVzVMaZCxrw9cG7Q3hZzzRqiV9XvKeWs"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "398788401444-nv41mcg107goujl41p3q1kvl1c1nrqgt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
