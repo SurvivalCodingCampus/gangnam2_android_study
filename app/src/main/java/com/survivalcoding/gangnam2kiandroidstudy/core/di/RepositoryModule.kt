@@ -28,7 +28,7 @@ val repositoryModule = module {
     single<RecipeRepository> { RecipeRepositoryImpl(get()) }
 
     // BookmarkRepository 인터페이스를 요청하면 BookmarkRepositoryImpl 구현체를 싱글톤으로 제공합니다.
-    // 이 구현체는 생성자에서 다른 의존성을 필요로 하지 않습니다.
+    // 이 구현체는 생성자에서 BookmarkDao를 의존성으로 주입받습니다.
     single<BookmarkRepository> { BookmarkRepositoryImpl(get()) }
 
     // ProfileRepository 인터페이스를 요청하면 ProfileRepositoryImpl 구현체를 싱글톤으로 제공합니다.
