@@ -16,6 +16,13 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeReposit
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ClipboardRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.CopyLinkUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeProcedureUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.FakeBookmarkRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.AddBookmarkUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetBookmarkedRecipeIdsUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeDetailsUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipesUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.RemoveBookmarkUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.ingredient.IngredientRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.ingredient.IngredientViewModel
 import org.junit.After
@@ -71,9 +78,18 @@ class SearchToIngredientIntegrationTest {
                             override fun copyText(text: String) {}
                         }
                     }
-                    single { CopyLinkUseCase(get()) }
+                    single<BookmarkRepository> { FakeBookmarkRepository() }
+
+                    factory { GetRecipesUseCase(get()) }
+                    factory { GetRecipeDetailsUseCase(get()) }
+                    factory { GetRecipeProcedureUseCase(get()) }
+                    factory { CopyLinkUseCase(get()) }
+                    factory { AddBookmarkUseCase(get()) }
+                    factory { RemoveBookmarkUseCase(get()) }
+                    factory { GetBookmarkedRecipeIdsUseCase(get()) }
+
                     viewModel { SearchRecipesViewModel(get()) }
-                    viewModel { IngredientViewModel(get(), get(), get()) }
+                    viewModel { IngredientViewModel(get(), get(), get(), get(), get(), get()) }
                 }
             )
         }

@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy
 
 import android.content.Intent
 import android.net.Uri
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.core.app.ActivityScenario
@@ -37,7 +38,7 @@ class DeepLinkTest {
         }
 
         composeTestRule.activityRule.scenario.onActivity { activity ->
-            activity.onNewIntent(intent)
+            InstrumentationRegistry.getInstrumentation().callActivityOnNewIntent(activity, intent)
         }
         
         // 2. Verify UI shows Saved Recipes
@@ -58,7 +59,7 @@ class DeepLinkTest {
         )
 
         composeTestRule.activityRule.scenario.onActivity { activity ->
-            activity.onNewIntent(intent)
+            InstrumentationRegistry.getInstrumentation().callActivityOnNewIntent(activity, intent)
         }
 
         composeTestRule.waitForIdle()

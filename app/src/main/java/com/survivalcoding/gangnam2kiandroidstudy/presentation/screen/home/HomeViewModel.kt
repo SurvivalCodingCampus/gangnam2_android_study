@@ -6,7 +6,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.toCategory
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.toCategory
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.AddBookmarkUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetBookmarkedRecipeIdsUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipesUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.RemoveBookmarkUseCase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +21,9 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val getRecipesUseCase: GetRecipesUseCase,
+    private val getBookmarkedRecipeIdsUseCase: GetBookmarkedRecipeIdsUseCase,
+    private val addBookmarkUseCase: AddBookmarkUseCase,
+    private val removeBookmarkUseCase: RemoveBookmarkUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -64,7 +70,47 @@ class HomeViewModel(
 
     init {
         println("MainViewModel init")
-        loadRecipes()
+        loadData()
+    }
+
+    fun loadData() {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
+            _state.update { it.copy(isLoading = true, isError = false) }
+
+            // Load Recipes
+            val recipesResult = getRecipesUseCase.execute()
+            
+            // Load Bookmarks
+            val bookmarksResult = getBookmarkedRecipeIdsUseCase.execute()
+
+            if (recipesResult is Result.Success && bookmarksResult is Result.Success) {
+                val all = recipesResult.data
+                val savedIds = bookmarksResult.data
+
+                _state.update { currentState ->
+                    currentState.copy(
+                        allRecipes = all,
+                        savedRecipeIds = savedIds,
+                        selectedRecipes = if (currentState.selectedCategory.toCategory() == RecipeCategory.ALL) {
+                            all
+                        } else if (currentState.selectedCategory.toCategory() == RecipeCategory.NONE) {
+                            emptyList()
+                        } else {
+                            all.filter { recipe ->
+                                recipe.category == currentState.selectedCategory.toCategory()
+                            }
+                        },
+                        isLoading = false,
+                    )
+                }
+            } else {
+                println("에러 처리")
+                _state.update { it.copy(isLoading = false, isError = true) }
+            }
+            
+            getNewRecipesTop5()
+        }
     }
 
     // 카테고리 선택에 따라 선택된 레시피 리스트 업데이트
@@ -94,50 +140,42 @@ class HomeViewModel(
     // 모든 레시피 읽어오기
     // race condition 방지
     private var loadJob: Job? = null
-    private fun loadRecipes() {
-        loadJob?.cancel()
-        loadJob = viewModelScope.launch {
-            _state.update { it.copy(isLoading = true, isError = false) }
-
-            when (val response = getRecipesUseCase.execute()) {
-                is Result.Success -> _state.update { currentState ->
-                    val all = response.data
-
-                    currentState.copy(
-                        allRecipes = all,
-                        selectedRecipes = if (currentState.selectedCategory.toCategory() == RecipeCategory.ALL) {
-                            all
-                        } else if (currentState.selectedCategory.toCategory() == RecipeCategory.NONE) {
-                            emptyList()
-                        } else {
-                            all.filter { recipe ->
-                                recipe.category == currentState.selectedCategory.toCategory()
-                            }
-                        },
-                        isLoading = false,
-                    )
-                }
-
-                is Result.Error -> {
-                    println("에러 처리")
-                    _state.update { it.copy(isLoading = false, isError = true) }
-                }
-            }
-
-            getNewRecipesTop5()
-        }
-    }
 
     // 레시피 저장
     private fun toggleBookmark(recipeId: Long) {
-        _state.update { state ->
-            val newBookmarks = if (recipeId in state.savedRecipeIds) {
-                state.savedRecipeIds - recipeId  // 제거
-            } else {
-                state.savedRecipeIds + recipeId  // 추가
+        viewModelScope.launch {
+            val isBookmarked = recipeId in state.value.savedRecipeIds
+            
+            // UI 낙관적 업데이트
+            _state.update { state ->
+                val newBookmarks = if (isBookmarked) {
+                    state.savedRecipeIds - recipeId
+                } else {
+                    state.savedRecipeIds + recipeId
+                }
+                state.copy(savedRecipeIds = newBookmarks)
             }
 
-            state.copy(savedRecipeIds = newBookmarks)
+            // 실제 DB 업데이트
+            try {
+                if (isBookmarked) {
+                    removeBookmarkUseCase(recipeId)
+                } else {
+                    addBookmarkUseCase(recipeId)
+                }
+            } catch (e: Exception) {
+                // 실패 시 롤백 (선택 사항, 여기서는 간단히 에러 로그만)
+                println("북마크 토글 실패: $e")
+                 // 실패했을 경우 다시 원래대로 돌려놓는 로직이 있으면 좋음
+                 _state.update { state ->
+                    val newBookmarks = if (isBookmarked) {
+                        state.savedRecipeIds + recipeId // 원래대로 복구
+                    } else {
+                        state.savedRecipeIds - recipeId // 원래대로 복구
+                    }
+                    state.copy(savedRecipeIds = newBookmarks)
+                }
+            }
         }
     }
 

@@ -18,6 +18,11 @@ fun SavedRecipesRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    // 화면 진입 시 데이터 갱신
+    LaunchedEffect(Unit) {
+        viewModel.loadRecipes()
+    }
+
     val listState = rememberLazyListState()     // 스크롤 위치 추적
 
     LaunchedEffect(listState) {
@@ -35,6 +40,7 @@ fun SavedRecipesRoot(
         state = state,
         listState = listState,
         onCardClick = { recipeId -> onCardClick(recipeId) },
+        onBookmarkClick = { recipeId -> viewModel.removeBookmark(recipeId) },
     )
 }
 
@@ -42,5 +48,6 @@ private fun LazyListState.isScrolledToBottom(): Boolean {
     val lastVisibleItemIndex =
         layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: return false
 
-    return lastVisibleItemIndex == layoutInfo.totalItemsCount - 1
+    // 마지막 아이템이 보이고, 뒤로 스크롤이 가능한 상태일 때만 true (아이템이 적은 경우 방지)
+    return lastVisibleItemIndex == layoutInfo.totalItemsCount - 1 && canScrollBackward
 }

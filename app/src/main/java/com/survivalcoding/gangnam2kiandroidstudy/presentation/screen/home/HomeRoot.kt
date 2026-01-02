@@ -15,6 +15,11 @@ fun HomeRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    // 화면 진입 시 데이터 갱신
+    LaunchedEffect(Unit) {
+        viewModel.loadData()
+    }
+
     LaunchedEffect(viewModel.event) {
         viewModel.event.collect { event ->
             when (event) {

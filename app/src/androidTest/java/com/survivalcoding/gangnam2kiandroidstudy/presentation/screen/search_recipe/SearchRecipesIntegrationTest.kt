@@ -10,11 +10,11 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipesUseCase
 import org.junit.Rule
 import org.junit.Test
 
-class
-SearchRecipesIntegrationTest {
+class SearchRecipesIntegrationTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -56,7 +56,7 @@ SearchRecipesIntegrationTest {
         }
 
         // 2. ViewModel 및 Screen 설정
-        val viewModel = SearchRecipesViewModel(fakeRepository)
+        val viewModel = SearchRecipesViewModel(GetRecipesUseCase(fakeRepository))
 
         composeTestRule.setContent {
             val state by viewModel.state.collectAsState()
@@ -75,8 +75,8 @@ SearchRecipesIntegrationTest {
         composeTestRule.onNodeWithText("Spice Roasted Chicken").assertIsDisplayed()
 
         // 4. 검색어 입력 (Chicken)
-        // Placeholder text를 사용하여 검색창 찾기
-        composeTestRule.onNodeWithText("Search recipe").performTextInput("Chicken")
+        // Placeholder text 대신 입력 가능한 필드를 찾음
+        composeTestRule.onNode(hasSetTextAction()).performTextInput("Chicken")
 
         // 5. 대기 (Debounce 500ms + 필터링)
         composeTestRule.waitUntil(timeoutMillis = 3000) {
