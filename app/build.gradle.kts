@@ -124,13 +124,8 @@ dependencies {
 
     // Firebase
     implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.database)
-    implementation(libs.firebase.storage)
+    implementation(libs.firebase.firestore)
     implementation(libs.firebase.auth)
-
-    // Firebase UI
-    implementation(libs.firebase.ui.auth)
-    implementation(libs.firebase.ui.database)
 
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
