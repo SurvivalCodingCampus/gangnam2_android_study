@@ -10,6 +10,9 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import com.survivalcoding.gangnam2kiandroidstudy.MainActivity
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.NetworkModule
@@ -92,19 +95,20 @@ class HomeScreenBookmarkTest {
         @Singleton
         fun provideBookmarkRepository(): BookmarkRepository {
             return object : BookmarkRepository {
-                private val bookmarks = mutableSetOf<Int>()
+                private val bookmarks = MutableStateFlow<Set<Int>>(emptySet())
 
-                override suspend fun getSavedRecipeIds(): List<Int> = bookmarks.toList()
+                override fun getSavedRecipeIds(): Flow<List<Int>> = bookmarks.map { it.toList() }
+
                 override suspend fun addBookmark(recipeId: Int) {
-                    bookmarks.add(recipeId)
+                    bookmarks.update { it + recipeId }
                 }
 
                 override suspend fun removeBookmark(recipeId: Int) {
-                    bookmarks.remove(recipeId)
+                    bookmarks.update { it - recipeId }
                 }
 
                 override suspend fun isBookmarked(recipeId: Int): Boolean =
-                    bookmarks.contains(recipeId)
+                    bookmarks.value.contains(recipeId)
             }
         }
 
@@ -217,7 +221,7 @@ class HomeScreenBookmarkTest {
 
         // Also verify data logic
         runBlocking {
-            val savedAfterRotation = bookmarkRepository.getSavedRecipeIds()
+            val savedAfterRotation = bookmarkRepository.getSavedRecipeIds().first()
             assertTrue(
                 "Bookmark should persist in repository after rotation",
                 savedAfterRotation.contains(1)

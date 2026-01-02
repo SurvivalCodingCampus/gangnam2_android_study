@@ -6,17 +6,21 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepos
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import javax.inject.Inject
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+
 class GetSavedRecipesUseCase @Inject constructor(
     private val bookmarkRepository: BookmarkRepository,
     private val recipeRepository: RecipeRepository
 ) {
-    suspend fun execute(): Result<List<Recipe>, String> {
-        return try {
-            val bookmarkedIds = bookmarkRepository.getSavedRecipeIds()
-            val recipes = recipeRepository.getRecipesByIds(bookmarkedIds)
-            Result.Success(recipes)
-        } catch (e: Exception) {
-            Result.Error("북마크된 레시피를 찾을 수 없습니다. ")
+    fun execute(): Flow<Result<List<Recipe>, String>> {
+        return bookmarkRepository.getSavedRecipeIds().map { bookmarkedIds ->
+            try {
+                val recipes = recipeRepository.getRecipesByIds(bookmarkedIds)
+                Result.Success(recipes)
+            } catch (e: Exception) {
+                Result.Error("북마크된 레시피를 찾을 수 없습니다. ")
+            }
         }
     }
 }

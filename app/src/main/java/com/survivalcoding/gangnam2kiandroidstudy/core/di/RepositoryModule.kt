@@ -34,8 +34,10 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideBookmarkRepository(): BookmarkRepository {
-        return BookmarkRepositoryImpl()
+    fun provideBookmarkRepository(
+        bookmarkDao: com.survivalcoding.gangnam2kiandroidstudy.data.dao.BookmarkDao
+    ): BookmarkRepository {
+        return BookmarkRepositoryImpl(bookmarkDao)
     }
 
     @Provides

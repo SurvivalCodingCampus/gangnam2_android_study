@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Singleton
@@ -64,7 +65,7 @@ class SearchRecipesIntegrationTest {
         @Singleton
         fun provideBookmarkRepository(): BookmarkRepository {
             return object : BookmarkRepository {
-                override suspend fun getSavedRecipeIds(): List<Int> = emptyList()
+                override fun getSavedRecipeIds(): Flow<List<Int>> = flowOf(emptyList())
                 override suspend fun addBookmark(recipeId: Int) {}
                 override suspend fun removeBookmark(recipeId: Int) {}
                 override suspend fun isBookmarked(recipeId: Int): Boolean = false
@@ -102,7 +103,8 @@ class SearchRecipesIntegrationTest {
         fun provideNetworkMonitor(): NetworkMonitor {
             return object : NetworkMonitor {
                 override val events: Flow<NetworkEvent> = flow { }
-                override val status: StateFlow<NetworkStatus> = MutableStateFlow(NetworkStatus.Available)
+                override val status: StateFlow<NetworkStatus> =
+                    MutableStateFlow(NetworkStatus.Available)
             }
         }
     }

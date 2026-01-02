@@ -31,17 +31,11 @@ class HomeViewModel @Inject constructor(
 
     // 전체 로드
     private fun loadHome() {
-        // 전체
+        // 데이터 로드
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, errorMessage = null) }
             try {
                 val recipes = recipeRepository.getRecipes()
-
-                val bookmarkedIds = bookmarkRepository
-                    .getSavedRecipeIds()
-                    .toSet()
-
-                // new
                 val newRecipes = getNewRecipesUseCase.execute()
 
                 _state.update { current ->
@@ -56,7 +50,6 @@ class HomeViewModel @Inject constructor(
                     current.copy(
                         recipes = recipes,
                         filteredRecipes = filtered,  // 현재 선택 상태 기반으로 셀렉터 재적용
-                        bookmarkedIds = bookmarkedIds,
                         newRecipes = newRecipes,
                         isLoading = false,
                     )
@@ -68,6 +61,13 @@ class HomeViewModel @Inject constructor(
                         errorMessage = "Failed to load data"
                     )
                 }
+            }
+        }
+
+        // 북마크 상태 관찰
+        viewModelScope.launch {
+            bookmarkRepository.getSavedRecipeIds().collect { bookmarkedIds ->
+                _state.update { it.copy(bookmarkedIds = bookmarkedIds.toSet()) }
             }
         }
     }
@@ -116,23 +116,7 @@ class HomeViewModel @Inject constructor(
     // 북마크
     private fun onBookmarkClick(recipeId: Int) {
         viewModelScope.launch {
-            when (val result = toggleBookmarkUseCase.execute(recipeId)) {
-                is Result.Success -> {
-                    val isBookmarked = result.data
-                    _state.update { state ->
-                        state.copy(
-                            bookmarkedIds = if (isBookmarked) {
-                                state.bookmarkedIds + recipeId
-                            } else {
-                                state.bookmarkedIds - recipeId
-                            }
-                        )
-                    }
-                }
-
-                is Result.Error -> { /* 에러 처리 */
-                }
-            }
+            toggleBookmarkUseCase.execute(recipeId)
         }
     }
 }

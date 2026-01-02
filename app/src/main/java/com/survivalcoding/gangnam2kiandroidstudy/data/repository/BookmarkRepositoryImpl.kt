@@ -1,27 +1,29 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
+import com.survivalcoding.gangnam2kiandroidstudy.data.dao.BookmarkDao
+import com.survivalcoding.gangnam2kiandroidstudy.data.entity.BookmarkEntity
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
 import javax.inject.Inject
 
-class BookmarkRepositoryImpl @Inject constructor() : BookmarkRepository {
-    // 첫 로드 시 10개 띄우기 위함
-    private val bookmarkedIds = mutableSetOf(
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-    )
+import kotlinx.coroutines.flow.Flow
 
-    override suspend fun getSavedRecipeIds(): List<Int> {
-        return bookmarkedIds.toList()
+class BookmarkRepositoryImpl @Inject constructor(
+    private val bookmarkDao: BookmarkDao
+) : BookmarkRepository {
+
+    override fun getSavedRecipeIds(): Flow<List<Int>> {
+        return bookmarkDao.getAllIds()
     }
 
     override suspend fun addBookmark(recipeId: Int) {
-        bookmarkedIds.add(recipeId)
+        bookmarkDao.insert(BookmarkEntity(recipeId))
     }
 
     override suspend fun removeBookmark(recipeId: Int) {
-        bookmarkedIds.remove(recipeId)
+        bookmarkDao.delete(recipeId)
     }
 
     override suspend fun isBookmarked(recipeId: Int): Boolean {
-        return bookmarkedIds.contains(recipeId)
+        return bookmarkDao.isBookmarked(recipeId)
     }
 }

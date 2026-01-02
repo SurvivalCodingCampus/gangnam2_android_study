@@ -71,21 +71,21 @@ class SavedRecipesViewModel @Inject constructor(
     // data load
     private fun loadSavedRecipes() {
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
-
-            when (val result = getSavedRecipesUseCase.execute()) {
-                is Result.Success -> {
-                    _state.update {
-                        it.copy(
-                            recipes = result.data,
-                            bookmarkedIds = result.data.map { it.id }.toSet(),
-                            isLoading = false
-                        )
+            getSavedRecipesUseCase.execute().collect { result ->
+                when (result) {
+                    is Result.Success -> {
+                        _state.update {
+                            it.copy(
+                                recipes = result.data,
+                                bookmarkedIds = result.data.map { recipe -> recipe.id }.toSet(),
+                                isLoading = false
+                            )
+                        }
                     }
-                }
 
-                is Result.Error -> {
-                    _state.update { it.copy(isLoading = false) }
+                    is Result.Error -> {
+                        _state.update { it.copy(isLoading = false) }
+                    }
                 }
             }
         }
@@ -94,23 +94,9 @@ class SavedRecipesViewModel @Inject constructor(
     // bookmark
     private fun onBookmarkClick(recipeId: Int) {
         viewModelScope.launch {
-            when (val result = toggleBookmarkUseCase.execute(recipeId)) {
-                is Result.Success -> {
-                    val isBookmarked = result.data
-                    _state.update { state ->
-                        state.copy(
-                            bookmarkedIds = if (isBookmarked) {
-                                state.bookmarkedIds + recipeId
-                            } else {
-                                state.bookmarkedIds - recipeId
-                            }
-                        )
-                    }
-                }
-
-                is Result.Error -> {
-                    // TODO: error handling
-                }
+            val result = toggleBookmarkUseCase.execute(recipeId)
+            if (result is Result.Error) {
+                // TODO: error handling
             }
         }
     }

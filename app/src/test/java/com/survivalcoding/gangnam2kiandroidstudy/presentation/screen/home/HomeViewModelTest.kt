@@ -12,6 +12,8 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -69,7 +71,7 @@ class HomeViewModelTest {
     fun `init loads data and sets bookmarked ids`() = runTest(testDispatcher) {
         // Given
         coEvery { recipeRepository.getRecipes() } returns listOf(dummyRecipe)
-        coEvery { bookmarkRepository.getSavedRecipeIds() } returns listOf(1)
+        coEvery { bookmarkRepository.getSavedRecipeIds() } returns flowOf(listOf(1))
         coEvery { getNewRecipesUseCase.execute() } returns emptyList()
 
         // When
@@ -85,10 +87,14 @@ class HomeViewModelTest {
     @Test
     fun `ToggleBookmark action calls usecase and updates state to true`() = runTest(testDispatcher) {
         // Given
+        val bookmarkFlow = MutableStateFlow<List<Int>>(emptyList())
         coEvery { recipeRepository.getRecipes() } returns listOf(dummyRecipe)
-        coEvery { bookmarkRepository.getSavedRecipeIds() } returns emptyList()
+        coEvery { bookmarkRepository.getSavedRecipeIds() } returns bookmarkFlow
         coEvery { getNewRecipesUseCase.execute() } returns emptyList()
-        coEvery { toggleBookmarkUseCase.execute(1) } returns Result.Success(true) // Bookmarked
+        coEvery { toggleBookmarkUseCase.execute(1) } answers {
+            bookmarkFlow.value = listOf(1)
+            Result.Success(true)
+        }
 
         viewModel = createViewModel()
         testScheduler.advanceUntilIdle()
@@ -105,10 +111,14 @@ class HomeViewModelTest {
     @Test
     fun `ToggleBookmark action calls usecase and updates state to false`() = runTest(testDispatcher) {
         // Given
+        val bookmarkFlow = MutableStateFlow(listOf(1))
         coEvery { recipeRepository.getRecipes() } returns listOf(dummyRecipe)
-        coEvery { bookmarkRepository.getSavedRecipeIds() } returns listOf(1) // Already bookmarked
+        coEvery { bookmarkRepository.getSavedRecipeIds() } returns bookmarkFlow
         coEvery { getNewRecipesUseCase.execute() } returns emptyList()
-        coEvery { toggleBookmarkUseCase.execute(1) } returns Result.Success(false) // Unbookmarked
+        coEvery { toggleBookmarkUseCase.execute(1) } answers {
+            bookmarkFlow.value = emptyList()
+            Result.Success(false)
+        }
 
         viewModel = createViewModel()
         testScheduler.advanceUntilIdle()
