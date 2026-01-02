@@ -1,0 +1,45 @@
+package com.misterjerry.gangnam2kiandroidstudy.presentation.ui
+
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+
+object AppColors {
+    val black = Color.Black
+    val gray1 = Color(0xFF484848)
+    val gray2 = Color(0xFF797979)
+    val gray3 = Color(0xFFA9A9A9)
+    val gray4 = Color(0xFFD9D9D9)
+    val white = Color.White
+
+    val primary100 = Color(0xFF129575)
+    val primary80 = Color(0xFF71B1A1)
+    val primary60 = Color(0xFFAFD3CA)
+    val primary40 = Color(0xFFDBEBE7)
+    val primary20 = Color(0xFFF6FAF9)
+
+    val secondary100 = Color(0xFFFF9C00)
+    val secondary80 = Color(0xFFFFA61A)
+    val secondary60 = Color(0xFFFFBA4D)
+    val secondary40 = Color(0xFFFFCE80)
+    val secondary20 = Color(0xFFFFE1B3)
+
+    val rating = Color(0xFFFFAD30)
+
+    val warning = Color(0xFFE94A59)
+    val warning2 = Color(0xFFFFE1E7)
+
+    val success = Color(0xFF31B057)
+
+    val splashScreenColor1 = Color(0x66000000)
+    val splashScreenColor2 = Color(0xff000000)
+
+    val splashScreenGradient = Brush.verticalGradient(
+        colors = listOf(splashScreenColor1, splashScreenColor2),
+    )
+    val searchRecipeScreenColor1 = Color(0x00000000)
+    val searchRecipeScreenColor2 = Color(0xff000000)
+
+    val searchRecipeScreenGradient = Brush.verticalGradient(
+        colors = listOf(searchRecipeScreenColor1, searchRecipeScreenColor2),
+    )
+}

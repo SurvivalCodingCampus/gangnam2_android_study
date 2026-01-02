@@ -11,11 +11,11 @@ plugins {
 }
 
 android {
-    namespace = "com.survivalcoding.gangnam2kiandroidstudy"
+    namespace = "com.misterjerry.gangnam2kiandroidstudy"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.survivalcoding.gangnam2kiandroidstudy"
+        applicationId = "com.misterjerry.gangnam2kiandroidstudy"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
