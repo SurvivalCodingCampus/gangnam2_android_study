@@ -1,12 +1,19 @@
 package com.misterjerry.gangnam2kiandroidstudy.presentation.screen.home
 
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.junit4.StateRestorationTester
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import com.misterjerry.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.misterjerry.gangnam2kiandroidstudy.domain.model.Ingredients
 import com.misterjerry.gangnam2kiandroidstudy.domain.model.Recipe
+import com.misterjerry.gangnam2kiandroidstudy.domain.model.SavedRecipesEntity
 import com.misterjerry.gangnam2kiandroidstudy.domain.repository.RecipesRepository
+import com.misterjerry.gangnam2kiandroidstudy.domain.repository.SavedRecipesRepository
+import com.misterjerry.gangnam2kiandroidstudy.domain.use_case.AddSavedRecipeUseCase
+import com.misterjerry.gangnam2kiandroidstudy.domain.use_case.DeleteSavedRecipeUseCase
+import com.misterjerry.gangnam2kiandroidstudy.domain.use_case.GetAllRecipesUseCase
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -35,12 +42,18 @@ class HomeRootTest {
             override suspend fun deleteSavedRecipe(id: Int) {}
         }
 
-        val fakeDao = object : com.misterjerry.gangnam2kiandroidstudy.data.saved_recipes.SavedRecipesDao {
-            override suspend fun getSavedRecipesList(): List<com.misterjerry.gangnam2kiandroidstudy.domain.model.SavedRecipesEntity> = emptyList()
-            override suspend fun addSavedRecipe(id: Int) {}
+        val fakeSavedRecipesRepository = object : SavedRecipesRepository {
+            override suspend fun getSavedRecipes(): List<SavedRecipesEntity> = emptyList()
             override suspend fun deleteSavedRecipe(id: Int) {}
+            override suspend fun addSavedRecipe(id: Int) {}
         }
-        val viewModel = HomeViewModel(fakeRepository, fakeDao)
+
+        // UseCase 생성
+        val getAllRecipesUseCase = GetAllRecipesUseCase(fakeRepository)
+        val addSavedRecipeUseCase = AddSavedRecipeUseCase(fakeSavedRecipesRepository)
+        val deleteSavedRecipeUseCase = DeleteSavedRecipeUseCase(fakeSavedRecipesRepository)
+
+        val viewModel = HomeViewModel(fakeRepository, fakeSavedRecipesRepository)
 
         // 2. 콘텐츠 설정
         composeTestRule.setContent {
@@ -54,7 +67,7 @@ class HomeRootTest {
         // 데이터가 로드될 때까지 대기 (UI에 레시피가 표시될 때까지)
         // 레시피 이름은 "Test Recipe"이나 클릭 대상은 북마크 아이콘임.
         // MediumRecipeCard의 저장 버튼은 contentDescription이 "inactive"로 설정된 Box임.
-        
+
         // 초기 상태 확인: isSaved = false
         // UI 아이콘의 "inactive" 설명은 바뀌지 않으므로(틴트만 변경됨) 뷰모델 상태를 통해 검증함.
         composeTestRule.waitForIdle()
@@ -64,7 +77,7 @@ class HomeRootTest {
         // contentDescription이 "inactive"인 저장 버튼을 찾음.
         // HomeScreen은 resultRecipes를 MediumRecipeCard와 NewRecipesCard 두 곳에서 사용하므로 중복될 수 있음.
         // 여기서는 첫 번째로 발견되는 MediumRecipeCard의 버튼을 클릭함.
-        
+
         composeTestRule.onAllNodes(hasContentDescription("inactive"))[0].performClick()
         composeTestRule.waitForIdle()
 
@@ -98,12 +111,19 @@ class HomeRootTest {
             override suspend fun getAllRecipes(): List<Recipe> = listOf(fakeRecipe)
             override suspend fun deleteSavedRecipe(id: Int) {}
         }
-        val fakeDao = object : com.misterjerry.gangnam2kiandroidstudy.data.saved_recipes.SavedRecipesDao {
-            override suspend fun getSavedRecipesList(): List<com.misterjerry.gangnam2kiandroidstudy.domain.model.SavedRecipesEntity> = emptyList()
-            override suspend fun addSavedRecipe(id: Int) {}
+
+        val fakeSavedRecipesRepository = object : SavedRecipesRepository {
+            override suspend fun getSavedRecipes(): List<SavedRecipesEntity> = emptyList()
             override suspend fun deleteSavedRecipe(id: Int) {}
+            override suspend fun addSavedRecipe(id: Int) {}
         }
-        val viewModel = HomeViewModel(fakeRepository, fakeDao)
+
+        // UseCase 생성
+        val getAllRecipesUseCase = GetAllRecipesUseCase(fakeRepository)
+        val addSavedRecipeUseCase = AddSavedRecipeUseCase(fakeSavedRecipesRepository)
+        val deleteSavedRecipeUseCase = DeleteSavedRecipeUseCase(fakeSavedRecipesRepository)
+
+        val viewModel = HomeViewModel(fakeRepository, fakeSavedRecipesRepository)
 
         stateRestorationTester.setContent {
             HomeRoot(
@@ -114,7 +134,7 @@ class HomeRootTest {
         }
 
         composeTestRule.waitForIdle()
-        
+
         // 저장 버튼 클릭
         composeTestRule.onAllNodes(hasContentDescription("inactive"))[0].performClick()
         composeTestRule.waitForIdle()
@@ -126,7 +146,7 @@ class HomeRootTest {
 
         // 상태가 여전히 유지되는지 확인
         assertTrue(viewModel.state.value.resultRecipes.find { it.id == 1 }?.isSaved == true)
-        
+
         // 회전 후에도 UI 상호작용이 잘 되는지 확인
         composeTestRule.onAllNodes(hasContentDescription("inactive"))[0].performClick()
         composeTestRule.waitForIdle()
@@ -140,12 +160,18 @@ class HomeRootTest {
             override suspend fun deleteSavedRecipe(id: Int) {}
         }
 
-        val fakeDao = object : com.misterjerry.gangnam2kiandroidstudy.data.saved_recipes.SavedRecipesDao {
-            override suspend fun getSavedRecipesList(): List<com.misterjerry.gangnam2kiandroidstudy.domain.model.SavedRecipesEntity> = emptyList()
-            override suspend fun addSavedRecipe(id: Int) {}
+        val fakeSavedRecipesRepository = object : SavedRecipesRepository {
+            override suspend fun getSavedRecipes(): List<SavedRecipesEntity> = emptyList()
             override suspend fun deleteSavedRecipe(id: Int) {}
+            override suspend fun addSavedRecipe(id: Int) {}
         }
-        val viewModel = HomeViewModel(fakeRepository, fakeDao)
+
+        // UseCase 생성
+        val getAllRecipesUseCase = GetAllRecipesUseCase(fakeRepository)
+        val addSavedRecipeUseCase = AddSavedRecipeUseCase(fakeSavedRecipesRepository)
+        val deleteSavedRecipeUseCase = DeleteSavedRecipeUseCase(fakeSavedRecipesRepository)
+
+        val viewModel = HomeViewModel(fakeRepository, fakeSavedRecipesRepository)
 
         composeTestRule.setContent {
             HomeRoot(

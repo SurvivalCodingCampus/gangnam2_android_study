@@ -23,7 +23,9 @@ class SavedRecipesDaoTest {
         val context = ApplicationProvider.getApplicationContext<android.content.Context>()
         db = Room.inMemoryDatabaseBuilder(
             context, SavedRecipesDatabase::class.java
-        ).build()
+        )
+            .allowMainThreadQueries()
+            .build()
         dao = db.savedRecipesDao()
     }
 
