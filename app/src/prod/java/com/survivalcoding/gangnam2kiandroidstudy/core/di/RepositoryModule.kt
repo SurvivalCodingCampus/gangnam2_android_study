@@ -1,12 +1,14 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.di
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.AuthRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.BookmarkRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ClipboardRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.IngredientRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ProcedureRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.UserRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.AuthRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ClipboardRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
@@ -42,11 +44,16 @@ val authRepositoryModule = module {
     single<AuthRepository> { AuthRepositoryImpl(context = androidContext(), firebaseAuth = get()) }
 }
 
+val bookmarkRepositoryModule = module {
+    single<BookmarkRepository> { BookmarkRepositoryImpl(fireStore = get(), auth = get()) }
+}
+
 val repositoryModule = listOf(
     recipeRepositoryModule,
     ingredientRepositoryModule,
     procedureRepositoryModule,
     clipboardRepositoryModule,
     userRepositoryModule,
-    authRepositoryModule
+    authRepositoryModule,
+    bookmarkRepositoryModule
 )

@@ -6,6 +6,8 @@ import androidx.room.Room
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import com.survivalcoding.gangnam2kiandroidstudy.core.NetworkMonitor
 import com.survivalcoding.gangnam2kiandroidstudy.core.NetworkMonitorImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.AppDataBase
@@ -33,4 +35,6 @@ val coreModule = module {
     single { get<AppDataBase>().userDao() }
 
     single<FirebaseAuth> { FirebaseAuth.getInstance() }
+
+    single<FirebaseFirestore> { FirebaseFirestore.getInstance() }
 }

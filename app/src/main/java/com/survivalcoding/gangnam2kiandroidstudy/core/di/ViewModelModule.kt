@@ -14,7 +14,13 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val homeViewModelModule = module {
-    viewModelOf(::RecipeHomeViewModel)
+    viewModel {
+        RecipeHomeViewModel(
+            recipeRepository = get(),
+            userRepository = get(),
+            bookmarkRepository = get()
+        )
+    }
 }
 
 val notificationViewModelModule = module {
