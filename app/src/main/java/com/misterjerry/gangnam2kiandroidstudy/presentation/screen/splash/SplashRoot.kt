@@ -29,7 +29,7 @@ fun SplashRoot(onStartButtonClick: () -> Unit, viewModel: SplashViewModel = koin
                 onStartButtonClick = {
                     onStartButtonClick()
                 },
-                isEnable = state.isNextButtonEnable
+                isEnable = state.isNextButtonEnabled
             )
         }
     }

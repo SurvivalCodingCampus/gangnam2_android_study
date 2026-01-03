@@ -23,7 +23,7 @@ class SplashViewModel(
     init {
         viewModelScope.launch {
             networkMonitor.isConnectedNetwork.collect {
-                _state.value = _state.value.copy(isNextButtonEnable = it)
+                _state.value = _state.value.copy(isNextButtonEnabled = it)
                 _event.emit(it)
             }
         }
