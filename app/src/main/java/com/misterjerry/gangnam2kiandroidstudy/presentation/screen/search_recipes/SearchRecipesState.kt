@@ -1,0 +1,12 @@
+package com.misterjerry.gangnam2kiandroidstudy.presentation.screen.search_recipes
+
+import com.misterjerry.gangnam2kiandroidstudy.domain.model.Recipe
+
+data class SearchRecipesState(
+    val searchInputText: String = "",
+    val resultRecipes: List<Recipe> = emptyList(),
+    val selectedTime: String = "",
+    val selectedRate: String = "",
+    val selectedCategory: String = "",
+    val enableBottomSheet:Boolean = false
+    )
