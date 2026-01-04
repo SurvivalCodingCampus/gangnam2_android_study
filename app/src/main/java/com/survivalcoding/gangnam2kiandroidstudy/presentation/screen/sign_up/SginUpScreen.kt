@@ -191,7 +191,11 @@ fun SignUpScreen(
         }
 
         item {
-            SocialLoginRow()
+            SocialLoginRow(
+                onGoogleClick = {
+                    onAction(SignUpAction.ClickGoogleSignUp)
+                }
+            )
         }
 
         item { Spacer(Modifier.height(20.dp)) }

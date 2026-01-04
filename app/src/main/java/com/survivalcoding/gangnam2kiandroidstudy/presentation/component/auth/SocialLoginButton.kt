@@ -20,8 +20,13 @@ import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppColors
 
 
+import androidx.compose.foundation.clickable
+
 @Composable
-fun SocialLoginRow() {
+fun SocialLoginRow(
+    onGoogleClick: () -> Unit = {},
+    onFacebookClick: () -> Unit = {}
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(25.dp, Alignment.CenterHorizontally),
@@ -29,18 +34,24 @@ fun SocialLoginRow() {
     ) {
         SocialLoginButton(
             iconRes = R.drawable.ic_google,
-            contentDescription = stringResource(R.string.icon_google_description)
+            contentDescription = stringResource(R.string.icon_google_description),
+            onClick = onGoogleClick
         )
         SocialLoginButton(
             iconRes = R.drawable.ic_facebook,
-            contentDescription = stringResource(R.string.icon_facebook_description)
+            contentDescription = stringResource(R.string.icon_facebook_description),
+            onClick = onFacebookClick
         )
     }
 }
 
 
 @Composable
-fun SocialLoginButton(iconRes: Int, contentDescription: String) {
+fun SocialLoginButton(
+    iconRes: Int,
+    contentDescription: String,
+    onClick: () -> Unit = {}
+) {
     Box(
         modifier = Modifier
             .size(44.dp)
@@ -53,7 +64,8 @@ fun SocialLoginButton(iconRes: Int, contentDescription: String) {
             .background(
                 color = AppColors.white,
                 shape = RoundedCornerShape(10.dp)
-            ),
+            )
+            .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Icon(

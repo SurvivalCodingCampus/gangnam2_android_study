@@ -2,13 +2,21 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_up
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.SignUpWithEmailUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.SignUpWithGoogleUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignUpViewModel : ViewModel() {
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
+    private val signUpWithEmailUseCase: SignUpWithEmailUseCase,
+    private val signUpWithGoogleUseCase: SignUpWithGoogleUseCase
+) : ViewModel() {
 
     private val _state = MutableStateFlow(SignUpState())
     val state: StateFlow<SignUpState> = _state
@@ -35,7 +43,33 @@ class SignUpViewModel : ViewModel() {
 
             SignUpAction.ClickSignUp -> {
                 if (_state.value.isValid()) {
-                    emitEvent(SignUpEvent.NavigateToHome)
+                    viewModelScope.launch {
+                        val result = signUpWithEmailUseCase(
+                            name = _state.value.name,
+                            email = _state.value.email,
+                            password = _state.value.password
+                        )
+                        result.onSuccess {
+                            emitEvent(SignUpEvent.NavigateToHome)
+                        }.onFailure {
+                            emitEvent(SignUpEvent.ShowError(it.message ?: "Sign up failed"))
+                        }
+                    }
+                }
+            }
+
+            SignUpAction.ClickGoogleSignUp -> {
+                emitEvent(SignUpEvent.RequestGoogleSignIn)
+            }
+
+            is SignUpAction.GoogleSignInResult -> {
+                viewModelScope.launch {
+                    val result = signUpWithGoogleUseCase(action.idToken)
+                    result.onSuccess {
+                        emitEvent(SignUpEvent.NavigateToHome)
+                    }.onFailure {
+                        emitEvent(SignUpEvent.ShowError(it.message ?: "Google sign in failed"))
+                    }
                 }
             }
 

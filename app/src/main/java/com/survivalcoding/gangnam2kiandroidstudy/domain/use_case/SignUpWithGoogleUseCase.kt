@@ -1,9 +1,10 @@
 package com.survivalcoding.gangnam2kiandroidstudy.domain.use_case
 
-import com.google.firebase.firestore.auth.User
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.User
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.SignUpRepository
+import javax.inject.Inject
 
-class SignUpWithGoogleUseCase(
+class SignUpWithGoogleUseCase @Inject constructor(
     private val signUpRepository: SignUpRepository
 ) {
     suspend operator fun invoke(

@@ -10,5 +10,7 @@ sealed interface SignUpAction {
     data class TermsChecked(val checked: Boolean) : SignUpAction
 
     data object ClickSignUp : SignUpAction
+    data object ClickGoogleSignUp : SignUpAction
+    data class GoogleSignInResult(val idToken: String) : SignUpAction
     data object ClickNavigateToSignIn : SignUpAction
 }
