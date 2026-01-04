@@ -12,6 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.survivalcoding.gangnam2kiandroidstudy.BuildConfig
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -62,12 +63,17 @@ fun SignInRoot(
         onAction = { action ->
             when (action) {
                 SignInAction.OnGoogleSignInClick -> {
-                    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestIdToken(context.getString(R.string.default_web_client_id))
-                        .requestEmail()
-                        .build()
-                    val googleSignInClient = GoogleSignIn.getClient(context, gso)
-                    googleSignInLauncher.launch(googleSignInClient.signInIntent)
+                    if (BuildConfig.FLAVOR == "dev") {
+                        // dev 모드에서는 실제 UI 없이 즉시 Mock 로그인
+                        viewModel.signInWithGoogle("mock_id_token")
+                    } else {
+                        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestIdToken(context.getString(R.string.default_web_client_id))
+                            .requestEmail()
+                            .build()
+                        val googleSignInClient = GoogleSignIn.getClient(context, gso)
+                        googleSignInLauncher.launch(googleSignInClient.signInIntent)
+                    }
                 }
                 else -> viewModel.onAction(action)
             }

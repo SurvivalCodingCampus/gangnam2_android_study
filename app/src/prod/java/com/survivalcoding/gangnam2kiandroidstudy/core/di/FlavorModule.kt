@@ -10,5 +10,4 @@ import org.koin.dsl.module
 val flavorModule = module {
     // TODO: Add real implementation
     single<BookmarkRepository> { BookmarkRepositoryImpl(get()) }
-    single<AuthRepository> { AuthRepositoryImpl(FirebaseAuth.getInstance()) }
 }

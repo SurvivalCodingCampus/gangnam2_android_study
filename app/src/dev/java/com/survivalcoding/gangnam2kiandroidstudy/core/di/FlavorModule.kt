@@ -8,5 +8,4 @@ import org.koin.dsl.module
 
 val flavorModule = module {
     single<BookmarkRepository> { MockBookmarkRepositoryImpl() }
-    single<AuthRepository> { MockAuthRepositoryImpl() }
 }
