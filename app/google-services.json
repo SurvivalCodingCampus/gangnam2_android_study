@@ -12,7 +12,12 @@
           "package_name": "com.example.makeitso"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "278798495458-fnkq372clopaerligfh3srn6e8qbrs66.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBW2ZJ9YHlajo5AX8YaIupFM6fWYAF9BmU"
@@ -20,18 +25,36 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "278798495458-fnkq372clopaerligfh3srn6e8qbrs66.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:278798495458:android:fc1aa63a4a7ce6f33178bb",
+        "mobilesdk_app_id": "1:278798495458:android:8986d737d9ca711b3178bb",
         "android_client_info": {
-          "package_name": "com.example.recipes"
+          "package_name": "com.survivalcoding.gangnam2kiandroidstudy"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "278798495458-tk1g2ar3mfjer34r219ki7ju28piiebn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.survivalcoding.gangnam2kiandroidstudy",
+            "certificate_hash": "89e2e3bb36417b0511991180233ea135503d2c67"
+          }
+        },
+        {
+          "client_id": "278798495458-fnkq372clopaerligfh3srn6e8qbrs66.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBW2ZJ9YHlajo5AX8YaIupFM6fWYAF9BmU"
@@ -39,7 +62,86 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "278798495458-fnkq372clopaerligfh3srn6e8qbrs66.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278798495458:android:d23b4f9e8debdc523178bb",
+        "android_client_info": {
+          "package_name": "com.survivalcoding.gangnam2kiandroidstudy.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "278798495458-0nd0fe788hb297ph5damftn6tmkfgguc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.survivalcoding.gangnam2kiandroidstudy.dev",
+            "certificate_hash": "89e2e3bb36417b0511991180233ea135503d2c67"
+          }
+        },
+        {
+          "client_id": "278798495458-fnkq372clopaerligfh3srn6e8qbrs66.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBW2ZJ9YHlajo5AX8YaIupFM6fWYAF9BmU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "278798495458-fnkq372clopaerligfh3srn6e8qbrs66.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278798495458:android:cdd4d37d97c7e8723178bb",
+        "android_client_info": {
+          "package_name": "com.survivalcoding.gangnam2kiandroidstudy.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "278798495458-f4ujcr9m2p25sm2lcfkpkdsb5hvumsut.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.survivalcoding.gangnam2kiandroidstudy.staging",
+            "certificate_hash": "89e2e3bb36417b0511991180233ea135503d2c67"
+          }
+        },
+        {
+          "client_id": "278798495458-fnkq372clopaerligfh3srn6e8qbrs66.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBW2ZJ9YHlajo5AX8YaIupFM6fWYAF9BmU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "278798495458-fnkq372clopaerligfh3srn6e8qbrs66.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

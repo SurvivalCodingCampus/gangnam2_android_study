@@ -1,5 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,11 +27,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.core.routing.Route
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.BigButton
@@ -44,6 +50,21 @@ fun SignInScreen(
     viewModel: SignInViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
+
+    val googleSignInLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try {
+            val account = task.getResult(ApiException::class.java)
+            account?.idToken?.let { token ->
+                viewModel.signInWithGoogle(token)
+            }
+        } catch (e: ApiException) {
+            // 로그인 실패 처리 (로그 등)
+        }
+    }
 
     LaunchedEffect(state.isSignInSuccess) {
         if (state.isSignInSuccess) {
@@ -144,7 +165,14 @@ fun SignInScreen(
                 Spacer(modifier = Modifier.height(20.dp))
                 Row {
                     ElevatedButton(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                                .requestIdToken("278798495458-fnkq372clopaerligfh3srn6e8qbrs66.apps.googleusercontent.com")
+                                .requestEmail()
+                                .build()
+                            val googleSignInClient = GoogleSignIn.getClient(context, gso)
+                            googleSignInLauncher.launch(googleSignInClient.signInIntent)
+                        },
                         modifier = Modifier.size(44.dp),
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.elevatedButtonColors(

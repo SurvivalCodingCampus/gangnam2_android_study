@@ -50,6 +50,18 @@ class SignUpViewModel @Inject constructor(
             }
         }
     }
+
+    fun signInWithGoogle(idToken: String) {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true, error = null) }
+            val result = authRepository.signInWithGoogle(idToken)
+            result.onSuccess {
+                _state.update { it.copy(isLoading = false, isSignUpSuccess = true) }
+            }.onFailure { e ->
+                _state.update { it.copy(isLoading = false, error = e.message) }
+            }
+        }
+    }
 }
 
 data class SignUpState(

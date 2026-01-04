@@ -99,6 +99,12 @@ object AppTextStyles {
         fontSize = 14.sp,
         lineHeight = 21.sp
     )
+    val smallerTextRegular = TextStyle(
+        fontFamily = AppFonts.poppins,
+        fontWeight = FontWeight.Normal,
+        fontSize = 11.sp,
+        lineHeight = 17.sp
+    )
     val smallerTextBold = TextStyle(
         fontFamily = AppFonts.poppins,
         fontWeight = FontWeight.Bold,
