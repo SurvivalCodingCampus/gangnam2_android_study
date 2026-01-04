@@ -16,20 +16,18 @@ class UserRepositoryImpl(
     private val userDao: UserDao,
 ) : UserRepository {
 
-    override suspend fun loadById(id: Int): Flow<User?> {
-        return withContext(Dispatchers.IO) {
-            userDao.loadById(id).map { entity ->
-                entity?.let {
-                    User(
-                        id = it.id,
-                        name = "",
-                        image = "",
-                        address = "",
-                        work = "",
-                        introduce = "",
-                        bookmarks = it.recipeIds?.toPersistentList() ?: persistentListOf()
-                    )
-                }
+    override fun loadById(id: Int): Flow<User?> {
+        return userDao.loadById(id).map { entity ->
+            entity?.let {
+                User(
+                    id = it.id,
+                    name = "",
+                    image = "",
+                    address = "",
+                    work = "",
+                    introduce = "",
+                    bookmarks = it.recipeIds?.toPersistentList() ?: persistentListOf()
+                )
             }
         }
     }

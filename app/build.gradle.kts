@@ -1,9 +1,19 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.service)
+}
+
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
+        file.inputStream().use { load(it) }
+    }
 }
 
 android {
@@ -40,7 +50,10 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
+
+    val webClientId = localProperties.getProperty("WEB_CLIENT_ID") ?: ""
 
     flavorDimensions += listOf("version")
     productFlavors {
@@ -48,16 +61,20 @@ android {
             dimension = "version"
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
+            resValue("string", "web_client_id", webClientId)
+            buildConfigField("String", "FLAVOR", "\"dev\"")
         }
         create("prod") {
             dimension = "version"
-            applicationIdSuffix = ".prod"
-            versionNameSuffix = "-prod"
+            resValue("string", "web_client_id", webClientId)
+            buildConfigField("String", "FLAVOR", "\"prod\"")
         }
         create("staging") {
             dimension = "version"
-            applicationIdSuffix = ".staging"
+//            applicationIdSuffix = ".staging"ㅕ
             versionNameSuffix = "-staging"
+            resValue("string", "web_client_id", webClientId)
+            buildConfigField("String", "FLAVOR", "\"staging\"")
         }
     }
 
@@ -93,12 +110,24 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
     implementation(libs.koin.compose.viewmodel)
+    testImplementation(platform(libs.koin.bom))
     testImplementation(libs.koin.test)
+    androidTestImplementation(platform(libs.koin.bom))
+    androidTestImplementation(libs.koin.test)
 
     // Room
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
     testImplementation(libs.room.testing)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    // Firebase Google Login
+    implementation(libs.credentials)
+    implementation(libs.credentials.play.services.auth)
+    implementation(libs.identity.googleid)
 
     testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.kotlinx.coroutines.test)
