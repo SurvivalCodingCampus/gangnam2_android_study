@@ -40,13 +40,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.AppTextStyles
 fun SignUpScreen(
     modifier: Modifier = Modifier,
     state: SignUpState,
-    onNameChange: (String) -> Unit,
-    onEmailChange: (String) -> Unit,
-    onPasswordChange: (String) -> Unit,
-    onConfirmPasswordChange: (String) -> Unit,
-    onTermsCheckedChange: (Boolean) -> Unit,
-    onSignUpClick: () -> Unit,
-    onNavigateToSignIn: () -> Unit,
+    onAction: (SignUpAction) -> Unit,
 ) {
     val emailFocusRequester = remember { FocusRequester() }
     val passwordFocusRequester = remember { FocusRequester() }
@@ -83,16 +77,14 @@ fun SignUpScreen(
             InputField(
                 value = state.name,
                 label = stringResource(R.string.label_name),
-                onValueChange = onNameChange,
                 placeholderText = stringResource(R.string.placeholder_name),
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = {
-                        emailFocusRequester.requestFocus()
-                    }
-                )
+                onValueChange = {
+                    onAction(SignUpAction.NameChanged(it))
+                },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions {
+                    emailFocusRequester.requestFocus()
+                }
             )
         }
 
@@ -102,17 +94,17 @@ fun SignUpScreen(
             InputField(
                 value = state.email,
                 label = stringResource(R.string.label_email),
-                onValueChange = onEmailChange,
                 placeholderText = stringResource(R.string.placeholder_email),
+                onValueChange = {
+                    onAction(SignUpAction.EmailChanged(it))
+                },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Next
                 ),
-                keyboardActions = KeyboardActions(
-                    onNext = {
-                        passwordFocusRequester.requestFocus()
-                    }
-                ),
+                keyboardActions = KeyboardActions {
+                    passwordFocusRequester.requestFocus()
+                },
                 modifier = Modifier.focusRequester(emailFocusRequester)
             )
         }
@@ -123,18 +115,18 @@ fun SignUpScreen(
             InputField(
                 value = state.password,
                 label = stringResource(R.string.label_password),
-                onValueChange = onPasswordChange,
                 placeholderText = stringResource(R.string.placeholder_password),
+                onValueChange = {
+                    onAction(SignUpAction.PasswordChanged(it))
+                },
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Next
                 ),
-                keyboardActions = KeyboardActions(
-                    onNext = {
-                        confirmPasswordFocusRequester.requestFocus()
-                    }
-                ),
+                keyboardActions = KeyboardActions {
+                    confirmPasswordFocusRequester.requestFocus()
+                },
                 modifier = Modifier.focusRequester(passwordFocusRequester)
             )
         }
@@ -145,18 +137,18 @@ fun SignUpScreen(
             InputField(
                 value = state.confirmPassword,
                 label = stringResource(R.string.label_confirm_password),
-                onValueChange = onConfirmPasswordChange,
                 placeholderText = stringResource(R.string.placeholder_confirm_password),
+                onValueChange = {
+                    onAction(SignUpAction.ConfirmPasswordChanged(it))
+                },
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
                 ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        focusManager.clearFocus()
-                    }
-                ),
+                keyboardActions = KeyboardActions {
+                    focusManager.clearFocus()
+                },
                 modifier = Modifier.focusRequester(confirmPasswordFocusRequester)
             )
         }
@@ -168,14 +160,18 @@ fun SignUpScreen(
             ) {
                 AppCheckBox(
                     checked = state.isTermsChecked,
-                    onCheckedChange = onTermsCheckedChange,
+                    onCheckedChange = {
+                        onAction(SignUpAction.TermsChecked(it))
+                    }
                 )
 
-                Spacer(modifier = Modifier.width(5.dp))
+                Spacer(Modifier.width(5.dp))
 
                 Text(
                     text = stringResource(R.string.accept_terms),
-                    style = AppTextStyles.smallerTextRegular.copy(color = AppColors.secondary100)
+                    style = AppTextStyles.smallerTextRegular.copy(
+                        color = AppColors.secondary100
+                    )
                 )
             }
         }
@@ -184,7 +180,9 @@ fun SignUpScreen(
             BigButton(
                 text = stringResource(R.string.button_sign_up),
                 enabled = state.isSignUpEnabled,
-                onClick = onSignUpClick
+                onClick = {
+                    onAction(SignUpAction.ClickSignUp)
+                }
             )
         }
 
@@ -202,32 +200,10 @@ fun SignUpScreen(
             AuthBottomText(
                 promptText = stringResource(R.string.prompt_already_member),
                 actionText = stringResource(R.string.action_sign_in_again),
-                onActionClick = onNavigateToSignIn
+                onActionClick = {
+                    onAction(SignUpAction.ClickNavigateToSignIn)
+                }
             )
         }
     }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun SignUpScreenEnabledPreview() {
-    SignUpScreen(
-        modifier = Modifier.padding(horizontal = 30.dp),
-        state = SignUpState(
-            name = "홍길동",
-            email = "a@a.com",
-            password = "1234",
-            confirmPassword = "1234",
-            isTermsChecked = true,
-            isSignUpEnabled = true
-        ),
-        onNameChange = {},
-        onEmailChange = {},
-        onPasswordChange = {},
-        onConfirmPasswordChange = {},
-        onTermsCheckedChange = {},
-        onSignUpClick = {},
-        onNavigateToSignIn = {}
-    )
 }

@@ -21,12 +21,13 @@ fun SignUpRoot(
     onNavigateToSignIn: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val navigateToHome by viewModel.navigateToHome.collectAsStateWithLifecycle()
 
-    LaunchedEffect(navigateToHome) {
-        if (navigateToHome) {
-            onNavigateToHome()
-            viewModel.onNavigationHandled()
+    LaunchedEffect(Unit) {
+        viewModel.event.collect { event ->
+            when (event) {
+                SignUpEvent.NavigateToHome -> onNavigateToHome()
+                SignUpEvent.NavigateToSignIn -> onNavigateToSignIn()
+            }
         }
     }
 
@@ -37,13 +38,7 @@ fun SignUpRoot(
                 .padding(innerPadding)
                 .padding(horizontal = 30.dp),
             state = state,
-            onNameChange = viewModel::onNameChange,
-            onEmailChange = viewModel::onEmailChange,
-            onPasswordChange = viewModel::onPasswordChange,
-            onConfirmPasswordChange = viewModel::onConfirmPasswordChange,
-            onTermsCheckedChange = viewModel::onTermsCheckedChange,
-            onSignUpClick = viewModel::onSignUpClick,
-            onNavigateToSignIn = onNavigateToSignIn
+            onAction = viewModel::onAction
         )
     }
 }
