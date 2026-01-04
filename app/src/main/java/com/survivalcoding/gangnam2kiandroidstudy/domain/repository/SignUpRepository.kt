@@ -1,7 +1,9 @@
 package com.survivalcoding.gangnam2kiandroidstudy.domain.repository
 
-interface SignUpRepository {
-    suspend fun signUpWithEmail(email: String, password: String)
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.User
 
-    suspend fun signUpWithGoogle(idToken: String)
+interface SignUpRepository {
+    suspend fun signUpWithEmail(name: String, email: String, password: String): Result<User>
+
+    suspend fun signUpWithGoogle(idToken: String): Result<User>
 }
