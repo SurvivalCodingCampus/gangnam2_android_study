@@ -1,27 +1,22 @@
-package com.survivalcoding.gangnam2kiandroidstudy.data.repository
-
-import com.survivalcoding.gangnam2kiandroidstudy.domain.model.User
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class MockBookmarkRepositoryImpl : BookmarkRepository {
-    private var _user = User(
-        id = 1,
-        name = "admin",
-        savedRecipeIds = emptyList()
-    )
+    private val _bookmarks = MutableStateFlow<Set<Long>>(emptySet())
+    override val bookmarks: Flow<Set<Long>> = _bookmarks.asStateFlow()
 
     override suspend fun getBookmarkedRecipeIds(): Set<Long> {
-        return _user.savedRecipeIds.toSet()
+        return _bookmarks.value
     }
 
     override suspend fun addBookmark(recipeId: Long) {
-        val current = _user.savedRecipeIds
-        _user = _user.copy(savedRecipeIds = current + recipeId)
+        _bookmarks.update { it + recipeId }
     }
 
     override suspend fun removeBookmark(recipeId: Long) {
-        val current = _user.savedRecipeIds
-        _user = _user.copy(savedRecipeIds = current - recipeId)
+        _bookmarks.update { it - recipeId }
     }
-
 }

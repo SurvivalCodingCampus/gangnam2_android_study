@@ -19,23 +19,25 @@ val repositoryModule = module {
     single<RecipeRepository> { RecipeRepositoryImpl(get()) }
     single<ClipboardRepository> { ClipboardRepositoryImpl(androidContext()) }
 
+    single {
+        val auth = FirebaseAuth.getInstance()
+        // Staging 환경에서만 Firebase Emulator 사용
+        if (BuildConfig.FLAVOR == "staging") {
+            try {
+                auth.useEmulator("10.0.2.2", 9099)
+            } catch (e: Exception) {
+                // 이미 설정된 경우 무시
+            }
+        }
+        auth
+    }
+
     single<AuthRepository> {
         // dev 환경에서는 Mock 객체 사용
         if (BuildConfig.FLAVOR == "dev") {
             MockAuthRepositoryImpl()
         } else {
-            val auth = FirebaseAuth.getInstance()
-            
-            // Staging 환경에서만 Firebase Emulator 사용
-            if (BuildConfig.FLAVOR == "staging") {
-                try {
-                    auth.useEmulator("10.0.2.2", 9099)
-                } catch (e: Exception) {
-                    // 이미 설정된 경우 무시
-                }
-            }
-            
-            AuthRepositoryImpl(auth)
+            AuthRepositoryImpl(get(), get())
         }
     }
 }

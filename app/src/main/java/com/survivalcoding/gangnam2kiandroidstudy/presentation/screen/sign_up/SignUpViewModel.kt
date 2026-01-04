@@ -64,7 +64,11 @@ class SignUpViewModel(
 
         viewModelScope.launch {
             _state.update { it.copy(error = null) }
-            val result = authRepository.signUpWithEmail(state.email, state.password)
+            val result = authRepository.signUpWithEmail(
+                name = state.name,
+                email = state.email,
+                password = state.password,
+            )
 
             when (result) {
                 is Result.Success -> {

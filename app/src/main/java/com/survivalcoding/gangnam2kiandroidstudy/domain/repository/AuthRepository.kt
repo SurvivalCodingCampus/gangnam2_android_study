@@ -8,6 +8,6 @@ interface AuthRepository {
     val authState: Flow<UserDto?>
     suspend fun signInWithGoogle(idToken: String): Result<UserDto, String>
     suspend fun signInWithEmail(email: String, password: String): Result<UserDto, String>
-    suspend fun signUpWithEmail(email: String, password: String): Result<UserDto, String>
+    suspend fun signUpWithEmail(name: String, email: String, password: String): Result<UserDto, String>
     suspend fun signOut()
 }

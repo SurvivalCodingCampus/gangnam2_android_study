@@ -13,20 +13,38 @@ class MockAuthRepositoryImpl : AuthRepository {
     override val authState: Flow<UserDto?> = _authState.asStateFlow()
 
     override suspend fun signInWithGoogle(idToken: String): Result<UserDto, String> {
-        val user = UserDto(uid = "mock-google-uid", name = "Mock Google User", email = "google@test.com", photoUrl = null)
+        val user = UserDto(
+            uid = "mock-google-uid",
+            name = "Mock Google User",
+            email = "google@test.com",
+            photoUrl = null,
+            nickname = "Mock Google User"
+        )
         _authState.update { user }
         return Result.Success(user)
     }
 
     override suspend fun signInWithEmail(email: String, password: String): Result<UserDto, String> {
         if (email == "error@test.com") return Result.Error("Mock Login Failed")
-        val user = UserDto(uid = "mock-email-uid", name = "Mock Email User", email = email, photoUrl = null)
+        val user = UserDto(
+            uid = "mock-email-uid",
+            name = "Mock Email User",
+            email = email,
+            photoUrl = null,
+            nickname = "Mock Email User"
+        )
         _authState.update { user }
         return Result.Success(user)
     }
 
-    override suspend fun signUpWithEmail(email: String, password: String): Result<UserDto, String> {
-        val user = UserDto(uid = "mock-new-uid", name = "New User", email = email, photoUrl = null)
+    override suspend fun signUpWithEmail(name: String, email: String, password: String): Result<UserDto, String> {
+        val user = UserDto(
+            uid = "mock-new-uid",
+            name = name,
+            email = email,
+            photoUrl = null,
+            nickname = name
+        )
         _authState.update { user }
         return Result.Success(user)
     }
