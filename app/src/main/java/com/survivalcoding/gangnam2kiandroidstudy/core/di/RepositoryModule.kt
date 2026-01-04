@@ -1,6 +1,8 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.di
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.survivalcoding.gangnam2kiandroidstudy.BuildConfig
 import com.survivalcoding.gangnam2kiandroidstudy.data.dao.BookmarkDao
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.ChefDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.IngredientDataSource
@@ -9,6 +11,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSour
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeIngredientDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.BookmarkRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ChefRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.FirebaseBookmarkRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.FirebaseSignUpRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.IngredientRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ProcedureRepositoryImpl
@@ -47,9 +50,15 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideBookmarkRepository(
-        bookmarkDao: BookmarkDao
+        bookmarkDao: BookmarkDao,
+        firestore: FirebaseFirestore,
+        auth: FirebaseAuth
     ): BookmarkRepository {
-        return BookmarkRepositoryImpl(bookmarkDao)
+        return if (BuildConfig.FLAVOR == "prod" || BuildConfig.FLAVOR == "qa") {
+            FirebaseBookmarkRepositoryImpl(firestore, auth)
+        } else {
+            BookmarkRepositoryImpl(bookmarkDao)
+        }
     }
 
     @Provides
