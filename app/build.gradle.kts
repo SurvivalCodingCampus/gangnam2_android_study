@@ -55,10 +55,10 @@ android {
         create("prod") {
             dimension = "version"
         }
-        create("qa") {
+        create("staging") {
             dimension = "version"
-            applicationIdSuffix = ".qa"
-            versionNameSuffix = "-qa"
+            applicationIdSuffix = ".staging"
+            versionNameSuffix = "-staging"
         }
     }
 }
