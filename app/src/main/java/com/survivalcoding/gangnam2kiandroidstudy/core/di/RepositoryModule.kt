@@ -1,5 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.di
 
+import com.google.firebase.auth.FirebaseAuth
+import com.survivalcoding.gangnam2kiandroidstudy.data.dao.BookmarkDao
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.ChefDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.IngredientDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.ProcedureDataSource
@@ -7,6 +9,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSour
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeIngredientDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.BookmarkRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ChefRepositoryImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.FirebaseSignUpRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.IngredientRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ProcedureRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositoryImpl
@@ -15,6 +18,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ChefRepositor
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.SignUpRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,6 +30,14 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Provides
     @Singleton
+    fun provideSignUpRepository(
+        auth: FirebaseAuth
+    ): SignUpRepository {
+        return FirebaseSignUpRepositoryImpl(auth)
+    }
+
+    @Provides
+    @Singleton
     fun provideRecipeRepository(
         recipeDataSource: RecipeDataSource,
     ): RecipeRepository {
@@ -35,7 +47,7 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideBookmarkRepository(
-        bookmarkDao: com.survivalcoding.gangnam2kiandroidstudy.data.dao.BookmarkDao
+        bookmarkDao: BookmarkDao
     ): BookmarkRepository {
         return BookmarkRepositoryImpl(bookmarkDao)
     }
@@ -68,4 +80,5 @@ object RepositoryModule {
     ): ProcedureRepository {
         return ProcedureRepositoryImpl(procedureDataSource)
     }
+
 }
