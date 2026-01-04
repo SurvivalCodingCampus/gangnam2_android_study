@@ -23,5 +23,5 @@ local.properties
 # Firebase
 
 .firebase/
-
+google-services.json
 firebase-debug.log*

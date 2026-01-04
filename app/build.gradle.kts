@@ -8,6 +8,9 @@ plugins {
 
     // ksp
     id("com.google.devtools.ksp")
+
+    // Firebase
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -118,4 +121,10 @@ dependencies {
 
     androidTestImplementation(platform(libs.koin.bom))
     androidTestImplementation(libs.koin.test)
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:34.7.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.gms:play-services-auth:21.3.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.1")
 }
