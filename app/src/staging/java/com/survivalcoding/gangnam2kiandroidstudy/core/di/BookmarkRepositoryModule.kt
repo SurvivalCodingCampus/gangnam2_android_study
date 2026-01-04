@@ -1,7 +1,8 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.di
 
-import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.local.RecipeDao
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.BookmarkRepositoryImpl
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.FirestoreBookmarkRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
 import dagger.Module
 import dagger.Provides
@@ -15,7 +16,10 @@ object BookmarkRepositoryModule {
 
     @Provides
     @Singleton
-    fun provideBookmarkRepository(dao: RecipeDao): BookmarkRepository {
-        return BookmarkRepositoryImpl(dao)
+    fun provideBookmarkRepository(
+        firestore: FirebaseFirestore,
+        auth: FirebaseAuth
+    ): BookmarkRepository {
+        return FirestoreBookmarkRepositoryImpl(firestore, auth)
     }
 }
