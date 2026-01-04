@@ -17,6 +17,7 @@ local.properties
 .idea/
 
 # --- Firebase 관련 제외 항목 ---
+google-services.json
 .firebase/
 firebase-debug.log
 .firebaserc
