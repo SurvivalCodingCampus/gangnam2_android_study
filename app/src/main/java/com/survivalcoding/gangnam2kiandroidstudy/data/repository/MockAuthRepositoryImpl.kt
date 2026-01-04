@@ -1,12 +1,12 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
-import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.UserDto
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import com.survivalcoding.gangnam2kiandroidstudy.core.Result
 
 class MockAuthRepositoryImpl : AuthRepository {
     private val _authState = MutableStateFlow<UserDto?>(null)

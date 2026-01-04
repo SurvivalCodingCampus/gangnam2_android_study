@@ -45,8 +45,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     flavorDimensions += listOf("version")
     productFlavors {
@@ -63,6 +65,10 @@ android {
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-staging"
         }
+    }
+
+    afterEvaluate {
+        tasks.findByName("processDevDebugGoogleServices")?.enabled = false
     }
 }
 
