@@ -15,7 +15,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipe.SavedRecipesScreenRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.search.SearchRecipeScreenRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in.SignInScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in.SignInScreenRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_up.SignUpScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_up.SignUpScreenRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.splash.SplashScreenRoot
 
 @Composable
@@ -90,12 +92,12 @@ fun NavigationRoot(
                 )
             }
             entry<Route.SignIn> {
-                SignInScreen(
-                    onSignUpClick = {
+                SignInScreenRoot(
+                    onNavigateToSignUp = {
                         topLevelBackStack.clear()
                         topLevelBackStack.add(Route.SignUp)
                     },
-                    onLoginClick = {
+                    onNavigateToHome = {
                         topLevelBackStack.clear()
                         topLevelBackStack.add(Route.Main)
                     }
@@ -103,13 +105,16 @@ fun NavigationRoot(
 
             }
             entry<Route.SignUp> {
-                SignUpScreen(
-                    onSignInClick = {
+                SignUpScreenRoot(
+                    onNavigateToSignIn = {
                         topLevelBackStack.clear()
                         topLevelBackStack.add(Route.SignIn)
+                    },
+                    onNavigateToHome = {
+                        topLevelBackStack.clear()
+                        topLevelBackStack.add(Route.Main)
                     }
                 )
-
             }
             entry<Route.Main> {
 

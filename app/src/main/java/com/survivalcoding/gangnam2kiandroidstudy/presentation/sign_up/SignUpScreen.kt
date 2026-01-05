@@ -21,10 +21,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,15 +41,10 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun SignUpScreen(
-    onSignInClick: () -> Unit = {}
+    state: SignUpState = SignUpState(),
+    onAction: (SignUpAction) -> Unit = {},
 ) {
-    var isChecked by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
-
-    var name by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var checkPassword by remember { mutableStateOf("") }
 
 
     Column(
@@ -81,7 +72,7 @@ fun SignUpScreen(
             InputField(
                 label = "Name",
                 placeholder = "Enter Name",
-                value = name,
+                value = state.name,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Next
@@ -90,7 +81,7 @@ fun SignUpScreen(
                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                 ),
             ) {
-                name = it
+                onAction(SignUpAction.OnNameChange(it))
             }
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -105,9 +96,9 @@ fun SignUpScreen(
                 keyboardActions = KeyboardActions(
                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                 ),
-                value = email
+                value = state.email
             ) {
-                email = it
+                onAction(SignUpAction.OnEmailChange(it))
             }
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -115,7 +106,7 @@ fun SignUpScreen(
             InputField(
                 label = "Password",
                 placeholder = "Enter Password",
-                value = password,
+                value = state.password,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Next
@@ -125,7 +116,7 @@ fun SignUpScreen(
                 ),
                 visualTransformation = PasswordVisualTransformation(),
             ) {
-                password = it
+                onAction(SignUpAction.OnPasswordChange(it))
             }
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -133,7 +124,7 @@ fun SignUpScreen(
             InputField(
                 label = "Confirm Password",
                 placeholder = "Retype Password",
-                value = checkPassword,
+                value = state.checkPassword,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
@@ -143,7 +134,7 @@ fun SignUpScreen(
                 ),
                 visualTransformation = PasswordVisualTransformation()
             ) {
-                checkPassword = it
+                onAction(SignUpAction.OnCheckPasswordChange(it))
             }
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -164,10 +155,10 @@ fun SignUpScreen(
                             shape = RoundedCornerShape(5.dp)
                         )
                         .clickable {
-                            isChecked = !isChecked
+                            onAction(SignUpAction.OnToggleCheck)
                         }
                 ) {
-                    if (isChecked) {
+                    if (state.isChecked) {
                         Icon(Icons.Outlined.Check, "check", tint = AppColors.secondary100)
                     }
                 }
@@ -183,7 +174,9 @@ fun SignUpScreen(
             BigButton(
                 text = "Sign Up",
                 modifier = Modifier.fillMaxWidth()
-            )
+            ) {
+                onAction(SignUpAction.OnSignUpClick)
+            }
             Spacer(modifier = Modifier.height(14.dp))
             Row(
                 modifier = Modifier
@@ -203,7 +196,9 @@ fun SignUpScreen(
                 SocialButton(
                     id = R.drawable.social_icons_google,
                     description = "구글 로그인"
-                )
+                ) {
+                    onAction(SignUpAction.OnGoogleClick)
+                }
                 Spacer(modifier = Modifier.width(25.dp))
                 SocialButton(
                     id = R.drawable.social_icons_facebook,
@@ -223,7 +218,7 @@ fun SignUpScreen(
                     text = "Sign In",
                     style = AppTextStyles.smallerTextBold.copy(color = AppColors.secondary100),
                     modifier = Modifier.clickable {
-                        onSignInClick()
+                        onAction(SignUpAction.OnSignInClick)
                     }
                 )
             }

@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.flowOf
 class MockNetworkStatusDataSourceImpl: NetworkStatusDataSource {
     override fun observeNetworkStatus(): Flow<NetworkStatusDto> {
         return flowOf(
-            NetworkStatusDto(isConnected = false)
+            NetworkStatusDto(isConnected = true)
         )
     }
 }
