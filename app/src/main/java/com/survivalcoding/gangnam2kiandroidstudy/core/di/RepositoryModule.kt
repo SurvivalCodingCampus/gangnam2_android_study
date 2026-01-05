@@ -23,4 +23,7 @@ val repositoryModule = module {
     single<NetworkRepository> {
         NetworkRepositoryImpl(get())
     }
+    single<AuthRepository> {
+        AuthRepositoryImpl(get())
+    }
 }

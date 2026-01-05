@@ -7,15 +7,17 @@ import kotlinx.coroutines.flow.Flow
 class BookmarkRepositoryImpl(
     private val bookmarkDataSource: BookmarkDataSource
 ) : BookmarkRepository {
-    override fun getBookmarkedRecipeIds(): Flow<List<Int>> {
-        return bookmarkDataSource.getBookmarkedRecipeIds()
+    override fun getBookmarkedRecipeIds(uid: String): Flow<List<Int>> {
+        return bookmarkDataSource.observeBookmarks(uid)
     }
 
-    override suspend fun toggleBookmark(recipeId: Int, isBookmarked: Boolean): Boolean {
-        return if (!isBookmarked) {
-            bookmarkDataSource.addBookmark(recipeId)
-        } else {
-            bookmarkDataSource.removeBookmark(recipeId)
-        }
+    override suspend fun toggleBookmark(uid: String, recipeId: Int, isBookmarked: Boolean): Boolean {
+        return runCatching {
+            if (isBookmarked) {
+                bookmarkDataSource.removeBookmark(uid, recipeId)
+            } else {
+                bookmarkDataSource.addBookmark(uid, recipeId)
+            }
+        }.isSuccess
     }
 }
