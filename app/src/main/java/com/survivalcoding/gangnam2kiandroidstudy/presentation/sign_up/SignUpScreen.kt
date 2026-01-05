@@ -113,8 +113,8 @@ fun SignUpScreen(
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 InputField(
-                    value = "",
-                    onValueChange = {},
+                    value = state.name,
+                    onValueChange = viewModel::onNameChange,
                     label = "Name",
                     placeholder = "Enter Name"
                 )

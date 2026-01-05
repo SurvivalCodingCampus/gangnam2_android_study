@@ -18,6 +18,10 @@ class SignUpViewModel @Inject constructor(
     private val _state = MutableStateFlow(SignUpState())
     val state = _state.asStateFlow()
 
+    fun onNameChange(name: String) {
+        _state.update { it.copy(name = name) }
+    }
+
     fun onEmailChange(email: String) {
         _state.update { it.copy(email = email) }
     }
@@ -65,6 +69,7 @@ class SignUpViewModel @Inject constructor(
 }
 
 data class SignUpState(
+    val name: String = "",
     val email: String = "",
     val password: String = "",
     val confirmPassword: String = "",
