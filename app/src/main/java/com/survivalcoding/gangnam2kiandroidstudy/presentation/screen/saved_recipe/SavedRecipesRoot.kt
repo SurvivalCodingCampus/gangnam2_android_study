@@ -18,10 +18,6 @@ fun SavedRecipesRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    // 화면 진입 시 데이터 갱신
-    LaunchedEffect(Unit) {
-        viewModel.loadRecipes()
-    }
 
     val listState = rememberLazyListState()     // 스크롤 위치 추적
 

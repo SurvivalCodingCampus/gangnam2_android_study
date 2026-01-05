@@ -9,6 +9,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetBookmarkedRec
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeDetailsUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.GetRecipeProcedureUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.usecase.RemoveBookmarkUseCase
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,22 +32,22 @@ class IngredientViewModel(
 
     }
 
+    private var bookmarkJob: Job? = null
+
     fun loadRecipeDetail(recipeId: Long) {
         viewModelScope.launch {
             // 레시피 상세 정보 로드
             when (val response = getRecipeDetailsUseCase.execute(recipeId)) {
                 is Result.Success -> _state.update { it.copy(recipe = response.data) }
-
                 is Result.Error -> println("에러 처리")
             }
-            
-            // 북마크 상태 확인
-            when (val bookmarksResult = getBookmarkedRecipeIdsUseCase.execute()) {
-                is Result.Success -> {
-                    val isBookmarked = recipeId in bookmarksResult.data
-                    _state.update { it.copy(isBookmarked = isBookmarked) }
-                }
-                is Result.Error -> println("북마크 로드 실패")
+        }
+
+        // 북마크 상태 실시간 감지
+        bookmarkJob?.cancel()
+        bookmarkJob = viewModelScope.launch {
+            getBookmarkedRecipeIdsUseCase().collect { ids ->
+                _state.update { it.copy(isBookmarked = recipeId in ids) }
             }
         }
     }
@@ -76,10 +77,7 @@ class IngredientViewModel(
 
         viewModelScope.launch {
             val isBookmarked = state.value.isBookmarked
-            
-            // 낙관적 업데이트
-            _state.update { it.copy(isBookmarked = !isBookmarked) }
-
+            // 실제 DB 업데이트 (Flow를 통해 UI 업데이트됨)
             try {
                 if (isBookmarked) {
                     removeBookmarkUseCase(recipeId)
@@ -87,8 +85,6 @@ class IngredientViewModel(
                     addBookmarkUseCase(recipeId)
                 }
             } catch (e: Exception) {
-                // 롤백
-                _state.update { it.copy(isBookmarked = isBookmarked) }
                 println("북마크 토글 실패")
             }
         }

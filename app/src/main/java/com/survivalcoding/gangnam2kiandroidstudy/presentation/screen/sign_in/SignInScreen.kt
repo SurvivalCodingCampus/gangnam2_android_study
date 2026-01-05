@@ -29,17 +29,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun SignInScreen(
     modifier: Modifier = Modifier,
-
-    email: String,
-    password: String,
-    onEmailChange: (String) -> Unit = {},
-    onPasswordChange: (String) -> Unit = {},
-
-    onSignInClick: () -> Unit = {},
-    onForgotPasswordClick: () -> Unit = {},
-    onGoogleSignInClick: () -> Unit = {},
-    onFacebookSignInClick: () -> Unit = {},
-    onSignUpNavigateClick: () -> Unit = {},
+    state: SignInState,
+    onAction: (SignInAction) -> Unit,
 ) {
 
     Box(
@@ -71,21 +62,25 @@ fun SignInScreen(
             InputField(
                 label = "Email",
                 placeholder = "Enter Email",
-                value = email,
+                value = state.email,
                 modifier = Modifier
                     .padding(
                         top = 27.dp,
                         bottom = 30.dp,
                     ),
-                onValueChange = onEmailChange
+                onValueChange = { email ->
+                    onAction(SignInAction.OnEmailChange(email))
+                }
             )
 
             // 비밀번호 입력
             InputField(
                 label = "Enter Password",
                 placeholder = "Enter Password",
-                value = password,
-                onValueChange = onPasswordChange,
+                value = state.password,
+                onValueChange = { password ->
+                    onAction(SignInAction.OnPasswordChange(password))
+                },
                 isPassword = true,
             )
 
@@ -101,14 +96,14 @@ fun SignInScreen(
                         bottom = 25.dp,
                     )
                     .clickable {
-                        onForgotPasswordClick()
+                        onAction(SignInAction.OnForgotPasswordClick)
                     }
             )
 
             // Sign In 버튼
             BigButton(
                 text = "Sign In",
-                onClick = onSignInClick
+                onClick = { onAction(SignInAction.OnSignInClick) }
             )
 
             // Or Sign in With
@@ -137,12 +132,12 @@ fun SignInScreen(
             ) {
                 SocialButton(
                     iconId = R.drawable.social_icons_google,
-                    modifier = Modifier.clickable { onGoogleSignInClick() }
+                    modifier = Modifier.clickable { onAction(SignInAction.OnGoogleSignInClick) }
                 )
                 Spacer(Modifier.width(25.dp))
                 SocialButton(
                     iconId = R.drawable.social_icons_facebook,
-                    modifier = Modifier.clickable { onFacebookSignInClick() }
+                    modifier = Modifier.clickable { onAction(SignInAction.OnFacebookSignInClick) }
                 )
             }
 
@@ -160,7 +155,7 @@ fun SignInScreen(
                     text = "Sign up",
                     style = AppTextStyles.smallerTextSemiBold,
                     color = AppColors.secondary100,
-                    modifier = Modifier.clickable { onSignUpNavigateClick() }
+                    modifier = Modifier.clickable { onAction(SignInAction.OnSignUpNavigateClick) }
                 )
             }
         }
@@ -170,14 +165,8 @@ fun SignInScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewSignIn() {
-    val email = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
-
     SignInScreen(
-        email = email.value,
-        password = password.value,
-
-        onEmailChange = { email.value = it },
-        onPasswordChange = { password.value = it },
+        state = SignInState(),
+        onAction = {},
     )
 }

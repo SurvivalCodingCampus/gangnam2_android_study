@@ -70,6 +70,14 @@ class HomeViewModel(
 
     init {
         println("MainViewModel init")
+        
+        // 즐겨찾기 실시간 구독
+        viewModelScope.launch {
+            getBookmarkedRecipeIdsUseCase().collect { savedIds ->
+                _state.update { it.copy(savedRecipeIds = savedIds) }
+            }
+        }
+
         loadData()
     }
 
@@ -81,17 +89,12 @@ class HomeViewModel(
             // Load Recipes
             val recipesResult = getRecipesUseCase.execute()
             
-            // Load Bookmarks
-            val bookmarksResult = getBookmarkedRecipeIdsUseCase.execute()
-
-            if (recipesResult is Result.Success && bookmarksResult is Result.Success) {
+            if (recipesResult is Result.Success) {
                 val all = recipesResult.data
-                val savedIds = bookmarksResult.data
 
                 _state.update { currentState ->
                     currentState.copy(
                         allRecipes = all,
-                        savedRecipeIds = savedIds,
                         selectedRecipes = if (currentState.selectedCategory.toCategory() == RecipeCategory.ALL) {
                             all
                         } else if (currentState.selectedCategory.toCategory() == RecipeCategory.NONE) {
@@ -146,17 +149,7 @@ class HomeViewModel(
         viewModelScope.launch {
             val isBookmarked = recipeId in state.value.savedRecipeIds
             
-            // UI 낙관적 업데이트
-            _state.update { state ->
-                val newBookmarks = if (isBookmarked) {
-                    state.savedRecipeIds - recipeId
-                } else {
-                    state.savedRecipeIds + recipeId
-                }
-                state.copy(savedRecipeIds = newBookmarks)
-            }
-
-            // 실제 DB 업데이트
+            // 실제 DB 업데이트 (Flow를 통해 UI 업데이트됨)
             try {
                 if (isBookmarked) {
                     removeBookmarkUseCase(recipeId)
@@ -164,17 +157,7 @@ class HomeViewModel(
                     addBookmarkUseCase(recipeId)
                 }
             } catch (e: Exception) {
-                // 실패 시 롤백 (선택 사항, 여기서는 간단히 에러 로그만)
-                println("북마크 토글 실패: $e")
-                 // 실패했을 경우 다시 원래대로 돌려놓는 로직이 있으면 좋음
-                 _state.update { state ->
-                    val newBookmarks = if (isBookmarked) {
-                        state.savedRecipeIds + recipeId // 원래대로 복구
-                    } else {
-                        state.savedRecipeIds - recipeId // 원래대로 복구
-                    }
-                    state.copy(savedRecipeIds = newBookmarks)
-                }
+                println("즐겨찾기 추가 실패: $e")
             }
         }
     }

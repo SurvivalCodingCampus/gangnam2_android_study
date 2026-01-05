@@ -24,45 +24,19 @@ class SavedRecipesViewModel(
     val state: StateFlow<SavedRecipesState> = _state.asStateFlow()
 
     init {
-        println("MainViewModel init")
+        println("SavedRecipesViewModel init")
         viewModelScope.launch {
-            loadRecipes()
-        }
-    }
-
-    suspend fun loadRecipes() {
-        when (val response = getSavedRecipesUseCase.execute()) {
-            is Result.Success -> _state.update {
-                it.copy(savedRecipes = response.data)
+            getSavedRecipesUseCase().collect { recipes ->
+                _state.update { it.copy(savedRecipes = recipes) }
             }
-
-            is Result.Error -> println("에러 처리")
         }
     }
 
     suspend fun saveNewRecipe(id: Long) {
-        // DB에 저장
         try {
             addBookmarkUseCase(id)
         } catch (e: Exception) {
             println("저장 실패: $e")
-            return
-        }
-
-        // UI 업데이트
-        when (val response = getRecipeDetailsUseCase.execute(id)) {
-            is Result.Success -> _state.update { currentState ->
-                // 이미 저장된 레시피면 그대로
-                if (currentState.savedRecipes.any { it.id == id }) {
-                    currentState
-                } else {
-                    currentState.copy(
-                        savedRecipes = currentState.savedRecipes + response.data
-                    )
-                }
-            }
-
-            is Result.Error -> println("에러 처리")
         }
     }
     
@@ -70,10 +44,6 @@ class SavedRecipesViewModel(
         viewModelScope.launch {
             try {
                 removeBookmarkUseCase(recipeId)
-                // 목록에서 제거
-                _state.update { state ->
-                    state.copy(savedRecipes = state.savedRecipes.filter { it.id != recipeId })
-                }
             } catch (e: Exception) {
                 println("삭제 실패: $e")
             }

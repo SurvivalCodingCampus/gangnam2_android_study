@@ -31,23 +31,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
-
-    name: String,
-    email: String,
-    password: String,
-    confirmPassword: String,
-    isChecked: Boolean,
-
-    onNameChange: (String) -> Unit = {},
-    onEmailChange: (String) -> Unit = {},
-    onPasswordChange: (String) -> Unit = {},
-    onConfirmPasswordChange: (String) -> Unit = {},
-    onCheckedChange: (Boolean) -> Unit = {},
-
-    onSignUpClick: () -> Unit = {},
-    onGoogleSignInClick: () -> Unit = {},
-    onFacebookSignInClick: () -> Unit = {},
-    onSignInNavigateClick: () -> Unit = {},
+    state: SignUpState,
+    onAction: (SignUpAction) -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -81,28 +66,34 @@ fun SignUpScreen(
             InputField(
                 label = "Name",
                 placeholder = "Enter Name",
-                value = name,
+                value = state.name,
                 modifier = Modifier
                     .padding(vertical = 20.dp),
-                onValueChange = onNameChange,
+                onValueChange = { name ->
+                    onAction(SignUpAction.OnNameChange(name))
+                },
             )
 
             // 이메일 입력
             InputField(
                 label = "Email",
                 placeholder = "Enter Email",
-                value = email,
-                onValueChange = onEmailChange,
+                value = state.email,
+                onValueChange = { email ->
+                    onAction(SignUpAction.OnEmailChange(email))
+                },
             )
 
             // 비밀번호 입력
             InputField(
                 label = "Password",
                 placeholder = "Enter Password",
-                value = password,
+                value = state.password,
                 modifier = Modifier
                     .padding(vertical = 20.dp),
-                onValueChange = onPasswordChange,
+                onValueChange = { password ->
+                    onAction(SignUpAction.OnPasswordChange(password))
+                },
                 isPassword = true,
             )
 
@@ -110,8 +101,10 @@ fun SignUpScreen(
             InputField(
                 label = "Confirm Password",
                 placeholder = "Retype Password",
-                value = confirmPassword,
-                onValueChange = onConfirmPasswordChange,
+                value = state.confirmPassword,
+                onValueChange = { confirmPassword ->
+                    onAction(SignUpAction.OnConfirmPasswordChange(confirmPassword))
+                },
                 isPassword = true,
             )
 
@@ -127,8 +120,10 @@ fun SignUpScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 CustomCheckbox(
-                    isChecked = isChecked,
-                    onCheckedChange = onCheckedChange
+                    isChecked = state.isChecked,
+                    onCheckedChange = { isChecked ->
+                        onAction(SignUpAction.OnCheckedChange(isChecked))
+                    },
                 )
                 Spacer(Modifier.width(5.dp))
                 Text(
@@ -141,8 +136,7 @@ fun SignUpScreen(
             // Sign Up 버튼
             BigButton(
                 text = "Sign Up",
-                modifier = Modifier
-                    .clickable { onSignUpClick() }
+                onClick = { onAction(SignUpAction.OnSignUpClick) }
             )
 
             // Or Sign in With
@@ -174,12 +168,12 @@ fun SignUpScreen(
             ) {
                 SocialButton(
                     iconId = R.drawable.social_icons_google,
-                    modifier = Modifier.clickable { onGoogleSignInClick() }
+                    modifier = Modifier.clickable { onAction(SignUpAction.OnGoogleSignInClick) }
                 )
                 Spacer(Modifier.width(25.dp))
                 SocialButton(
                     iconId = R.drawable.social_icons_facebook,
-                    modifier = Modifier.clickable { onFacebookSignInClick() }
+                    modifier = Modifier.clickable { onAction(SignUpAction.OnFacebookSignInClick) }
                 )
             }
 
@@ -197,7 +191,7 @@ fun SignUpScreen(
                     text = "Sign In",
                     style = AppTextStyles.smallerTextSemiBold,
                     color = AppColors.secondary100,
-                    modifier = Modifier.clickable { onSignInNavigateClick() }
+                    modifier = Modifier.clickable { onAction(SignUpAction.OnSignInNavigateClick) }
                 )
             }
         }
@@ -207,23 +201,8 @@ fun SignUpScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewSignUp() {
-    val email = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
-    val name = remember { mutableStateOf("") }
-    val confirmPassword = remember { mutableStateOf("") }
-    val isChecked = remember { mutableStateOf(false) }
-
     SignUpScreen(
-        name = name.value,
-        email = email.value,
-        password = password.value,
-        confirmPassword = confirmPassword.value,
-        isChecked = isChecked.value,
-
-        onNameChange = { name.value = it },
-        onEmailChange = { email.value = it },
-        onPasswordChange = { password.value = it },
-        onConfirmPasswordChange = { confirmPassword.value = it },
-        onCheckedChange = { isChecked.value = it },
+        state = SignUpState(),
+        onAction = {},
     )
 }

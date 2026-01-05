@@ -21,7 +21,7 @@ import org.koin.test.KoinTest
 import org.koin.test.inject
 
 @RunWith(AndroidJUnit4::class)
-class QaIntegrationTest : KoinTest {
+class StagingIntegrationTest : KoinTest {
 
     private val bookmarkDao: BookmarkDao by inject()
     private lateinit var memoryModule: Module

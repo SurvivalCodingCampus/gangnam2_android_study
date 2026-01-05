@@ -5,22 +5,20 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+
 class GetSavedRecipesUseCase(
     private val bookmarkRepository: BookmarkRepository,
     private val recipeRepository: RecipeRepository,
 ) {
-    suspend fun execute(): Result<List<Recipe>, String> {
-        try {
-            val all = when (val result = recipeRepository.findRecipes()){
+    operator fun invoke(): Flow<List<Recipe>> {
+        return bookmarkRepository.bookmarks.map { saved ->
+            val all = when (val result = recipeRepository.findRecipes()) {
                 is Result.Success -> result.data
                 is Result.Error -> emptyList()
             }
-            val saved = bookmarkRepository.getBookmarkedRecipeIds()
-
-            val savedRecipes = all.filter { saved.contains(it.id) }
-            return Result.Success(savedRecipes)
-        } catch (e: Exception) {
-            return Result.Error("Failed to get saved recipes: $e")
+            all.filter { saved.contains(it.id) }
         }
     }
 }

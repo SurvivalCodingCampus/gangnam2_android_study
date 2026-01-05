@@ -8,6 +8,9 @@ plugins {
 
     // ksp
     id("com.google.devtools.ksp")
+
+    // Firebase
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -42,8 +45,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     flavorDimensions += listOf("version")
     productFlavors {
@@ -55,11 +60,15 @@ android {
         create("prod") {
             dimension = "version"
         }
-        create("qa") {
+        create("staging") {
             dimension = "version"
-            applicationIdSuffix = ".qa"
-            versionNameSuffix = "-qa"
+            applicationIdSuffix = ".staging"
+            versionNameSuffix = "-staging"
         }
+    }
+
+    afterEvaluate {
+        tasks.findByName("processDevDebugGoogleServices")?.enabled = false
     }
 }
 
@@ -118,4 +127,11 @@ dependencies {
 
     androidTestImplementation(platform(libs.koin.bom))
     androidTestImplementation(libs.koin.test)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation("com.google.android.gms:play-services-auth:21.3.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.1")
 }

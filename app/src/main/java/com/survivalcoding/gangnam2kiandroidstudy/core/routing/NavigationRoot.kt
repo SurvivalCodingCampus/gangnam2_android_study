@@ -72,11 +72,11 @@ fun NavigationRoot(
             }
             entry<Route.SignIn> {
                 SignInRoot(
-                    onSignInClick = {
+                    onNavigateToMain = {
                         topLevelBackStack.clear()
                         topLevelBackStack.add(Route.Main())
                     },
-                    onSignUpNavigateClick = {
+                    onNavigateToSignUp = {
                         topLevelBackStack.clear()
                         topLevelBackStack.add(Route.SignUp)
                     },
@@ -84,11 +84,11 @@ fun NavigationRoot(
             }
             entry<Route.SignUp> {
                 SignUpRoot(
-                    onSignUpClick = {
+                    onNavigateToMain = {
                         topLevelBackStack.clear()
                         topLevelBackStack.add(Route.Main())
                     },
-                    onSignInNavigateClick = {
+                    onNavigateToSignIn = {
                         topLevelBackStack.clear()
                         topLevelBackStack.add(Route.SignIn)
                     },

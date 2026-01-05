@@ -18,10 +18,9 @@ local.properties
 
 .kotlin/
 
-
+temp_work/
 
 # Firebase
-
 .firebase/
-
+google-services.json
 firebase-debug.log*
