@@ -17,3 +17,4 @@ gradle.properties
 .idea/
 images_for_agent/
 gemini-cli-projects/
+google-services.json

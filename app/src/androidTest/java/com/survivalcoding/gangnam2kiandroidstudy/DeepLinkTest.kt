@@ -53,8 +53,8 @@ class DeepLinkTest {
 
     @Test
     fun testSavedRecipesHttpsDeepLink() {
-        // Given: https://recipe-e089b.web.app/recipes/saved 딥링크 인텐트 준비
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://recipe-e089b.web.app/recipes/saved")).apply {
+        // Given: https://compose-firebase-codelab-554af.web.app/recipes/saved 딥링크 인텐트 준비
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://compose-firebase-codelab-554af.web.app/recipes/saved")).apply {
             `package` = "com.survivalcoding.gangnam2kiandroidstudy"
         }
 
@@ -98,8 +98,8 @@ class DeepLinkTest {
 
     @Test
     fun testRecipeDetailHttpsDeepLink() {
-        // Given: https://recipe-e089b.web.app/recipes/1 딥링크 인텐트 준비
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://recipe-e089b.web.app/recipes/1")).apply {
+        // Given: https://compose-firebase-codelab-554af.web.app/recipes/1 딥링크 인텐트 준비
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://compose-firebase-codelab-554af.web.app/recipes/1")).apply {
             `package` = "com.survivalcoding.gangnam2kiandroidstudy"
         }
 

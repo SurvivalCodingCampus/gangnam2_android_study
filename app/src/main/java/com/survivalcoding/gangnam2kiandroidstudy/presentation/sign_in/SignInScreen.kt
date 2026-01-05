@@ -1,5 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,13 +21,21 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.core.routing.Route
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.BigButton
@@ -36,8 +46,33 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun SignInScreen(
     modifier: Modifier = Modifier,
-    backStack: NavBackStack<NavKey>
+    backStack: NavBackStack<NavKey>,
+    viewModel: SignInViewModel = hiltViewModel()
 ) {
+    val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
+
+    val googleSignInLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try {
+            val account = task.getResult(ApiException::class.java)
+            account?.idToken?.let { token ->
+                viewModel.signInWithGoogle(token)
+            }
+        } catch (e: ApiException) {
+            // 로그인 실패 처리 (로그 등)
+        }
+    }
+
+    LaunchedEffect(state.isSignInSuccess) {
+        if (state.isSignInSuccess) {
+            backStack.clear()
+            backStack.add(Route.Main())
+        }
+    }
+
     Scaffold(containerColor = AppColors.white) { innerPadding ->
         Box(
             modifier = modifier
@@ -67,15 +102,15 @@ fun SignInScreen(
                 }
                 Spacer(modifier = Modifier.height(57.dp))
                 InputField(
-                    value = "",
-                    onValueChange = {},
+                    value = state.email,
+                    onValueChange = viewModel::onEmailChange,
                     label = "Email",
                     placeholder = "Enter email"
                 )
                 Spacer(modifier = Modifier.height(30.dp))
                 InputField(
-                    value = "",
-                    onValueChange = {},
+                    value = state.password,
+                    onValueChange = viewModel::onPasswordChange,
                     label = "Enter Password",
                     placeholder = "Enter password"
                 )
@@ -90,12 +125,21 @@ fun SignInScreen(
                         color = AppColors.secondary100
                     )
                 }
+
+                if (state.error != null) {
+                    Text(
+                        text = state.error!!,
+                        color = Color.Red,
+                        style = AppTextStyles.smallerTextRegular,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                }
+
                 Spacer(modifier = Modifier.height(25.dp))
                 BigButton(
-                    text = "Sign In"
+                    text = if (state.isLoading) "Loading..." else "Sign In"
                 ) {
-                    backStack.clear()
-                    backStack.add(Route.Main())
+                    viewModel.signIn()
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 Row(
@@ -121,7 +165,14 @@ fun SignInScreen(
                 Spacer(modifier = Modifier.height(20.dp))
                 Row {
                     ElevatedButton(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                                .requestIdToken("278798495458-fnkq372clopaerligfh3srn6e8qbrs66.apps.googleusercontent.com")
+                                .requestEmail()
+                                .build()
+                            val googleSignInClient = GoogleSignIn.getClient(context, gso)
+                            googleSignInLauncher.launch(googleSignInClient.signInIntent)
+                        },
                         modifier = Modifier.size(44.dp),
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.elevatedButtonColors(
