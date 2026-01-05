@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -29,10 +30,15 @@ class AuthRepositoryImpl(
         return try {
             val credential = GoogleAuthProvider.getCredential(idToken, null)
             val result = auth.signInWithCredential(credential).await()
-            val userProfile = result.user?.toDto() ?: return Result.Error("Google Sign In failed: User is null")
-            
+            val userProfile =
+                result.user?.toDto() ?: return Result.Error("Google Sign In failed: User is null")
+
             // Firestore에 유저 정보 동기화 (실체화 보장)
-            saveUserToFirestore(result.user!!, userProfile.name)
+            try {
+                saveUserToFirestore(result.user!!, userProfile.name)
+            } catch (e: Exception) {
+                Log.w("AuthRepository", "Failed to save user to Firestore", e)
+            }
 
             Result.Success(userProfile)
         } catch (e: Exception) {
@@ -50,13 +56,24 @@ class AuthRepositoryImpl(
         }
     }
 
-    override suspend fun signUpWithEmail(name: String, email: String, password: String): Result<UserDto, String> {
+    override suspend fun signUpWithEmail(
+        name: String,
+        email: String,
+        password: String
+    ): Result<UserDto, String> {
         return try {
             val result = auth.createUserWithEmailAndPassword(email, password).await()
-            val userProfile = result.user?.toDto() ?: return Result.Error("Sign Up failed: User is null")
-            
-            // Firestore에 유저 문서 생성
-            saveUserToFirestore(result.user!!, name)
+            val userProfile =
+                result.user?.toDto() ?: return Result.Error("Sign Up failed: User is null")
+
+            // Firestore에 유저 정보 동기화 (실체화 보장)
+            try {
+                saveUserToFirestore(result.user!!, userProfile.name)
+            } catch (e: Exception) {
+                // Firestore 저장 실패 시 로그인은 성공했지만 경고 로깅
+                // 필요시 재시도 로직 추가 고려
+                Log.w("AuthRepository", "Failed to save user to Firestore", e)
+            }
 
             Result.Success(userProfile.copy(nickname = name, name = name))
         } catch (e: Exception) {
@@ -68,7 +85,10 @@ class AuthRepositoryImpl(
         auth.signOut()
     }
 
-    private suspend fun saveUserToFirestore(firebaseUser: FirebaseUser, overrideName: String? = null) {
+    private suspend fun saveUserToFirestore(
+        firebaseUser: FirebaseUser,
+        overrideName: String? = null
+    ) {
         val domainDto = firebaseUser.toDto()
         val userDto = com.survivalcoding.gangnam2kiandroidstudy.data.dto.UserDto.fromDomain(
             domainDto.copy(nickname = overrideName ?: domainDto.nickname)
