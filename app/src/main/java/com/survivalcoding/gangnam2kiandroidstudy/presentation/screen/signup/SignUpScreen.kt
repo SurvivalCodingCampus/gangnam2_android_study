@@ -22,8 +22,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -47,8 +45,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
-    onSignUp: () -> Unit = {},
-    onSignIn: () -> Unit = {},
+    uiState: SignUpUiState = SignUpUiState(),
+    onAction: (SignUpAction) -> Unit = {},
 ) {
     Column(
         modifier = modifier
@@ -59,12 +57,6 @@ fun SignUpScreen(
             .navigationBarsPadding()
             .padding(horizontal = 30.dp),
     ) {
-        val (name, setName) = rememberSaveable { mutableStateOf("") }
-        val (email, setEmail) = rememberSaveable { mutableStateOf("") }
-        val (password, setPassword) = rememberSaveable { mutableStateOf("") }
-        val (confirmPassword, setConfirmPassword) = rememberSaveable { mutableStateOf("") }
-        val (checked, setChecked) = rememberSaveable { mutableStateOf(false) }
-
         val focusManager = LocalFocusManager.current
 
         Column(
@@ -86,8 +78,10 @@ fun SignUpScreen(
         ) {
             InputField(
                 label = "Name",
-                value = name,
-                onValueChange = setName,
+                value = uiState.name,
+                onValueChange = {
+                    onAction(SignUpAction.OnChangeName(it))
+                },
                 placeholder = "Enter Name",
                 keyboardActions = KeyboardActions(
                     onNext = {
@@ -101,8 +95,10 @@ fun SignUpScreen(
             )
             InputField(
                 label = "Email",
-                value = email,
-                onValueChange = setEmail,
+                value = uiState.email,
+                onValueChange = {
+                    onAction(SignUpAction.OnChangeEmail(it))
+                },
                 placeholder = "Enter Email",
                 keyboardActions = KeyboardActions(
                     onNext = {
@@ -116,8 +112,10 @@ fun SignUpScreen(
             )
             InputField(
                 label = "Password",
-                value = password,
-                onValueChange = setPassword,
+                value = uiState.password,
+                onValueChange = {
+                    onAction(SignUpAction.OnChangePassword(it))
+                },
                 placeholder = "Enter Password",
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardActions = KeyboardActions(
@@ -132,8 +130,10 @@ fun SignUpScreen(
             )
             InputField(
                 label = "Confirm Password",
-                value = confirmPassword,
-                onValueChange = setConfirmPassword,
+                value = uiState.confirmPassword,
+                onValueChange = {
+                    onAction(SignUpAction.OnChangeConfirmPassword(it))
+                },
                 placeholder = "Retype Password",
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardActions = KeyboardActions(
@@ -154,14 +154,16 @@ fun SignUpScreen(
                 .padding(horizontal = 10.dp)
                 .focusable()
                 .clickable {
-                    setChecked(!checked)
+                    onAction(SignUpAction.OnChangeIsChecked(!uiState.isChecked))
                 },
             horizontalArrangement = Arrangement.spacedBy(5.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Checkbox(
-                checked = checked,
-                onCheckedChange = setChecked,
+                checked = uiState.isChecked,
+                onCheckedChange = {
+                    onAction(SignUpAction.OnChangeIsChecked(it))
+                },
             )
             Text(
                 text = "Accept terms & Condition",
@@ -171,7 +173,9 @@ fun SignUpScreen(
 
         BigButton(
             text = "Sign Up",
-            onClick = onSignUp,
+            onClick = {
+                onAction(SignUpAction.OnSignUp)
+            },
         )
 
         Row(
@@ -218,7 +222,9 @@ fun SignUpScreen(
                         color = AppColors.White,
                         shape = RoundedCornerShape(10.dp),
                     )
-                    .clickable {}
+                    .clickable {
+                        onAction(SignUpAction.RequestGoogleSignIn)
+                    }
                     .padding(10.dp),
             ) {
                 Image(
@@ -270,7 +276,9 @@ fun SignUpScreen(
                     color = AppColors.Secondary100,
                     fontWeight = FontWeight.SemiBold,
                 ),
-                modifier = Modifier.clickable(onClick = onSignIn),
+                modifier = Modifier.clickable {
+                    onAction(SignUpAction.OnSignIn)
+                },
             )
         }
     }
