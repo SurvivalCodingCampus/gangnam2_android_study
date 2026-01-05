@@ -1,13 +1,13 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.core.Result
-import com.survivalcoding.gangnam2kiandroidstudy.domain.model.User
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
+import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.UserRepository
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -17,8 +17,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -26,6 +27,7 @@ import kotlinx.coroutines.launch
 class RecipeHomeViewModel(
     private val recipeRepository: RecipeRepository,
     private val userRepository: UserRepository,
+    private val bookmarkRepository: BookmarkRepository,
 ) : ViewModel() {
     private val _state = MutableStateFlow(RecipeHomeState())
     val state = _state.asStateFlow()
@@ -47,11 +49,27 @@ class RecipeHomeViewModel(
                 }
         }
 
+//        viewModelScope.launch {
+//            userRepository.loadById(1)
+//                .collect { user ->
+//                    _state.update {
+//                        it.copy(savedRecipeIds = user?.bookmarks ?: emptyList())
+//                    }
+//                }
+//        }
         viewModelScope.launch {
-            userRepository.loadById(1)
-                .collect { user ->
-                    _state.update {
-                        it.copy(savedRecipeIds = user?.bookmarks ?: emptyList())
+            bookmarkRepository.getBookmarks()
+                .collect { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            Log.d("BookmarkSync", "Updated: ${result.data}")
+                            _state.update { it.copy(savedRecipeIds = result.data) }
+                        }
+
+                        is Result.Failure -> {
+                            Log.e("BookmarkSync", "Error: ${result.error}")
+                            _state.update { it.copy(error = "Error: ${result.error}") }
+                        }
                     }
                 }
         }
@@ -114,26 +132,36 @@ class RecipeHomeViewModel(
     }
 
     private fun toggleBookmark(recipeId: Int) {
-        viewModelScope.launch {
-            // TODO : User가 없기 때문에 임시 로직
-            val user = userRepository.loadById(1).firstOrNull()
-
-            if (user == null) {
-                userRepository.save(
-                    User(
-                        id = 0,
-                        name = "",
-                        image = "",
-                        address = "",
-                        work = "",
-                        introduce = "",
-                        bookmarks = persistentListOf()
-                    )
-                )
+        bookmarkRepository.updateBookmarkRecipe(recipeId)
+            .onEach { result ->
+                when (result) {
+                    is Result.Success -> Log.d("ToggleBookmark", "Success")
+                    is Result.Failure -> {
+                        Log.d("ToggleBookmark", "Failure: ${result.error}")
+                        _state.update { it.copy(error = "Error: ${result.error}") }
+                    }
+                }
             }
-
-            userRepository.updateSavedRecipe(1, recipeId)
-        }
+            .launchIn(viewModelScope)
+//        viewModelScope.launch {
+//            val user = userRepository.loadById(1).firstOrNull()
+//
+//            if (user == null) {
+//                userRepository.save(
+//                    User(
+//                        id = 0,
+//                        name = "",
+//                        image = "",
+//                        address = "",
+//                        work = "",
+//                        introduce = "",
+//                        bookmarks = persistentListOf()
+//                    )
+//                )
+//            }
+//
+//            userRepository.updateSavedRecipe(1, recipeId)
+//        }
     }
 
 }
