@@ -53,6 +53,7 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
             </intent-filter>
         </service>
 
