@@ -70,14 +70,17 @@ fun SignUpScreen(
             label = "Password",
             placeholder = "Enter Password",
             value = state.password,
-            onValueChange = onPasswordChange
+            onValueChange = onPasswordChange,
+            isPassword = true
         )
         Spacer(modifier = Modifier.height(height = 20.dp))
         InputField(
             label = "Confirm Password",
             placeholder = "Retype Password",
             value = state.confirmPassword,
-            onValueChange = onConfirmPasswordChange
+            onValueChange = onConfirmPasswordChange,
+            isPassword = true
+
         )
         Spacer(modifier = Modifier.height(height = 20.dp))
         Row(modifier = Modifier.padding(start = 10.dp)) {

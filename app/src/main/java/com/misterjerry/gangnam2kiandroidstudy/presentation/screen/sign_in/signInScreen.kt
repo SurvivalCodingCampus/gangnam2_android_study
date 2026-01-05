@@ -58,7 +58,8 @@ fun SignInScreen(
             label = "Enter Password",
             placeholder = "Enter Password",
             value = state.password,
-            onValueChange = onPasswordChange
+            onValueChange = onPasswordChange,
+            isPassword = true
         )
         Spacer(modifier = Modifier.height(20.dp))
         Text(

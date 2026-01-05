@@ -12,13 +12,23 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation.Companion
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.misterjerry.gangnam2kiandroidstudy.presentation.ui.AppColors
 import com.misterjerry.gangnam2kiandroidstudy.presentation.ui.AppTextStyles
 
 @Composable
-fun InputField(label: String, placeholder: String, value: String, onValueChange: (String) -> Unit) {
+fun InputField(
+    label: String,
+    placeholder: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    isPassword: Boolean = false
+
+) {
     Box(
         modifier = Modifier.height(height = 81.dp)
     ) {
@@ -38,6 +48,7 @@ fun InputField(label: String, placeholder: String, value: String, onValueChange:
                     modifier = Modifier.fillMaxSize(), // TextField가 Box를 가득 채우도록 설정
                     textStyle = AppTextStyles.smallerTextRegular.copy(color = AppColors.black),
                     onValueChange = onValueChange,
+                    visualTransformation = if(isPassword)PasswordVisualTransformation() else VisualTransformation.None,
                     value = value,
                     shape = RoundedCornerShape(10.dp),
                     placeholder = { // placeholder 람다 추가
