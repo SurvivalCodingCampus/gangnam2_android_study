@@ -7,21 +7,26 @@ plugins {
     //직렬화
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
+    //firebase
+    id("com.google.gms.google-services")
 
 }
 
 android {
-    namespace = "com.survivalcoding.gangnam2kiandroidstudy"
+    namespace = "com.misterjerry.gangnam2kiandroidstudy"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.survivalcoding.gangnam2kiandroidstudy"
+        applicationId = "com.misterjerry.gangnam2kiandroidstudy"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -119,5 +124,18 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     testImplementation(libs.androidx.room.testing)
     ksp(libs.androidx.room.compiler)
+    //firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+
+    //firebase auth
+    implementation(libs.firebase.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
+
+    //firestore
+    implementation(libs.firebase.firestore)
+    implementation(libs.kotlinx.coroutines.play.services)
 
 }
