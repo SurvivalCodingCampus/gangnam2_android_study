@@ -4,10 +4,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    //id("org.jetbrains.kotlin.plugin.serialization") version "2.2.21"
-
-    // Optional, provides the @Serialize annotation for autogeneration of Serializers.
     alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.ksp)
 
 }
 
@@ -69,6 +67,7 @@ android {
 
 dependencies {
     implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.messaging)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -90,7 +89,6 @@ dependencies {
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.core.ktx)
     implementation(libs.androidx.junit.ktx)
-    implementation(libs.firebase.messaging.ktx)
 
     testImplementation(libs.junit)
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
@@ -131,4 +129,5 @@ dependencies {
     testImplementation("androidx.room:room-testing:${room_version}")
     // optional - Paging 3 Integration
     implementation("androidx.room:room-paging:${room_version}")
+    ksp(libs.androidx.room.compiler)
 }
