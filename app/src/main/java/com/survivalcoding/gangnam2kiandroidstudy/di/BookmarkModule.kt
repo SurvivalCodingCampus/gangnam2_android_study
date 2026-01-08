@@ -31,11 +31,11 @@ val bookmarkModule = module {
 
     // BookmarkRepository
     single<BookmarkRepository> {
-        if (BuildConfig.BUILD_TYPE == "release") {
-            // Production environment: Use Room-based repository
+        if (BuildConfig.ENV_NAME == "prod") {
+            // Production flavor: Use Room-based repository
             RoomBookmarkRepositoryImpl(get<BookmarkDao>())
         } else {
-            // Dev/QA environment: Use in-memory repository
+            // Dev/QA flavors: Use in-memory repository
             InMemoryBookmarkRepositoryImpl()
         }
     }

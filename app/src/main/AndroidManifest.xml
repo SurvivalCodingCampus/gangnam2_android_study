@@ -64,6 +64,13 @@
 
         </activity>
 
+        <!-- 외부 앱에서 recipeId 목록을 읽을 수 있도록 Provider 제공 -->
+        <provider
+            android:name=".provider.BookmarkContentProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="true"
+            android:grantUriPermissions="true" />
+
     </application>
 
 </manifest>
