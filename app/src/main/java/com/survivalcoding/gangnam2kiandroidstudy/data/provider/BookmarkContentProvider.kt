@@ -36,6 +36,8 @@ class BookmarkContentProvider : ContentProvider(), KoinComponent {
     }
 
     override fun onCreate(): Boolean {
+
+
         // ContentProvider가 생성될 때 호출됩니다.
         // 여기서는 Koin이 초기화되도록 `true`만 반환하면 충분합니다.
         return true
