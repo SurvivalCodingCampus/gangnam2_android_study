@@ -32,6 +32,7 @@ fun IngredientRoot(
         onBackClick = onBackClick,
         onMoreClick = { isMenuExpanded = true },
         onDismissMoreMenu = { isMenuExpanded = false },
+        onBookmarkClick = { viewModel.toggleBookmark() },
         onTapClick = { index -> viewModel.updateTabIndex(index) },
         onShareClick = { isShareDialogVisible = true }
     )

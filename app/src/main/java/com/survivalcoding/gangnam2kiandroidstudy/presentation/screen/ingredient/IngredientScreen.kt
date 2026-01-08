@@ -89,6 +89,7 @@ fun IngredientScreen(
             modifier = Modifier.padding(vertical = 10.dp),
             recipe = state.recipe,
             isDetail = true,
+            isBookmarked = state.isBookmarked,
             onBookmarkClick = onBookmarkClick,
         )
 
