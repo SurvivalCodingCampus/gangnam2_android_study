@@ -10,13 +10,20 @@ import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepositor
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.AuthRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ClipboardRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.CachedRecipeRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val repositoryModule = module {
     single<ProcedureRepository> { ProcedureRepositoryImpl() }
-    single<RecipeRepository> { RecipeRepositoryImpl(get()) }
+    single<RecipeRepository> {
+        if (BuildConfig.FLAVOR == "dev") {
+            RecipeRepositoryImpl(get())
+        } else {
+            CachedRecipeRepositoryImpl(get(), get())
+        }
+    }
     single<ClipboardRepository> { ClipboardRepositoryImpl(androidContext()) }
 
     single {
