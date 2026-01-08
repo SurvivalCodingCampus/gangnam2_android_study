@@ -5,7 +5,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult
 import com.survivalcoding.gangnam2kiandroidstudy.core.HttpException
 import com.survivalcoding.gangnam2kiandroidstudy.core.NetworkError
 import com.survivalcoding.gangnam2kiandroidstudy.core.util.isFail
+import com.survivalcoding.gangnam2kiandroidstudy.data.dao.RecipeDao
 import com.survivalcoding.gangnam2kiandroidstudy.data.datasource.RecipeDataSource
+import com.survivalcoding.gangnam2kiandroidstudy.data.mapper.toEntity
 import com.survivalcoding.gangnam2kiandroidstudy.data.mapper.toModel
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeSearchCondition
@@ -19,6 +21,7 @@ import java.io.IOException
 
 class RecipeRepositoryImpl(
     private val dataSource: RecipeDataSource,
+    private val recipeDao: RecipeDao,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : RecipeRepository {
 
@@ -33,6 +36,8 @@ class RecipeRepositoryImpl(
 
                 val recipes = response.body?.toModel()
                     ?: return@handleNetworkError AppResult.Error(NetworkError.Unknown("응답 데이터가 비어있습니다"))
+
+                recipeDao.insertAll(recipes.map { it.toEntity() })
 
                 AppResult.Success(recipes)
             }

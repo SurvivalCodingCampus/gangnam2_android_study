@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.mapper
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.RecipeDto
 import com.survivalcoding.gangnam2kiandroidstudy.data.dto.RecipesDto
+import com.survivalcoding.gangnam2kiandroidstudy.data.entity.RecipeEntity
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 
 fun RecipesDto.toModel(): List<Recipe> {
@@ -18,6 +19,31 @@ fun RecipeDto.toModel(): Recipe {
         rating = this.rating ?: 0.0,
     )
 }
+
+fun Recipe.toEntity() = RecipeEntity(
+    id = id,
+    name = name,
+    imageUrl = imageUrl,
+    chef = chef,
+    time = time,
+    rating = rating,
+    serve = serve,
+    chefImageUrl = chefImageUrl,
+    shareUrl = shareUrl,
+)
+
+fun RecipeEntity.toModel() = Recipe(
+    id = id,
+    name = name,
+    imageUrl = imageUrl,
+    chef = chef,
+    time = time,
+    rating = rating,
+    serve = serve,
+    chefImageUrl = chefImageUrl,
+    shareUrl = shareUrl,
+    isSaved = false,
+)
 
 private fun extractTime(time: String): Int? {
     val regex = Regex("^\\d+")

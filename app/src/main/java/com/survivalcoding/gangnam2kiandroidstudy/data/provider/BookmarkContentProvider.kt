@@ -6,18 +6,15 @@ import android.content.UriMatcher
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
-import com.survivalcoding.gangnam2kiandroidstudy.core.AppResult
 import com.survivalcoding.gangnam2kiandroidstudy.data.dao.BookmarkDao
-import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
+import com.survivalcoding.gangnam2kiandroidstudy.data.dao.RecipeDao
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class BookmarkContentProvider : ContentProvider(), KoinComponent {
 
     private val bookmarkDao: BookmarkDao by inject()
-    private val recipeRepository: RecipeRepository by inject()
+    private val recipeDao: RecipeDao by inject()
 
     companion object {
         const val AUTHORITY = "com.survivalcoding.gangnam2kiandroidstudy.provider"
@@ -53,44 +50,37 @@ class BookmarkContentProvider : ContentProvider(), KoinComponent {
     ): Cursor? {
         return when (uriMatcher.match(uri)) {
             CODE_BOOKMARK_DIR -> {
-                runBlocking {
-                    try {
-                        val profileId = 1L // Default profile ID
-                        val bookmarks = bookmarkDao.findAllByProfileId(profileId).first()
-                        val bookmarkSet = bookmarks.map { it.recipeId }.toSet()
+                try {
+                    val profileId = 1L // Default profile ID
+                    val bookmarks = bookmarkDao.findAllByProfileIdSync(profileId)
+                    val recipeIds = bookmarks.map { it.recipeId }
 
-                        val recipeResult = recipeRepository.getSavedRecipes()
-                        val recipes = if (recipeResult is AppResult.Success) {
-                            recipeResult.data.filter { it.id in bookmarkSet }
-                        } else {
-                            emptyList()
-                        }
+                    val recipes = recipeDao.findByIdsSync(recipeIds)
 
-                        val columns = arrayOf(
-                            COLUMN_ID, COLUMN_NAME, COLUMN_IMAGE_URL,
-                            COLUMN_CHEF, COLUMN_TIME, COLUMN_RATING, COLUMN_IS_SAVED,
+                    val columns = arrayOf(
+                        COLUMN_ID, COLUMN_NAME, COLUMN_IMAGE_URL,
+                        COLUMN_CHEF, COLUMN_TIME, COLUMN_RATING, COLUMN_IS_SAVED,
+                    )
+                    val cursor = MatrixCursor(columns)
+
+                    recipes.forEach { recipe ->
+                        cursor.addRow(
+                            arrayOf<Any>(
+                                recipe.id,
+                                recipe.name,
+                                recipe.imageUrl,
+                                recipe.chef,
+                                recipe.time,
+                                recipe.rating,
+                                1,
+                            ),
                         )
-                        val cursor = MatrixCursor(columns)
-
-                        recipes.forEach { recipe ->
-                            cursor.addRow(
-                                arrayOf(
-                                    recipe.id,
-                                    recipe.name,
-                                    recipe.imageUrl,
-                                    recipe.chef,
-                                    recipe.time,
-                                    recipe.rating,
-                                    if (bookmarkSet.contains(recipe.id)) 1 else 0,
-                                ),
-                            )
-                        }
-                        cursor.setNotificationUri(context?.contentResolver, uri)
-                        cursor
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        null
                     }
+                    cursor.setNotificationUri(context?.contentResolver, uri)
+                    cursor
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    null
                 }
             }
             else -> null

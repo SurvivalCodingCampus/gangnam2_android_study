@@ -13,7 +13,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.SignUpReposit
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    single<RecipeRepository> { RecipeRepositoryImpl(get()) }
+    single<RecipeRepository> { RecipeRepositoryImpl(get(), get()) }
     single<ProfileRepository> { MockProfileRepositoryImpl }
     single<IngredientRepository> { MockIngredientRepositoryImpl }
     single<ProcedureRepository> { MockProcedureRepositoryImpl }

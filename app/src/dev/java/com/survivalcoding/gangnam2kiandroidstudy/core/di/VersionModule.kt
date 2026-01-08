@@ -20,5 +20,6 @@ val versionModule = module {
         ).build()
     }
     single { get<AppDatabase>().bookmarkDao() }
+    single { get<AppDatabase>().recipeDao() }
     single<BookmarkRepository> { RoomBookmarkRepositoryImpl(get()) }
 }
