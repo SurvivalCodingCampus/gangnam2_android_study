@@ -55,7 +55,7 @@ object RepositoryModule {
         auth: FirebaseAuth
     ): BookmarkRepository {
         return if (BuildConfig.FLAVOR == "prod" || BuildConfig.FLAVOR == "qa") {
-            FirebaseBookmarkRepositoryImpl(firestore, auth)
+            FirebaseBookmarkRepositoryImpl(firestore, auth, bookmarkDao)
         } else {
             BookmarkRepositoryImpl(bookmarkDao)
         }

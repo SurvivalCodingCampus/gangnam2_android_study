@@ -21,3 +21,7 @@ google-services.json
 .firebase/
 firebase-debug.log
 .firebaserc
+
+# Firebase / Firestore debug logs
+*.log
+firestore-debug.log
