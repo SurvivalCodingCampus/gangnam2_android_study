@@ -27,14 +27,12 @@ class BookmarkContentProviderTest : KoinTest {
     @Before
     fun setUp() {
         loadKoinModules(module {
-            // 테스트용 인메모리 데이터베이스를 사용합니다.
             single {
                 Room.inMemoryDatabaseBuilder(
                     InstrumentationRegistry.getInstrumentation().targetContext,
                     AppDatabase::class.java
-                ).allowMainThreadQueries().build() // 테스트에서는 메인 스레드 쿼리 허용
+                ).allowMainThreadQueries().build()
             }
-            // 데이터베이스에서 Dao를 가져옵니다.
             single<BookmarkDao> {
                 get<AppDatabase>().bookmarkDao()
             }
@@ -44,13 +42,12 @@ class BookmarkContentProviderTest : KoinTest {
     @Test
     fun query() = runBlocking {
         // Given: 테스트용 데이터 삽입
-        val recipeId = 1L
-        bookmarkDao.insert(recipeId)
+        val recipeIdToInsert = 1L
+        bookmarkDao.insert(recipeIdToInsert)
 
+        // When: ContentProvider를 통해 북마크 데이터를 조회합니다.
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val contentResolver = context.contentResolver
-
-        // When: contentProvider를 통해 북마크 데이터를 조회합니다.
         val cursor = contentResolver.query(
             BookmarkContentProvider.CONTENT_URI,
             null,
@@ -63,10 +60,8 @@ class BookmarkContentProviderTest : KoinTest {
         assertNotNull(cursor)
         assertTrue(cursor!!.count > 0)
 
-        // Cursor 내용을 Logcat에 출력합니다.
         Log.d("BookmarkContentProviderTest", DatabaseUtils.dumpCursorToString(cursor))
 
-        // cursor를 올바르게 닫아줍니다.
         cursor.close()
     }
 }
