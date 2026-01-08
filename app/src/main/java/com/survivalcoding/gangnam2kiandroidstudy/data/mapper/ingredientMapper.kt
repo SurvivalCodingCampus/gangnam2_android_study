@@ -7,6 +7,6 @@ fun IngredientDTO.toModel(): Ingredient {
     return Ingredient(
         id = id ?: 0,
         name = name ?: EMPTY_STRING,
-        imageUrl = imageUrl ?: EMPTY_STRING,
+        imageUrl = image ?: EMPTY_STRING,
     )
 }

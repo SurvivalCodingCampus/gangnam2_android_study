@@ -10,7 +10,7 @@ fun RecipeDTO.toModel(): Recipe {
         id = id ?: 0,
         category = category?.toCategory() ?: RecipeCategory.NONE,
         name = name ?: EMPTY_STRING,
-        imageUrl = imageUrl ?: EMPTY_STRING,
+        imageUrl = image ?: EMPTY_STRING,
         chef = chef ?: EMPTY_STRING,
         time = time ?: EMPTY_STRING,
         rating = rating ?: EMPTY_DOUBLE,
