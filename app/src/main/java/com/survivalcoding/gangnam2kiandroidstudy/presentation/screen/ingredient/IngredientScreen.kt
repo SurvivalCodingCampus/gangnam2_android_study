@@ -42,13 +42,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun IngredientScreen(
     state: IngredientState,
-    isMenuExpanded: Boolean = false,
-    onBackClick: () -> Unit = {},
-    onMoreClick: () -> Unit = {},
-    onDismissMoreMenu: () -> Unit = {},
-    onBookmarkClick: () -> Unit = {},
-    onTapClick: (Int) -> Unit = {},
-    onShareClick: () -> Unit = {},
+    onAction: (IngredientAction) -> Unit = {},
 ) {
     Column(
         modifier = Modifier.padding(horizontal = 30.dp)
@@ -65,7 +59,7 @@ fun IngredientScreen(
                 modifier = Modifier
                     .size(20.dp)
                     .rotate(180f)
-                    .clickable { onBackClick() }
+                    .clickable { onAction(IngredientAction.OnBackClick) }
             )
             Spacer(modifier = Modifier.weight(1f))
             Box {
@@ -73,13 +67,13 @@ fun IngredientScreen(
                     painter = painterResource(R.drawable.outline_more),
                     contentDescription = "더보기 아이콘",
                     modifier = Modifier.clickable {
-                        onMoreClick()
+                        onAction(IngredientAction.OnMoreClick)
                     },
                 )
                 MoreDropdownMenu(
-                    expanded = isMenuExpanded,
-                    onDismissRequest = onDismissMoreMenu,
-                    onShareClick = onShareClick
+                    expanded = state.isMenuExpanded,
+                    onDismissRequest = { onAction(IngredientAction.OnDismissMoreMenu) },
+                    onShareClick = { onAction(IngredientAction.OnShareClick) }
                 )
             }
         }
@@ -90,7 +84,7 @@ fun IngredientScreen(
             recipe = state.recipe,
             isDetail = true,
             isBookmarked = state.isBookmarked,
-            onBookmarkClick = onBookmarkClick,
+            onBookmarkClick = { onAction(IngredientAction.OnBookmarkClick) },
         )
 
         // 타이틀
@@ -174,7 +168,7 @@ fun IngredientScreen(
             labels = listOf("Ingredient", "Procedure"),
             modifier = Modifier.fillMaxWidth(),
             selectedIndex = state.tabIndex,
-            onValueChange = { onTapClick(it) }
+            onValueChange = { onAction(IngredientAction.OnTabClick(it)) }
         )
 
         // 몇인분, 재료 개수

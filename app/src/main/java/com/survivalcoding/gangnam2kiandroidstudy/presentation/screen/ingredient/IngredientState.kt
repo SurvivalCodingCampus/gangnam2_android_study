@@ -17,4 +17,6 @@ data class IngredientState(
     val tabIndex: Int = 0,
     val procedures: List<String> = emptyList(),
     val isBookmarked: Boolean = false,
+    val isMenuExpanded: Boolean = false,
+    val isShareDialogVisible: Boolean = false,
 )

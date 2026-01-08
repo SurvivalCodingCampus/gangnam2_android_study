@@ -52,8 +52,20 @@ class IngredientViewModel(
         }
     }
 
+    fun onAction(action: IngredientAction) {
+        when (action) {
+            is IngredientAction.OnTabClick -> updateTabIndex(action.index)
+            IngredientAction.OnBookmarkClick -> toggleBookmark()
+            IngredientAction.OnMoreClick -> _state.update { it.copy(isMenuExpanded = true) }
+            IngredientAction.OnDismissMoreMenu -> _state.update { it.copy(isMenuExpanded = false) }
+            IngredientAction.OnShareClick -> _state.update { it.copy(isShareDialogVisible = true, isMenuExpanded = false) }
+            IngredientAction.OnDismissShareDialog -> _state.update { it.copy(isShareDialogVisible = false) }
+            else -> { /* Navigation handled in Root */ }
+        }
+    }
+
     // tap 클릭마다 index 업데이트
-    fun updateTabIndex(index: Int) {
+    private fun updateTabIndex(index: Int) {
         _state.update { it.copy(tabIndex = index) }
     }
 
@@ -71,7 +83,7 @@ class IngredientViewModel(
         copyLinkUseCase(link)
     }
 
-    fun toggleBookmark() {
+    private fun toggleBookmark() {
         val recipeId = state.value.recipe.id
         if (recipeId == 0L) return
 
