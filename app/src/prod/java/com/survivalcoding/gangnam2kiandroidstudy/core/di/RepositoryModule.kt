@@ -19,7 +19,7 @@ import org.koin.dsl.module
 
 val recipeRepositoryModule = module {
 
-    single<RecipeRepository> { RecipeRepositoryImpl(get()) }
+    single<RecipeRepository> { RecipeRepositoryImpl(get(), get()) }
 }
 
 val ingredientRepositoryModule = module {

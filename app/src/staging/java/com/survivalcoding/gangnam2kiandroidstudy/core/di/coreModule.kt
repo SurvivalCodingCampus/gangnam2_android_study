@@ -32,6 +32,7 @@ val coreModule = module {
     }
 
     single { get<AppDataBase>().userDao() }
+    single { get<AppDataBase>().recipeDao() }
 
     single<FirebaseAuth> {
         val auth = FirebaseAuth.getInstance()

@@ -11,18 +11,18 @@ import androidx.compose.ui.Modifier
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved.SavedRecipeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.ui.theme.Gangnam2kiAndroidStudyTheme
 
-class SavedRecipeActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            Gangnam2kiAndroidStudyTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SavedRecipeRoot(modifier = Modifier.padding(innerPadding))
+//class SavedRecipeActivity : ComponentActivity() {
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        enableEdgeToEdge()
+//        setContent {
+//            Gangnam2kiAndroidStudyTheme {
+//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//                    SavedRecipeRoot(modifier = Modifier.padding(innerPadding))
 //                    SearchRecipeRoot(modifier = Modifier.padding(innerPadding))
 //                    RecipeHomeRoot(modifier = Modifier.padding(innerPadding))
-                }
-            }
-        }
-    }
-}
+//                }
+//            }
+//        }
+//    }
+//}
