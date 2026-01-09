@@ -59,6 +59,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".SavedRecipesActivity" />
+
         <provider
             android:name=".data.provider.RecipeContentProvider"
             android:authorities="${applicationId}.provider"
