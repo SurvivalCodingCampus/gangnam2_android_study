@@ -51,6 +51,16 @@
             </intent-filter>
 
         </activity>
+
+        <!--
+            [Content Provider 등록]
+            외부 앱에 '저장된 레시피' 데이터를 제공하기 위한 Provider입니다.
+            exported="true": 외부 앱에서 접근을 허용합니다.
+        -->
+        <provider
+            android:name=".data.provider.RecipeProvider"
+            android:authorities="com.misterjerry.gangnam2kiandroidstudy.provider"
+            android:exported="true" />
     </application>
 
 </manifest>
