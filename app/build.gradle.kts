@@ -127,4 +127,6 @@ dependencies {
 
     implementation("com.google.firebase:firebase-firestore")
 
+    // Glide
+    implementation("com.github.bumptech.glide:glide:5.0.5")
 }

@@ -5,15 +5,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.databinding.FragmentRecipeListBinding
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipe.SavedRecipesViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.adapter.SavedRecipeAdapter
+import kotlinx.coroutines.launch
 
 
 class RecipeListFragment : Fragment() {
 
-    //
     private var _binding: FragmentRecipeListBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: SavedRecipesViewModel by viewModel()
+    private lateinit var recipeAdapter: SavedRecipeAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,10 +35,42 @@ class RecipeListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+        observeState()
 
     }
 
 
+    private fun setupRecyclerView() {
+        recipeAdapter = SavedRecipeAdapter(
+            onBookmarkClick = {
+
+            },
+            onCardClick = {
+                //
+            }
+        )
+
+        binding.recyclerView.apply {
+            adapter = recipeAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+        }
+    }
+
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect { state ->
+
+                    // 레시피 리스트 업데이트
+                    if (!state.isLoading) {
+                        recipeAdapter.submitList(state.recipes)
+                    }
+                }
+            }
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         // Fragment View 생명주기 끝나면 반드시 해제
