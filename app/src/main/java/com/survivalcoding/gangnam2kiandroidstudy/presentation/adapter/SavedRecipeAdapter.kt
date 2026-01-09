@@ -14,6 +14,7 @@ class SavedRecipeAdapter(
     private val listener: OnRecipeClickListener
 ) : ListAdapter<Recipe, SavedRecipeAdapter.RecipeViewHolder>(RecipeDiffCallback()) {
 
+    // 콜백 인터페이스
     interface OnRecipeClickListener {
         fun onRecipeClick(recipeId: Int)
     }
@@ -38,8 +39,8 @@ class SavedRecipeAdapter(
 
         fun bind(recipe: Recipe) {
             binding.apply {
-                // 이미지 로드
 
+                // 이미지 로드
                 Glide.with(ivRecipeImage.context)
                     .load(recipe.imageUrls)
                     .centerCrop()

@@ -76,12 +76,15 @@ class RecipeListFragment(
 
                     // 레시피 리스트 업데이트
                     if (!state.isLoading) {
+
+                        // submitList: 레시피 목록이 바뀌면 이전 목록이랑 비교해서 바뀐 것만 반영
                         recipeAdapter.submitList(state.recipes)
                     }
                 }
             }
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         // Fragment View 생명주기 끝나면 반드시 해제

@@ -29,17 +29,17 @@ class SavedRecipesActivity : AppCompatActivity() {
             insets
         }
 
-
-
         if (savedInstanceState == null) {
             val recipeListFragment = RecipeListFragment(
                 object : RecipeListFragment.OnRecipeSelectedListener {
                     override fun onRecipeSelected(recipeId: Int) {
                         val bundle = bundleOf("id" to recipeId)
                         supportFragmentManager.beginTransaction()
+                            // DetailFragment 연결
 //                            .replace(R.id.fragment_container, DetailFragment().apply {
 //                                arguments = bundle
 //                            })
+                            // RecipeDetailFragment 연결
                             .replace(R.id.fragment_container, RecipeDetailFragment().apply {
                                 arguments = bundle
                             })
@@ -48,6 +48,8 @@ class SavedRecipesActivity : AppCompatActivity() {
                     }
                 }
             )
+
+            // 초기 RecipeListFragment 연결
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, recipeListFragment)
                 .commit()
