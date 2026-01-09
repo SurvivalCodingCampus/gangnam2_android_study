@@ -61,7 +61,7 @@
 
         <provider
             android:name=".data.local.RecipeContentProvider"
-            android:authorities="com.survivalcoding.gangnam2kiandroidstudy.provider"
+            android:authorities="${applicationId}.provider"
             android:exported="true" />
     </application>
 

@@ -5,6 +5,8 @@ import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
+import com.survivalcoding.gangnam2kiandroidstudy.BuildConfig
+import com.survivalcoding.gangnam2kiandroidstudy.core.di.initKoin
 import org.koin.android.ext.android.inject
 
 class RecipeContentProvider : ContentProvider() {
@@ -12,14 +14,17 @@ class RecipeContentProvider : ContentProvider() {
     private val recipeDao: RecipeDao by inject()
 
     companion object {
-        private const val AUTHORITY = "com.survivalcoding.gangnam2kiandroidstudy.provider"
+        private val AUTHORITY = "${BuildConfig.APPLICATION_ID}.provider"
         private const val BOOKMARKED_RECIPES = 1
         private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH).apply {
             addURI(AUTHORITY, "bookmarked_recipes", BOOKMARKED_RECIPES)
         }
     }
 
-    override fun onCreate(): Boolean = true
+    override fun onCreate(): Boolean {
+        context?.let { initKoin(it) }
+        return true
+    }
 
     override fun query(
         uri: Uri,
