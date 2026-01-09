@@ -21,5 +21,5 @@ val repositoryModule = module {
     // single<SavedRecipesRepository> { SavedRecipesRepositoryImpl(get()) }
 
     // Firestore implementation
-    single<SavedRecipesRepository> { SavedRecipesFirestoreRepositoryImpl(get(), get()) }
+    single<SavedRecipesRepository> { SavedRecipesFirestoreRepositoryImpl(get(), get(), get()) }
 }
