@@ -59,7 +59,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SavedRecipesActivity" />
+        <!-- 레거시 구현을 위한 activity -->
+        <activity
+            android:name=".SavedRecipesActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Empty">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <provider
             android:name=".data.provider.RecipeContentProvider"

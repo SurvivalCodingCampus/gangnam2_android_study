@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- View + Fragment 전용 -->
+    <style name="Theme.AppCompat.Empty" parent="Theme.AppCompat.Light.NoActionBar" />
+
+</resources>
