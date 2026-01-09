@@ -43,9 +43,7 @@ class RecipeListFragment : Fragment(R.layout.fragment_recipe_list) {
                 }
             },
         )
-        binding.recyclerView.apply {
-            this.adapter = adapter
-        }
+        binding.recyclerView.adapter = adapter
 
         /*
         View 의 라이프사이클에 따르는 scope

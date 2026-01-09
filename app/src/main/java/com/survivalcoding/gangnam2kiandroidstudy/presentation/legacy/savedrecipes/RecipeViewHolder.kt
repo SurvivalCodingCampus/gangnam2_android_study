@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.legacy.savedrecip
 
 import android.view.View
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.recyclerview.widget.RecyclerView
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
@@ -9,7 +10,16 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCa
 
 class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    val composeView: ComposeView = itemView.findViewById(R.id.savedRecipeCard)
+    private val composeView: ComposeView = itemView.findViewById(R.id.savedRecipeCard)
+
+    init {
+        /*
+        Fragment 가 onDestroyView 될 때 ComposeView 메모리 해제
+         */
+        composeView.setViewCompositionStrategy(
+            ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed,
+        )
+    }
 
     fun bind(recipe: Recipe, listener: SavedRecipesActionListener) {
         /*
@@ -18,12 +28,8 @@ class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         composeView.setContent {
             RecipeCard(
                 recipe = recipe,
-                onClick = {
-                    listener.onCardClick(it)
-                },
-                onBookmarkClick = {
-                    listener.onBookmarkClick(it)
-                },
+                onClick = listener::onCardClick,
+                onBookmarkClick = listener::onBookmarkClick,
             )
         }
     }

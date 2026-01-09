@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.savedrecipes
 
+import android.app.Activity
 import android.content.Intent
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -15,7 +16,7 @@ fun SavedRecipesRoot(
     snackbarHostState: SnackbarHostState,
     viewModel: SavedRecipesViewModel = koinViewModel(),
     onNavigate: (SavedRecipesNavigation) -> Unit = {},
-    onActivityLaunched: () -> Unit,
+    onActivityLaunched: () -> Unit = {},
 ) {
     val context = LocalContext.current
 
@@ -23,9 +24,17 @@ fun SavedRecipesRoot(
     레거시용 SavedRecipesActivity 로 이동
      */
     LaunchedEffect(Unit) {
-        val intent = Intent(context, SavedRecipesActivity::class.java)
-        context.startActivity(intent)
-        onActivityLaunched()
+        val intent = Intent(context, SavedRecipesActivity::class.java).apply {
+            /*
+            Activity Context가 아닌 곳에서 startActivity 호출 시 Task 생성이 필수이므로 플래그 추가
+             */
+            if (context !is Activity) addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        runCatching {
+            context.startActivity(intent)
+        }.onSuccess {
+            onActivityLaunched()
+        }
     }
 
 //    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
