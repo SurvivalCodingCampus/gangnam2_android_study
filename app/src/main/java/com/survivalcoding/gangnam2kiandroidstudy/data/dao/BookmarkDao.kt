@@ -13,6 +13,9 @@ interface BookmarkDao {
     @Query("SELECT * FROM bookmark WHERE profile_id = :profileId")
     fun findAllByProfileId(profileId: Long): Flow<List<BookmarkEntity>>
 
+    @Query("SELECT * FROM bookmark WHERE profile_id = :profileId")
+    fun findAllByProfileIdSync(profileId: Long): List<BookmarkEntity>
+
     @Query("SELECT * FROM bookmark WHERE recipe_id = :recipeId")
     suspend fun findByRecipeId(recipeId: Long): BookmarkEntity?
 
