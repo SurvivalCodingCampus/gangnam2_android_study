@@ -23,6 +23,13 @@ class SavedRecipesActivity : AppCompatActivity() {
         binding = ActivitySavedRecipesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportFragmentManager.setFragmentResultListener("recipe_selected", this) { _, bundle ->
+            val recipeId = bundle.getInt("id")
+
+            // 결과를 받았을 때 화면 전환 로직 실행
+            navigateToDetail(recipeId)
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -30,29 +37,28 @@ class SavedRecipesActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            val recipeListFragment = RecipeListFragment(
-                object : RecipeListFragment.OnRecipeSelectedListener {
-                    override fun onRecipeSelected(recipeId: Int) {
-                        val bundle = bundleOf("id" to recipeId)
-                        supportFragmentManager.beginTransaction()
-                            // DetailFragment 연결
-//                            .replace(R.id.fragment_container, DetailFragment().apply {
-//                                arguments = bundle
-//                            })
-                            // RecipeDetailFragment 연결
-                            .replace(R.id.fragment_container, RecipeDetailFragment().apply {
-                                arguments = bundle
-                            })
-                            .addToBackStack(null)
-                            .commit()
-                    }
-                }
-            )
+            val recipeListFragment = RecipeListFragment()
+
 
             // 초기 RecipeListFragment 연결
-            supportFragmentManager.beginTransaction()
+            supportFragmentManager
+                .beginTransaction()
                 .replace(R.id.fragment_container, recipeListFragment)
                 .commit()
+
+
         }
+    }
+
+    private fun navigateToDetail(recipeId: Int) {
+        val bundle = bundleOf("id" to recipeId)
+        val detailFragment = RecipeDetailFragment().apply {
+            arguments = bundle
+        }
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, detailFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

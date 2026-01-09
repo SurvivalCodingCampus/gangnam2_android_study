@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import com.survivalcoding.gangnam2kiandroidstudy.databinding.FragmentRecipeListBinding
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipe.SavedRecipesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -17,9 +19,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.adapter.SavedRecip
 import kotlinx.coroutines.launch
 
 
-class RecipeListFragment(
-    private val listener: OnRecipeSelectedListener
-) : Fragment() {
+class RecipeListFragment: Fragment() {
 
     interface OnRecipeSelectedListener {
         fun onRecipeSelected(recipeId: Int)
@@ -56,7 +56,10 @@ class RecipeListFragment(
                     Toast.makeText(requireContext(), "ID: $recipeId", Toast.LENGTH_SHORT)
                         .show()
 
-                    listener.onRecipeSelected(recipeId)
+                    setFragmentResult(
+                        "recipe_selected",
+                        bundleOf("id" to recipeId)
+                    )
                 }
             }
         )
