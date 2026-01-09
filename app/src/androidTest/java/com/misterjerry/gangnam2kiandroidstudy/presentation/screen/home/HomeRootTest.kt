@@ -11,9 +11,6 @@ import com.misterjerry.gangnam2kiandroidstudy.domain.model.Recipe
 import com.misterjerry.gangnam2kiandroidstudy.domain.model.SavedRecipesEntity
 import com.misterjerry.gangnam2kiandroidstudy.domain.repository.RecipesRepository
 import com.misterjerry.gangnam2kiandroidstudy.domain.repository.SavedRecipesRepository
-import com.misterjerry.gangnam2kiandroidstudy.domain.use_case.AddSavedRecipeUseCase
-import com.misterjerry.gangnam2kiandroidstudy.domain.use_case.DeleteSavedRecipeUseCase
-import com.misterjerry.gangnam2kiandroidstudy.domain.use_case.GetAllRecipesUseCase
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -44,14 +41,9 @@ class HomeRootTest {
 
         val fakeSavedRecipesRepository = object : SavedRecipesRepository {
             override suspend fun getSavedRecipes(): List<SavedRecipesEntity> = emptyList()
-            override suspend fun deleteSavedRecipe(id: Int) {}
-            override suspend fun addSavedRecipe(id: Int) {}
+            override suspend fun deleteSavedRecipe(id: Int): Result<Unit> = Result.success(Unit)
+            override suspend fun addSavedRecipe(id: Int): Result<Unit> = Result.success(Unit)
         }
-
-        // UseCase 생성
-        val getAllRecipesUseCase = GetAllRecipesUseCase(fakeRepository)
-        val addSavedRecipeUseCase = AddSavedRecipeUseCase(fakeSavedRecipesRepository)
-        val deleteSavedRecipeUseCase = DeleteSavedRecipeUseCase(fakeSavedRecipesRepository)
 
         val viewModel = HomeViewModel(fakeRepository, fakeSavedRecipesRepository)
 
@@ -114,14 +106,11 @@ class HomeRootTest {
 
         val fakeSavedRecipesRepository = object : SavedRecipesRepository {
             override suspend fun getSavedRecipes(): List<SavedRecipesEntity> = emptyList()
-            override suspend fun deleteSavedRecipe(id: Int) {}
-            override suspend fun addSavedRecipe(id: Int) {}
+            override suspend fun deleteSavedRecipe(id: Int): Result<Unit> = Result.success(Unit)
+            override suspend fun addSavedRecipe(id: Int): Result<Unit> = Result.success(Unit)
         }
 
         // UseCase 생성
-        val getAllRecipesUseCase = GetAllRecipesUseCase(fakeRepository)
-        val addSavedRecipeUseCase = AddSavedRecipeUseCase(fakeSavedRecipesRepository)
-        val deleteSavedRecipeUseCase = DeleteSavedRecipeUseCase(fakeSavedRecipesRepository)
 
         val viewModel = HomeViewModel(fakeRepository, fakeSavedRecipesRepository)
 
@@ -162,14 +151,9 @@ class HomeRootTest {
 
         val fakeSavedRecipesRepository = object : SavedRecipesRepository {
             override suspend fun getSavedRecipes(): List<SavedRecipesEntity> = emptyList()
-            override suspend fun deleteSavedRecipe(id: Int) {}
-            override suspend fun addSavedRecipe(id: Int) {}
+            override suspend fun deleteSavedRecipe(id: Int): Result<Unit> = Result.success(Unit)
+            override suspend fun addSavedRecipe(id: Int): Result<Unit> = Result.success(Unit)
         }
-
-        // UseCase 생성
-        val getAllRecipesUseCase = GetAllRecipesUseCase(fakeRepository)
-        val addSavedRecipeUseCase = AddSavedRecipeUseCase(fakeSavedRecipesRepository)
-        val deleteSavedRecipeUseCase = DeleteSavedRecipeUseCase(fakeSavedRecipesRepository)
 
         val viewModel = HomeViewModel(fakeRepository, fakeSavedRecipesRepository)
 
