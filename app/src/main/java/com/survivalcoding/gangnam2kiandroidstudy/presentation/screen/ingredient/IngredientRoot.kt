@@ -18,8 +18,6 @@ fun IngredientRoot(
     viewModel: IngredientViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    var isMenuExpanded by remember { mutableStateOf(false) }
-    var isShareDialogVisible by remember { mutableStateOf(false) }
 
     LaunchedEffect(recipeId) {
         viewModel.loadRecipeDetail(recipeId)
@@ -28,23 +26,24 @@ fun IngredientRoot(
 
     IngredientScreen(
         state = state,
-        isMenuExpanded = isMenuExpanded,
-        onBackClick = onBackClick,
-        onMoreClick = { isMenuExpanded = true },
-        onDismissMoreMenu = { isMenuExpanded = false },
-        onTapClick = { index -> viewModel.updateTabIndex(index) },
-        onShareClick = { isShareDialogVisible = true }
+        onAction = { action ->
+            if (action is IngredientAction.OnBackClick) {
+                onBackClick()
+            } else {
+                viewModel.onAction(action)
+            }
+        }
     )
 
     val linkText = "app.foodrecipe.com/recipe143"
 
-    if (isShareDialogVisible) {
+    if (state.isShareDialogVisible) {
         RecipeLinkDialog(
             linkText = linkText,
-            onDismissRequest = { isShareDialogVisible = false },
+            onDismissRequest = { viewModel.onAction(IngredientAction.OnDismissShareDialog) },
             onCopyClick = {
                 viewModel.copyLink(linkText)
-                isShareDialogVisible = false
+                viewModel.onAction(IngredientAction.OnDismissShareDialog)
             }
         )
     }

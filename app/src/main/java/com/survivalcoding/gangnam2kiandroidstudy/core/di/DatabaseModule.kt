@@ -10,8 +10,11 @@ val databaseModule = module {
         Room.databaseBuilder(
             androidContext(),
             AppDatabase::class.java,
-            "gangnam2-study.db"
-        ).build()
+            "gangnam2-recipe-db"
+        ).fallbackToDestructiveMigration() // 스키마 변경 시 초기화 (실제 운영 시에는 Migration 정의 권장)
+            .build()
     }
+
     single { get<AppDatabase>().bookmarkDao() }
+    single { get<AppDatabase>().recipeDao() }
 }

@@ -1,0 +1,29 @@
+package com.survivalcoding.gangnam2kiandroidstudy.data.local
+
+import android.database.Cursor
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface RecipeDao {
+    @Query("SELECT * FROM recipes WHERE id IN (SELECT recipeId FROM bookmarks)")
+    fun getBookmarkedRecipesCursor(): Cursor
+
+    @Query("SELECT * FROM recipes")
+    fun getAllRecipes(): Flow<List<RecipeEntity>>
+
+    @Query("SELECT * FROM recipes WHERE id = :id")
+    suspend fun getRecipeById(id: Long): RecipeEntity?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertRecipes(recipes: List<RecipeEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertRecipe(recipe: RecipeEntity)
+
+    @Query("DELETE FROM recipes")
+    suspend fun deleteAllRecipes()
+}

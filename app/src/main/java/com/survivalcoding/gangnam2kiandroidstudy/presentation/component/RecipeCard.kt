@@ -41,6 +41,7 @@ fun RecipeCard(
     onCardClick: () -> Unit = {},
     onBookmarkClick: () -> Unit = {},
     isDetail: Boolean = false,
+    isBookmarked: Boolean = true,
 ) {
     Box(
         modifier = modifier
@@ -141,7 +142,7 @@ fun RecipeCard(
                         contentDescription = "북마크 아이콘",
                         modifier = Modifier
                             .size(16.dp),
-                        tint = AppColors.primary80,
+                        tint = if (isBookmarked) AppColors.primary80 else AppColors.gray3,
                     )
                 }
             }
