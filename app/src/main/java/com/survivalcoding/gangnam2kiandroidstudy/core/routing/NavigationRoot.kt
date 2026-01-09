@@ -153,6 +153,10 @@ fun NavigationRoot(
                                                 }
                                             }
                                         },
+                                        onActivityLaunched = {
+                                            backStack.clear()
+                                            backStack.add(Route.Home)
+                                        },
                                     )
                                 }
                                 entry<Route.Notification> { NotificationScreen() }
