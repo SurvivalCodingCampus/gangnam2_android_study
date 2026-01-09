@@ -23,7 +23,8 @@ class RecipeContentProvider : ContentProvider() {
     }
 
     override fun onCreate(): Boolean {
-        initKoin(context!!.applicationContext)
+        val appContext = context?.applicationContext ?: return false
+        initKoin(appContext)
         return true
     }
 
