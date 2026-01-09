@@ -5,6 +5,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <permission
+        android:name="com.survivalcoding.gangnam2kiandroidstudy.READ_RECIPE"
+        android:protectionLevel="normal" />
+
     <application
         android:name=".AppApplication"
         android:allowBackup="true"
@@ -15,17 +19,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Gangnam2kiAndroidStudy">
-        <activity
-            android:name=".SavedRecipeActivity"
-            android:exported="true"
-            android:label="@string/title_activity_saved_recipe"
-            android:theme="@style/Theme.Gangnam2kiAndroidStudy">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--        <activity-->
+<!--            android:name=".SavedRecipeActivity"-->
+<!--            android:exported="true"-->
+<!--            android:label="@string/title_activity_saved_recipe"-->
+<!--            android:theme="@style/Theme.Gangnam2kiAndroidStudy">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -55,6 +59,12 @@
                 <data android:pathPrefix="/recipes" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".core.provider.RecipeProvider"
+            android:authorities="com.survivalcoding.gangnam2kiandroidstudy.provider"
+            android:exported="true"
+            android:readPermission="com.survivalcoding.gangnam2kiandroidstudy.READ_RECIPE" />
     </application>
 
 </manifest>

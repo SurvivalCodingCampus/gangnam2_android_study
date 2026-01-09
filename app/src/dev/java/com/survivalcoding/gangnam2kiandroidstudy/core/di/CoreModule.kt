@@ -24,8 +24,10 @@ val coreModule = module {
                 AppDataBase::class.java,
                 "food-recipe"
             )
+            .fallbackToDestructiveMigration()
             .build()
     }
     
     single { get<AppDataBase>().userDao() }
+    single { get<AppDataBase>().recipeDao() }
 }
