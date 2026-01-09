@@ -15,9 +15,19 @@ class RecipeCardViewHolder(
     itemView: View,
 ) : RecyclerView.ViewHolder(itemView) {
 
-    private val title: TextView = itemView.findViewById(R.id.title)
+    private val title: TextView = itemView.findViewById(R.id.tvTitle)
+    private val chef: TextView = itemView.findViewById(R.id.tvChef)
+    private val time: TextView = itemView.findViewById(R.id.tvTime)
+    private val rating: TextView = itemView.findViewById(R.id.tvRating)
+//    private val thumbnail: ImageView = itemView.findViewById(R.id.thumbnail)
 
     fun bind(recipe: Recipe) {
         title.text = recipe.name
+        chef.text = "By ${recipe.chef}"
+        time.text = recipe.time
+        rating.text = recipe.rating.toString()
+
+        // 이미지 로딩 (예: Coil)
+//        thumbnail.load(recipe.imageUrl)
     }
 }

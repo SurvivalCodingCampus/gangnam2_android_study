@@ -1,10 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="150dp"
+    android:background="@android:color/transparent"
+    android:layout_marginBottom="20dp">
+
+    <!-- 레시피 이미지 -->
+    <ImageView
+        android:id="@+id/ivRecipe"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/bg_round_10"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- 그라데이션 오버레이 -->
+    <View
+        android:id="@+id/viewGradient"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_gradient_bottom_black"
+        app:layout_constraintTop_toTopOf="@id/ivRecipe"
+        app:layout_constraintBottom_toBottomOf="@id/ivRecipe"
+        app:layout_constraintStart_toStartOf="@id/ivRecipe"
+        app:layout_constraintEnd_toEndOf="@id/ivRecipe"/>
+
+    <!-- 하단 텍스트 영역 -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="28dp"
+        android:text="Spice roasted chicken"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/layoutRightInfo"/>
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/tvChef"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="By Mark Kelvin"
+        android:textColor="@color/gray4"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/layoutRightInfo"/>
+
+    <!-- 오른쪽 하단 정보 -->
+    <LinearLayout
+        android:id="@+id/layoutRightInfo"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:src="@drawable/outline_timer"
+            android:tint="@color/gray4"/>
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:text="20 min"
+            android:textSize="12sp"
+            android:textColor="@color/gray4"/>
+
+        <!-- 북마크 -->
+        <FrameLayout
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/bg_circle_white">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:src="@drawable/outline_bookmark_inactive"
+                android:tint="@color/primary80"/>
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!-- 우측 상단 평점 -->
+    <LinearLayout
+        android:layout_width="37dp"
+        android:layout_height="16dp"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/bg_rating"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:src="@drawable/bold_star"
+            android:tint="@color/rating"/>
+
+        <TextView
+            android:id="@+id/tvRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:text="4.0"
+            android:textSize="10sp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

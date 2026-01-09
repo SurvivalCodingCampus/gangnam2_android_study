@@ -36,8 +36,8 @@ class RecipeListFragment : Fragment(R.layout.fragment_recipe_list) {
                 name = "Spice roasted chicken with flavored rice",
                 imageUrl = "https://cdn.pixabay.com/photo/2018/12/04/16/49/tandoori-3856045_1280.jpg",
                 chef = "Mark Kelvin",
-                time = "20 min",
-                rating = 4.0,
+                time = "25 min",
+                rating = 4.8,
                 ingredients = listOf()
             ),
             Recipe(id = 3,
@@ -46,10 +46,27 @@ class RecipeListFragment : Fragment(R.layout.fragment_recipe_list) {
                 imageUrl = "https://cdn.pixabay.com/photo/2019/09/07/19/02/spanish-paella-4459519_1280.jpg",
                 chef = "Spicy Nelly",
                 time = "20 min",
+                rating = 4.2,
+                ingredients = listOf()
+            ),
+            Recipe(id = 4,
+                category = RecipeCategory.ASIAN,
+                name = "Spicy fried rice mix chicken bali jadjfkjfalldsfweeeoodsfpskljwkdjfsdfdfd",
+                imageUrl = "https://cdn.pixabay.com/photo/2019/09/07/19/02/spanish-paella-4459519_1280.jpg",
+                chef = "Spicy Nelly",
+                time = "20 min",
                 rating = 4.0,
                 ingredients = listOf()
             ),
-
+            Recipe(id = 5,
+                category = RecipeCategory.CEREAL,
+                name = "Cereal",
+                imageUrl = "https://cdn.pixabay.com/photo/2018/12/04/16/49/tandoori-3856045_1280.jpg",
+                chef = "Mark Kelvin",
+                time = "5 min",
+                rating = 4.8,
+                ingredients = listOf()
+            ),
         )
     }
 }
