@@ -35,13 +35,18 @@ class RecipeContentProvider : ContentProvider() {
         selectionArgs: Array<out String>?,
         sortOrder: String?
     ): Cursor? {
-        return when (uriMatcher.match(uri)) {
-            BOOKMARKED_RECIPES -> {
-                recipeDao.getBookmarkedRecipesCursor().apply {
-                    setNotificationUri(context?.contentResolver, uri)
+        return try {
+            when (uriMatcher.match(uri)) {
+                BOOKMARKED_RECIPES -> {
+                    recipeDao.getBookmarkedRecipesCursor().apply {
+                        setNotificationUri(context?.contentResolver, uri)
+                    }
                 }
+                else -> null
             }
-            else -> null
+        } catch (e: Exception) {
+            // Log error and return null to gracefully handle failures
+            null
         }
     }
 
