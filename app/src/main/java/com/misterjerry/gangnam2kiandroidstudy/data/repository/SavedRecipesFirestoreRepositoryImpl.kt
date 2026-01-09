@@ -3,13 +3,15 @@ package com.misterjerry.gangnam2kiandroidstudy.data.repository
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.misterjerry.gangnam2kiandroidstudy.data.saved_recipes.SavedRecipesDao
 import com.misterjerry.gangnam2kiandroidstudy.domain.model.SavedRecipesEntity
 import com.misterjerry.gangnam2kiandroidstudy.domain.repository.SavedRecipesRepository
 import kotlinx.coroutines.tasks.await
 
 class SavedRecipesFirestoreRepositoryImpl(
     private val firestore: FirebaseFirestore,
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
+    private val dao: SavedRecipesDao
 ) : SavedRecipesRepository {
 
     private val userId: String?
@@ -50,6 +52,7 @@ class SavedRecipesFirestoreRepositoryImpl(
         return try {
             // Assuming document ID is the recipe ID
             getCollectionReference(uid).document(id.toString()).delete().await()
+            dao.deleteSavedRecipe(id)
             Result.success(Unit)
         } catch (e: Exception) {
             Log.e("SavedRecipesFirestore", "Error deleting saved recipe", e)
@@ -70,6 +73,7 @@ class SavedRecipesFirestoreRepositoryImpl(
             )
             // Use recipe ID as document ID to prevent duplicates easily
             getCollectionReference(uid).document(id.toString()).set(data).await()
+            dao.addSavedRecipe(id)
             Result.success(Unit)
         } catch (e: Exception) {
             Log.e("SavedRecipesFirestore", "Error adding saved recipe", e)
