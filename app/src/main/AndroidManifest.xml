@@ -60,7 +60,7 @@
         </activity>
 
         <provider
-            android:name=".data.local.RecipeContentProvider"
+            android:name=".data.provider.RecipeContentProvider"
             android:authorities="${applicationId}.provider"
             android:exported="true" />
     </application>

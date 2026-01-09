@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.data.local
+package com.survivalcoding.gangnam2kiandroidstudy.data.provider
 
 import android.content.ContentProvider
 import android.content.ContentValues
@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.net.Uri
 import com.survivalcoding.gangnam2kiandroidstudy.BuildConfig
 import com.survivalcoding.gangnam2kiandroidstudy.core.di.initKoin
+import com.survivalcoding.gangnam2kiandroidstudy.data.local.RecipeDao
 import org.koin.android.ext.android.inject
 
 class RecipeContentProvider : ContentProvider() {
@@ -22,7 +23,7 @@ class RecipeContentProvider : ContentProvider() {
     }
 
     override fun onCreate(): Boolean {
-        context?.let { initKoin(it) }
+        initKoin(context!!.applicationContext)
         return true
     }
 
