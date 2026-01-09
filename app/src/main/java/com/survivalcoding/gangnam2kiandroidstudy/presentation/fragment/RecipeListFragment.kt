@@ -17,7 +17,13 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.adapter.SavedRecip
 import kotlinx.coroutines.launch
 
 
-class RecipeListFragment : Fragment() {
+class RecipeListFragment(
+    private val listener: OnRecipeSelectedListener
+) : Fragment() {
+
+    interface OnRecipeSelectedListener {
+        fun onRecipeSelected(recipeId: Int)
+    }
 
     private var _binding: FragmentRecipeListBinding? = null
     private val binding get() = _binding!!
@@ -42,12 +48,15 @@ class RecipeListFragment : Fragment() {
     }
 
 
+    // recyclerView
     private fun setupRecyclerView() {
         recipeAdapter = SavedRecipeAdapter(
             object : SavedRecipeAdapter.OnRecipeClickListener {
                 override fun onRecipeClick(recipeId: Int) {
                     Toast.makeText(requireContext(), "ID: $recipeId", Toast.LENGTH_SHORT)
                         .show()
+
+                    listener.onRecipeSelected(recipeId)
                 }
             }
         )
@@ -59,6 +68,7 @@ class RecipeListFragment : Fragment() {
         }
     }
 
+    // 데이터 받기
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {

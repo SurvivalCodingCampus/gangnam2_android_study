@@ -3,14 +3,19 @@ package com.survivalcoding.gangnam2kiandroidstudy
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.survivalcoding.gangnam2kiandroidstudy.databinding.ActivitySavedRecipesBinding
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment.DetailFragment
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment.RecipeDetailFragment
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment.RecipeListFragment
 
 class SavedRecipesActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySavedRecipesBinding
+
+    private lateinit var recipeListFragment: RecipeListFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +30,23 @@ class SavedRecipesActivity : AppCompatActivity() {
             insets
         }
 
+        recipeListFragment = RecipeListFragment(
+            object : RecipeListFragment.OnRecipeSelectedListener {
+                override fun onRecipeSelected(recipeId: Int) {
+                    val bundle = bundleOf("id" to recipeId)
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, DetailFragment().apply {
+                            arguments = bundle
+                        })
+                        .addToBackStack(null)
+                        .commit()
+                }
+            }
+        )
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, RecipeListFragment())
+                .replace(R.id.fragment_container, recipeListFragment)
                 .commit()
         }
 
