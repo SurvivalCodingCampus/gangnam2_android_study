@@ -55,10 +55,12 @@ fun NavigationRoot(deepLinkUri: String?) {
         }
     }
     NavDisplay(
-        backStack = topLevelBackStack, entryDecorators = listOf(
+        backStack = topLevelBackStack,
+        entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator()
-        ), entryProvider = entryProvider {
+        ),
+        entryProvider = entryProvider {
             entry<Route.Splash> {
                 SplashRoot(
                     onStartButtonClick = {
