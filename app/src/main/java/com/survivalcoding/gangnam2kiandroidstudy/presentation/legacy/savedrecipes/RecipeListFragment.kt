@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.legacy.savedrecipes
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -27,15 +28,29 @@ class RecipeListFragment : Fragment(R.layout.fragment_recipe_list) {
             object : SavedRecipesActionListener {
                 override fun onCardClick(recipeId: Long) {
                     /*
-                    RecipeDetailFragment 로 전환
+                    Activity 상태 검증
                      */
-                    parentFragmentManager.beginTransaction()
-                        .replace(
-                            R.id.fragment_container,
-                            RecipeDetailFragment.newInstance(recipeId),
-                        )
-                        .addToBackStack(null) // 뒤로가기 지원
-                        .commit()
+                    if (!isAdded || activity?.isFinishing == true || activity?.isDestroyed == true) {
+                        return
+                    }
+
+                    /*
+                    화면 전환 직후 앱이 백그라운드로 가거나 onSaveInstanceState() 호출 이후 등의 상황에서 에러 방지
+                     */
+                    try {
+                        /*
+                        RecipeDetailFragment 로 전환
+                         */
+                        parentFragmentManager.beginTransaction()
+                            .replace(
+                                R.id.fragment_container,
+                                RecipeDetailFragment.newInstance(recipeId),
+                            )
+                            .addToBackStack(null) // 뒤로가기 지원
+                            .commitAllowingStateLoss()
+                    } catch (e: IllegalStateException) {
+                        Log.e("RecipeListFragment", e.message, e)
+                    }
                 }
 
                 override fun onBookmarkClick(recipeId: Long) {

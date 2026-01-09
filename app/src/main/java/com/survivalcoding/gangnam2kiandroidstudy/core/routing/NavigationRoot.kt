@@ -1,13 +1,18 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.routing
 
+import android.app.Activity
+import android.content.Intent
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.legacy.savedrecipes.SavedRecipesActivity
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeNavigation
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main.MainScreen
@@ -15,8 +20,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.notificatio
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.profile.ProfileScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail.RecipeDetailsNavigation
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.recipedetail.RecipeDetailsRoot
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.savedrecipes.SavedRecipesNavigation
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.savedrecipes.SavedRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes.SearchRecipeNavigation
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.searchrecipes.SearchRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.signin.SignInScreen
@@ -139,25 +142,46 @@ fun NavigationRoot(
                                     )
                                 }
                                 entry<Route.SavedRecipes> {
-                                    SavedRecipesRoot(
-                                        snackbarHostState = snackbarHostState,
-                                        onNavigate = { navigation ->
-                                            when (navigation) {
-                                                is SavedRecipesNavigation.RecipeDetails -> {
-                                                    topLevelBackStack.removeIf { it is Route.RecipeDetails }
-                                                    topLevelBackStack.add(
-                                                        Route.RecipeDetails(
-                                                            navigation.recipeId,
-                                                        ),
-                                                    )
-                                                }
-                                            }
-                                        },
-                                        onActivityLaunched = {
+                                    val context = LocalContext.current
+
+                                    /*
+                                    레거시용 SavedRecipesActivity 로 이동
+                                     */
+                                    LaunchedEffect(Unit) {
+                                        val intent = Intent(
+                                            context,
+                                            SavedRecipesActivity::class.java,
+                                        ).apply {
+                                            /*
+                                            Activity Context가 아닌 곳에서 startActivity 호출 시 Task 생성이 필수이므로 플래그 추가
+                                             */
+                                            if (context !is Activity) addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        }
+                                        runCatching {
+                                            context.startActivity(intent)
+                                        }.onSuccess {
                                             backStack.clear()
                                             backStack.add(Route.Home)
-                                        },
-                                    )
+                                        }.onFailure { e ->
+                                            Log.e("SavedRecipes", e.message, e)
+                                        }
+                                    }
+
+//                                    SavedRecipesRoot(
+//                                        snackbarHostState = snackbarHostState,
+//                                        onNavigate = { navigation ->
+//                                            when (navigation) {
+//                                                is SavedRecipesNavigation.RecipeDetails -> {
+//                                                    topLevelBackStack.removeIf { it is Route.RecipeDetails }
+//                                                    topLevelBackStack.add(
+//                                                        Route.RecipeDetails(
+//                                                            navigation.recipeId,
+//                                                        ),
+//                                                    )
+//                                                }
+//                                            }
+//                                        },
+//                                    )
                                 }
                                 entry<Route.Notification> { NotificationScreen() }
                                 entry<Route.Profile> { ProfileScreen() }
