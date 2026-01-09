@@ -21,4 +21,8 @@ val databaseModule = module {
     single<BookmarkDao> {
         get<AppDatabase>().bookmarkDao()
     }
+
+    single<RecipeDao> {
+        get<AppDatabase>().recipeDao()
+    }
 }

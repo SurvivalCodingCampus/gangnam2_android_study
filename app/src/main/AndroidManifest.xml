@@ -63,6 +63,12 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".data.provider.RecipeContentProvider"
+            android:authorities="com.survivalcoding.gangnam2kiandroidstudy.provider"
+            android:exported="true"
+            android:enabled="true" />
     </application>
 
 </manifest>
