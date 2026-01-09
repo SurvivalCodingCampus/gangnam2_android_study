@@ -6,7 +6,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.usercase.ToggleBookmarkU
 import org.koin.dsl.module
 
 val useCaseModule = module {
-    single { GetSavedRecipesUseCase(get()) }
+    single { GetSavedRecipesUseCase(get(), get()) }
     // single { ToggleBookmarkUseCase(get()) }
     single { GetRecipeDetailsUseCase(get(), get(), get(), get()) }
     factory { ToggleBookmarkUseCase(get()) }

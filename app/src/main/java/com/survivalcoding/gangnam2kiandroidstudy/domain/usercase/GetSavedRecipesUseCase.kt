@@ -24,17 +24,17 @@ class GetSavedRecipesUseCase(
      */
     suspend operator fun invoke(): List<Recipe> {
         // 1. 레시피 저장소에서 모든 레시피를 가져옵니다.
-        val savedRecipes = recipeRepository.getRecipes()
+        val allRecipes = recipeRepository.getRecipes()
 
         // 2. 북마크 저장소에서 북마크된 레시피 ID 목록을 한 번만 가져옵니다.
-        // getBookmarkedRecipeIds()는 Flow를 반환하는데, 데이터베이스가 변경될 때마다 새로운 목록을 방출합니다.
-        // .first()를 사용하여 현재 시점의 북마크 목록만 가져옵니다. 이렇게 하지 않으면 collect가 끝나지 않아 함수가 반환되지 않을 수 있습니다.
-        val bookmarkedRecipeIds = bookmarkRepository.getBookmarkedRecipeIds().first()
+        val bookmarkedRecipeIds = bookmarkRepository.getBookmarkedRecipeIds().first().toSet()
 
-        // 3. 각 레시피를 순회하며 북마크 상태가 업데이트된 새 리스트를 생성합니다.
-        return savedRecipes.map { recipe ->
-            // 4. 북마크 목록에 현재 레시피 ID가 포함되어 있는지 확인하여 isBookmarked 값을 설정한 복사본을 반환합니다.
-            recipe.copy(isBookmarked = bookmarkedRecipeIds.contains(recipe.id))
-        }
+        // 3. 전체 레시피 목록에서 북마크된 것만 필터링합니다.
+        return allRecipes
+            .filter { recipe -> bookmarkedRecipeIds.contains(recipe.id) }
+            .map { recipe ->
+                // 4. 북마크 상태를 true로 설정하여 반환합니다.
+                recipe.copy(isBookmarked = true)
+            }
     }
 }

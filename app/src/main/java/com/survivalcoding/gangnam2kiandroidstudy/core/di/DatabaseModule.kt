@@ -1,4 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.di
 
-class DatabaseModule {
+import org.koin.dsl.module
+
+val databaseModule = module {
+
 }
