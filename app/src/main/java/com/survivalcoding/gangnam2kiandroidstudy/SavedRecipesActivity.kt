@@ -37,7 +37,10 @@ class SavedRecipesActivity : AppCompatActivity() {
                     override fun onRecipeSelected(recipeId: Int) {
                         val bundle = bundleOf("id" to recipeId)
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, DetailFragment().apply {
+//                            .replace(R.id.fragment_container, DetailFragment().apply {
+//                                arguments = bundle
+//                            })
+                            .replace(R.id.fragment_container, RecipeDetailFragment().apply {
                                 arguments = bundle
                             })
                             .addToBackStack(null)
