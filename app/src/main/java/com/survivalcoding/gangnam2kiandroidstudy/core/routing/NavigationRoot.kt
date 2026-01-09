@@ -1,13 +1,17 @@
 package com.survivalcoding.gangnam2kiandroidstudy.core.routing
 
+import android.app.Activity
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.legacy.savedrecipes.SavedRecipesActivity
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeNavigation
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.home.HomeRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.main.MainScreen
@@ -108,6 +112,8 @@ fun NavigationRoot(
                 )
             }
             entry<Route.Main> {
+                val context = LocalContext.current
+
                 MainScreen(
                     body = { modifier, snackbarHostState ->
                         NavDisplay(
@@ -160,9 +166,22 @@ fun NavigationRoot(
                             },
                         )
                     },
-                    onNavigate = {
-                        backStack.clear()
-                        backStack.add(it)
+                    onNavigate = { route ->
+                        if (route is Route.SavedRecipes) {
+                            /*
+                            레거시용 SavedRecipesActivity 로 이동
+                             */
+                            val intent = Intent(context, SavedRecipesActivity::class.java).apply {
+                                /*
+                                Activity Context가 아닌 곳에서 startActivity 호출 시 Task 생성이 필수이므로 플래그 추가
+                                 */
+                                if (context !is Activity) addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            }
+                            context.startActivity(intent)
+                        } else {
+                            backStack.clear()
+                            backStack.add(route)
+                        }
                     },
                     isSelectedRoute = {
                         val currentRoute = backStack.lastOrNull()

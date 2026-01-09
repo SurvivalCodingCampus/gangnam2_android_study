@@ -19,7 +19,6 @@ fun SavedRecipesRoot(
     onNavigate: (SavedRecipesNavigation) -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
     val lazyListState = rememberLazyListState()
 
     LaunchedEffect(viewModel.event) {
