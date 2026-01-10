@@ -59,14 +59,23 @@ android {
             dimension = "version"
             versionNameSuffix = "-dev"
             applicationIdSuffix = ".dev"
+            // 결과: com.misterjerry.gangnam2kiandroidstudy.dev.provider
+            manifestPlaceholders["providerAuthority"] =
+                "com.misterjerry.gangnam2kiandroidstudy.dev.provider"
         }
         create("prod") {
             dimension = "version"
+            // 결과: com.misterjerry.gangnam2kiandroidstudy.provider
+            manifestPlaceholders["providerAuthority"] =
+                "com.misterjerry.gangnam2kiandroidstudy.provider"
         }
         create("qa") {
             dimension = "version"
             versionNameSuffix = "-qa"
             applicationIdSuffix = ".qa"
+            // 결과: com.misterjerry.gangnam2kiandroidstudy.qa.provider
+            manifestPlaceholders["providerAuthority"] =
+                "com.misterjerry.gangnam2kiandroidstudy.qa.provider"
         }
     }
 }
