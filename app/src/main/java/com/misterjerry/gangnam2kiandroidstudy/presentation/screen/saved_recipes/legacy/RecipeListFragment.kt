@@ -33,12 +33,12 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView = binding.rcv
-
+        val adapter = RecipeListAdapter(viewModel.state.value.savedRecipesList)
+        adapter.setOnItemClickListener(this@RecipeListFragment)
+        recyclerView.adapter = adapter
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collect {
-                val adapter = RecipeListAdapter(it.savedRecipesList)
-                adapter.setOnItemClickListener(this@RecipeListFragment)
-                recyclerView.adapter = adapter
+                adapter.updateList(it.savedRecipesList)
             }
         }
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -57,5 +57,9 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.OnItemClickListener {
             replace(R.id.fcv, fragment)
             addToBackStack(null)
         }
+    }
+
+    override fun deleteItem(recipeId: Int) {
+        viewModel.delete(recipeId)
     }
 }
