@@ -10,7 +10,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 // * 데이터 → ViewHolder 연결
 // * LazyColumn의 items {} 블록에 해당
 class RecipeListAdapter(
-    private val onClick: (Recipe) -> Unit = {}
+    private val listener: OnRecipeCardClickListener
 ) : ListAdapter<Recipe, RecipeCardViewHolder>(RecipeDiffCallback) {
 
     // RecyclerView에서 새로운 아이템 View 생성할 때
@@ -33,7 +33,7 @@ class RecipeListAdapter(
         holder: RecipeCardViewHolder,
         position: Int
     ) {
-        holder.bind(getItem(position), onClick)
+        holder.bind(getItem(position), listener)
     }
 
     // ViewHolder가 화면에서 사라질 때

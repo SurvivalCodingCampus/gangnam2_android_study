@@ -22,7 +22,10 @@ class RecipeCardViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     @SuppressLint("SetTextI18n")
-    fun bind(recipe: Recipe, onClick: (Recipe) -> Unit) {
+    fun bind(
+        recipe: Recipe,
+        listener: OnRecipeCardClickListener,
+    ) {
         binding.tvTitle.text = recipe.name
         binding.tvChef.text = "By ${recipe.chef}"
         binding.tvTime.text = recipe.time
@@ -35,7 +38,7 @@ class RecipeCardViewHolder(
         }
 
         binding.root.setOnClickListener {
-            onClick(recipe)
+            listener.onRecipeCardClick(recipe.id)
         }
     }
 
