@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment.saved_recipe
 
 import android.annotation.SuppressLint
 import android.view.View

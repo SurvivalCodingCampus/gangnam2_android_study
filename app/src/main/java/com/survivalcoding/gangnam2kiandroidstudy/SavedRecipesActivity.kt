@@ -3,9 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment.RecipeListFragment
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment.saved_recipe.RecipeListFragment
 
 // AppCompatActivity: XML View 시스템 기반
 // Toolbar, Fragment, Material 테마 사용 가능

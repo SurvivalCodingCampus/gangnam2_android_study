@@ -1,4 +1,4 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment.saved_recipe
 
 import androidx.recyclerview.widget.DiffUtil
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
