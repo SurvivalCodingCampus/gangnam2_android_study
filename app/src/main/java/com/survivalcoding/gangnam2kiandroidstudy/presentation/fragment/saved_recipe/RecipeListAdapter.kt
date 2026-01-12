@@ -3,7 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment.saved_re
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.databinding.RecipeCardBinding
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 
 // Adapter: RecyclerView에 데이터를 공급하는 역할
@@ -18,9 +18,13 @@ class RecipeListAdapter(
         parent: ViewGroup,
         viewType: Int
     ): RecipeCardViewHolder {
-        val view = LayoutInflater.from(parent.context)      // XML → View 객체로 변환
-            .inflate(R.layout.recipe_card, parent, false)
-        return RecipeCardViewHolder(view)       // ViewHolder 생성
+        val binding = RecipeCardBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+
+        return RecipeCardViewHolder(binding)       // ViewHolder 생성
     }
 
     // ViewHolder가 화면에 나타날 때

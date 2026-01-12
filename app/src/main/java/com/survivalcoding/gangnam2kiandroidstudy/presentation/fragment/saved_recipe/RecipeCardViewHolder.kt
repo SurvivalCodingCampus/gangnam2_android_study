@@ -9,6 +9,7 @@ import coil3.load
 import coil3.request.crossfade
 import coil3.request.placeholder
 import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.databinding.RecipeCardBinding
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 
 
@@ -17,34 +18,28 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 // * 클릭 이벤트 전달
 // * UI 갱신만 담당
 class RecipeCardViewHolder(
-    itemView: View,
-) : RecyclerView.ViewHolder(itemView) {
-
-    private val title: TextView = itemView.findViewById(R.id.tvTitle)
-    private val chef: TextView = itemView.findViewById(R.id.tvChef)
-    private val time: TextView = itemView.findViewById(R.id.tvTime)
-    private val rating: TextView = itemView.findViewById(R.id.tvRating)
-    private val thumbnail: ImageView = itemView.findViewById(R.id.ivRecipe)
+    private val binding: RecipeCardBinding
+) : RecyclerView.ViewHolder(binding.root) {
 
     @SuppressLint("SetTextI18n")
     fun bind(recipe: Recipe, onClick: (Recipe) -> Unit) {
-        title.text = recipe.name
-        chef.text = "By ${recipe.chef}"
-        time.text = recipe.time
-        rating.text = recipe.rating.toString()
+        binding.tvTitle.text = recipe.name
+        binding.tvChef.text = "By ${recipe.chef}"
+        binding.tvTime.text = recipe.time
+        binding.tvRating.text = recipe.rating.toString()
 
         // 이미지 로딩
-        thumbnail.load(recipe.imageUrl) {
+        binding.ivRecipe.load(recipe.imageUrl) {
             crossfade(true)
             placeholder(R.drawable.ic_placeholder)
         }
 
-        itemView.setOnClickListener {
+        binding.root.setOnClickListener {
             onClick(recipe)
         }
     }
 
     fun clear() {
-        thumbnail.setImageDrawable(null)
+        binding.ivRecipe.setImageDrawable(null)
     }
 }

@@ -1,35 +1,41 @@
-package com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment.saved_recipe
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.databinding.FragmentRecipeListBinding
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeCategory
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipe.SavedRecipesState
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipe.SavedRecipesViewModel
-import kotlinx.coroutines.launch
 
 class RecipeListFragment : Fragment(R.layout.fragment_recipe_list) {
+
+    private var _binding: FragmentRecipeListBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var adapter: RecipeListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
+        _binding = FragmentRecipeListBinding.bind(view)
 
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        val adapter = RecipeListAdapter { recipe ->
+        adapter = RecipeListAdapter { recipe ->
             // 클릭 처리
         }
 
-        recyclerView.adapter = adapter
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = this@RecipeListFragment.adapter
+        }
 
         adapter.submitList(dummyRecipes())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun dummyRecipes(): List<Recipe> {
