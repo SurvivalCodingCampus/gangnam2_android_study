@@ -126,7 +126,8 @@
                 android:layout_marginStart="10dp"
                 android:background="@drawable/bg_white_circle"
                 android:padding="5dp"
-                android:src="@drawable/selector_bookmark" />
+                android:src="@drawable/selector_bookmark"
+                app:tint="@color/selector_bookmark_tint" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

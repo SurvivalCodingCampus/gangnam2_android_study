@@ -3,8 +3,10 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.legacy.recipe
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.survivalcoding.gangnam2kiandroidstudy.R
+import dagger.hilt.android.AndroidEntryPoint
 
 // activity_saved_recipes.xml 연결
+@AndroidEntryPoint
 class SavedRecipesActivity : AppCompatActivity() {
     // 화면이 처음 만들어 질 때 딱 한번 실행
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,5 +15,10 @@ class SavedRecipesActivity : AppCompatActivity() {
         // 2. 액티비티의 레이아웃을 표시하는데 사용할 xml 파일을 지정
         setContentView(R.layout.activity_saved_recipes)
 
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, RecipeListFragment())
+                .commit()
+        }
     }
 }

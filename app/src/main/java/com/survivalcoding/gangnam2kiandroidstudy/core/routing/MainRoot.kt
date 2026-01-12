@@ -26,6 +26,8 @@ fun MainRoot(
     deepLinkUri: String? = null,
     onDeepLinkHandled: () -> Unit = {}
 ) {
+    // Activity 시작 및 리소스 접근을 위해 Context 사용
+    val context = androidx.compose.ui.platform.LocalContext.current
     // 1. 초기 스택 생성
     val mainBackStack = rememberNavBackStack(Route.Home)
 
@@ -38,8 +40,12 @@ fun MainRoot(
 
                 // "saved" 문자열이 경로 어디에든 포함되어 있는지 확인
                 if (pathSegments.contains("saved")) {
-                    mainBackStack.clear()
-                    mainBackStack.add(Route.SavedRecipes)
+                    // Compose 화면(SavedRecipesRoot) 대신 기존 Activity를 실행하도록 가로챔
+                    val intent = android.content.Intent(
+                        context,
+                        com.survivalcoding.gangnam2kiandroidstudy.presentation.legacy.recipe.SavedRecipesActivity::class.java
+                    )
+                    context.startActivity(intent)
                     onDeepLinkHandled()
                 }
                 // "detail" 문자열을 찾고, 그 바로 다음 인덱스의 값을 ID로 사용
@@ -76,6 +82,15 @@ fun MainRoot(
                     items = bottomNavItemList,
                     currentRoute = currentKey,
                     onItemClick = { route ->
+                        // SavedRecipes 탭은 Compose 화면이 아닌 Activity로 구현되어 있어 별도 처리
+                        if (route == Route.SavedRecipes) {
+                            val intent = android.content.Intent(
+                                context,
+                                com.survivalcoding.gangnam2kiandroidstudy.presentation.legacy.recipe.SavedRecipesActivity::class.java
+                            )
+                            context.startActivity(intent)
+                            return@BottomNavBar // Compose 네비게이션 스택을 변경하지 않음
+                        }
                         if (route != currentKey) {
                             mainBackStack.clear()
                             mainBackStack.add(route)
