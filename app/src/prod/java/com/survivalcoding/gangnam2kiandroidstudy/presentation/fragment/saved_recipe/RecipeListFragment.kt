@@ -7,7 +7,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.gangnam2kiandroidstudy.SavedRecipesActivity
 import com.survivalcoding.gangnam2kiandroidstudy.databinding.FragmentRecipeListBinding
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment.detail.RecipeDetailFragment
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipe.SavedRecipesState
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recipe.SavedRecipesViewModel
 import kotlinx.coroutines.launch
@@ -28,12 +30,24 @@ class RecipeListFragment : Fragment(R.layout.fragment_recipe_list) {
     }
 
     private fun setupRecyclerView(view: View) {
+        // fragment_recipe_list.xml과 ViewBinding 연결
         _binding = FragmentRecipeListBinding.bind(view)
 
         adapter = RecipeListAdapter { recipe ->
             viewModel.saveNewRecipe(recipe.id)
+
+            // 1) DetailFragment로 전달할 데이터를 Bundle에 담기
+            val bundle = Bundle().apply {
+                putLong(RecipeDetailFragment.ARG_RECIPE_ID, recipe.id)
+            }
+
+            // 2) Activity에게 Detail 화면 보여달라고 요청
+            // Fragment는 직접 화면 전환을 하지 않음
+            (requireActivity() as SavedRecipesActivity)
+                .showRecipeDetail(bundle)       // Activity의 Fragment 교체하는 메서드 호출
         }
 
+        // RecyclerView 설정
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = this@RecipeListFragment.adapter
@@ -60,7 +74,8 @@ class RecipeListFragment : Fragment(R.layout.fragment_recipe_list) {
         }
     }
 
-    // RecyclerView가 파괴되면 ViewBinding한 내용을 삭제
+    // Fragment의 View가 파괴되면 ViewBinding 참조하던 View 해제
+    // 메모리 누수 방지
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
