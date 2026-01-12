@@ -7,28 +7,32 @@
     android:background="@android:color/transparent"
     android:layout_marginBottom="20dp">
 
-    <!-- 레시피 이미지 -->
-    <ImageView
-        android:id="@+id/ivRecipe"
+    <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:background="@drawable/bg_round_10"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        app:cardUseCompatPadding="false"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- 그라데이션 오버레이 -->
-    <View
-        android:id="@+id/viewGradient"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/bg_gradient_bottom_black"
-        app:layout_constraintTop_toTopOf="@id/ivRecipe"
-        app:layout_constraintBottom_toBottomOf="@id/ivRecipe"
-        app:layout_constraintStart_toStartOf="@id/ivRecipe"
-        app:layout_constraintEnd_toEndOf="@id/ivRecipe"/>
+        <!-- 레시피 이미지 -->
+        <ImageView
+            android:id="@+id/ivRecipe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+        <!-- 그라데이션 오버레이 -->
+        <View
+            android:id="@+id/viewGradient"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_gradient_bottom_black"/>
+
+    </androidx.cardview.widget.CardView>
 
     <!-- 하단 텍스트 영역 -->
     <TextView
@@ -76,7 +80,7 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:src="@drawable/outline_timer"
-            android:tint="@color/gray4"/>
+            app:tint="@color/gray4" />
 
         <TextView
             android:id="@+id/tvTime"
@@ -99,7 +103,7 @@
                 android:layout_height="16dp"
                 android:layout_gravity="center"
                 android:src="@drawable/outline_bookmark_inactive"
-                android:tint="@color/primary80"/>
+                app:tint="@color/primary80" />
         </FrameLayout>
 
     </LinearLayout>
@@ -119,7 +123,7 @@
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:src="@drawable/bold_star"
-            android:tint="@color/rating"/>
+            app:tint="@color/rating" />
 
         <TextView
             android:id="@+id/tvRating"
