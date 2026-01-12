@@ -64,17 +64,20 @@ class SavedRecipesLegacyFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val adapter = SavedRecipesLegacyAdapter(listener = this)
+        binding.recyclerView.adapter = adapter
+
         /**
-         * Adapter를 생성하면서 Fragment(this)를 전달한다.
-         *
-         * 이유:
-         * - Adapter는 클릭을 감지
-         * - Fragment는 클릭 이후 동작을 결정
-         *
-         * 역할과 책임을 분리하기 위한 구조
+         * submitList()를 사용해야 DiffUtil이 동작한다.
+         * 이 방식이 notifyDataSetChanged()의 대체이다.
          */
-        binding.recyclerView.adapter =
-            SavedRecipesLegacyAdapter(listener = this)
+        adapter.submitList(
+            listOf(
+                "김치볶음밥",
+                "된장찌개",
+                "불고기"
+            )
+        )
     }
 
     /**
