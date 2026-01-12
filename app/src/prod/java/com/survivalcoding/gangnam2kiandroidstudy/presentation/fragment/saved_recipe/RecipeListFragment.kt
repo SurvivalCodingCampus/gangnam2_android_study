@@ -1,6 +1,7 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment.saved_recipe
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -21,6 +22,7 @@ class RecipeListFragment : Fragment(R.layout.fragment_recipe_list), OnRecipeCard
     private var _binding: FragmentRecipeListBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: RecipeListAdapter
+    private var recyclerViewState: Parcelable? = null
 
     // RecipeCardClickListener 인터페이스 구현
     override fun onRecipeCardClick(recipeId: Long) {
@@ -56,9 +58,13 @@ class RecipeListFragment : Fragment(R.layout.fragment_recipe_list), OnRecipeCard
         adapter = RecipeListAdapter(this)
 
         // RecyclerView 설정
-        binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = this@RecipeListFragment.adapter
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(requireContext())
+
+        // RecyclerView의 스크롤 상태 복원
+        recyclerViewState?.let {
+            binding.recyclerView.layoutManager?.onRestoreInstanceState(it)
         }
     }
 
@@ -87,6 +93,14 @@ class RecipeListFragment : Fragment(R.layout.fragment_recipe_list), OnRecipeCard
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    // 화면을 벗어날 때 스크롤 위치 저장
+    // (상세화면 이동 / 홈버튼 / 회전 대응 가능)
+    override fun onPause() {
+        super.onPause()
+        recyclerViewState =
+            binding.recyclerView.layoutManager?.onSaveInstanceState()
     }
 
 }
