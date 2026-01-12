@@ -13,7 +13,7 @@
         android:layout_height="150dp">
 
         <ImageView
-            android:id="@+id/ivRecipeImage"
+            android:id="@+id/ivThumbnail"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
@@ -33,7 +33,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvRecipeTitle"
+            android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -45,12 +45,12 @@
             android:textColor="@android:color/white"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tvChefName"
+            app:layout_constraintBottom_toTopOf="@id/tvChef"
             app:layout_constraintEnd_toStartOf="@+id/llRightContainer"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/tvChefName"
+            android:id="@+id/tvChef"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -126,7 +126,7 @@
                 android:layout_marginStart="10dp"
                 android:background="@drawable/bg_white_circle"
                 android:padding="5dp"
-                android:src="@drawable/ic_bookmark_outline" />
+                android:src="@drawable/selector_bookmark" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

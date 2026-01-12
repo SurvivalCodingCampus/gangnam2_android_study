@@ -42,6 +42,7 @@
 
     <!-- Recipe List 영역 -->
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRecipes"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
