@@ -49,7 +49,9 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+        viewBinding = true      // ViewBinding
     }
+
     flavorDimensions += listOf("version")
     productFlavors {
         create("dev") {
@@ -64,11 +66,6 @@ android {
             dimension = "version"
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-staging"
-        }
-
-        // ViewBinding
-        buildFeatures {
-            viewBinding = true
         }
 
     }
