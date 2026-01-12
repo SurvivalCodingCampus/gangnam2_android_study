@@ -13,8 +13,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.databinding.ItemSavedRecipeLega
  *
  * Adapter는 이 "중간 관리자" 역할을 수행한다.
  */
-class SavedRecipesLegacyAdapter :
-    RecyclerView.Adapter<SavedRecipesLegacyAdapter.SavedRecipeViewHolder>() {
+class SavedRecipesLegacyAdapter(
+    private val listener: SavedRecipeClickListener
+) : RecyclerView.Adapter<SavedRecipesLegacyAdapter.SavedRecipeViewHolder>() {
 
     /**
      * 더미 데이터
@@ -60,11 +61,21 @@ class SavedRecipesLegacyAdapter :
      * - 이미 만들어진 ViewHolder를 재사용하면서
      *   position에 맞는 데이터만 교체한다
      */
+
     override fun onBindViewHolder(
         holder: SavedRecipeViewHolder,
         position: Int
     ) {
-        holder.binding.textTitle.text = items[position]
+        val title = items[position]
+        holder.binding.textTitle.text = title
+
+        /**
+         * 클릭 이벤트는 Adapter에서 처리하지 않는다.
+         * → Interface를 통해 Fragment로 전달한다.
+         */
+        holder.itemView.setOnClickListener {
+            listener.onRecipeClick(title)
+        }
     }
 
     /**

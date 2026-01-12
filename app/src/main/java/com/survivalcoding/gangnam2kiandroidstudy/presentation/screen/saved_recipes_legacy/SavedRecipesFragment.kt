@@ -14,8 +14,13 @@ import com.survivalcoding.gangnam2kiandroidstudy.databinding.FragmentSavedRecipe
  *
  * Activity는 이 Fragment를 담는 컨테이너 역할만 수행하고,
  * 실제 화면 구성과 UI 로직은 Fragment가 책임진다.
+ *
+ * 또한 RecyclerView 아이템 클릭에 대한
+ * "최종 처리 주체" 역할도 Fragment가 담당한다.
  */
-class SavedRecipesLegacyFragment : Fragment() {
+class SavedRecipesLegacyFragment :
+    Fragment(),
+    SavedRecipeClickListener {   // Adapter 클릭 이벤트를 받기 위해 Interface 구현
 
     /**
      * ViewBinding 객체
@@ -47,18 +52,15 @@ class SavedRecipesLegacyFragment : Fragment() {
      *     UI 이벤트 처리나 데이터 바인딩은 하지 않는다.
      */
     override fun onCreateView(
-        inflater: LayoutInflater,        // XML → View로 변환하는 객체
-        container: ViewGroup?,            // Fragment가 붙을 부모 View
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // ViewBinding 초기화
         _binding = FragmentSavedRecipesLegacyBinding.inflate(
             inflater,
             container,
             false
         )
-
-        // Fragment가 화면에 표시할 최상위 View 반환
         return binding.root
     }
 
@@ -69,29 +71,51 @@ class SavedRecipesLegacyFragment : Fragment() {
      * - Adapter 연결
      * - 클릭 리스너 등록
      *
-     * 등의 "View를 실제로 사용하는 코드"는
+     * View를 실제로 사용하는 모든 코드는
      * 반드시 이 메서드 이후에 작성해야 한다.
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // RecyclerView는 Adapter를 통해서만 데이터를 표시할 수 있다
-        binding.recyclerView.adapter = SavedRecipesLegacyAdapter()
+        /**
+         *
+         *
+         * Adapter를 생성할 때 Fragment 자신(this)을 전달한다.
+         *
+         * 이유:
+         * - Adapter는 클릭을 감지하는 역할만 수행한다.
+         * - "클릭 이후 무엇을 할지"는 Fragment가 결정해야 한다.
+         *
+         * → 책임 분리를 위해 Interface 구조를 사용한다.
+         */
+        binding.recyclerView.adapter =
+            SavedRecipesLegacyAdapter(listener = this)
     }
 
+    /**
+     * Adapter에서 아이템이 클릭되었을 때 호출되는 메서드
+     *
+     * - 이 시점은 RecyclerView 아이템 클릭 직후이다.
+     * - 어떤 동작을 할지는 Fragment가 자유롭게 결정한다.
+     *
+     * 예:
+     * - Toast 표시
+     * - 상세 화면 이동
+     * - 로그 기록
+     */
+    override fun onRecipeClick(recipeTitle: String) {
+        // 상세 화면 이동 or Toast 처리
+    }
 
     /**
      * Fragment의 View가 파괴될 때 호출되는 메서드
      *
-     *  왜 binding을 null로 만드는가?
-     * - Fragment 인스턴스는 백스택에 남아 있을 수 있지만
+     * - Fragment 인스턴스는 남아 있을 수 있지만
      * - View는 이미 제거된 상태일 수 있다.
      *
-     * - 이때 binding이 View를 계속 참조하고 있으면
-     *   메모리 누수(Leak)가 발생한다.
-     *
-     * 따라서 View 생명주기가 끝나는 시점에
-     * binding 참조를 명시적으로 제거해야 한다.
+     * 이때 binding이 View를 계속 참조하면
+     * 메모리 누수(Leak)가 발생하므로
+     * View 생명주기 종료 시점에 반드시 null 처리한다.
      */
     override fun onDestroyView() {
         super.onDestroyView()
