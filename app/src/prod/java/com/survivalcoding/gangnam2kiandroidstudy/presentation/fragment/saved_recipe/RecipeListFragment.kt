@@ -5,7 +5,9 @@ import android.os.Parcelable
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.SavedRecipesActivity
@@ -72,8 +74,10 @@ class RecipeListFragment : Fragment(R.layout.fragment_recipe_list), OnRecipeCard
     // SavedRecipes 화면의 State를 수집하고 렌더링을 위해 인자로 전달
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect { state ->
-                render(state)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect { state ->
+                    render(state)
+                }
             }
         }
     }

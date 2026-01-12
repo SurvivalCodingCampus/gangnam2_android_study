@@ -1,9 +1,12 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment.detail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.databinding.FragmentRecipeDetailBinding
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.ingredient.IngredientViewModel
@@ -19,6 +22,7 @@ class RecipeDetailFragment : Fragment(R.layout.fragment_recipe_detail) {
     private val binding get() = _binding!!
 
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // fragment_recipe_detail.xml과 ViewBinding 연결
@@ -33,11 +37,13 @@ class RecipeDetailFragment : Fragment(R.layout.fragment_recipe_detail) {
 
         // state 관찰 후 UI 반영
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect { state ->
-                val recipe = state.recipe
-                binding.tvDetail.text = "id: ${recipe.id}\n" +
-                        "name: ${recipe.name}\n" +
-                        "chef: ${recipe.chef}\n"
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect { state ->
+                    val recipe = state.recipe
+                    binding.tvDetail.text = "id: ${recipe.id}\n" +
+                            "name: ${recipe.name}\n" +
+                            "chef: ${recipe.chef}\n"
+                }
             }
         }
 
