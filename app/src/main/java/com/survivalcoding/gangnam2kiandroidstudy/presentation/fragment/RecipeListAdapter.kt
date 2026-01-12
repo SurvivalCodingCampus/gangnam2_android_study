@@ -2,7 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 
@@ -10,8 +10,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 // * 데이터 → ViewHolder 연결
 // * LazyColumn의 items {} 블록에 해당
 class RecipeListAdapter(
-    private val items: List<Recipe>
-) : RecyclerView.Adapter<RecipeCardViewHolder>() {
+    private val onClick: (Recipe) -> Unit = {}
+) : ListAdapter<Recipe, RecipeCardViewHolder>(RecipeDiffCallback) {
 
     // RecyclerView에서 새로운 아이템 View 생성할 때
     override fun onCreateViewHolder(
@@ -29,9 +29,13 @@ class RecipeListAdapter(
         holder: RecipeCardViewHolder,
         position: Int
     ) {
-        holder.bind(items[position])
+        holder.bind(getItem(position), onClick)
     }
 
-    override fun getItemCount() = items.size
+    // ViewHolder가 화면에서 사라질 때
+    // 이미지 null로
+    override fun onViewRecycled(holder: RecipeCardViewHolder) {
+        holder.clear()
+    }
 }
 

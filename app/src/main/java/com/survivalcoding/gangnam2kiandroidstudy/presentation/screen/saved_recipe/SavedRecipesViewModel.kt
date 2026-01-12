@@ -32,14 +32,16 @@ class SavedRecipesViewModel(
         }
     }
 
-    suspend fun saveNewRecipe(id: Long) {
-        try {
-            addBookmarkUseCase(id)
-        } catch (e: Exception) {
-            println("저장 실패: $e")
+    fun saveNewRecipe(id: Long) {
+        viewModelScope.launch {
+            try {
+                addBookmarkUseCase(id)
+            } catch (e: Exception) {
+                println("저장 실패: $e")
+            }
         }
     }
-    
+
     fun removeBookmark(recipeId: Long) {
         viewModelScope.launch {
             try {
@@ -52,7 +54,7 @@ class SavedRecipesViewModel(
 
     // 파괴될 때
     override fun onCleared() {
-        println("MainViewModel cleared")
+        println("SavedRecipesViewModel cleared")
         super.onCleared()
     }
 }
