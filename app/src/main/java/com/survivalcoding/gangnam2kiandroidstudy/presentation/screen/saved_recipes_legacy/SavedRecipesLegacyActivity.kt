@@ -53,4 +53,18 @@ class SavedRecipesLegacyActivity : AppCompatActivity() {
                 .commit()
         }
     }
+    /**
+     * Fragment로부터 "상세 화면으로 이동하고 싶다"는 요청을 받는 함수
+     *
+     * Fragment는 Activity의 구현을 몰라야 하므로
+     * 이동 로직은 Activity에만 존재한다.
+     */
+    fun openRecipeDetail(recipeTitle: String) {
+        // 지금은 구조만 보여주기 위한 로그/토스트 단계
+        android.widget.Toast.makeText(
+            this,
+            "Activity에서 받은 클릭: $recipeTitle",
+            android.widget.Toast.LENGTH_SHORT
+        ).show()
+    }
 }

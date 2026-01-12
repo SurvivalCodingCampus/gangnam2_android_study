@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.survivalcoding.gangnam2kiandroidstudy.databinding.FragmentSavedRecipesLegacyBinding
 
 /**
@@ -64,6 +65,23 @@ class SavedRecipesLegacyFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        /**
+         * RecyclerView는 반드시 LayoutManager가 필요하다.
+         *
+         * - 이 설정이 없으면 아이템이 보이지 않거나
+         * - 클릭 이벤트가 정상 동작하지 않을 수 있다.
+         *
+         * 여기서는 가장 기본적인 LinearLayoutManager 사용
+         */
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(requireContext())
+
+        /**
+         * Adapter 생성
+         *
+         * listener = this
+         * → 클릭 이벤트를 Fragment가 직접 받기 위함
+         */
         val adapter = SavedRecipesLegacyAdapter(listener = this)
         binding.recyclerView.adapter = adapter
 
@@ -92,20 +110,24 @@ class SavedRecipesLegacyFragment :
      * 등 어떤 행동이든 자유롭게 결정할 수 있다.
      */
     override fun onRecipeClick(recipeTitle: String) {
+        android.util.Log.d(
+            "LegacyCheck",
+            "현재 Activity = ${requireActivity()::class.java.simpleName}"
+        )
         /**
-         * RecyclerView 아이템 클릭 직후 호출되는 콜백
+         * Fragment는 직접 Activity 전환이나
+         * 상세 화면 로직을 처리하지 않는다.
          *
-         * 이 시점에서 Fragment는
-         * - 어떤 아이템이 클릭되었는지 알고 있고
-         * - 사용자에게 어떤 반응을 줄지 결정할 수 있다.
+         * 대신 자신을 담고 있는 Activity에게
+         * "이 레시피가 클릭되었다"는 사실만 전달한다.
+         *
+         * as? 캐스팅을 사용하는 이유:
+         * - 다른 Activity에 붙어 있을 가능성 대비
+         * - ClassCastException 방지
          */
-        android.widget.Toast.makeText(
-            requireContext(),
-            "선택한 레시피: $recipeTitle",
-            android.widget.Toast.LENGTH_SHORT
-        ).show()
+        (activity as? SavedRecipesLegacyActivity)
+            ?.openRecipeDetail(recipeTitle)
     }
-
 
     /**
      * View 생명주기 종료 시점

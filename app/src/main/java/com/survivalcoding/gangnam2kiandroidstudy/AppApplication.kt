@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.survivalcoding.gangnam2kiandroidstudy.auth.AuthStateHolder
 import com.survivalcoding.gangnam2kiandroidstudy.di.appModule
 import com.survivalcoding.gangnam2kiandroidstudy.di.authModule
+import com.survivalcoding.gangnam2kiandroidstudy.di.bookmarkModule
 import com.survivalcoding.gangnam2kiandroidstudy.di.networkModule
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
@@ -23,6 +24,7 @@ class AppApplication : Application() {
                 appModule,
                 networkModule,
                 authModule,
+                bookmarkModule,
             )
         }
 

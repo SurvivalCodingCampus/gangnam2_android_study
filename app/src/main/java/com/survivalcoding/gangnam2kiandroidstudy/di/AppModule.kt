@@ -21,6 +21,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.saved_recip
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.search_recipe.SearchRecipeViewModel
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.splash.SplashViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.AddBookmarkUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetBookmarkedRecipeIdsUseCase
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.RemoveBookmarkUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.screen.sign_in.SignInViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -103,6 +106,24 @@ val appModule = module {
     single {
         CopyLinkUseCase(
             clipBoardRepository = get()
+        )
+    }
+
+    single {
+        AddBookmarkUseCase(
+            bookmarkRepository = get()
+        )
+    }
+
+    single {
+        RemoveBookmarkUseCase(
+            bookmarkRepository = get()
+        )
+    }
+
+    single {
+        GetBookmarkedRecipeIdsUseCase(
+            bookmarkRepository = get()
         )
     }
 
