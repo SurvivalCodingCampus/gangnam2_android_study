@@ -12,6 +12,9 @@ interface BookmarkDao {
     @Query("SELECT recipeId FROM bookmarks")
     fun getAllIds(): Flow<List<Int>>
 
+    @Query("SELECT * FROM bookmarks")
+    fun getAllBookmarksCursor(): android.database.Cursor
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(bookmark: BookmarkEntity)
 
