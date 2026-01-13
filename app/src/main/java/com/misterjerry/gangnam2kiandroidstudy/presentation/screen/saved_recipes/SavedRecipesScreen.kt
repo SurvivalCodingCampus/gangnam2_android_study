@@ -82,7 +82,7 @@ fun SavedRecipesScreen(
                     items(state.savedRecipesList) { recipe ->
                         RecipeCard(
                             recipe = recipe,
-                            isSaved = true,
+                            isSaved = recipe.isSaved,
                             onBookMarkClick = { onBookMarkClick(recipe.id) },
                             onRecipeClick = { onRecipeClick(recipe) }
                         )
