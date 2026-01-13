@@ -1,0 +1,96 @@
+package com.survivalcoding.gangnam2kiandroidstudy.presentation.fragment
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
+import com.survivalcoding.gangnam2kiandroidstudy.databinding.FragmentRecipeListBinding
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.savedrecipe.SavedRecipesViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.adapter.SavedRecipeAdapter
+import kotlinx.coroutines.launch
+
+
+class RecipeListFragment: Fragment() {
+
+    interface OnRecipeSelectedListener {
+        fun onRecipeSelected(recipeId: Int)
+    }
+
+    private var _binding: FragmentRecipeListBinding? = null
+    private val binding get() = _binding!!
+
+    private val viewModel: SavedRecipesViewModel by viewModel()
+    private lateinit var recipeAdapter: SavedRecipeAdapter
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentRecipeListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+        observeState()
+
+    }
+
+
+    // recyclerView
+    private fun setupRecyclerView() {
+        recipeAdapter = SavedRecipeAdapter(
+            object : SavedRecipeAdapter.OnRecipeClickListener {
+                override fun onRecipeClick(recipeId: Int) {
+                    Toast.makeText(requireContext(), "ID: $recipeId", Toast.LENGTH_SHORT)
+                        .show()
+
+                    setFragmentResult(
+                        "recipe_selected",
+                        bundleOf("id" to recipeId)
+                    )
+                }
+            }
+        )
+
+        binding.recyclerView.apply {
+            adapter = recipeAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+        }
+    }
+
+    // 데이터 받기
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect { state ->
+
+                    // 레시피 리스트 업데이트
+                    if (!state.isLoading) {
+
+                        // submitList: 레시피 목록이 바뀌면 이전 목록이랑 비교해서 바뀐 것만 반영
+                        recipeAdapter.submitList(state.recipes)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Fragment View 생명주기 끝나면 반드시 해제
+        _binding = null
+    }
+}
