@@ -49,7 +49,9 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+        viewBinding = true      // ViewBinding
     }
+
     flavorDimensions += listOf("version")
     productFlavors {
         create("dev") {
@@ -65,6 +67,7 @@ android {
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-staging"
         }
+
     }
 
     afterEvaluate {
@@ -81,6 +84,9 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -140,5 +146,15 @@ dependencies {
     implementation(libs.ktor.client.okhttp)
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
+
+    // 레거시 -------------
+    // ConstraintLayout
+    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+
+    // RecyclerView
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
+
+    // Fragments
+    implementation("androidx.fragment:fragment-ktx:1.8.9")
 
 }
