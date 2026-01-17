@@ -88,17 +88,18 @@ dependencies {
     implementation(libs.koin.core)
 
     // Android Koin
-    implementation(platform("io.insert-koin:koin-bom:4.1.1"))
     implementation("io.insert-koin:koin-android")
 
     // Compose Koin
-    implementation(platform("io.insert-koin:koin-bom:4.1.1"))
     implementation("io.insert-koin:koin-androidx-compose")
 
     // Navigation 3 support (alpha)
-    implementation("io.insert-koin:koin-compose-navigation3:4.2.0-beta2")
+    implementation("io.insert-koin:koin-compose-navigation3:4.2.0-beta3")
 
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.4.0")
 
     implementation("androidx.datastore:datastore-preferences:1.2.0")
+
+
+    implementation("androidx.compose.material:material-icons-extended")
 }
