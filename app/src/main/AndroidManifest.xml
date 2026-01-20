@@ -15,6 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Gangnam2kiAndroidStudy">
         <activity
+            android:name="com.survivalcoding.legacy.p01_async.step01_java_thread_handler.JavaThreadHandlerActivity"
+            android:theme="@style/Theme.Legacy"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".DelegatedPropertiesActivity"
             android:exported="true"
             android:label="@string/title_activity_delegated_properties"
