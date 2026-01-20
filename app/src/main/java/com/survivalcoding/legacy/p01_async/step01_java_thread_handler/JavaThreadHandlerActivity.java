@@ -1,6 +1,9 @@
 package com.survivalcoding.legacy.p01_async.step01_java_thread_handler;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,13 +16,20 @@ import com.survivalcoding.gangnam2kiandroidstudy.R;
 public class JavaThreadHandlerActivity extends AppCompatActivity {
     private int count = 0;
 
+    private Handler handler = new Handler(Looper.getMainLooper());
+
+    // null
+    Button button;
+    TextView resultTextView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_java_thread_handler);
 
-        Button button = findViewById(R.id.start_button);
-        TextView resultTextView = findViewById(R.id.result_text_view);
+        button = findViewById(R.id.start_button);
+        resultTextView = findViewById(R.id.result_text_view);
 
         // Main Thread : UI 그리는 스레드
         Log.d("JavaThreadHandlerActivity", Thread.currentThread().getName());
@@ -49,10 +59,18 @@ public class JavaThreadHandlerActivity extends AppCompatActivity {
 //                                }
 //                            });
 
-                            resultTextView.post(new Runnable() {
+                            // View.post
+//                            resultTextView.post(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    resultTextView.setText(String.valueOf(count));  // 안 터짐
+//                                }
+//                            });
+
+                            handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    resultTextView.setText(String.valueOf(count));  // 안 터짐
+                                    resultTextView.setText(String.valueOf(count));
                                 }
                             });
 
@@ -63,5 +81,23 @@ public class JavaThreadHandlerActivity extends AppCompatActivity {
                 }
             }).start();
         });
+    }
+
+
+    // 쓰지마 -> https://developer.android.com/develop/background-work/background-tasks/asynchronous/java-threads?hl=ko
+    class MyTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            // 오래걸리는 작업 Background Thread
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            // 다 끝나고 UI 그리는 작업 Main Thread
+            resultTextView.setText(String.valueOf(count));
+        }
     }
 }
