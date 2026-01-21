@@ -15,9 +15,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Gangnam2kiAndroidStudy">
         <activity
+            android:name="com.survivalcoding.legacy.p02_state.step01_regacy.StateLegacyActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Legacy">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="com.survivalcoding.legacy.p01_async.step01_java_thread_handler.JavaThreadHandlerActivity"
-            android:theme="@style/Theme.Legacy"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Legacy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
