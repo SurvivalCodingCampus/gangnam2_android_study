@@ -7,13 +7,15 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.survivalcoding.gangnam2kiandroidstudy.R;
 
 // https://developer.android.com/guide/components/processes-and-threads?hl=ko
-public class JavaThreadHandlerActivity extends AppCompatActivity {
+public class JavaThreadHandlerActivity extends AppCompatActivity
+        implements TargetFragment.PhoneStateListener {
     private int count = 0;
 
     private Handler handler = new Handler(Looper.getMainLooper());
@@ -22,11 +24,16 @@ public class JavaThreadHandlerActivity extends AppCompatActivity {
     Button button;
     TextView resultTextView;
 
+    TargetFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_java_thread_handler);
+
+        // fragment 연결 코드 있다고 치고
+        fragment.setOnPhoneStateListener(this);
+
 
         button = findViewById(R.id.start_button);
         resultTextView = findViewById(R.id.result_text_view);
@@ -35,6 +42,8 @@ public class JavaThreadHandlerActivity extends AppCompatActivity {
         Log.d("JavaThreadHandlerActivity", Thread.currentThread().getName());
 
         button.setOnClickListener(v -> {
+            Toast.makeText(getApplicationContext(), "클릭", Toast.LENGTH_SHORT).show();
+
             // Worker Thread : 백그라운드 스레드
             new Thread(new Runnable() {
                 @Override
@@ -81,6 +90,11 @@ public class JavaThreadHandlerActivity extends AppCompatActivity {
                 }
             }).start();
         });
+    }
+
+    @Override
+    public void onPhoneStateChanged() {
+        // 처리 코드
     }
 
 
