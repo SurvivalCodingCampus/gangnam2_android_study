@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigationStartFragment">
+
+    <fragment
+        android:id="@+id/navigationStartFragment"
+        android:name="com.survivalcoding.legacy.p03_navigation_component.step01_regacy.NavigationStartFragment"
+        android:label="fragment_navigation_start"
+        tools:layout="@layout/fragment_navigation_start">
+        <action
+            android:id="@+id/action_navigationStartFragment_to_targetFragment"
+            app:destination="@id/targetFragment" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="recipe://recipe.com" />
+    </fragment>
+    <fragment
+        android:id="@+id/targetFragment"
+        android:name="com.survivalcoding.legacy.p01_async.step01_java_thread_handler.TargetFragment"
+        android:label="fragment_target"
+        tools:layout="@layout/fragment_target" />
+</navigation>
