@@ -15,6 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Gangnam2kiAndroidStudy">
         <activity
+            android:name="com.survivalcoding.legacy.p03_navigation_component.step01_regacy.NavigationLegacyActivity"
+            android:theme="@style/Theme.Legacy"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="com.survivalcoding.legacy.p02_state.step01_regacy.StateLegacyActivity"
             android:exported="true"
             android:theme="@style/Theme.Legacy">

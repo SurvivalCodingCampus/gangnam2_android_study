@@ -107,4 +107,10 @@ dependencies {
 
 
     implementation("androidx.compose.material:material-icons-extended")
+
+    // Views/Fragments integration
+    val nav_version = "2.9.6"
+
+    implementation("androidx.navigation:navigation-fragment:${nav_version}")
+    implementation("androidx.navigation:navigation-ui:${nav_version}")
 }
