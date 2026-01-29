@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Gangnam2kiAndroidStudy"
 include(":app")
+include(":watch")
+include(":domain")

@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.survivalcoding.gangnam2kiandroidstudy.R
+import com.survivalcoding.running.domain.domain.User
+import com.survivalcoding.running.domain.repository.UserRepository
 
 class WebViewLegacyActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,4 +39,11 @@ class WebAppInterface(private val mContext: Context) {
     fun showToast(toast: String) {
         Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show()
     }
+}
+
+class UserRepositoryImpl : UserRepository {
+    override suspend fun getUsers(): List<User> {
+        TODO("Not yet implemented")
+    }
+
 }
